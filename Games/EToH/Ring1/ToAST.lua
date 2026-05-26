@@ -74,7 +74,32 @@ return function()
         workspace.ClientParts:GetChildren()[25],
         workspace.ClientParts:GetChildren()[56],
         workspace.Towers.ToAST.Obby:GetChildren()[85],
-        workspace.Towers.ToAST.Obby:GetChildren()[94]
+        workspace.Towers.ToAST.Obby:GetChildren()[94],
+        workspace.Towers.ToAST.Obby:GetChildren()[93],
+        workspace.Towers.ToAST.Obby:GetChildren()[1036],
+        workspace.Towers.ToAST.Obby:GetChildren()[74],
+        workspace.Towers.ToAST.Obby:GetChildren()[82],
+        workspace.ClientParts.DistanceAnchoringObjects:GetChildren()[45].Part,
+        workspace.Towers.ToAST.Obby:GetChildren()[89],
+        workspace.Towers.ToAST.Obby:GetChildren()[77],
+        workspace.Towers.ToAST.Obby:GetChildren()[90],
+        workspace.Towers.ToAST.Obby:GetChildren()[413],
+        workspace.Towers.ToAST.Obby:GetChildren()[420],
+        workspace.Towers.ToAST.Obby:GetChildren()[418],
+        workspace.Towers.ToAST.Obby:GetChildren()[414],
+        workspace.Towers.ToAST.Obby:GetChildren()[440],
+        workspace.Towers.ToAST.Obby:GetChildren()[146],
+        workspace.ClientParts.Conveyor,
+        workspace.Towers.ToAST.Obby:GetChildren()[1027],
+        workspace.Towers.ToAST.Obby:GetChildren()[1026],
+        workspace.Towers.ToAST.Obby:GetChildren()[487],
+        workspace.ClientParts.DistanceAnchoringObjects:GetChildren()[10]:GetChildren()[7],
+        workspace.Towers.ToAST.Obby:GetChildren()[488],
+        workspace.Towers.ToAST.Obby:GetChildren()[474],
+        workspace.Towers.ToAST.Obby:GetChildren()[468],
+        workspace.Towers.ToAST.Obby:GetChildren()[495],
+        workspace.Towers.ToAST.Obby:GetChildren()[499],
+        workspace.Towers.ToAST.Obby:GetChildren()[298]
         
 
     }
