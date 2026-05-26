@@ -50,7 +50,7 @@ return function()
         workspace.Towers.ToAST.Obby:GetChildren()[373],
         workspace.Towers.ToAST.Obby:GetChildren()[374],
         workspace.Towers.ToAST.Obby:GetChildren()[372],
-        workspace.Towers.ToAST.Obby:GetChildren()[375]
+        workspace.Towers.ToAST.Obby:GetChildren()[375],
         workspace.ClientParts.DistanceAnchoringObjects:GetChildren()[44].Part,
         workspace.Towers.ToAST.Obby:GetChildren()[409],
         workspace.Towers.ToAST.Obby:GetChildren()[387],
