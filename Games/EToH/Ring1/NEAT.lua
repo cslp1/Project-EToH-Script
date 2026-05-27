@@ -1,5 +1,6 @@
 return function()
     return {
+        "jump",
         workspace.Towers.NEAT.Obby.Part,
         workspace.Towers.NEAT.Obby:GetChildren()[2],
         workspace.Towers.NEAT.Obby:GetChildren()[3],
