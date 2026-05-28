@@ -72,7 +72,39 @@ return function()
         workspace.Towers.ToM.Obby:GetChildren()[353],
         workspace.Towers.ToM.Obby:GetChildren()[355],
         workspace.Towers.ToM.Obby:GetChildren()[193],
-        workspace.Towers.ToM.Obby:GetChildren()[293]
+        workspace.Towers.ToM.Obby:GetChildren()[293], --F4
+        workspace.Towers.ToM.Obby:GetChildren()[291],
+        workspace.Towers.ToM.Obby:GetChildren()[292],
+        workspace.Towers.ToM.Obby:GetChildren()[296],
+        workspace.Towers.ToM.Obby:GetChildren()[304],
+        workspace.Towers.ToM.Obby:GetChildren()[324],
+        workspace.Towers.ToM.Obby:GetChildren()[325],
+        workspace.Towers.ToM.Obby:GetChildren()[317],
+        workspace.Towers.ToM.Obby:GetChildren()[335],
+        workspace.Towers.ToM.Obby:GetChildren()[331],
+        workspace.Towers.ToM.Obby:GetChildren()[332],
+        workspace.Towers.ToM.Obby:GetChildren()[337],
+        workspace.ClientParts.DistanceAnchoringObjects:GetChildren()[40].Part,
+        workspace.Towers.ToM.Obby:GetChildren()[298],
+        workspace.Towers.ToM.Obby:GetChildren()[307],
+        workspace.Towers.ToM.Obby:GetChildren()[381],
+        workspace.Towers.ToM.Obby:GetChildren()[385],
+        workspace.Towers.ToM.Obby:GetChildren()[360],
+        workspace.ClientParts.DistanceAnchoringObjects:GetChildren()[45]:GetChildren()[2],
+        workspace.Towers.ToM.Obby:GetChildren()[346],
+        workspace.Towers.ToM.Obby:GetChildren()[387],
+        workspace.Towers.ToM.Obby:GetChildren()[388],
+        workspace.Towers.ToM.Obby:GetChildren()[393],
+        workspace.Towers.ToM.Obby:GetChildren()[351],
+        workspace.Towers.ToM.Obby:GetChildren()[396],
+        workspace.Towers.ToM.Obby:GetChildren()[397],
+        workspace.Towers.ToM.Obby:GetChildren()[399],
+        workspace.Towers.ToM.Obby:GetChildren()[402],
+        workspace.ClientParts.DistanceAnchoringObjects:GetChildren()[19]:GetChildren()[2],
+        workspace.Towers.ToM.Obby:GetChildren()[221],
+        workspace.Towers.ToM.Obby:GetChildren()[341],
+        workspace.Towers.ToM.Obby:GetChildren()[225]
+        
 
         
         
