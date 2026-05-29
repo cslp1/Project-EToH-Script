@@ -115,7 +115,39 @@ return function()
         workspace.Towers.ToK.Obby:GetChildren()[285],
         workspace.Towers.ToK.Obby:GetChildren()[289],
         workspace.Towers.ToK.Obby:GetChildren()[202], --F5
-        workspace.Towers.ToK.Obby:GetChildren()[201]
+        workspace.Towers.ToK.Obby:GetChildren()[201],
+        workspace.Towers.ToK.Obby:GetChildren()[200],
+        workspace.Towers.ToK.Obby:GetChildren()[198],
+        workspace.Towers.ToK.Obby.Model.Part,
+        workspace.Towers.ToK.Obby:GetChildren()[275].Part,
+        workspace.Towers.ToK.Obby:GetChildren()[292],
+        workspace.ClientParts.PushboxSpawnButton.Button,
+        workspace.Towers.ToK.Obby:GetChildren()[293],
+        workspace.Towers.ToK.Obby:GetChildren()[294],
+        workspace.ClientParts.ButtonPlatforms:GetChildren()[17],
+        workspace.ClientParts.BalloonDispenser,
+        workspace.ClientParts.BalloonDestroyer,
+        workspace.Towers.ToK.Obby:GetChildren()[32],
+        workspace.ClientParts.Elevator,
+        workspace.Towers.ToK.Obby:GetChildren()[299],
+        workspace.Towers.ToK.Obby:GetChildren()[301],
+        workspace.Towers.ToK.Obby:GetChildren()[312],
+        workspace.Towers.ToK.Obby:GetChildren()[315],
+        workspace.Towers.ToK.Obby:GetChildren()[615],
+        workspace.Towers.ToK.Obby:GetChildren()[325],
+        workspace.Towers.ToK.Obby:GetChildren()[331],
+        workspace.Towers.ToK.Obby:GetChildren()[343],
+        workspace.Towers.ToK.Obby:GetChildren()[346],
+        workspace.ClientParts:GetChildren()[46].Part,
+        workspace.Towers.ToK.Obby:GetChildren()[342],
+        workspace.ClientParts.ButtonPlatforms.Ladder.ButtonActivatedPlatform,
+        workspace.Towers.ToK.Obby:GetChildren()[358],
+        workspace.Towers.ToK.Obby:GetChildren()[359],
+        workspace.Towers.ToK.Obby:GetChildren()[363],
+        workspace.Towers.ToK.Obby:GetChildren()[609],
+        workspace.Towers.ToK.Obby:GetChildren()[366],
+        workspace.Towers.ToK.Obby:GetChildren()[298], --F6
+        workspace.Towers.ToK.Obby:GetChildren()[373]
         
         
         
