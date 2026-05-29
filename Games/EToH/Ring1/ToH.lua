@@ -181,10 +181,6 @@ return function()
         workspace.Towers.ToH.Obby:GetChildren()[709],
         workspace.Towers.ToH.Obby:GetChildren()[629],
         workspace.Towers.ToH.Obby:GetChildren()[371],
-        workspace.Towers.ToH.Frame["ToH Clouds"]:GetChildren()[4],
-        workspace.Towers.ToH.Frame["ToH Clouds"].Cloud1,
-        workspace.Towers.ToH.Frame["ToH Clouds"]:GetChildren()[2],
-        workspace.Towers.ToH.Frame["ToH Clouds"]:GetChildren()[3],
         workspace.Towers.ToH.WinPad
         
         
