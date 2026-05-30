@@ -351,7 +351,7 @@ return function()
         workspace.ClientParts.DistanceAnchoringObjects["Spinning Tower"]:GetChildren()[71],
         workspace.ClientParts.DistanceAnchoringObjects["Spinning Tower"]:GetChildren()[72],
         workspace.ClientParts.DistanceAnchoringObjects["Spinning Tower"]:GetChildren()[73],
-        workspace.ClientParts:GetChildren()[116]:GetChildren()[2]
+        workspace.ClientParts:GetChildren()[116]:GetChildren()[2],
         workspace.Towers.CoLS.Obby:GetChildren()[707],
         workspace.ClientParts:GetChildren()[91]:GetChildren()[2],
         workspace.ClientParts.ButtonPlatforms.F8ButtonRush:GetChildren()[2],
