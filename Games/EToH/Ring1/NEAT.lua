@@ -16,7 +16,7 @@ return function()
         workspace.Towers.NEAT.Frame:GetChildren()[27],
         workspace.Towers.NEAT.Frame:GetChildren()[22],
         workspace.Towers.NEAT.Obby:GetChildren()[46],
-        workspace.Towers.NEAT.Obby:GetChildren()[6112],
+        workspace.Towers.NEAT.Obby:GetChildren()[62],
         workspace.Towers.NEAT.WinPad
  
 
