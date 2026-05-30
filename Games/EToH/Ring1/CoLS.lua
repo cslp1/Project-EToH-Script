@@ -126,7 +126,26 @@ return function()
         workspace.ClientParts.Button:GetChildren()[2],
         workspace.ClientParts.MovingPlatform:GetChildren()[2].Positions["6"],
         workspace.Towers.CoLS.Obby:GetChildren()[1174],
-        workspace.Towers.CoLS.Obby:GetChildren()[1178]
+        workspace.Towers.CoLS.Obby:GetChildren()[1178],
+        workspace.ClientParts.ButtonPlatforms:GetChildren()[20],
+        workspace.ClientParts.ButtonPlatforms:GetChildren()[25],
+        workspace.Towers.CoLS.Obby:GetChildren()[254],
+        workspace.ClientParts:GetChildren()[16]:GetChildren()[2],
+        workspace.Towers.CoLS.Obby:GetChildren()[255],
+        workspace.Towers.CoLS.Obby:GetChildren()[256],
+        workspace.Towers.CoLS.Obby:GetChildren()[258],
+        workspace.Towers.CoLS.Obby:GetChildren()[1403],
+        workspace.Towers.CoLS.Obby:GetChildren()[1655],
+        workspace.Towers.CoLS.Obby:GetChildren()[263],
+        workspace.Towers.CoLS.Obby:GetChildren()[264],
+        workspace.Towers.CoLS.Obby:GetChildren()[265],
+        workspace.Towers.CoLS.Obby:GetChildren()[1708],
+        workspace.ClientParts:GetChildren()[22].Part,
+        workspace.ClientParts.ButtonPlatforms:GetChildren()[90],
+        workspace.Towers.CoLS.Obby:GetChildren()[1579],
+        workspace.ClientParts.ButtonPlatforms:GetChildren()[89],
+        workspace.ClientParts.ButtonPlatforms:GetChildren()[13],
+        workspace.Towers.CoLS.Obby:GetChildren()[271] --F6
         
         
 
