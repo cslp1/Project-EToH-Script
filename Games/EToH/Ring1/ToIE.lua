@@ -1,6 +1,6 @@
 return function()
     return {
-        workspace.Towers.ToIE.Obby:GetChildren()[640].
+        workspace.Towers.ToIE.Obby:GetChildren()[640],
         workspace.Towers.ToIE.Obby:GetChildren()[568],
         workspace.Towers.ToIE.Obby:GetChildren()[569],
         workspace.Towers.ToIE.Obby:GetChildren()[278],
