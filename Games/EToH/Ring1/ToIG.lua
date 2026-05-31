@@ -101,6 +101,36 @@ return function()
         workspace.Towers.ToIG.Obby:GetChildren()[6].LineSegment,
         workspace.Towers.ToIG.Obby:GetChildren()[6]:GetChildren()[6],
         workspace.Towers.ToIG.Obby:GetChildren()[6]:GetChildren()[10],
-        workspace.Towers.ToIG.Obby:GetChildren()[399] --F3
+        workspace.Towers.ToIG.Obby:GetChildren()[399], --F3
+        workspace.Towers.ToIG.Obby:GetChildren()[113],
+        workspace.Towers.ToIG.Obby:GetChildren()[326],
+        workspace.Towers.ToIG.Obby:GetChildren()[331],
+        workspace.Towers.ToIG.Obby:GetChildren()[571],
+        workspace.ClientParts:GetChildren()[19].Vanisher,
+        workspace.Towers.ToIG.Obby:GetChildren()[467],
+        workspace.ClientParts:GetChildren()[30].Vanisher,
+        workspace.ClientParts:GetChildren()[25].Vanisher,
+        workspace.Towers.ToIG.Obby:GetChildren()[482],
+        workspace.Towers.ToIG.Obby:GetChildren()[643],
+        workspace.Towers.ToIG.Obby:GetChildren()[540],
+        workspace.Towers.ToIG.Obby:GetChildren()[644],
+        workspace.ClientParts:GetChildren()[41].Vanisher,
+        workspace.ClientParts:GetChildren()[42].Vanisher,
+        workspace.ClientParts:GetChildren()[43].Vanisher,
+        workspace.Towers.ToIG.Obby:GetChildren()[645],
+        workspace.Towers.ToIG.Obby:GetChildren()[648],
+        workspace.Towers.ToIG.Obby:GetChildren()[727],
+        workspace.Towers.ToIG.Obby:GetChildren()[652],
+        workspace.Towers.ToIG.Obby:GetChildren()[650],
+        workspace.Towers.ToIG.Obby:GetChildren()[653],
+        workspace.Towers.ToIG.Obby:GetChildren()[565],
+        workspace.Towers.ToIG.Obby:GetChildren()[346],
+        workspace.Towers.ToIG.Obby:GetChildren()[363],
+        workspace.Towers.ToIG.Obby:GetChildren()[457],
+        workspace.Towers.ToIG.Obby:GetChildren()[490],
+        workspace.Towers.ToIG.Obby:GetChildren()[562],
+        workspace.ClientParts.DistanceCulling:GetChildren()[16].Primary --F4
+        
+        
     }
 end
