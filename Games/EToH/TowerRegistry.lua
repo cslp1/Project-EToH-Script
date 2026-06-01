@@ -26,6 +26,10 @@ return {
         { name = "ToPS",  category = "Ring2", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToBH",  category = "Ring2", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToOH",  category = "Ring2", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToCH",  category = "Ring2", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToFaF",  category = "Ring2", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToT",  category = "Ring2", suggestedTime = { min = "3", sec = "0" } },
+        
     },
     TowerRush = {
         {
