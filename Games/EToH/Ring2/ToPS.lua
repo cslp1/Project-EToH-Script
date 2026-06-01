@@ -72,7 +72,7 @@ return function()
         workspace.Towers.ToPS.Obby:GetChildren()[147],
         workspace.Towers.ToPS.Obby:GetChildren()[353],
         workspace.Towers.ToPS.Obby:GetChildren()[149],
-        workspace.ClientParts.DistanceAnchoringObjects:GetChildren()[15].Pushbox.Rope Swing Platform:GetChildren()[1],
+        workspace.ClientParts.DistanceAnchoringObjects:GetChildren()[15].Pushbox.["Rope Swing Platform"]:GetChildren()[1],
         workspace.Towers.ToPS.Obby:GetChildren()[150],
         workspace.Towers.ToPS.Obby:GetChildren()[152],
         workspace.Towers.ToPS.Obby:GetChildren()[153],
