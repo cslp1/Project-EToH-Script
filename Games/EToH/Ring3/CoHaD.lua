@@ -1821,7 +1821,6 @@ return function()
         workspace.Towers.CoHaD.Obby:GetChildren()[876],
         workspace.Towers.CoHaD.Frame:GetChildren()[76],
         workspace.Towers.CoHaD.Obby:GetChildren()[1546],
-        workspace.ClientParts:GetChildren()[149]:GetChildren()[8]:GetChildren()[4],
         workspace.ClientParts.Folder:GetChildren()[16],
         workspace.Towers.CoHaD.Obby:GetChildren()[807],
         workspace.Towers.CoHaD.Obby:GetChildren()[804],
