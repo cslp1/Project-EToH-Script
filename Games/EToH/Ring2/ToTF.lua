@@ -348,6 +348,7 @@ return function()
         workspace.Towers.ToTF.Obby:GetChildren()[482],
         workspace.Towers.ToTF.Obby:GetChildren()[484],
         workspace.Towers.ToTF.Obby:GetChildren()[481],
+        workspace.Towers.ToTF.Frame:GetChildren()[53],
         workspace.Towers.ToTF.WinPad
     }
 end
