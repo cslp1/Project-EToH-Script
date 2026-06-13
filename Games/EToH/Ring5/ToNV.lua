@@ -2,7 +2,6 @@ return function()
     return {
         workspace.Towers.ToNV.Obby:GetChildren()[20],
         workspace.Towers.ToNV.Obby:GetChildren()[21],
-        workspace.Towers.ToNV.Obby:GetChildren()[24],
         workspace.Towers.ToNV.Obby:GetChildren()[22],
         workspace.Towers.ToNV.Obby:GetChildren()[31],
         workspace.Towers.ToNV.Obby:GetChildren()[32],
