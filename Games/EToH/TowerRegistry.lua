@@ -70,6 +70,7 @@ return {
         { name = "ToOC",  category = "Ring5", suggestedTime = { min = "3", sec = "0" } },
         { name = "CoCR",  category = "Ring5", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToIB",  category = "Ring5", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToFN",  category = "Ring5", suggestedTime = { min = "3", sec = "0" } },
     },
     TowerRush = {
         { name = "R1TR", category = "Ring1", suggestedTime = { min = "39", sec = "0" }, isTowerRush = true, },
