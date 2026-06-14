@@ -647,6 +647,7 @@ return function()
         workspace.Towers.CoSR.Obby:GetChildren()[2835],
         workspace.Towers.CoSR.Obby:GetChildren()[2839],
         workspace.Towers.CoSR.Obby:GetChildren()[1063],
-        workspace.Towers.CoSR.Obby:GetChildren()[1068]
+        workspace.Towers.CoSR.Obby:GetChildren()[1068],
+        workspace.Towers.CoSR.WinPad
     }
 end
