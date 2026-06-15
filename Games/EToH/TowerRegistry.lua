@@ -70,6 +70,7 @@ return {
         { name = "ToVS",  category = "Ring4", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToI",  category = "Ring4", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToNV",  category = "Ring5", suggestedTime = { min = "3", sec = "0" } },
+        { name = "LAT",  category = "Ring5", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToTR",  category = "Ring5", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToRS",  category = "Ring5", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToDM",  category = "Ring5", suggestedTime = { min = "3", sec = "0" } },
