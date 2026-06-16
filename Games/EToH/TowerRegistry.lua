@@ -93,7 +93,6 @@ return {
         { name = "CoSR",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToIM",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToBT",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
-        { name = "ToTL",  category = "Zone1", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToHH",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
     },
     TowerRush = {
