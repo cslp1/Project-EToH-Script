@@ -11,7 +11,7 @@ return function()
         "ToSP",
         "ToR",
         "ToIE",
-        "ToST",
+        "ToTS",
         "CoLS"
     }
 end
