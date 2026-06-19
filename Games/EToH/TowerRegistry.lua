@@ -89,6 +89,7 @@ return {
         { name = "ToEP",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToRR",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToTI",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToISC",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToN",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
         { name = "CoSR",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToIM",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
