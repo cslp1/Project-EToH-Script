@@ -105,6 +105,7 @@ return {
         { name = "ToGO",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToBBB",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
         { name = "CoL",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToHA",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToBT",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
         --Zone 1
         { name = "ToTL",  category = "Zone1", suggestedTime = { min = "1", sec = "0" } },
