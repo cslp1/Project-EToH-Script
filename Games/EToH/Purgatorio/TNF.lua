@@ -18,6 +18,6 @@ return function()
         workspace.Towers.TNF.Obby:GetChildren()[209],
         workspace.Towers.TNF.Obby:GetChildren()[212],
         workspace.Towers.TNF.Obby:GetChildren()[18]:GetChildren()[17],
-        workspace.PClientParts.Buttons:GetChildren()[5]
+        wworkspace.Towers.TNF.WinPad
     }
 end
