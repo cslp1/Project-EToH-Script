@@ -116,7 +116,7 @@ return {
         --100M Event Replay
         { name = "100MC",  category = "100M-Event-Replay", suggestedTime = { min = "0", sec = "10" } },
         { name = "100MT",  category = "100M-Event-Replay", suggestedTime = { min = "0", sec = "10" } },
-        { name = "100MF",  category = "100M-Event-Replay", suggestedTime = { min = "0", sec = "10" } },
+        { name = "100MF",  category = "100M-Event-Replay", suggestedTime = { min = "0", sec = "30" } },
     },
     TowerRush = {
         { name = "R1TR", category = "Ring1", suggestedTime = { min = "39", sec = "0" }, isTowerRush = true, },
