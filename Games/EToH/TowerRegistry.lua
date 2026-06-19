@@ -97,8 +97,8 @@ return {
         { name = "CoL",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToBT",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToHH",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
-        { name = "ToVH",  category = ["Pit-of-Misery"], suggestedTime = { min = "3", sec = "0" } },
-        { name = "ToTRP",  category = ["Pit-of-Misery"], suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToVH",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToTRP",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "0" } },
     },
     TowerRush = {
         { name = "R1TR", category = "Ring1", suggestedTime = { min = "39", sec = "0" }, isTowerRush = true, },
