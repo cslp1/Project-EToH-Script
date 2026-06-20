@@ -319,6 +319,7 @@ return function()
         workspace.Towers.ToZD.Obby:GetChildren()[1609],
         workspace.ClientParts:GetChildren()[52]:GetChildren()[6],
         workspace.ClientParts.DistanceAnchoringObjects:GetChildren()[52]:GetChildren()[6],
+        workspace.Towers.ToZD.Obby:GetChildren()[8],
         workspace.Towers.ToZD.WinPad
     }
 end
