@@ -21,6 +21,6 @@ return function()
         workspace.Towers.TNF.Obby:GetChildren()[18]:GetChildren()[17],
         workspace.Towers.TNF.Obby:GetChildren()[18]:GetChildren()[19],
         workspace.Towers.TNF.Obby:GetChildren()[50]:GetChildren()[2],
-        workspace.PClientParts.Buttons:GetChildren()[5]
+        workspace.Towers.TNF.WinPad
     }
 end
