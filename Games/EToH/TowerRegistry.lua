@@ -109,6 +109,7 @@ return {
         --Ring 7
         { name = "FFAST",  category = "Ring7", suggestedTime = { min = "0", sec = "10" } },
         { name = "ToTB",  category = "Ring7", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToER",  category = "Ring7", suggestedTime = { min = "3", sec = "0" } }, 
         --Ring 9
         { name = "ToGO",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToBBB",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
