@@ -9,6 +9,7 @@ local Categories = {
     Ring7 = 9070981409,
     Ring9 = 9070982474,
     Zone1 = 9071001075,
+    Zone2 = 9071001366,
     Zone3 = 9071001563,
     ["Pit-of-Misery"] = 15639952229,
     ["100M-Event-Replay"] = 115856553162061,
@@ -120,6 +121,8 @@ return {
         { name = "SAT",  category = "Zone1", suggestedTime = { min = "0", sec = "5" } },
         { name = "ToZD",  category = "Zone1", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToTL",  category = "Zone1", suggestedTime = { min = "1", sec = "0" } },
+        --Zone 2
+        { name = "ToDT",  category = "Zone2", suggestedTime = { min = "5", sec = "0" } },
         --Zone 3
         { name = "ToHH",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
         --Pit of Misery
