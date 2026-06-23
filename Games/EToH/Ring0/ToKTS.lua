@@ -3671,3 +3671,5 @@ workspace.Towers["ToKTS"].Obby:GetChildren()[1960],
 workspace.Towers["ToKTS"].Obby:GetChildren()[1992],
 workspace.Towers["ToKTS"].Obby:GetChildren()[1950],
 workspace.Towers["ToKTS"].Obby.WinPad,
+    }
+end
