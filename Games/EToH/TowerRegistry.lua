@@ -137,6 +137,9 @@ return {
         { name = "ToNS",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
         --Zone 1
         { name = "SAT",  category = "Zone1", suggestedTime = { min = "0", sec = "5" } },
+        { name = "ToPHaT",  category = "Zone1", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToAD",  category = "Zone1", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToP",  category = "Zone1", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToZD",  category = "Zone1", suggestedTime = { min = "3", sec = "0" } },
         { name = "CoP",  category = "Zone1", suggestedTime = { min = "0", sec = "5" } },
         { name = "ToTL",  category = "Zone1", suggestedTime = { min = "1", sec = "0" } },
