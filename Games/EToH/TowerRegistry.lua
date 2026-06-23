@@ -7,6 +7,7 @@ local Categories = {
     SilentAbyss = 11916533264,
     Ring5 = 9070980846,
     Ring6 = 9070981164,
+    AshenTowerworks = 14399266686,
     Ring7 = 9070981409,
     Ring9 = 9070982474,
     Zone1 = 9071001075,
@@ -118,6 +119,8 @@ return {
         { name = "ToN",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
         { name = "CoSR",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToIM",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
+        --Ashen Towerworks
+        { name = "ToWF",  category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
         --Ring 7
         { name = "FFAST",  category = "Ring7", suggestedTime = { min = "0", sec = "10" } },
         { name = "CoTE",  category = "Ring7", suggestedTime = { min = "3", sec = "0" } },
