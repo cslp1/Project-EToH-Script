@@ -1,6 +1,5 @@
 return function()
     return {
-
 workspace.Towers["ToKP"].Obby:GetChildren()[2581],
 workspace.Towers["ToKP"].Obby:GetChildren()[2588],
 workspace.Towers["ToKP"].Obby:GetChildren()[2587],
