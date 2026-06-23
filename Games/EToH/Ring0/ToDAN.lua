@@ -1455,6 +1455,5 @@ workspace.Towers["ToDAN"].Obby:GetChildren()[1046],
 workspace.Towers["ToDAN"].Obby:GetChildren()[1047],
 workspace.Towers["ToDAN"].Obby:GetChildren()[1049],
 workspace.Towers["ToDAN"].Obby:GetChildren()[1048],
-workspace.Towers["ToDAN"].Obby.WinPad,
             }
 end
