@@ -149,6 +149,8 @@ return {
         { name = "ToFM",  category = "Zone7", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToUA",  category = "Zone7", suggestedTime = { min = "3", sec = "0" } },
         --Zone 9
+        { name = "ToHR",  category = "Zone9", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToPB",  category = "Zone9", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToWWW",  category = "Zone9", suggestedTime = { min = "3", sec = "0" } },
         --Zone 10
         { name = "ToCZ",  category = "Zone10", suggestedTime = { min = "3", sec = "0" } },
