@@ -4,6 +4,7 @@ local Categories = {
     Ring2 = 9070979698,
     Ring3 = 9070980083,
     Ring4 = 9070980555,
+    SilentAbyss = 11916533264,
     Ring5 = 9070980846,
     Ring6 = 9070981164,
     Ring7 = 9070981409,
@@ -87,6 +88,8 @@ return {
         { name = "ToCN",  category = "Ring4", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToVS",  category = "Ring4", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToI",  category = "Ring4", suggestedTime = { min = "3", sec = "0" } },
+        --Silent Abyss
+        { name = "ToTINT",  category = "SilentAbyss", suggestedTime = { min = "3", sec = "0" } },
         --Ring 5
         { name = "ToNV",  category = "Ring5", suggestedTime = { min = "3", sec = "0" } },
         { name = "LAT",  category = "Ring5", suggestedTime = { min = "0", sec = "10" } },
