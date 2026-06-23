@@ -1,3 +1,5 @@
+return function()
+    return {
 workspace.Towers["ToCA"].Obby:GetChildren()[130],
 workspace.Towers["ToCA"].Obby:GetChildren()[321],
 workspace.Towers["ToCA"].Obby:GetChildren()[98],
@@ -3457,3 +3459,5 @@ workspace.Towers["ToCA"].Obby:GetChildren()[2355],
 workspace.Towers["ToCA"].Obby:GetChildren()[906],
 workspace.Towers["ToCA"].Obby:GetChildren()[3176],
 workspace.Towers["ToCA"].Obby.WinPad,
+    }
+end
