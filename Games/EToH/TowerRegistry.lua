@@ -12,6 +12,7 @@ local Categories = {
     Zone1 = 9071001075,
     Zone2 = 9071001366,
     Zone3 = 9071001563,
+    Zone7 = 9071002677,
     Zone9 = 9071004505,
     Zone10 = 9071004898,
     ["Pit-of-Misery"] = 15639952229,
@@ -138,6 +139,9 @@ return {
         { name = "ToDT",  category = "Zone2", suggestedTime = { min = "5", sec = "0" } },
         --Zone 3
         { name = "ToHH",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
+         --Zone 10
+        { name = "ToFM",  category = "Zone7", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToUA",  category = "Zone7", suggestedTime = { min = "3", sec = "0" } },
         --Zone 9
         { name = "ToWWW",  category = "Zone9", suggestedTime = { min = "3", sec = "0" } },
         --Zone 10
