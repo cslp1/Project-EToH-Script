@@ -3458,6 +3458,5 @@ workspace.Towers["ToCA"].Obby:GetChildren()[3123],
 workspace.Towers["ToCA"].Obby:GetChildren()[2355],
 workspace.Towers["ToCA"].Obby:GetChildren()[906],
 workspace.Towers["ToCA"].Obby:GetChildren()[3176],
-workspace.Towers["ToCA"].Obby.WinPad,
     }
 end
