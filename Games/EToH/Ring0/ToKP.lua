@@ -6361,6 +6361,6 @@ workspace.Towers["ToKP"].Obby:GetChildren()[4747],
 workspace.Towers["ToKP"].Obby:GetChildren()[4757],
 workspace.Towers["ToKP"].Obby:GetChildren()[4815],
 workspace.Towers["ToKP"].Obby:GetChildren()[5838],
-workspace.Towers["ToKP"].Obby.WinPad,
+workspace.Towers.ToKP.WinPad
    }
 end
