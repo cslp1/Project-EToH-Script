@@ -5704,3 +5704,5 @@ workspace.Towers["CoV"].Obby:GetChildren()[6238],
 workspace.Towers["CoV"].Obby:GetChildren()[5826],
 workspace.Towers["CoV"].Obby:GetChildren()[4427],
 workspace.Towers["CoV"].Obby.WinPad,
+    }
+end
