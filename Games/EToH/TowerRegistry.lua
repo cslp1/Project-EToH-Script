@@ -140,7 +140,7 @@ return {
         { name = "ToDT",  category = "Zone2", suggestedTime = { min = "5", sec = "0" } },
         --Zone 3
         { name = "ToHH",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
-         --Zone 10
+        --Zone 7
         { name = "ToFM",  category = "Zone7", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToUA",  category = "Zone7", suggestedTime = { min = "3", sec = "0" } },
         --Zone 9
