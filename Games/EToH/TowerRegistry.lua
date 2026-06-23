@@ -19,7 +19,6 @@ return {
     Categories = Categories,
     Towers = {
         --Ring 0 
-        { name = "ToKP",  category = "Ring0", suggestedTime = { min = "3", sec = "0" } },
         { name = "TNF",  category = "Ring0", suggestedTime = { min = "0", sec = "5" } },
         --Ring 1
         { name = "NEAT",  category = "Ring1", suggestedTime = { min = "0", sec = "5" } },
