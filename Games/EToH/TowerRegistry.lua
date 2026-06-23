@@ -19,6 +19,10 @@ return {
     Categories = Categories,
     Towers = {
         --Ring 0 
+        { name = "CoV",  category = "Ring0", suggestedTime = { min = "20", sec = "0" } },
+        { name = "ToNSA",  category = "Ring0", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToKTS",  category = "Ring0", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToDAN",  category = "Ring0", suggestedTime = { min = "3", sec = "5" } },
         { name = "ToKP",  category = "Ring0", suggestedTime = { min = "3", sec = "0" } },
         { name = "TNF",  category = "Ring0", suggestedTime = { min = "0", sec = "5" } },
         --Ring 1
