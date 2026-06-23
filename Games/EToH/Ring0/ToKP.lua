@@ -1,4 +1,6 @@
-workspace.Towers["ToKP"].Obby:GetChildren()[2581],
+return function()
+    return {
+    workspace.Towers["ToKP"].Obby:GetChildren()[2581],
 workspace.Towers["ToKP"].Obby:GetChildren()[2588],
 workspace.Towers["ToKP"].Obby:GetChildren()[2587],
 workspace.Towers["ToKP"].Obby:GetChildren()[2582],
@@ -6360,3 +6362,5 @@ workspace.Towers["ToKP"].Obby:GetChildren()[4757],
 workspace.Towers["ToKP"].Obby:GetChildren()[4815],
 workspace.Towers["ToKP"].Obby:GetChildren()[5838],
 workspace.Towers["ToKP"].Obby.WinPad,
+    }
+end
