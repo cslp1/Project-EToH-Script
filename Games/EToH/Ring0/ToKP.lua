@@ -8507,7 +8507,7 @@ return function()
         workspace.Towers.ToKP.Obby:GetChildren()[6692],
         workspace.Towers.ToKP.Obby:GetChildren()[6693],
         workspace.Towers.ToKP.Obby:GetChildren()[6694],
-        workspace.Towers.ToKP.Obby:GetChildren()[6695]
+        workspace.Towers.ToKP.Obby:GetChildren()[6695],
         workspace.Towers.ToKP.WinPad
     }
 end
