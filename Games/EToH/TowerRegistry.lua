@@ -129,6 +129,7 @@ return {
         { name = "ToHA",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToBT",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToCA",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToNS",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
         --Zone 1
         { name = "SAT",  category = "Zone1", suggestedTime = { min = "0", sec = "5" } },
         { name = "ToZD",  category = "Zone1", suggestedTime = { min = "3", sec = "0" } },
