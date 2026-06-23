@@ -1369,6 +1369,5 @@ workspace.Towers["ToNSA"].Obby:GetChildren()[1359],
 workspace.Towers["ToNSA"].Obby:GetChildren()[1377],
 workspace.Towers["ToNSA"].Obby:GetChildren()[1378],
 workspace.Towers["ToNSA"].Obby:GetChildren()[446],
-workspace.Towers["ToNSA"].Obby.WinPad,
             }
 end
