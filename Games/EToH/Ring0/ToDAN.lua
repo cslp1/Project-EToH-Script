@@ -1,3 +1,5 @@
+return function()
+    return {
 workspace.Towers["ToDAN"].Obby:GetChildren()[756],
 workspace.Towers["ToDAN"].Obby:GetChildren()[109],
 workspace.Towers["ToDAN"].Obby:GetChildren()[111],
