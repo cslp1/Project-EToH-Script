@@ -12,6 +12,7 @@ local Categories = {
     Ring8 = 9070981722,
     Ring9 = 9070982474,
     Zone1 = 9071001075,
+    SteelspireHorizon = 18538513621,
     Zone2 = 9071001366,
     Zone3 = 9071001563,
     Zone4 = 9071001883,
@@ -150,6 +151,10 @@ return {
         { name = "ToCA",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToFaCT",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToNS",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
+        --Steelspire Horizon
+        { name = "ToQR",  category = "SteelspireHorizon", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToSaT",  category = "SteelspireHorizon", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToSL",  category = "SteelspireHorizon", suggestedTime = { min = "3", sec = "0" } },
         --Zone 1
         { name = "SAT",  category = "Zone1", suggestedTime = { min = "0", sec = "5" } },
         { name = "ToPHaT",  category = "Zone1", suggestedTime = { min = "3", sec = "0" } },
