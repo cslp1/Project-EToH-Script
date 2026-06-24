@@ -1,6 +1,6 @@
 return function()
     return {
-workspace.Towers["100MR"].Obby:GetChildren()[244],
+        workspace.Towers["100MR"].Obby:GetChildren()[244],
 workspace.Towers["100MR"].Obby:GetChildren()[176],
 workspace.Towers["100MR"].Obby:GetChildren()[232],
 workspace.Towers["100MR"].Obby:GetChildren()[24],
