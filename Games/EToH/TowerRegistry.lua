@@ -138,6 +138,7 @@ return {
         { name = "ToVA",  category = "Ring8", suggestedTime = { min = "3", sec = "0" } }, 
         { name = "ToAA",  category = "Ring8", suggestedTime = { min = "3", sec = "0" } }, 
         { name = "ToSO",  category = "Ring8", suggestedTime = { min = "0", sec = "10" } },
+        { name = "ToGF",  category = "Ring8", suggestedTime = { min = "3", sec = "0" } },
         --Ring 9
         { name = "ToGO",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToBBB",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
