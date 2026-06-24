@@ -175,6 +175,8 @@ return {
         { name = "CoP",  category = "Zone1", suggestedTime = { min = "3", sec = "5" } },
         { name = "ToTL",  category = "Zone1", suggestedTime = { min = "1", sec = "0" } },
         --Zone 2
+        { name = "ToVR",  category = "Zone2", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToSA",  category = "Zone2", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToDT",  category = "Zone2", suggestedTime = { min = "5", sec = "0" } },
         --Zone 3
         { name = "ToOD",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
