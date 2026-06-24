@@ -130,6 +130,12 @@ return {
         { name = "ToTB",  category = "Ring7", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToER",  category = "Ring7", suggestedTime = { min = "3", sec = "0" } }, 
         --Ring 8
+        { name = "ToEI",  category = "Ring7", suggestedTime = { min = "0", sec = "10" } },
+        { name = "ToNBA",  category = "Ring7", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToSSS",  category = "Ring7", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToVF",  category = "Ring7", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToVA",  category = "Ring7", suggestedTime = { min = "3", sec = "0" } }, 
+        { name = "ToAA",  category = "Ring7", suggestedTime = { min = "3", sec = "0" } }, 
         { name = "ToSO",  category = "Ring8", suggestedTime = { min = "0", sec = "10" } },
         --Ring 9
         { name = "ToGO",  category = "Ring9", suggestedTime = { min = "3", sec = "0" } },
