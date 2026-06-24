@@ -1211,6 +1211,6 @@ workspace.Towers["ToHS"].Obby:GetChildren()[265],
 workspace.Towers["ToHS"].Obby:GetChildren()[953],
 workspace.Towers["ToHS"].Obby:GetChildren()[40],
 workspace.Towers["ToHS"].Obby:GetChildren()[186],
-workspace.Towers["ToHS"].Obby.WinPad,
+workspace.Towers.ToHS.WinPad
     }
 end
