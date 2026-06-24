@@ -1,6 +1,6 @@
 return function()
     return {
-        workspace.Towers["100MR"].Obby:GetChildren()[244],
+workspace.Towers["100MR"].Obby:GetChildren()[244],
 workspace.Towers["100MR"].Obby:GetChildren()[176],
 workspace.Towers["100MR"].Obby:GetChildren()[232],
 workspace.Towers["100MR"].Obby:GetChildren()[24],
@@ -252,6 +252,6 @@ workspace.Towers["100MR"].Obby:GetChildren()[190],
 workspace.Towers["100MR"].Obby:GetChildren()[184],
 workspace.Towers["100MR"].Obby:GetChildren()[186],
 workspace.Towers["100MR"].Obby:GetChildren()[155],
-workspace.Towers.100MR.WinPad
+workspace.Towers["100MR"].WinPad
         }
 end
