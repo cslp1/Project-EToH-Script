@@ -173,6 +173,7 @@ return {
         { name = "ToDT",  category = "Zone2", suggestedTime = { min = "5", sec = "0" } },
         --Zone 3
         { name = "ToOD",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToCOF",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToBB",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToHH",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
         --Zone 4
