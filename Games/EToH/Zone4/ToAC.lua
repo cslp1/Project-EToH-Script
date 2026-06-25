@@ -1261,6 +1261,6 @@ return function()
         workspace.Towers["ToAC"].Obby:GetChildren()[1223],
         workspace.Towers["ToAC"].Obby:GetChildren()[179],
         workspace.Towers["ToAC"].Obby:GetChildren()[163],
-        workspace.Towers.ToAC.WinPad
+        workspace.Towers.ToAC.WinPad,
     }
 end
