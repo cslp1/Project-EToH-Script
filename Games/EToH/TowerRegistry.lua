@@ -1,6 +1,7 @@
 local Categories = {
     Ring0 = 9070958509,
     Ring1 = 9070657865,
+    SummitOfMemories = 90713610472463,
     Ring2 = 9070979698,
     Ring3 = 9070980083,
     Ring4 = 9070980555,
@@ -61,6 +62,11 @@ return {
         { name = "CoLS:SE", category = "Ring1", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToTS",  category = "Ring1", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToIG",  category = "Ring1", suggestedTime = { min = "5", sec = "0" } },
+        --Summit of Memories
+        { name = "ToAST(C)",  category = "SummitOfMemories", suggestedTime = { min = "0", sec = "5" } },
+        { name = "ToA(C)",  category = "SummitOfMemories", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToFT(C)",  category = "SummitOfMemories", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToPHaT(C)",  category = "SummitOfMemories", suggestedTime = { min = "3", sec = "0" } },
         --Ring 2
         { name = "MAT",  category = "Ring2", suggestedTime = { min = "0", sec = "5" } },
         { name = "ToPS",  category = "Ring2", suggestedTime = { min = "3", sec = "0" } },
