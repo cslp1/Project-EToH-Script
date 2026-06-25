@@ -2383,6 +2383,6 @@ workspace.Towers["ToFZ"].Obby:GetChildren()[1689],
 workspace.Towers["ToFZ"].Obby:GetChildren()[1691],
 workspace.Towers["ToFZ"].Obby:GetChildren()[597],
 workspace.Towers["ToFZ"].Obby:GetChildren()[479],
-workspace.Towers.ToFZ.Obby.WinPad
+workspace.Towers.ToFZ.WinPad
     }
 end
