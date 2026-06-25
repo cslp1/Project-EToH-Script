@@ -2237,6 +2237,6 @@ workspace.Towers["SoAS"].Obby:GetChildren()[122],
 workspace.Towers["SoAS"].Obby:GetChildren()[132],
 workspace.Towers["SoAS"].Obby:GetChildren()[121],
 workspace.Towers["SoAS"].Obby:GetChildren()[131],
-workspace.Towers["SoAS"].Obby.WinPad
+workspace.Towers.SoAS.WinPad
     }
 end
