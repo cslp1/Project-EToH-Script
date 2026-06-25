@@ -16,6 +16,7 @@ local Categories = {
     Zone2 = 9071001366,
     ArcaneArea = 9070944007,
     Zone3 = 9071001563,
+    ParadiseAtoll = 9070975342,
     Zone4 = 9071001883,
     Zone7 = 9071002677,
     Zone8 = 9071002915,
@@ -187,6 +188,8 @@ return {
         { name = "ToCOF",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToBB",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToHH",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
+        --Paradise Atoll
+        { name = "SoUV",  category = "ParadiseAtoll", suggestedTime = { min = "3", sec = "0" } },
         --Zone 4
         { name = "ToIF",  category = "Zone4", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToAAA",  category = "Zone4", suggestedTime = { min = "3", sec = "0" } },
