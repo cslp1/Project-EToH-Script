@@ -193,7 +193,8 @@ return {
         { name = "ToHH",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
         --Paradise Atoll
         { name = "SoUV",  category = "ParadiseAtoll", suggestedTime = { min = "3", sec = "0" } },
-        --Zone 4
+        --Zone 4       
+        { name = "ToAC",  category = "Zone4", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToIF",  category = "Zone4", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToAAA",  category = "Zone4", suggestedTime = { min = "3", sec = "0" } },
         --Zone 7
