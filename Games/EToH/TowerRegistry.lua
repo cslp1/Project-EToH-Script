@@ -6,6 +6,7 @@ local Categories = {
     Ring4 = 9070980555,
     SilentAbyss = 11916533264,
     Ring5 = 9070980846,
+    LostRiver = 9945448769,
     Ring6 = 9070981164,
     AshenTowerworks = 14399266686,
     Ring7 = 9070981409,
@@ -116,6 +117,8 @@ return {
         { name = "ToFN",  category = "Ring5", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToFO",  category = "Ring5", suggestedTime = { min = "3", sec = "0" } },
         { name = "R14MTR",  category = "Ring5", suggestedTime = { min = "0", sec = "50" } },
+        --Lost River
+        { name = "ToEW",  category = "LostRiver", suggestedTime = { min = "3", sec = "0" } },
         --Ring 6
         { name = "ToFJ",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToEP",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
