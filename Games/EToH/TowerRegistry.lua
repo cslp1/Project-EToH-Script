@@ -14,6 +14,7 @@ local Categories = {
     Zone1 = 9071001075,
     SteelspireHorizon = 18538513621,
     Zone2 = 9071001366,
+    ArcaneArea = 9070944007,
     Zone3 = 9071001563,
     Zone4 = 9071001883,
     Zone7 = 9071002677,
@@ -178,6 +179,8 @@ return {
         { name = "ToVR",  category = "Zone2", suggestedTime = { min = "3", sec = "5" } },
         { name = "ToSA",  category = "Zone2", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToDT",  category = "Zone2", suggestedTime = { min = "5", sec = "0" } },
+        --Arcane Area
+        { name = "SoAS",  category = "ArcaneArea", suggestedTime = { min = "3", sec = "0" } },
         --Zone 3
         { name = "ToOD",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToCOF",  category = "Zone3", suggestedTime = { min = "3", sec = "0" } },
