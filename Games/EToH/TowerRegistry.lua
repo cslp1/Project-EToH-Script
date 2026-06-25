@@ -125,7 +125,7 @@ return {
         { name = "CoSR",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToIM",  category = "Ring6", suggestedTime = { min = "3", sec = "0" } },
         --Ashen Towerworks
-          name = "ToFZ",  category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToFZ",  category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToWF",  category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
         --Ring 7
         { name = "FFAST",  category = "Ring7", suggestedTime = { min = "0", sec = "10" } },
