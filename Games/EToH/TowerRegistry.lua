@@ -20,6 +20,7 @@ local Categories = {
     Zone3 = 9071001563,
     ParadiseAtoll = 9070975342,
     Zone4 = 9071001883,
+    Zone5 = 9071004898,
     Zone7 = 9071002677,
     Zone8 = 9071002915,
     Zone9 = 9071004505,
@@ -223,6 +224,8 @@ return {
         { name = "ToAC",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToIF",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToAAA",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
+        --Zone 5      
+        { name = "ToAR",  category = "Zone5", suggestedTime = { min = "6", sec = "0" } },
         --Zone 7
         { name = "ToFM",  category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToUA",  category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
