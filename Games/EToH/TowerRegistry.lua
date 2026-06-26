@@ -143,6 +143,17 @@ return {
         --Ashen Towerworks
         { name = "ToFZ",  category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
         { name = "ToWF",  category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToCB",  category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToCWC", category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToFSF", category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToLLL", category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToMD",  category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToRH",  category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToSR",  category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToVT",  category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToWIA", category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToWMT", category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToWoW", category = "AshenTowerworks", suggestedTime = { min = "3", sec = "0" } },
         --Ring 7
         { name = "FFAST",  category = "Ring7", suggestedTime = { min = "0", sec = "10" } },
         { name = "CoTE",  category = "Ring7", suggestedTime = { min = "3", sec = "0" } },
