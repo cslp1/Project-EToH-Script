@@ -213,6 +213,8 @@ return {
         { name = "ToDT",  category = "Zone2", suggestedTime = { min = "5", sec = "0" } },
         --Arcane Area
         { name = "SoAS",  category = "ArcaneArea", suggestedTime = { min = "6", sec = "0" } },
+        { name = "SoRO",  category = "ArcaneArea", suggestedTime = { min = "6", sec = "0" } },
+        { name = "SoAP",  category = "ArcaneArea", suggestedTime = { min = "6", sec = "0" } },
         --Zone 3
         { name = "ToOD",  category = "Zone3", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToCOF",  category = "Zone3", suggestedTime = { min = "6", sec = "0" } },
