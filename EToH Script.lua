@@ -1870,6 +1870,23 @@ MenuGroup:AddDropdown("DPIDropdown", {
         Library:SetDPIScale(DPI)
     end,
 })
+local function getMasterVolume()
+    local ok, v = pcall(function() return UserSettings():GetService("UserGameSettings").MasterVolume end)
+    return ok and v or 0.5
+end
+MenuGroup:AddSlider("GameVolume", {
+    Text     = "Game Volume",
+    Default  = math.floor(getMasterVolume() * 100 + 0.5),
+    Min      = 0,
+    Max      = 100,
+    Rounding = 0,
+    Tooltip  = "Master game volume -- the same as the volume slider in Roblox's Esc menu.",
+    Callback = function(value)
+        pcall(function()
+            UserSettings():GetService("UserGameSettings").MasterVolume = value / 100
+        end)
+    end,
+})
 local isObsidian = repo:find("deividcomsono") ~= nil
 
 if isObsidian then
