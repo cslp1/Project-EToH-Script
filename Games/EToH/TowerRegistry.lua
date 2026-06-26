@@ -140,6 +140,7 @@ return {
         { name = "ToISC",  category = "Ring6", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToN",  category = "Ring6", suggestedTime = { min = "6", sec = "0" } },
         { name = "CoSR",  category = "Ring6", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToSM",  category = "Ring6", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToIM",  category = "Ring6", suggestedTime = { min = "6", sec = "0" } },
         --Ashen Towerworks
         { name = "ToFZ",  category = "AshenTowerworks", suggestedTime = { min = "6", sec = "0" } },
