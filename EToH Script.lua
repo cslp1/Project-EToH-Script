@@ -74,6 +74,7 @@ local Options  = Library.Options
 local isAutoPlaying = false
 local currentResolvedSteps = nil
 local startAutoPlay -- forward declaration (assigned where the Auto Play button is built)
+local autoPlayStop = false -- set true to stop a running Auto Play without dying/rejoining
 
 local baseRepo = "https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/Games/EToH/"
 local registryUrl = "https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/Games/EToH/TowerRegistry.lua"
@@ -587,6 +588,7 @@ startAutoPlay = function()
             return
         end
         isAutoPlaying = true
+        autoPlayStop = false
         Library.Toggles.Noclip:SetValue(true)
         Library.Toggles.Noclip:SetDisabled(true)
         humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
@@ -651,6 +653,15 @@ startAutoPlay = function()
             end)
         end
 
+        -- Manual stop: pressing Auto Play again sets autoPlayStop; halt it like a death.
+        local stopWatchConn
+        stopWatchConn = RunService.Heartbeat:Connect(function()
+            if autoPlayStop and not died then
+                died = true
+                stopReason = "stopped"
+            end
+        end)
+
         local function stopAutoNoclip()
             if antiGravConn then
                 antiGravConn:Disconnect()
@@ -662,6 +673,10 @@ startAutoPlay = function()
             if exitButtonConn then
                 exitButtonConn:Disconnect()
                 exitButtonConn = nil
+            end
+            if stopWatchConn then
+                stopWatchConn:Disconnect()
+                stopWatchConn = nil
             end
             task.wait(0.1)
             local c = game:GetService("Players").LocalPlayer.Character
@@ -680,7 +695,8 @@ startAutoPlay = function()
 
         local function checkDied()
             if died then
-                local msg = stopReason == "exited" and "Exited, stopping!" or "Character died, stopping!"
+                local msg = stopReason == "stopped" and "Stopped!"
+                    or (stopReason == "exited" and "Exited, stopping!" or "Character died, stopping!")
                 Library:Notify({ Title = "Auto Play", Description = msg, Duration = 3 })
                 clearRouteHighlights()
                 stopAutoNoclip()
@@ -1257,7 +1273,18 @@ startAutoPlay = function()
         isAutoPlaying = false
         currentResolvedSteps = nil
 end
-TowerBox:AddButton({ Text = "Auto Play", Callback = startAutoPlay })
+TowerBox:AddButton({
+    Text     = "Auto Play",
+    Tooltip  = "Press to start. Press again to stop (no dying or rejoining needed).",
+    Callback = function()
+        if isAutoPlaying then
+            autoPlayStop = true
+            Library:Notify({ Title = "Auto Play", Description = "Stopping...", Duration = 3 })
+            return
+        end
+        startAutoPlay()
+    end,
+})
 local allJumpCheckpoints = {}
 local allJumpVisuals = {}
 
