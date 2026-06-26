@@ -240,6 +240,7 @@ return {
         { name = "ToHR",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToPB",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToWWW",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToNN",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         --Zone 10
         { name = "ToCZ",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToRL",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
