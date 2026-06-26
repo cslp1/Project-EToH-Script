@@ -505,13 +505,13 @@ TowerBox:AddDropdown("ACTowers", {
 ACSuggestedLabel = TowerBox:AddLabel("Selected total suggested: 0:00")
 updateACTime()
 
-TowerBox:AddToggle("LoopAutoCompleteAllTowers", {
+TowerBox:AddButton({
     Text    = "Auto Complete Selected Towers",
-    Default = false,
-    Tooltip = "Auto Play each ticked tower in order, returning to the lobby between each (wait 5s, touch RestartBrick, wait 5s). Time works like Repeat: with Use Suggested Time on, each tower uses its own suggested time (total = the sum shown); otherwise the custom Completion Time is the total, split across towers by suggested length.",
-    Callback = function(state)
-        if not state then
+    Tooltip = "Press to Auto Play each ticked tower in order, returning to the lobby between each (wait 5s, touch RestartBrick, wait 5s). Time works like Repeat: with Use Suggested Time on, each tower uses its own suggested time (total = the sum shown); otherwise the custom Completion Time is applied per tower. Press again to stop.",
+    Callback = function()
+        if _G.autoCompleteActive then
             _G.autoCompleteActive = false
+            Library:Notify({ Title = "Auto Complete", Description = "Stopping after the current tower...", Duration = 3 })
             return
         end
         _G.autoCompleteActive = true
@@ -520,7 +520,6 @@ TowerBox:AddToggle("LoopAutoCompleteAllTowers", {
             if #towers == 0 then
                 Library:Notify({ Title = "Auto Complete", Description = "No towers selected!", Duration = 4 })
                 _G.autoCompleteActive = false
-                Library.Toggles.LoopAutoCompleteAllTowers:SetValue(false)
                 return
             end
 
@@ -558,7 +557,6 @@ TowerBox:AddToggle("LoopAutoCompleteAllTowers", {
                 Library:Notify({ Title = "Auto Complete", Description = "Done -- all selected towers played!", Duration = 5 })
             end
             _G.autoCompleteActive = false
-            Library.Toggles.LoopAutoCompleteAllTowers:SetValue(false)
         end)
     end,
 })
@@ -1935,9 +1933,9 @@ end)
 Library.ToggleKeybind = Options.MenuKeybind
 
 local CreditsGroup = Tabs.UISettings:AddRightGroupbox("Credits")
-CreditsGroup:AddLabel('<font color="rgb(255,210,70)">[canadianeditz]</font>  Owner', true)
+CreditsGroup:AddLabel('<font color="rgb(255,210,70)">[Mr.man]</font>  Owner', true)
 CreditsGroup:AddLabel('<font color="rgb(90,200,255)">[MaybeIsRealZack]</font>  Original Creator', true)
-CreditsGroup:AddLabel('<font color="rgb(120,230,120)">[Mr.man]</font>  Contributor', true)
+CreditsGroup:AddLabel('<font color="rgb(120,230,120)">[canadianeditz]</font>  Contributor', true)
 
 local OtherScriptsGroup = Tabs.UISettings:AddRightGroupbox("Other Scripts")
 local function copyLoadstring(name, code)
@@ -1959,7 +1957,7 @@ OtherScriptsGroup:AddButton({
     Text     = "SC Script",
     Tooltip  = "Focuses on SC towers. Click to copy its loadstring.",
     Callback = function()
-        copyLoadstring("SC Script", 'loadstring(game:HttpGet("https://raw.githubusercontent.com/cslp1/Project-SC-Script/refs/heads/main/EToH%20Script.lua"))()')
+        copyLoadstring("SC Script", 'loadstring(game:HttpGet("https://raw.githubusercontent.com/cslp1/Project-SC-Script/refs/heads/main/SC%20Script.lua"))()')
     end,
 })
 
