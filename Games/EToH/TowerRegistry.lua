@@ -252,6 +252,7 @@ return {
         { name = "ToBBBB",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToMF",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToVITE",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
+        { name = "CoIC",  category = "Zone9", suggestedTime = { min = "35", sec = "0" } },
         --Zone 10
         { name = "ToCZ",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToRL",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
