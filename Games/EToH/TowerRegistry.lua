@@ -239,7 +239,6 @@ return {
         --Zone 9
         { name = "ToABCD",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToDTD",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
-        { name = "ToLS",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToBL",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToSRD",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToNN",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
