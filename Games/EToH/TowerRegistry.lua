@@ -258,6 +258,7 @@ return {
         { name = "ToIT",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToVV",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToTHT",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToBP",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
         --Pit of Misery
         { name = "ToVH",  category = "Pit-of-Misery", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToTRP",  category = "Pit-of-Misery", suggestedTime = { min = "6", sec = "0" } },
