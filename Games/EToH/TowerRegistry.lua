@@ -247,7 +247,7 @@ return {
         { name = "ToEC",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToBBBB",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToMF",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
-        { name = "CoIC",  category = "Zone8", suggestedTime = { min = "35", sec = "0" } },
+        { name = "CoIC",  category = "Zone9", suggestedTime = { min = "35", sec = "0" } },
         { name = "ToVITE",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToHR",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToPB",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
