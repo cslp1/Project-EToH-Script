@@ -223,6 +223,7 @@ return {
         { name = "ToOD",  category = "Zone3", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToCOF",  category = "Zone3", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToBB",  category = "Zone3", suggestedTime = { min = "6", sec = "0" } },
+        { name = "CoTS",  category = "Zone3", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToHH",  category = "Zone3", suggestedTime = { min = "6", sec = "0" } },
         --Paradise Atoll
         { name = "SoUV",  category = "ParadiseAtoll", suggestedTime = { min = "3", sec = "0" } },
