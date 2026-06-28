@@ -473,6 +473,54 @@ TowerBox:AddToggle("AutoReturnToLobby", {
     end,
 })
 
+TowerBox:AddButton({
+    Text    = "TP to Tower Portal",
+    Tooltip = "Teleport to the selected tower's portal entrance",
+    Callback = function()
+        local selected = Library.Options.TowerSelect.Value
+        local tpName = getTpFrameName(selected)
+        local char = game:GetService("Players").LocalPlayer.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if not hrp then
+            Library:Notify({ Title = "TP to Tower Portal", Description = "Character not found!", Duration = 3 })
+            return
+        end
+        local ok, teleporter = pcall(function()
+            return workspace.Towers[tpName].Teleporter.Teleporter
+        end)
+        if not ok or not teleporter then
+            Library:Notify({ Title = "TP to Tower Portal", Description = "Tower portal not found for " .. tpName .. "!", Duration = 3 })
+            return
+        end
+        hrp.CFrame = CFrame.new(teleporter.Position + Vector3.new(0, 3, 0))
+        Library:Notify({ Title = "TP to Tower Portal", Description = "Teleported to " .. tpName .. " portal!", Duration = 3 })
+    end,
+})
+
+TowerBox:AddButton({
+    Text    = "TP to WinPad",
+    Tooltip = "Teleport to the selected tower's win pad",
+    Callback = function()
+        local selected = Library.Options.TowerSelect.Value
+        local tpName = getTpFrameName(selected)
+        local char = game:GetService("Players").LocalPlayer.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if not hrp then
+            Library:Notify({ Title = "TP to WinPad", Description = "Character not found!", Duration = 3 })
+            return
+        end
+        local ok, winPad = pcall(function()
+            return workspace.Towers[tpName].WinPad
+        end)
+        if not ok or not winPad then
+            Library:Notify({ Title = "TP to WinPad", Description = "WinPad not found for " .. tpName .. "!", Duration = 3 })
+            return
+        end
+        hrp.CFrame = CFrame.new(winPad.Position + Vector3.new(0, 3, 0))
+        Library:Notify({ Title = "TP to WinPad", Description = "Teleported to " .. tpName .. " WinPad!", Duration = 3 })
+    end,
+})
+
 -- Suggested seconds for a single tower.
 local function towerSuggestedSec(name)
     local t = SuggestedTimes[name]
