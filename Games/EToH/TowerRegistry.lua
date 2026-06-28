@@ -1,6 +1,7 @@
 local Categories = {
     Ring0 = 9070958509,
     Ring1 = 9070657865,
+    ForgottenRidge = 9070954594,
     SummitOfMemories = 90713610472463,
     Ring2 = 9070979698,
     Ring3 = 9070980083,
@@ -63,6 +64,8 @@ return {
         { name = "CoLS:SE", category = "Ring1", suggestedTime = { min = "35", sec = "0" } },
         { name = "ToTS",  category = "Ring1", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToIG",  category = "Ring1", suggestedTime = { min = "6", sec = "0" } },
+        --Forgotten Ridge
+        { name = "CoWN",  category = "ForgottenRidge", suggestedTime = { min = "35", sec = "5" } },
         --Summit of Memories
         { name = "ToAST(C)",  category = "SummitOfMemories", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToA(C)",  category = "SummitOfMemories", suggestedTime = { min = "6", sec = "0" } },
