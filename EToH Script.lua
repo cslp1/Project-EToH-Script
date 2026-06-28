@@ -505,14 +505,19 @@ TowerBox:AddButton({
             Library:Notify({ Title = "TP to Tower Portal", Description = "Character not found!", Duration = 3 })
             return
         end
-        local ok, teleporter = pcall(function()
-            return workspace.Towers[selected].Teleporter.Teleporter
+        local ok, pos = pcall(function()
+            local tp = workspace.Towers[selected].Teleporter.Teleporter
+            -- Teleporter.Teleporter is a Model; TPFRAME is the actual BasePart inside it.
+            local frame = tp:FindFirstChild("TPFRAME") or tp:FindFirstChildWhichIsA("BasePart")
+            if frame then return frame.Position end
+            if tp:IsA("BasePart") then return tp.Position end
+            error("no BasePart found inside Teleporter")
         end)
-        if not ok or not teleporter then
+        if not ok or not pos then
             Library:Notify({ Title = "TP to Tower Portal", Description = "Tower portal not found for " .. selected .. "!", Duration = 3 })
             return
         end
-        hrp.CFrame = CFrame.new(teleporter.Position + Vector3.new(0, 3, 0))
+        hrp.CFrame = CFrame.new(pos + Vector3.new(0, 3, 0))
         Library:Notify({ Title = "TP to Tower Portal", Description = "Teleported to " .. selected .. " portal!", Duration = 3 })
     end,
 })
