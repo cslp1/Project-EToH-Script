@@ -135,6 +135,7 @@ return {
         { name = "R14MTR",  category = "Ring5", suggestedTime = { min = "0", sec = "50" } },
         --Lost River
         { name = "ToEW",  category = "LostRiver", suggestedTime = { min = "6", sec = "0" } },
+        { name = "CoIS",  category = "LostRiver", suggestedTime = { min = "14", sec = "0" } },
         --Ring 6
         { name = "ToFJ",  category = "Ring6", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToEP",  category = "Ring6", suggestedTime = { min = "6", sec = "0" } },
