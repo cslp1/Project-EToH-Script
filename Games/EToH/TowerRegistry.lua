@@ -234,6 +234,8 @@ return {
         { name = "ToAAA",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
         --Zone 5
         { name = "ToAR",  category = "Zone5", suggestedTime = { min = "6", sec = "0" } },
+        --Zone 6
+        { name = "ToMM",  category = "Zone5", suggestedTime = { min = "6", sec = "0" } },
         --Zone 7
         { name = "ToFM",  category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToUA",  category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
