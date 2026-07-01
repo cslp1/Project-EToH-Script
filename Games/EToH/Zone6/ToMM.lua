@@ -1447,7 +1447,6 @@ return function()
         workspace.Towers["ToMM"].Obby:GetChildren()[845],
         workspace.Towers["ToMM"].Obby:GetChildren()[1836],
         workspace.Towers["ToMM"].Obby:GetChildren()[1723],
-        workspace.Towers["ToMM"].Obby:GetChildren()[1741],
         workspace.Towers["ToMM"].Obby:GetChildren()[1722],
         workspace.Towers["ToMM"].Obby:GetChildren()[1667],
         workspace.Towers["ToMM"].Obby:GetChildren()[1491],
