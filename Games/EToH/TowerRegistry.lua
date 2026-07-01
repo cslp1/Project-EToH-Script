@@ -193,6 +193,8 @@ return {
         { name = "ToFH",  category = "SteelspireHorizon", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToCBTS",  category = "SteelspireHorizon", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToTFC",  category = "SteelspireHorizon", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToSRT",  category = "SteelspireHorizon", suggestedTime = { min = "6", sec = "0" } },
+        
         --Zone 1
         { name = "SAT",  category = "Zone1", suggestedTime = { min = "0", sec = "5" } },
         { name = "ToPHaT",  category = "Zone1", suggestedTime = { min = "6", sec = "0" } },
@@ -233,6 +235,7 @@ return {
         { name = "ToIF",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToAAA",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
         --Zone 5
+        { name = "ToPZ",  category = "Zone5", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToAR",  category = "Zone5", suggestedTime = { min = "6", sec = "0" } },
         --Zone 6
         { name = "ToMM",  category = "Zone5", suggestedTime = { min = "6", sec = "0" } },
@@ -264,7 +267,8 @@ return {
         { name = "ToRL",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToIT",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToVV",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
-        { name = "ToTHT",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToRoMW",  category = "Zone10", suggestedTime = { min = "19", sec = "0" } },
+        { name = "ToTHT",  category = "Zone10", suggestedTime = { min = "39", sec = "0" } },
         { name = "ToBP",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
         --Pit of Misery
         { name = "ToVH",  category = "Pit-of-Misery", suggestedTime = { min = "6", sec = "0" } },
