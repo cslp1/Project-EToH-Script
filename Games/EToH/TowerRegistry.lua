@@ -186,6 +186,9 @@ return {
         { name = "ToCA",  category = "Ring9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToFaCT",  category = "Ring9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToNS",  category = "Ring9", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToAM",  category = "Ring9", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToCR",  category = "Ring9", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToCP",  category = "Ring9", suggestedTime = { min = "6", sec = "0" } },
         --Steelspire Horizon
         { name = "ToQR",  category = "SteelspireHorizon", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToSaT",  category = "SteelspireHorizon", suggestedTime = { min = "6", sec = "0" } },
