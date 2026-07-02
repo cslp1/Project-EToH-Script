@@ -265,6 +265,7 @@ return {
         { name = "ToHR",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToPB",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToWWW",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToEMP",  category = "Zone9", suggestedTime = { min = "6", sec = "0" } },
         --Zone 10
         { name = "ToCZ",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToRL",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
@@ -273,6 +274,7 @@ return {
         { name = "ToRoMW",  category = "Zone10", suggestedTime = { min = "19", sec = "0" } },
         { name = "ToTHT",  category = "Zone10", suggestedTime = { min = "39", sec = "0" } },
         { name = "ToBP",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToRT",  category = "Zone10", suggestedTime = { min = "6", sec = "0" } },
         --Pit of Misery
         { name = "ToVH",  category = "Pit-of-Misery", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToTRP",  category = "Pit-of-Misery", suggestedTime = { min = "6", sec = "0" } },
