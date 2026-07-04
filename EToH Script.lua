@@ -473,88 +473,20 @@ TowerBox:AddToggle("AutoReturnToLobby", {
     end,
 })
 
-local tpTowerList = {}
-do
-    local towersFolder = workspace:FindFirstChild("Towers")
-    if towersFolder then
-        for _, child in ipairs(towersFolder:GetChildren()) do
-            local ok = pcall(function() local _ = child.Teleporter.Teleporter end)
-            if ok then
-                table.insert(tpTowerList, child.Name)
-            end
-        end
-        table.sort(tpTowerList)
-    end
-end
-
-TowerBox:AddDropdown("TowerTPSelect", {
-    Text    = "Select Tower (TP Buttons)",
-    Values  = tpTowerList,
-    Default = tpTowerList[1] or "",
-    Tooltip = "All towers found in workspace.Towers with a Teleporter — towers, steeples, citadels, etc.",
-})
-
-TowerBox:AddButton({
-    Text    = "TP to Tower Portal",
-    Tooltip = "Teleport to the selected tower's portal entrance",
-    Callback = function()
-        local selected = Library.Options.TowerTPSelect.Value
-        local char = game:GetService("Players").LocalPlayer.Character
-        local hrp = char and char:FindFirstChild("HumanoidRootPart")
-        if not hrp then
-            Library:Notify({ Title = "TP to Tower Portal", Description = "Character not found!", Duration = 3 })
-            return
-        end
-        local ok, pos = pcall(function()
-            local tp = workspace.Towers[selected].Teleporter.Teleporter
-            -- Teleporter.Teleporter is a Model; TPFRAME is the actual BasePart inside it.
-            local frame = tp:FindFirstChild("TPFRAME") or tp:FindFirstChildWhichIsA("BasePart")
-            if frame then return frame.Position end
-            if tp:IsA("BasePart") then return tp.Position end
-            error("no BasePart found inside Teleporter")
-        end)
-        if not ok or not pos then
-            Library:Notify({ Title = "TP to Tower Portal", Description = "Tower portal not found for " .. selected .. "!", Duration = 3 })
-            return
-        end
-        hrp.CFrame = CFrame.new(pos + Vector3.new(0, 3, 0))
-        Library:Notify({ Title = "TP to Tower Portal", Description = "Teleported to " .. selected .. " portal!", Duration = 3 })
-    end,
-})
-
-TowerBox:AddButton({
-    Text    = "TP to WinPad",
-    Tooltip = "Teleport to the selected tower's win pad",
-    Callback = function()
-        local selected = Library.Options.TowerTPSelect.Value
-        local char = game:GetService("Players").LocalPlayer.Character
-        local hrp = char and char:FindFirstChild("HumanoidRootPart")
-        if not hrp then
-            Library:Notify({ Title = "TP to WinPad", Description = "Character not found!", Duration = 3 })
-            return
-        end
-        local ok, winPad = pcall(function()
-            return workspace.Towers[selected].WinPad
-        end)
-        if not ok or not winPad then
-            Library:Notify({ Title = "TP to WinPad", Description = "WinPad not found for " .. selected .. "!", Duration = 3 })
-            return
-        end
-        hrp.CFrame = CFrame.new(winPad.Position + Vector3.new(0, 3, 0))
-        Library:Notify({ Title = "TP to WinPad", Description = "Teleported to " .. selected .. " WinPad!", Duration = 3 })
-    end,
-})
-
 -- Suggested seconds for a single tower.
 local function towerSuggestedSec(name)
     local t = SuggestedTimes[name]
     return t and ((tonumber(t.min) or 0) * 60 + (tonumber(t.sec) or 0)) or 0
 end
+-- The tower names shown in the Auto Complete dropdown: the registry towers, plus any
+-- added at runtime by Auto Detect Towers.
+local acValues = {}
+for _, name in ipairs(DropdownValues) do acValues[#acValues + 1] = name end
 -- Towers ticked in the Auto Complete dropdown, in list order.
 local function getSelectedTowers()
     local picked = Library.Options.ACTowers and Library.Options.ACTowers.Value or {}
     local list = {}
-    for _, name in ipairs(DropdownValues) do
+    for _, name in ipairs(acValues) do
         if picked[name] then list[#list + 1] = name end
     end
     return list
@@ -569,7 +501,7 @@ end
 
 TowerBox:AddDropdown("ACTowers", {
     Text     = "Auto Complete: Towers",
-    Values   = DropdownValues,
+    Values   = acValues,
     Multi    = true,
     Default  = {},
     Tooltip  = "Tick which towers Auto Complete Selected plays (in list order).",
@@ -631,6 +563,130 @@ TowerBox:AddButton({
             end
             _G.autoCompleteActive = false
         end)
+    end,
+})
+
+-- ===== Personal Features (built specifically for gavin) =====
+local PersonalBox = Tabs.Main:AddLeftGroupbox("Personal Features")
+
+-- For each tower: enter via its teleporter, use a boost item, wait, then teleport to its
+-- WinPad to complete it. Regular towers use the VM (slot 5) with a ~30-75s wait; citadels
+-- ("Citadel of X" -> "CoX") use the jump coil (slot 4) with a 5-25 min wait, since they're
+-- much larger. A boost-item way to clear towers, including ones not in the registry.
+-- Returns to the lobby between towers.
+local function isCitadel(name)
+    return name:match("^Co%u") ~= nil
+end
+local function runVMFlow(towerNames)
+    local player = game:GetService("Players").LocalPlayer
+    local VIM    = game:GetService("VirtualInputManager")
+    local towersFolder = workspace:FindFirstChild("Towers")
+    if not towersFolder or #towerNames == 0 then
+        Library:Notify({ Title = "Auto VM", Description = "No towers to run!", Duration = 4 })
+        _G.vmActive = false
+        return
+    end
+    for i, name in ipairs(towerNames) do
+        if not _G.vmActive then break end
+        local tower = towersFolder:FindFirstChild(name)
+        if tower then
+            if i > 1 then returnToLobby() end
+            if not _G.vmActive then break end
+            Library:Notify({ Title = "Auto VM", Description = ("(%d/%d) %s"):format(i, #towerNames, name), Duration = 3 })
+
+            -- Enter the tower via its teleporter (TPFRAME then TeleportTo).
+            local tp = tower:FindFirstChild("Teleporter")
+            local entryParts = {}
+            if tp and tp:FindFirstChild("Teleporter") and tp.Teleporter:FindFirstChild("TPFRAME") then
+                entryParts[#entryParts + 1] = tp.Teleporter.TPFRAME
+            end
+            if tp and tp:FindFirstChild("TeleportTo") then
+                entryParts[#entryParts + 1] = tp.TeleportTo
+            end
+            for _, part in ipairs(entryParts) do
+                local t0 = os.clock()
+                repeat
+                    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+                    if hrp then hrp.CFrame = part.CFrame + Vector3.new(0, 3, 0) end
+                    task.wait(0.1)
+                until os.clock() - t0 > 1.5 or not _G.vmActive
+            end
+
+            -- Citadels get the jump coil (slot 4) + a long wait; everything else the VM (slot 5).
+            local citadel  = isCitadel(name)
+            local slotKey  = citadel and Enum.KeyCode.Four or Enum.KeyCode.Five
+            local itemName = citadel and "jump coil" or "VM"
+            VIM:SendKeyEvent(true, slotKey, false, game)
+            task.wait(0.1)
+            VIM:SendKeyEvent(false, slotKey, false, game)
+
+            -- Wait for the boost to clear the tower: 5-15 min for citadels, 30-75s otherwise.
+            local waitSec   = citadel and math.random(300, 900) or math.random(30, 75)
+            local waitLabel = citadel and ("%.1f min"):format(waitSec / 60) or ("%ds"):format(waitSec)
+            Library:Notify({ Title = "Auto VM", Description = ("(%d/%d) %s -- %s, waiting %s"):format(i, #towerNames, name, itemName, waitLabel), Duration = 4 })
+            local waitUntil = os.clock() + waitSec
+            while os.clock() < waitUntil and _G.vmActive do task.wait(0.5) end
+
+            -- Teleport to the WinPad to complete the tower.
+            local winpad = tower:FindFirstChild("WinPad")
+            if winpad then
+                local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+                if hrp then hrp.CFrame = winpad.CFrame + Vector3.new(0, 3, 0) end
+                task.wait(1.5)
+            end
+        end
+    end
+    if _G.vmActive then
+        Library:Notify({ Title = "Auto VM", Description = "Done!", Duration = 5 })
+    end
+    _G.vmActive = false
+end
+
+PersonalBox:AddButton({
+    Text    = "Auto Use VM (selected)",
+    Tooltip = "For each ticked tower in 'Auto Complete: Towers': enter it, use the VM item (key 5), wait 30s, then teleport to the WinPad. Press again to stop.",
+    Callback = function()
+        if _G.vmActive then
+            _G.vmActive = false
+            Library:Notify({ Title = "Auto VM", Description = "Stopping...", Duration = 3 })
+            return
+        end
+        _G.vmActive = true
+        task.spawn(function() runVMFlow(getSelectedTowers()) end)
+    end,
+})
+
+PersonalBox:AddButton({
+    Text    = "Auto Detect Towers",
+    Tooltip = "Detect every tower loaded in the current area (including ones not in the registry) and add them to the 'Auto Complete: Towers' list, so you can tick them and run Auto Use VM on them.",
+    Callback = function()
+        local towersFolder = workspace:FindFirstChild("Towers")
+        if not towersFolder then
+            warn("[Auto Detect] workspace.Towers not found")
+            Library:Notify({ Title = "Auto Detect", Description = "workspace.Towers not found in this area!", Duration = 5 })
+            return
+        end
+        local children = towersFolder:GetChildren()
+        local existing = {}
+        for _, name in ipairs(acValues) do existing[name] = true end
+        local added, newNames = 0, {}
+        for _, t in ipairs(children) do
+            if not existing[t.Name] then
+                acValues[#acValues + 1] = t.Name
+                existing[t.Name] = true
+                added = added + 1
+                newNames[#newNames + 1] = t.Name
+            end
+        end
+        warn(("[Auto Detect] workspace.Towers has %d children; %d new: %s")
+            :format(#children, added, table.concat(newNames, ", ")))
+        local ok, err = pcall(function() Library.Options.ACTowers:SetValues(acValues) end)
+        if not ok then
+            warn("[Auto Detect] SetValues failed: " .. tostring(err))
+            Library:Notify({ Title = "Auto Detect", Description = ("Found %d towers but list refresh failed (see F9)"):format(#children), Duration = 6 })
+            return
+        end
+        Library:Notify({ Title = "Auto Detect", Description = ("%d towers here, %d new added (%d in list)"):format(#children, added, #acValues), Duration = 6 })
     end,
 })
 
@@ -2049,9 +2105,9 @@ end)
 Library.ToggleKeybind = Options.MenuKeybind
 
 local CreditsGroup = Tabs.UISettings:AddRightGroupbox("Credits")
-CreditsGroup:AddLabel('<font color="rgb(255,210,70)">[canadianeditz]</font>  Owner', true)
+CreditsGroup:AddLabel('<font color="rgb(255,210,70)">[Mr.man]</font>  Owner', true)
 CreditsGroup:AddLabel('<font color="rgb(90,200,255)">[MaybeIsRealZack]</font>  Original Creator', true)
-CreditsGroup:AddLabel('<font color="rgb(120,230,120)">[Mr.man]</font>  Contributor', true)
+CreditsGroup:AddLabel('<font color="rgb(120,230,120)">[canadianeditz]</font>  Contributor', true)
 
 local OtherScriptsGroup = Tabs.UISettings:AddRightGroupbox("Other Scripts")
 local function copyLoadstring(name, code)
