@@ -69,8 +69,57 @@ local isDev = game:GetService("Players").LocalPlayer.Name == "MaybeIsRealZack"
 local Tabs = {
     Main       = Window:AddTab("Main",        "zap"),
     UISettings = Window:AddTab("UI Settings", "settings"),
+    Logs       = Window:AddTab("Logs",        "list"),
 }
 local Options  = Library.Options
+
+-- ===== Action Log (Logs tab) =====
+-- A rolling, newest-first log of everything the script does. logAction() is the sink;
+-- most actions reach it automatically via the Library:Notify wrap below, and every
+-- toggle flip is hooked at the end of the script.
+local logLines      = {}
+local MAX_LOG_LINES = 25
+local LogBox        = Tabs.Logs:AddLeftGroupbox("Action Log")
+local LogLabel      = LogBox:AddLabel({ Text = "(no actions yet)", DoesWrap = true })
+
+local function logAction(msg)
+    logLines[#logLines + 1] = ("[%s] %s"):format(os.date("%X"), tostring(msg))
+    while #logLines > MAX_LOG_LINES do table.remove(logLines, 1) end
+    local ordered = {}
+    for i = #logLines, 1, -1 do ordered[#ordered + 1] = logLines[i] end
+    LogLabel:SetText(table.concat(ordered, "\n"))
+end
+_G.logAction = logAction
+
+LogBox:AddButton({
+    Text     = "Clear Logs",
+    Callback = function()
+        table.clear(logLines)
+        LogLabel:SetText("(no actions yet)")
+    end,
+})
+
+-- Mirror every notification into the log -- covers virtually every in-script action,
+-- since they all notify. Wrapped once, here, before any action can fire.
+do
+    local rawNotify = Library.Notify
+    Library.Notify = function(self, ...)
+        local first = select(1, ...)
+        local line
+        if typeof(first) == "table" then
+            local title, desc = first.Title, first.Description
+            if title and title ~= "" and tostring(title) ~= "nil" then
+                line = tostring(title) .. ": " .. tostring(desc)
+            else
+                line = tostring(desc)
+            end
+        else
+            line = tostring(first)
+        end
+        pcall(logAction, line)
+        return rawNotify(self, ...)
+    end
+end
 local isAutoPlaying = false
 local currentResolvedSteps = nil
 local startAutoPlay -- forward declaration (assigned where the Auto Play button is built)
@@ -620,8 +669,8 @@ local function runVMFlow(towerNames)
             task.wait(0.1)
             VIM:SendKeyEvent(false, slotKey, false, game)
 
-            -- Wait for the boost to clear the tower: 5-15 min for citadels, 30-75s otherwise.
-            local waitSec   = citadel and math.random(300, 900) or math.random(30, 75)
+            -- Wait for the boost to clear the tower: 5-15 min for citadels, 15-60s otherwise.
+            local waitSec   = citadel and math.random(300, 900) or math.random(15, 60)
             local waitLabel = citadel and ("%.1f min"):format(waitSec / 60) or ("%ds"):format(waitSec)
             Library:Notify({ Title = "Auto VM", Description = ("(%d/%d) %s -- %s, waiting %s"):format(i, #towerNames, name, itemName, waitLabel), Duration = 4 })
             local waitUntil = os.clock() + waitSec
@@ -1833,6 +1882,56 @@ PlayerBox:AddToggle("AntiAFK", {
         end
     end,
 })
+
+PlayerBox:AddToggle("Fullbright", {
+    Text    = "Fullbright",
+    Default = false,
+    Tooltip = "Removes darkness, fog and shadows so the whole level is fully lit",
+    Callback = function(state)
+        local Lighting   = game:GetService("Lighting")
+        local RunService = game:GetService("RunService")
+        if _G.FullbrightConn then
+            _G.FullbrightConn:Disconnect()
+            _G.FullbrightConn = nil
+        end
+        if state then
+            -- Snapshot the original lighting once so we can restore it later.
+            if not _G.FullbrightOriginal then
+                _G.FullbrightOriginal = {
+                    Brightness     = Lighting.Brightness,
+                    ClockTime      = Lighting.ClockTime,
+                    FogEnd         = Lighting.FogEnd,
+                    FogStart       = Lighting.FogStart,
+                    GlobalShadows  = Lighting.GlobalShadows,
+                    Ambient        = Lighting.Ambient,
+                    OutdoorAmbient = Lighting.OutdoorAmbient,
+                }
+            end
+            -- Re-assert every frame -- dark towers keep overwriting lighting per area.
+            _G.FullbrightConn = RunService.RenderStepped:Connect(function()
+                Lighting.Brightness     = 2
+                Lighting.ClockTime      = 12
+                Lighting.FogEnd         = 1e9
+                Lighting.FogStart       = 0
+                Lighting.GlobalShadows  = false
+                Lighting.Ambient        = Color3.fromRGB(255, 255, 255)
+                Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+            end)
+        else
+            local o = _G.FullbrightOriginal
+            if o then
+                Lighting.Brightness     = o.Brightness
+                Lighting.ClockTime      = o.ClockTime
+                Lighting.FogEnd         = o.FogEnd
+                Lighting.FogStart       = o.FogStart
+                Lighting.GlobalShadows  = o.GlobalShadows
+                Lighting.Ambient        = o.Ambient
+                Lighting.OutdoorAmbient = o.OutdoorAmbient
+                _G.FullbrightOriginal   = nil
+            end
+        end
+    end,
+})
 local godmodeOriginal = nil
 local godmodeV2Connection = nil
 local godmodeKillBrickConn = nil
@@ -2141,4 +2240,17 @@ SaveManager:IgnoreThemeSettings()
 ThemeManager:ApplyToTab(Tabs.UISettings)
 SaveManager:BuildConfigSection(Tabs.UISettings)
 SaveManager:LoadAutoloadConfig()
+
+-- Log every toggle flip. Installed last -- after LoadAutoloadConfig -- so restoring a
+-- saved config on startup doesn't spam the log; only genuine flips after load are recorded.
+for idx, toggle in pairs(Library.Toggles) do
+    if type(toggle) == "table" and toggle.OnChanged then
+        toggle:OnChanged(function(value)
+            local label = (type(toggle.Text) == "string" and toggle.Text) or tostring(idx)
+            logAction(("Toggle: %s -> %s"):format(label, value and "ON" or "OFF"))
+        end)
+    end
+end
+logAction("Script loaded")
+
 _G.ProjectEToHLoaded = true
