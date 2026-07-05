@@ -1413,6 +1413,38 @@ TowerBox:AddButton({
         startAutoPlay()
     end,
 })
+local TPPortalBox = Tabs.Main:AddLeftGroupbox("TP to Tower Portal")
+TPPortalBox:AddDropdown("TPPortalTowerSelect", {
+    Text    = "Select Tower",
+    Values  = DropdownValues,
+    Default = DropdownValues[1] or "NEAT",
+})
+TPPortalBox:AddButton({
+    Text     = "TP to Tower Portal",
+    Tooltip  = "Instantly teleports you to the selected tower's portal (TPFRAME).",
+    Callback = function()
+        local selected = Library.Options.TPPortalTowerSelect.Value
+        local config = selected and TowerConfigs[selected]
+        if not config then
+            Library:Notify({ Title = "TP to Portal", Description = "No tower selected!", Duration = 3 })
+            return
+        end
+        local ok, tpFrame = pcall(config.tpFrame)
+        if not ok or not tpFrame then
+            Library:Notify({ Title = "TP to Portal", Description = selected .. " teleporter not found!", Duration = 3 })
+            return
+        end
+        local plr = game:GetService("Players").LocalPlayer
+        local char = plr.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if not hrp then
+            Library:Notify({ Title = "TP to Portal", Description = "Character not found!", Duration = 3 })
+            return
+        end
+        hrp.CFrame = CFrame.new(tpFrame.Position + Vector3.new(0, 3, 0)) * (hrp.CFrame - hrp.CFrame.Position)
+        Library:Notify({ Title = "TP to Portal", Description = "Teleported to " .. selected .. " portal!", Duration = 3 })
+    end,
+})
 local allJumpCheckpoints = {}
 local allJumpVisuals = {}
 
