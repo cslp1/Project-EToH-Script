@@ -179,10 +179,6 @@ if #DropdownValues == 0 then
     })
 end
 
--- Values for the TP to Tower Portal dropdown. Starts as a copy of DropdownValues and
--- gets extended at runtime by Auto Detect Towers.
-local tpPortalValues = table.clone(DropdownValues)
-
 local TowerBox = Tabs.Main:AddLeftGroupbox("Towers")
 local AllJumpBox = Tabs.Main:AddLeftGroupbox("All Jump Mode")
 local function getSuggestedLabel(tower)
@@ -689,19 +685,6 @@ PersonalBox:AddButton({
             warn("[Auto Detect] SetValues failed: " .. tostring(err))
             Library:Notify({ Title = "Auto Detect", Description = ("Found %d towers but list refresh failed (see F9)"):format(#children), Duration = 6 })
             return
-        end
-        -- Also add the detected towers to the TP to Tower Portal dropdown.
-        local tpExisting = {}
-        for _, name in ipairs(tpPortalValues) do tpExisting[name] = true end
-        for _, t in ipairs(children) do
-            if not tpExisting[t.Name] then
-                tpPortalValues[#tpPortalValues + 1] = t.Name
-                tpExisting[t.Name] = true
-            end
-        end
-        local okTp, errTp = pcall(function() Library.Options.TPPortalTowerSelect:SetValues(tpPortalValues) end)
-        if not okTp then
-            warn("[Auto Detect] TP Portal SetValues failed: " .. tostring(errTp))
         end
         Library:Notify({ Title = "Auto Detect", Description = ("%d towers here, %d new added (%d in list)"):format(#children, added, #acValues), Duration = 6 })
     end,
@@ -1428,54 +1411,6 @@ TowerBox:AddButton({
             return
         end
         startAutoPlay()
-    end,
-})
-local TPPortalBox = Tabs.Main:AddLeftGroupbox("TP to Tower Portal")
-TPPortalBox:AddDropdown("TPPortalTowerSelect", {
-    Text    = "Select Tower",
-    Values  = tpPortalValues,
-    Default = tpPortalValues[1] or "NEAT",
-})
-TPPortalBox:AddButton({
-    Text     = "TP to Tower Portal",
-    Tooltip  = "Instantly teleports you to the selected tower's portal (TPFRAME).",
-    Callback = function()
-        local selected = Library.Options.TPPortalTowerSelect.Value
-        if not selected then
-            Library:Notify({ Title = "TP to Portal", Description = "No tower selected!", Duration = 3 })
-            return
-        end
-        local config = TowerConfigs[selected]
-        local ok, tpFrame
-        if config then
-            ok, tpFrame = pcall(config.tpFrame)
-        else
-            -- Auto-detected tower with no registry config: resolve its portal
-            -- straight from workspace, trying the normal and Tower Rush layouts.
-            ok, tpFrame = pcall(function()
-                local tower = workspace.Towers[selected]
-                local ok1, tp1 = pcall(function() return tower.Teleporter.Teleporter.TPFRAME end)
-                if ok1 and tp1 then return tp1 end
-                local ok2, tp2 = pcall(function() return tower.Teleporter.Teleporter.Teleport end)
-                if ok2 and tp2 then return tp2 end
-                local ok3, tp3 = pcall(function() return tower.Teleporter.Teleporter.TowerRushPortal.Teleport end)
-                if ok3 and tp3 then return tp3 end
-                return nil
-            end)
-        end
-        if not ok or not tpFrame then
-            Library:Notify({ Title = "TP to Portal", Description = selected .. " teleporter not found!", Duration = 3 })
-            return
-        end
-        local plr = game:GetService("Players").LocalPlayer
-        local char = plr.Character
-        local hrp = char and char:FindFirstChild("HumanoidRootPart")
-        if not hrp then
-            Library:Notify({ Title = "TP to Portal", Description = "Character not found!", Duration = 3 })
-            return
-        end
-        hrp.CFrame = CFrame.new(tpFrame.Position + Vector3.new(0, 3, 0)) * (hrp.CFrame - hrp.CFrame.Position)
-        Library:Notify({ Title = "TP to Portal", Description = "Teleported to " .. selected .. " portal!", Duration = 3 })
     end,
 })
 local allJumpCheckpoints = {}
