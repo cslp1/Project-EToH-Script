@@ -670,7 +670,7 @@ local function runVMFlow(towerNames)
             VIM:SendKeyEvent(false, slotKey, false, game)
 
             -- Wait for the boost to clear the tower: 5-15 min for citadels, 15-60s otherwise.
-            local waitSec   = citadel and math.random(300, 900) or math.random(15, 60)
+            local waitSec   = citadel and math.random(60, 390) or math.random(15, 60)
             local waitLabel = citadel and ("%.1f min"):format(waitSec / 60) or ("%ds"):format(waitSec)
             Library:Notify({ Title = "Auto VM", Description = ("(%d/%d) %s -- %s, waiting %s"):format(i, #towerNames, name, itemName, waitLabel), Duration = 4 })
             local waitUntil = os.clock() + waitSec
