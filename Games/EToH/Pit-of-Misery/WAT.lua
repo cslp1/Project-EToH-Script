@@ -1,0 +1,31 @@
+return function()
+    return {
+        workspace.Towers["WAT"].Obby:GetChildren()[16],
+        workspace.Towers["WAT"].Obby:GetChildren()[15],
+        workspace.Towers["WAT"].Obby:GetChildren()[12],
+        workspace.Towers["WAT"].Obby:GetChildren()[13],
+        workspace.Towers["WAT"].Obby:GetChildren()[14],
+        workspace.Towers["WAT"].Obby:GetChildren()[9],
+        workspace.Towers["WAT"].Obby:GetChildren()[11],
+        workspace.Towers["WAT"].Obby:GetChildren()[23],
+        workspace.Towers["WAT"].Obby:GetChildren()[24],
+        workspace.Towers["WAT"].Obby:GetChildren()[18],
+        workspace.Towers["WAT"].Obby:GetChildren()[25],
+        workspace.Towers["WAT"].Obby:GetChildren()[2],
+        workspace.Towers["WAT"].Obby:GetChildren()[3],
+        workspace.Towers["WAT"].Obby:GetChildren()[19],
+        workspace.Towers["WAT"].Obby:GetChildren()[7],
+        workspace.Towers["WAT"].Obby:GetChildren()[8],
+        workspace.Towers["WAT"].Obby:GetChildren()[21],
+        workspace.Towers["WAT"].Obby:GetChildren()[5],
+        workspace.Towers["WAT"].Obby:GetChildren()[10],
+        workspace.Towers["WAT"].Obby:GetChildren()[20],
+        workspace.Towers["WAT"].Obby:GetChildren()[4],
+        workspace.Towers["WAT"].Obby:GetChildren()[22],
+        workspace.Towers["WAT"].Obby:GetChildren()[26],
+        workspace.Towers["WAT"].Obby:GetChildren()[1],
+        workspace.Towers["WAT"].Obby:GetChildren()[17],
+        workspace.Towers["WAT"].Obby:GetChildren()[6],
+        workspace.Towers.WAT.WinPad
+    }
+end
