@@ -74,9 +74,6 @@ local Tabs = {
 local Options  = Library.Options
 
 -- ===== Action Log (Logs tab) =====
--- A rolling, newest-first log of everything the script does. logAction() is the sink;
--- most actions reach it automatically via the Library:Notify wrap below, and every
--- toggle flip is hooked at the end of the script.
 local logLines      = {}
 local MAX_LOG_LINES = 25
 local LogBox        = Tabs.Logs:AddLeftGroupbox("Action Log")
@@ -99,8 +96,6 @@ LogBox:AddButton({
     end,
 })
 
--- Mirror every notification into the log -- covers virtually every in-script action,
--- since they all notify. Wrapped once, here, before any action can fire.
 do
     local rawNotify = Library.Notify
     Library.Notify = function(self, ...)
@@ -122,16 +117,14 @@ do
 end
 local isAutoPlaying = false
 local currentResolvedSteps = nil
-local startAutoPlay -- forward declaration (assigned where the Auto Play button is built)
-local autoPlayStop = false -- set true to stop a running Auto Play without dying/rejoining
+local startAutoPlay -- forward declaration
+local autoPlayStop = false
 
 local baseRepo = "https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/Games/EToH/"
 local registryUrl = "https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/Games/EToH/TowerRegistry.lua"
 
 local Registry
 local registryLoaded = false
--- Retry the fetch: a single failed HttpGet (GitHub raw hiccup / rate limit) would
--- otherwise drop us to the empty fallback registry -> "No towers found" with 0 towers.
 for attempt = 1, 4 do
     local ok_reg, reg_src = pcall(function() return game:HttpGet(registryUrl) end)
     if ok_reg and type(reg_src) == "string" and #reg_src > 0 then
@@ -164,11 +157,7 @@ local function getTpFrameName(name)
     return colonPos and name:sub(1, colonPos - 1) or name
 end
 
--- Studs from the HumanoidRootPart center to the character's feet.
 local PLAYER_FOOT_OFFSET = 3
--- Returns a position on top of `part`'s surface, raised so the character stands
--- on top of it instead of clipping into the part. Accounts for the part's size
--- and orientation so it works for thick and rotated parts, not just thin ones.
 local function getTopPos(part)
     local cf, size = part.CFrame, part.Size
     local halfTop = 0.5 * (
@@ -181,10 +170,6 @@ end
 
 local currentPlaceId = game.PlaceId
 
--- True if a tower's folder is actually loaded in workspace.Towers right now. Used so
--- the dropdown shows the towers physically present in the current place even if the
--- registry's hardcoded category PlaceId no longer matches (e.g. after a game update),
--- instead of silently filtering everything out and leaving a blank tower list.
 local function towerFolderPresent(name)
     local towersFolder = workspace:FindFirstChild("Towers")
     return towersFolder ~= nil and towersFolder:FindFirstChild(name) ~= nil
@@ -195,29 +180,81 @@ local function towerFolder(name)
     return towersFolder and towersFolder:FindFirstChild(name)
 end
 
--- Resolve a tower's entry teleporter parts. Tries EToH's exact nesting first
--- (Teleporter.Teleporter.TPFRAME / Teleporter.TeleportTo), then falls back to a recursive
--- search by name so towers in other games using the same JToH kit (e.g. The Eternal Abyss)
--- resolve even if the hierarchy differs. Returns nil if the folder/part is gone.
+-- The Eternal Abyss (and other JToH-kit games) expose a single entry part at
+-- workspace.Towers.<tower>.Portal instead of Teleporter.Teleporter.TPFRAME +
+-- Teleporter.TeleportTo. It may be a BasePart directly, or a Model wrapping one.
+local function resolvePortalPart(name)
+    local f = towerFolder(name)
+    if not f then return nil end
+    local portal = f:FindFirstChild("Portal")
+    if not portal then return nil end
+    if portal:IsA("BasePart") then return portal end
+    return portal:FindFirstChildWhichIsA("BasePart", true)
+end
+
+-- Fire a part's TouchInterest if the executor supports it. Portals teleport on touch,
+-- so standing on them isn't always enough -- especially while noclip is on and the
+-- character never physically collides with anything.
+local function fireTouch(part, hrp)
+    if not (firetouchinterest and part and hrp) then return end
+    pcall(function()
+        firetouchinterest(part, hrp, 0)
+        firetouchinterest(part, hrp, 1)
+    end)
+end
+
 local function resolveTPFrame(name)
     local f = towerFolder(name)
     if not f then return nil end
     local tp    = f:FindFirstChild("Teleporter")
     local inner = tp and tp:FindFirstChild("Teleporter")
     local exact = inner and inner:FindFirstChild("TPFRAME")
-    return exact or f:FindFirstChild("TPFRAME", true)
+    return exact or f:FindFirstChild("TPFRAME", true) or resolvePortalPart(name)
 end
 local function resolveTeleportTo(name)
     local f = towerFolder(name)
     if not f then return nil end
     local tp    = f:FindFirstChild("Teleporter")
     local exact = tp and tp:FindFirstChild("TeleportTo")
-    return exact or f:FindFirstChild("TeleportTo", true)
+    return exact or f:FindFirstChild("TeleportTo", true) or resolvePortalPart(name)
 end
 
--- F9 diagnostic: dump a tower folder's children when entry resolution fails, so an
--- unexpected structure (a game that doesn't use the standard TPFRAME/TeleportTo names)
--- can be identified in one shot.
+-- Fallback route: when a tower has no route file on the repo (e.g. TEA towers), build
+-- one from the tower's own checkpoint parts. Auto Play noclips and tweens the
+-- HumanoidRootPart straight between targets, so a checkpoint-only route usually still
+-- clears the tower -- it just cuts through geometry instead of following the intended
+-- path. Numbered checkpoints are used in order; unnumbered ones are ordered by height,
+-- which assumes the tower goes upward. Returns nil if nothing usable is found.
+local function generateCheckpointRoute(folderName)
+    local f = towerFolder(folderName)
+    if not f then return nil end
+    local numbered, plain, winpad = {}, {}, nil
+    for _, d in ipairs(f:GetDescendants()) do
+        if d:IsA("BasePart") then
+            local lower = d.Name:lower()
+            local num = lower:match("^checkpoint%s*(%d+)$")
+            if num then
+                numbered[#numbered + 1] = { part = d, index = tonumber(num) }
+            elseif lower == "checkpoint" then
+                plain[#plain + 1] = d
+            elseif lower == "winpad" and not winpad then
+                winpad = d
+            end
+        end
+    end
+    local ordered = {}
+    if #numbered > 0 then
+        table.sort(numbered, function(a, b) return a.index < b.index end)
+        for _, e in ipairs(numbered) do ordered[#ordered + 1] = e.part end
+    elseif #plain > 0 then
+        table.sort(plain, function(a, b) return a.Position.Y < b.Position.Y end)
+        for _, p in ipairs(plain) do ordered[#ordered + 1] = p end
+    end
+    if winpad then ordered[#ordered + 1] = winpad end
+    if #ordered == 0 then return nil end
+    return function() return ordered end, #ordered, (winpad ~= nil)
+end
+
 local function warnTowerStructure(name)
     local f = towerFolder(name)
     if not f then
@@ -229,7 +266,6 @@ local function warnTowerStructure(name)
     warn(("[Auto Play] '%s' teleporter unresolved. Children: %s"):format(name, table.concat(kids, ", ")))
 end
 
--- A place spec is one place id or a list of them; true if we're in one of them.
 local function placeMatches(ids)
     if type(ids) == "table" then
         for _, id in ipairs(ids) do
@@ -240,10 +276,6 @@ local function placeMatches(ids)
     return ids == currentPlaceId
 end
 
--- Which places an entry belongs to: its own `places` overrides its category's place(s).
--- Lets a tower share a category (and route folder) with towers in another game while being
--- restricted to only some of those places -- e.g. PoMTR is in the Pit of Misery category
--- but doesn't exist in The Eternal Abyss, so it pins itself to the original place.
 local function entryMatchesPlace(entry)
     if entry.places ~= nil then
         return placeMatches(entry.places)
@@ -251,7 +283,6 @@ local function entryMatchesPlace(entry)
     return placeMatches(Registry.Categories[entry.category])
 end
 
--- Is the current place one the registry recognizes (its id appears in some category)?
 local placeIsKnown = false
 for _, ids in pairs(Registry.Categories or {}) do
     if placeMatches(ids) then
@@ -260,11 +291,6 @@ for _, ids in pairs(Registry.Categories or {}) do
     end
 end
 
--- Whether to list an entry here. In a KNOWN place we trust the registry's place mapping
--- exactly. The folder-name fallback (show anything whose folder happens to be loaded) is
--- only for UNKNOWN places -- e.g. EToH after a place-id update -- otherwise a different
--- game that reuses EToH acronyms (The Eternal Abyss: ToSD/ToTF/ToER/...) would surface
--- every colliding tower even though those aren't the real EToH towers.
 local function shouldShow(entry, folderName)
     if entryMatchesPlace(entry) then return true end
     return (not placeIsKnown) and towerFolderPresent(folderName)
@@ -279,6 +305,7 @@ for _, tower in ipairs(Registry.Towers or {}) do
         tpFrame    = function() return resolveTPFrame(tpName) end,
         teleportTo = function() return resolveTeleportTo(tpName) end,
         routeUrl   = baseRepo .. tower.category .. "/" .. n .. ".lua",
+        folderName = tpName,
     }
     table.insert(DropdownValues, n)
 end
@@ -298,13 +325,32 @@ for _, tr in ipairs(Registry.TowerRush or {}) do
         end,
         routeUrl    = baseRepo .. tr.category .. "/" .. n .. ".lua",
         isTowerRush = true,
+        folderName  = n,
     }
     table.insert(DropdownValues, n)
 end
 
--- Surface why the tower list is empty instead of failing silently. This usually means
--- the registry didn't load, or none of its towers match this place (PlaceId may have
--- changed in a game update) and none are loaded in workspace.Towers.
+-- Any tower loaded in workspace.Towers with a Portal but no registry entry (TEA towers)
+-- gets a config built on the fly, so it can be picked in Select Tower and Auto Played.
+do
+    local towersFolder = workspace:FindFirstChild("Towers")
+    if towersFolder then
+        for _, t in ipairs(towersFolder:GetChildren()) do
+            if not TowerConfigs[t.Name] and t:FindFirstChild("Portal") then
+                local n = t.Name
+                TowerConfigs[n] = {
+                    tpFrame    = function() return resolvePortalPart(n) end,
+                    teleportTo = function() return resolvePortalPart(n) end,
+                    routeUrl   = nil, -- no route file: falls back to checkpoint route
+                    folderName = n,
+                    isPortal   = true,
+                }
+                table.insert(DropdownValues, n)
+            end
+        end
+    end
+end
+
 if #DropdownValues == 0 then
     local towersFolder = workspace:FindFirstChild("Towers")
     local loadedCount = towersFolder and #towersFolder:GetChildren() or 0
@@ -381,7 +427,7 @@ TowerBox:AddInput("RepeatCount", {
     Default     = "1",
     Numeric     = true,
     Placeholder = "1",
-    Tooltip     = "Auto Play the tower this many times. The Completion Time above is the TOTAL for all repeats, split evenly across them.",
+    Tooltip     = "Auto Play the tower this many times.",
 })
 local routeHighlights = {}
 local routeUpdateConn = nil
@@ -486,6 +532,29 @@ local function showRoute(resolvedSteps)
     end
 end
 
+-- Resolve a tower's checkpoint provider: the repo route file if it has one, otherwise
+-- the generated checkpoint route. Returns getCheckpoints (a function) or nil + reason.
+local function resolveCheckpointProvider(name, config)
+    if config.routeUrl then
+        local routeSrc
+        local okFetch = pcall(function() routeSrc = game:HttpGet(config.routeUrl) end)
+        if okFetch and routeSrc then
+            local fn = loadstring(routeSrc)
+            if fn then
+                local okLoad, getCheckpoints = pcall(fn)
+                if okLoad and type(getCheckpoints) == "function" then
+                    return getCheckpoints, "route file"
+                end
+            end
+        end
+    end
+    local gen, count = generateCheckpointRoute(config.folderName or getTpFrameName(name))
+    if gen then
+        return gen, ("generated route (%d checkpoints)"):format(count)
+    end
+    return nil, "no route file and no checkpoint parts found in the tower"
+end
+
 local ShowRouteToggle = TowerBox:AddToggle("ShowRoute", {
     Text    = "Show Route",
     Default = false,
@@ -499,13 +568,8 @@ local ShowRouteToggle = TowerBox:AddToggle("ShowRoute", {
             local selected = Library.Options.TowerSelect.Value
             local config   = TowerConfigs[selected]
             if not config then return end
-            local routeSrc
-            local ok = pcall(function() routeSrc = game:HttpGet(config.routeUrl) end)
-            if not ok or not routeSrc then return end
-            local fn = loadstring(routeSrc)
-            if not fn then return end
-            local ok2, getCheckpoints = pcall(fn)
-            if not ok2 or type(getCheckpoints) ~= "function" then return end
+            local getCheckpoints = resolveCheckpointProvider(selected, config)
+            if not getCheckpoints then return end
             local ok3, checkpoints = pcall(getCheckpoints)
             if not ok3 or type(checkpoints) ~= "table" then return end
             local steps = {}
@@ -541,9 +605,7 @@ ShowRouteToggle:AddColorPicker("RouteColor", {
         end
     end,
 })
--- The RestartBrick: touching it sends you back to the lobby (it has a TouchInterest).
--- It must be TOUCHED, not just teleported near -- that's why the old "set CFrame above
--- it" approach never returned you.
+
 local function getLobbyReturnPart()
     local misc = workspace:FindFirstChild("Misc")
     local part = misc and misc:FindFirstChild("RestartBrick")
@@ -551,8 +613,6 @@ local function getLobbyReturnPart()
     return workspace:FindFirstChild("RestartBrick", true)
 end
 
--- After a win: wait 5s, fire the RestartBrick's touch to return to the lobby, then wait
--- another 5s. Shared by the Return to Lobby toggle and Auto Play repeats. Never re-enters.
 local function returnToLobby()
     local player = game:GetService("Players").LocalPlayer
     task.wait(5)
@@ -562,16 +622,11 @@ local function returnToLobby()
     if part and hrp then
         hrp.CFrame = part.CFrame + Vector3.new(0, 3, 0)
         if firetouchinterest then
-            -- Directly fire the touch a few times so the return reliably registers.
             for _ = 1, 3 do
-                pcall(function()
-                    firetouchinterest(part, hrp, 0)
-                    firetouchinterest(part, hrp, 1)
-                end)
+                fireTouch(part, hrp)
                 task.wait(0.1)
             end
         else
-            -- No firetouchinterest: physically overlap the part so a real touch fires.
             local stop = os.clock() + 1
             repeat
                 char = player.Character
@@ -592,12 +647,12 @@ TowerBox:AddToggle("AutoReturnToLobby", {
         if state then
             local player = game:GetService("Players").LocalPlayer
             if not player then return end
-            
+
             if _G.returnToLobbyConn then
                 _G.returnToLobbyConn:Disconnect()
                 _G.returnToLobbyConn = nil
             end
-            
+
             _G.returnToLobbyConn = player:GetPropertyChangedSignal("Team"):Connect(function()
                 local winnerTeam = game:GetService("Teams"):FindFirstChild("Winner!")
                 if player.Team == winnerTeam then
@@ -613,16 +668,12 @@ TowerBox:AddToggle("AutoReturnToLobby", {
     end,
 })
 
--- Suggested seconds for a single tower.
 local function towerSuggestedSec(name)
     local t = SuggestedTimes[name]
     return t and ((tonumber(t.min) or 0) * 60 + (tonumber(t.sec) or 0)) or 0
 end
--- The tower names shown in the Auto Complete dropdown: the registry towers, plus any
--- added at runtime by Auto Detect Towers.
 local acValues = {}
 for _, name in ipairs(DropdownValues) do acValues[#acValues + 1] = name end
--- Towers ticked in the Auto Complete dropdown, in list order.
 local function getSelectedTowers()
     local picked = Library.Options.ACTowers and Library.Options.ACTowers.Value or {}
     local list = {}
@@ -652,7 +703,7 @@ updateACTime()
 
 TowerBox:AddButton({
     Text    = "Auto Complete Selected Towers",
-    Tooltip = "Press to Auto Play each ticked tower in order, returning to the lobby between each (wait 5s, touch RestartBrick, wait 5s). Time works like Repeat: with Use Suggested Time on, each tower uses its own suggested time (total = the sum shown); otherwise the custom Completion Time is applied per tower. Press again to stop.",
+    Tooltip = "Auto Play each ticked tower in order, returning to the lobby between each. Press again to stop.",
     Callback = function()
         if _G.autoCompleteActive then
             _G.autoCompleteActive = false
@@ -668,15 +719,11 @@ TowerBox:AddButton({
                 return
             end
 
-            -- Each tower is played for its own completion time: its suggested time when
-            -- Use Suggested Time is on, otherwise the custom Completion Time applied per
-            -- tower (the time is never split across towers).
-            -- Save the UI fields we drive, then restore them at the end.
             local origTower  = Library.Options.TowerSelect.Value
             local origMin    = Library.Options.CompletionMin.Value
             local origSec    = Library.Options.CompletionSec.Value
             local origRepeat = Library.Options.RepeatCount.Value
-            Library.Options.RepeatCount:SetValue("1") -- one run per tower
+            Library.Options.RepeatCount:SetValue("1")
 
             for i, name in ipairs(towers) do
                 if not _G.autoCompleteActive then break end
@@ -686,13 +733,10 @@ TowerBox:AddButton({
                 end
                 if not _G.autoCompleteActive then break end
                 Library:Notify({ Title = "Auto Complete", Description = ("(%d/%d) Playing %s"):format(i, #towers, name), Duration = 3 })
-                -- Selecting the tower sets its suggested time when Use Suggested Time is on;
-                -- otherwise the custom Completion Time is left as-is for every tower.
                 Library.Options.TowerSelect:SetValue(name)
-                startAutoPlay() -- yields until this tower's run finishes
+                startAutoPlay()
             end
 
-            -- Restore the UI fields.
             Library.Options.TowerSelect:SetValue(origTower)
             Library.Options.CompletionMin:SetValue(origMin)
             Library.Options.CompletionSec:SetValue(origSec)
@@ -706,14 +750,71 @@ TowerBox:AddButton({
     end,
 })
 
--- ===== Personal Features (built specifically for gavin) =====
+-- ===== TEA Portals =====
+local TEABox = Tabs.Main:AddRightGroupbox("TEA Portals")
+
+local function listPortalTowers()
+    local names = {}
+    local towersFolder = workspace:FindFirstChild("Towers")
+    if towersFolder then
+        for _, t in ipairs(towersFolder:GetChildren()) do
+            if t:FindFirstChild("Portal") then names[#names + 1] = t.Name end
+        end
+    end
+    table.sort(names)
+    return names
+end
+
+local _teaInit = listPortalTowers()
+TEABox:AddDropdown("TEAPortalSelect", {
+    Text      = "Portal Tower",
+    Values    = _teaInit,
+    Default   = _teaInit[1],
+    AllowNull = true,
+    Tooltip   = "Towers in workspace.Towers that have a Portal child.",
+})
+
+TEABox:AddButton({
+    Text     = "Refresh List",
+    Callback = function()
+        local names = listPortalTowers()
+        pcall(function() Library.Options.TEAPortalSelect:SetValues(names) end)
+        Library:Notify({ Title = "TEA Portals", Description = ("%d towers with a Portal found."):format(#names), Duration = 4 })
+    end,
+})
+
+TEABox:AddButton({
+    Text     = "Teleport to Portal",
+    Tooltip  = "Teleport onto the selected tower's Portal and fire its touch so you enter.",
+    Callback = function()
+        local name = Library.Options.TEAPortalSelect.Value
+        if not name or name == "" then
+            Library:Notify({ Title = "TEA Portals", Description = "Pick a tower first!", Duration = 3 })
+            return
+        end
+        local part = resolvePortalPart(name)
+        if not part then
+            Library:Notify({ Title = "TEA Portals", Description = name .. " has no Portal part!", Duration = 4 })
+            return
+        end
+        local char = game:GetService("Players").LocalPlayer.Character
+        local hrp  = char and char:FindFirstChild("HumanoidRootPart")
+        if not hrp then
+            Library:Notify({ Title = "TEA Portals", Description = "Character not found!", Duration = 3 })
+            return
+        end
+        hrp.CFrame = part.CFrame + Vector3.new(0, 3, 0)
+        for _ = 1, 3 do
+            fireTouch(part, hrp)
+            task.wait(0.05)
+        end
+        Library:Notify({ Title = "TEA Portals", Description = "Teleported to " .. name .. " Portal.", Duration = 3 })
+    end,
+})
+
+-- ===== Personal Features =====
 local PersonalBox = Tabs.Main:AddLeftGroupbox("Personal Features")
 
--- For each tower: enter via its teleporter, use a boost item, wait, then teleport to its
--- WinPad to complete it. Regular towers use the VM (slot 5) with a ~30-75s wait; citadels
--- ("Citadel of X" -> "CoX") use the jump coil (slot 4) with a 5-25 min wait, since they're
--- much larger. A boost-item way to clear towers, including ones not in the registry.
--- Returns to the lobby between towers.
 local function isCitadel(name)
     return name:match("^Co%u") ~= nil
 end
@@ -734,23 +835,27 @@ local function runVMFlow(towerNames)
             if not _G.vmActive then break end
             Library:Notify({ Title = "Auto VM", Description = ("(%d/%d) %s"):format(i, #towerNames, name), Duration = 3 })
 
-            -- Enter the tower via its teleporter (TPFRAME then TeleportTo). Recursive search
-            -- by name so it works regardless of how the game nests them.
             local entryParts = {}
             local tpFramePart = tower:FindFirstChild("TPFRAME", true)
             local teleToPart  = tower:FindFirstChild("TeleportTo", true)
             if tpFramePart then entryParts[#entryParts + 1] = tpFramePart end
             if teleToPart  then entryParts[#entryParts + 1] = teleToPart end
+            if #entryParts == 0 then
+                local portalPart = resolvePortalPart(name)
+                if portalPart then entryParts[1] = portalPart end
+            end
             for _, part in ipairs(entryParts) do
                 local t0 = os.clock()
                 repeat
                     local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-                    if hrp then hrp.CFrame = part.CFrame + Vector3.new(0, 3, 0) end
+                    if hrp then
+                        hrp.CFrame = part.CFrame + Vector3.new(0, 3, 0)
+                        fireTouch(part, hrp)
+                    end
                     task.wait(0.1)
                 until os.clock() - t0 > 1.5 or not _G.vmActive
             end
 
-            -- Citadels get the jump coil (slot 4) + a long wait; everything else the VM (slot 5).
             local citadel  = isCitadel(name)
             local slotKey  = citadel and Enum.KeyCode.Four or Enum.KeyCode.Five
             local itemName = citadel and "jump coil" or "VM"
@@ -758,14 +863,12 @@ local function runVMFlow(towerNames)
             task.wait(0.1)
             VIM:SendKeyEvent(false, slotKey, false, game)
 
-            -- Wait for the boost to clear the tower: 5-15 min for citadels, 15-60s otherwise.
             local waitSec   = citadel and math.random(300, 900) or math.random(15, 60)
             local waitLabel = citadel and ("%.1f min"):format(waitSec / 60) or ("%ds"):format(waitSec)
             Library:Notify({ Title = "Auto VM", Description = ("(%d/%d) %s -- %s, waiting %s"):format(i, #towerNames, name, itemName, waitLabel), Duration = 4 })
             local waitUntil = os.clock() + waitSec
             while os.clock() < waitUntil and _G.vmActive do task.wait(0.5) end
 
-            -- Teleport to the WinPad to complete the tower (recursive: nesting may vary).
             local winpad = tower:FindFirstChild("WinPad", true)
             if winpad then
                 local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
@@ -782,7 +885,7 @@ end
 
 PersonalBox:AddButton({
     Text    = "Auto Use VM (selected)",
-    Tooltip = "For each ticked tower in 'Auto Complete: Towers': enter it, use the VM item (key 5), wait 30s, then teleport to the WinPad. Press again to stop.",
+    Tooltip = "For each ticked tower: enter it, use the VM item, wait, then teleport to the WinPad. Press again to stop.",
     Callback = function()
         if _G.vmActive then
             _G.vmActive = false
@@ -796,7 +899,7 @@ PersonalBox:AddButton({
 
 PersonalBox:AddButton({
     Text    = "Auto Detect Towers",
-    Tooltip = "Detect every tower loaded in the current area (including ones not in the registry) and add them to the 'Auto Complete: Towers' list, so you can tick them and run Auto Use VM on them.",
+    Tooltip = "Detect every tower loaded in the current area and add them to the 'Auto Complete: Towers' list.",
     Callback = function()
         local towersFolder = workspace:FindFirstChild("Towers")
         if not towersFolder then
@@ -814,10 +917,23 @@ PersonalBox:AddButton({
                 existing[t.Name] = true
                 added = added + 1
                 newNames[#newNames + 1] = t.Name
+                -- Also give it an Auto Play config if it exposes a Portal.
+                if not TowerConfigs[t.Name] and t:FindFirstChild("Portal") then
+                    local n = t.Name
+                    TowerConfigs[n] = {
+                        tpFrame    = function() return resolvePortalPart(n) end,
+                        teleportTo = function() return resolvePortalPart(n) end,
+                        routeUrl   = nil,
+                        folderName = n,
+                        isPortal   = true,
+                    }
+                    table.insert(DropdownValues, n)
+                end
             end
         end
         warn(("[Auto Detect] workspace.Towers has %d children; %d new: %s")
             :format(#children, added, table.concat(newNames, ", ")))
+        pcall(function() Library.Options.TowerSelect:SetValues(DropdownValues) end)
         local ok, err = pcall(function() Library.Options.ACTowers:SetValues(acValues) end)
         if not ok then
             warn("[Auto Detect] SetValues failed: " .. tostring(err))
@@ -872,9 +988,6 @@ startAutoPlay = function()
             local h = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
             if h and h.Sit then h.Sit = false end
         end)
-        -- Anti-stuck: while walking the route, if the character hasn't moved ~4 studs in
-        -- 5s (e.g. caught on a vine or zipline that needs a jump to release), jump to free
-        -- it. Runs in parallel with the walk and only acts while `walking` is true.
         local walking = false
         task.spawn(function()
             local lastPos, lastMove
@@ -919,7 +1032,6 @@ startAutoPlay = function()
             end)
         end
 
-        -- Manual stop: pressing Auto Play again sets autoPlayStop; halt it like a death.
         local stopWatchConn
         stopWatchConn = RunService.Heartbeat:Connect(function()
             if autoPlayStop and not died then
@@ -959,14 +1071,21 @@ startAutoPlay = function()
             end
         end
 
+        -- Single exit point for every failure path, so noclip / PlatformStand can never
+        -- be left stuck on. (The original returned early in several places without it.)
+        local function abort(msg, dur)
+            Library:Notify({ Title = "Auto Play", Description = msg, Duration = dur or 5 })
+            clearRouteHighlights()
+            stopAutoNoclip()
+            isAutoPlaying = false
+            currentResolvedSteps = nil
+        end
+
         local function checkDied()
             if died then
                 local msg = stopReason == "stopped" and "Stopped!"
                     or (stopReason == "exited" and "Exited, stopping!" or "Character died, stopping!")
-                Library:Notify({ Title = "Auto Play", Description = msg, Duration = 3 })
-                clearRouteHighlights()
-                stopAutoNoclip()
-                isAutoPlaying = false
+                abort(msg, 3)
                 return true
             end
             return false
@@ -975,42 +1094,32 @@ startAutoPlay = function()
 
         if config.isTowerRush then
             local VirtualInputManager = game:GetService("VirtualInputManager")
-            local ok, tpFrame = pcall(config.tpFrame)
-            if not ok or not tpFrame then
+            local okTp, tpFrame = pcall(config.tpFrame)
+            if not okTp or not tpFrame then
                 warnTowerStructure(getTpFrameName(selected))
-                Library:Notify({ Title = "Auto Play", Description = selected .. " teleporter not found!", Duration = 3 })
-                isAutoPlaying = false
-                stopAutoNoclip()
+                abort(selected .. " teleporter not found!", 3)
                 return
             end
             Library:Notify({ Title = "Auto Play", Description = "Fetching " .. selected .. " tower list...", Duration = 3 })
             local r1trSrc
             local okFetch = pcall(function() r1trSrc = game:HttpGet(config.routeUrl) end)
             if not okFetch or not r1trSrc then
-                Library:Notify({ Title = "Auto Play", Description = selected .. " fetch failed!", Duration = 5 })
-                isAutoPlaying = false
-                stopAutoNoclip()
+                abort(selected .. " fetch failed!")
                 return
             end
             local r1trFn = loadstring(r1trSrc)
             if not r1trFn then
-                Library:Notify({ Title = "Auto Play", Description = selected .. " parse failed!", Duration = 5 })
-                isAutoPlaying = false
-                stopAutoNoclip()
+                abort(selected .. " parse failed!")
                 return
             end
             local okR1, getTowers = pcall(r1trFn)
             if not okR1 or type(getTowers) ~= "function" then
-                Library:Notify({ Title = "Auto Play", Description = selected .. " load failed!", Duration = 5 })
-                isAutoPlaying = false
-                stopAutoNoclip()
+                abort(selected .. " load failed!")
                 return
             end
             local okR2, towerList = pcall(getTowers)
             if not okR2 or type(towerList) ~= "table" then
-                Library:Notify({ Title = "Auto Play", Description = selected .. " tower list failed!", Duration = 5 })
-                isAutoPlaying = false
-                stopAutoNoclip()
+                abort(selected .. " tower list failed!")
                 return
             end
             Library:Notify({ Title = "Auto Play", Description = "Moving to " .. selected .. " teleporter...", Duration = 3 })
@@ -1025,6 +1134,7 @@ startAutoPlay = function()
             while not tpTouched do
                 if checkDied() then return end
                 hrp.CFrame = CFrame.new(tpFrame.Position + Vector3.new(0, 3, 0)) * (hrp.CFrame - hrp.CFrame.Position)
+                fireTouch(tpFrame, hrp)
                 task.wait(0.1)
             end
             if checkDied() then return end
@@ -1048,60 +1158,87 @@ startAutoPlay = function()
                 if checkDied() then return end
                 local towerConfig = TowerConfigs[towerName]
                 if not towerConfig then continue end
-                Library:Notify({ Title = "Auto Play", Description = "Fetching " .. towerName .. " route... (" .. towerIndex .. "/" .. #towerList .. ")", Duration = 3 })
-                local routeSrc
-                local okFetch = pcall(function() routeSrc = game:HttpGet(towerConfig.routeUrl) end)
-                if not okFetch or not routeSrc then
-                    Library:Notify({ Title = "Auto Play", Description = "Fetch failed for " .. towerName, Duration = 5 })
-                    isAutoPlaying = false
-                    stopAutoNoclip()
+
+                local getCheckpoints, source = resolveCheckpointProvider(towerName, towerConfig)
+                if not getCheckpoints then
+                    abort(towerName .. ": " .. tostring(source))
                     return
                 end
+                Library:Notify({ Title = "Auto Play", Description = ("%s route via %s (%d/%d)"):format(towerName, source, towerIndex, #towerList), Duration = 3 })
+
                 local towerSec
                 if useCustomTime and totalSuggestedSec > 0 then
                     local st = SuggestedTimes[towerName]
                     local thisSuggestedSec = st and ((tonumber(st.min) or 0) * 60 + (tonumber(st.sec) or 0)) or 0
                     towerSec = totalCustomSec * (thisSuggestedSec / totalSuggestedSec)
                 else
-                    local tMin = tonumber(SuggestedTimes[towerName].min) or 3
-                    local tSec = tonumber(SuggestedTimes[towerName].sec) or 0
+                    local st = SuggestedTimes[towerName]
+                    local tMin = st and tonumber(st.min) or 3
+                    local tSec = st and tonumber(st.sec) or 0
                     towerSec = tMin * 60 + tSec
                 end
                 local towerDeadline = os.clock() + math.max(towerSec, 1)
                 Library:Notify({ Title = "Auto Play", Description = "Entering " .. towerName .. "...", Duration = 3 })
+
+                -- Portal towers use one part for both TPFRAME and TeleportTo; touching it
+                -- once already teleports you in, so don't wait on a second touch.
+                local okA, trTpPart = false, nil
+                local okB, trToPart = false, nil
+                if type(towerConfig.tpFrame) == "function" then
+                    okA, trTpPart = pcall(towerConfig.tpFrame)
+                end
+                if type(towerConfig.teleportTo) == "function" then
+                    okB, trToPart = pcall(towerConfig.teleportTo)
+                end
+                local trSingle = okA and okB and trTpPart ~= nil and trTpPart == trToPart
+
                 if towerIndex > 1 then
-                    local ok2, teleportTo = pcall(towerConfig.teleportTo)
-                    if not ok2 or not teleportTo then
-                        Library:Notify({ Title = "Auto Play", Description = towerName .. " TeleportTo not found!", Duration = 3 })
-                        isAutoPlaying = false
-                        stopAutoNoclip()
+                    if not okB or not trToPart then
+                        abort(towerName .. " TeleportTo not found!", 3)
                         return
                     end
                     Library:Notify({ Title = "Auto Play", Description = "Waiting for " .. towerName .. " teleport...", Duration = 3 })
-                    local touched = false
-                    local conn
-                    conn = teleportTo.Touched:Connect(function(hit)
-                        if hit:IsDescendantOf(char) and not touched then
-                            touched = true
-                            conn:Disconnect()
+                    if trSingle then
+                        -- One-part portal: sit on it, fire the touch, move on.
+                        local t0 = os.clock()
+                        repeat
+                            if checkDied() then return end
+                            hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+                            if hrp then
+                                hrp.CFrame = trToPart.CFrame + Vector3.new(0, 3, 0)
+                                fireTouch(trToPart, hrp)
+                            end
+                            task.wait(0.1)
+                        until os.clock() - t0 > 1.5 or not hrp
+                    else
+                        local touched = false
+                        local conn
+                        conn = trToPart.Touched:Connect(function(hit)
+                            if hit:IsDescendantOf(char) and not touched then
+                                touched = true
+                                conn:Disconnect()
+                            end
+                        end)
+                        while not touched do
+                            if checkDied() then return end
+                            local distToTP = (hrp.Position - trToPart.Position).Magnitude
+                            if distToTP < 10 then
+                                touched = true
+                                conn:Disconnect()
+                                break
+                            end
+                            hrp.CFrame = trToPart.CFrame + Vector3.new(0, 3, 0)
+                            fireTouch(trToPart, hrp)
+                            task.wait(0.1)
                         end
-                    end)
-                    while not touched do
-                        if checkDied() then return end
-                        local distToTP = (hrp.Position - teleportTo.Position).Magnitude
-                        if distToTP < 10 then
-                            touched = true
-                            conn:Disconnect()
-                            break
-                        end
-                        hrp.CFrame = teleportTo.CFrame + Vector3.new(0, 3, 0)
-                        task.wait(0.1)
                     end
                     if checkDied() then return end
                 end
-                local posBeforeTP = hrp.Position
+
+                local posBeforeTP = hrp and hrp.Position or Vector3.zero
                 task.wait(0.5)
                 VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.W, false, game)
+                local nudgeStop = os.clock() + 8
                 repeat
                     if checkDied() then
                         VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
@@ -1110,24 +1247,12 @@ startAutoPlay = function()
                     task.wait(0.1)
                     char = player.Character
                     hrp  = char and char:FindFirstChild("HumanoidRootPart")
-                until hrp and (hrp.Position - posBeforeTP).Magnitude > 0.1
+                until (hrp and (hrp.Position - posBeforeTP).Magnitude > 0.1) or os.clock() > nudgeStop
                 VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
                 if checkDied() then return end
-                local fn, fnErr = loadstring(routeSrc)
-                if not fn then
-                    Library:Notify({ Title = "Auto Play", Description = towerName .. " parse failed: " .. tostring(fnErr), Duration = 5 })
-                    isAutoPlaying = false
-                    stopAutoNoclip()
-                    return
-                end
-                local ok3, getCheckpoints = pcall(fn)
-                if not ok3 or type(getCheckpoints) ~= "function" then
-                    Library:Notify({ Title = "Auto Play", Description = towerName .. " load failed!", Duration = 5 })
-                    isAutoPlaying = false
-                    stopAutoNoclip()
-                    return
-                end
+
                 local checkpoints
+                local cpDeadline = os.clock() + 15
                 repeat
                     if checkDied() then return end
                     local ok4, result = pcall(getCheckpoints)
@@ -1135,7 +1260,12 @@ startAutoPlay = function()
                         checkpoints = result
                     end
                     if not checkpoints then task.wait(0.1) end
-                until checkpoints
+                until checkpoints or os.clock() > cpDeadline
+                if not checkpoints then
+                    abort(towerName .. ": route returned no checkpoints (timed out).")
+                    return
+                end
+
                 local totalDistance = 0
                 local prevPos = hrp.Position
                 local resolvedSteps = {}
@@ -1172,14 +1302,14 @@ startAutoPlay = function()
                     if s.type ~= "jump" then cumDist = cumDist + (s.dist or 0) end
                     remainingDistances[i] = cumDist
                 end
+                walking = true
                 for i, step in ipairs(resolvedSteps) do
                     if checkDied() then return end
                     char = player.Character
                     hrp  = char and char:FindFirstChild("HumanoidRootPart")
                     if not hrp then
-                        Library:Notify({ Title = "Auto Play", Description = "Character lost, stopping!", Duration = 3 })
-                        isAutoPlaying = false
-                        stopAutoNoclip()
+                        walking = false
+                        abort("Character lost, stopping!", 3)
                         return
                     end
                     if step.type == "jump" then
@@ -1193,7 +1323,6 @@ startAutoPlay = function()
                     local stepTime   = remainDist > 0 and (timeLeft * (dist / remainDist)) or 0.05
                     stepTime         = math.max(stepTime, 0.05)
 
-                    local startRot   = hrp.CFrame - hrp.CFrame.Position
                     local startTime  = os.clock()
                     local moveTarget = step.target
                     local done       = false
@@ -1234,7 +1363,7 @@ startAutoPlay = function()
                         local rawDir = (currentDest - h.Position)
                         if rawDir.Magnitude < 0.001 then return end
                         local dir = rawDir.Unit
-                        if dir ~= dir then return end -- nan check
+                        if dir ~= dir then return end
                         h.CFrame = CFrame.new(h.Position + dir * moveDist)
                         lastPos = h.Position
                         if (os.clock() - startTime) >= stepTime then
@@ -1245,6 +1374,7 @@ startAutoPlay = function()
                     end)
                     repeat task.wait() until done
                 end
+                walking = false
                 Library:Notify({ Title = "Auto Play", Description = towerName .. " complete!", Duration = 3 })
             end
             if not died then
@@ -1256,57 +1386,34 @@ startAutoPlay = function()
             return
         end
 
-        local routeSrc
-        local ok0, err0 = pcall(function()
-            routeSrc = game:HttpGet(config.routeUrl)
-        end)
-        if not ok0 or not routeSrc then
-            Library:Notify({ Title = "Auto Play", Description = "Fetch failed: " .. tostring(err0), Duration = 5 })
-            isAutoPlaying = false
+        -- Resolve the route once and reuse it for every repeat. Falls back to a generated
+        -- checkpoint route when the tower has no route file (TEA / unregistered towers).
+        local getCheckpoints, routeSource = resolveCheckpointProvider(selected, config)
+        if not getCheckpoints then
+            abort(selected .. ": " .. tostring(routeSource))
             return
         end
-
-        -- Load the route once and reuse it for every repeat. Re-running loadstring each
-        -- repeat fails on executors that throttle/forward loadstring to a server.
-        local fn, fnErr = loadstring(routeSrc)
-        if not fn then
-            Library:Notify({ Title = "Auto Play", Description = "Parse failed: " .. tostring(fnErr), Duration = 5 })
-            isAutoPlaying = false
-            return
-        end
-        local okLoad, getCheckpoints = pcall(fn)
-        if not okLoad or type(getCheckpoints) ~= "function" then
-            Library:Notify({ Title = "Auto Play", Description = "Load failed: " .. tostring(getCheckpoints), Duration = 5 })
-            isAutoPlaying = false
-            return
-        end
+        Library:Notify({ Title = "Auto Play", Description = ("%s route via %s"):format(selected, routeSource), Duration = 4 })
 
         local repeatCount = math.max(math.floor(tonumber(Library.Options.RepeatCount.Value) or 1), 1)
         local reqSec = (tonumber(Library.Options.CompletionMin.Value) or 0) * 60
                      + (tonumber(Library.Options.CompletionSec.Value) or 0)
-        -- The completion time is the time for EACH run (suggested or custom), never a
-        -- total that gets split across repeats.
         local perRepeatTime = math.max(reqSec, 1)
 
         for rep = 1, repeatCount do
         local repTag = repeatCount > 1 and (" [" .. rep .. "/" .. repeatCount .. "]") or ""
         warn(("[ProjectEToH] Auto Play run %d/%d (%s) budget=%.1fs"):format(rep, repeatCount, tostring(selected), perRepeatTime))
         if rep > 1 then
-            -- After the previous win, return to the lobby (5s wait, tp onto the return
-            -- part, 5s wait), then re-enter the tower for the next run.
             Library:Notify({ Title = "Auto Play", Description = "Returning to lobby before next run..." .. repTag, Duration = 4 })
             returnToLobby()
             if died and stopReason == "exited" then checkDied() return end
-            -- Returning respawns us at the lobby; refresh the character and re-apply setup.
             char = player.Character or player.CharacterAdded:Wait()
             char:WaitForChild("HumanoidRootPart", 10)
             task.wait(0.5)
             char = player.Character
             hrp  = char and char:FindFirstChild("HumanoidRootPart")
             if not hrp then
-                Library:Notify({ Title = "Auto Play", Description = "Character didn't respawn, stopping!", Duration = 3 })
-                stopAutoNoclip()
-                isAutoPlaying = false
+                abort("Character didn't respawn, stopping!", 3)
                 return
             end
             local hum = char:FindFirstChildOfClass("Humanoid")
@@ -1315,7 +1422,6 @@ startAutoPlay = function()
                 if hum.Sit then hum.Sit = false end
                 hum.PlatformStand = true
             end
-            -- Re-arm death detection on the fresh character; ignore the win/respawn itself.
             died = false
             stopReason = "died"
             if diedConn then diedConn:Disconnect() end
@@ -1326,56 +1432,79 @@ startAutoPlay = function()
             end)
             warn(("[ProjectEToH] run %d: returned to lobby, re-entering"):format(rep))
         end
-        -- Each run is a full Auto Play pass -- go to the teleporter, enter the tower, and
-        -- walk the route -- the same as pressing Auto Play again after a completion.
-        local ok, tpFrame = pcall(config.tpFrame)
-        if not ok or not tpFrame then
-            warnTowerStructure(getTpFrameName(selected))
-            Library:Notify({ Title = "Auto Play", Description = selected .. " teleporter not found!", Duration = 3 })
-            isAutoPlaying = false
+
+        local okTp, tpFrame = pcall(config.tpFrame)
+        if not okTp or not tpFrame then
+            warnTowerStructure(config.folderName or getTpFrameName(selected))
+            abort(selected .. " teleporter not found!", 3)
             return
         end
-        Library:Notify({ Title = "Auto Play", Description = "Moving to " .. selected .. " teleporter...", Duration = 3 })
-        local tpTouched = false
-        local tpConn
-        tpConn = tpFrame.Touched:Connect(function(hit)
-            if hit:IsDescendantOf(char) and not tpTouched then
-                tpTouched = true
-                tpConn:Disconnect()
-            end
-        end)
-        while not tpTouched do
-            if checkDied() then return end
-            hrp.CFrame = CFrame.new(tpFrame.Position + Vector3.new(0, 3, 0)) * (hrp.CFrame - hrp.CFrame.Position)
-            task.wait(0.1)
-        end
-        if checkDied() then return end
-        local ok2, teleportTo = pcall(config.teleportTo)
-        if not ok2 or not teleportTo then
-            Library:Notify({ Title = "Auto Play", Description = "TeleportTo not found!", Duration = 3 })
-            isAutoPlaying = false
+        local okTo, teleportTo = pcall(config.teleportTo)
+        if not okTo or not teleportTo then
+            abort("TeleportTo not found!", 3)
             return
         end
-        Library:Notify({ Title = "Auto Play", Description = "Waiting for teleport...", Duration = 3 })
-        local touched = false
-        local connection
-        connection = teleportTo.Touched:Connect(function(hit)
-            if hit:IsDescendantOf(char) and not touched then
-                touched = true
-                connection:Disconnect()
-            end
-        end)
-        while not touched do
-            if checkDied() then return end
-            hrp.CFrame = teleportTo.CFrame + Vector3.new(0, 3, 0)
-            task.wait(0.1)
-        end
-        if checkDied() then return end
-        Library:Notify({ Title = "Auto Play", Description = "Waiting for teleport to complete...", Duration = 3 })
+        -- Portal towers: tpFrame == teleportTo, one part does both. Touch it once.
+        local singleEntry = (tpFrame == teleportTo)
+
         local posBeforeTP = hrp.Position
         local VirtualInputManager = game:GetService("VirtualInputManager")
+
+        -- Walk onto `part` and wait until it registers. Returns false if we stopped/died.
+        -- Succeeds on: a real Touched event, the character being removed (teleported in),
+        -- or a large displacement (the portal fired but Touched never reported to us).
+        local function touchPart(part)
+            local touched = false
+            local conn
+            conn = part.Touched:Connect(function(hit)
+                local c = player.Character
+                if c and hit:IsDescendantOf(c) and not touched then
+                    touched = true
+                    conn:Disconnect()
+                end
+            end)
+            local t0 = os.clock()
+            while not touched do
+                if checkDied() then
+                    if conn.Connected then conn:Disconnect() end
+                    return false
+                end
+                char = player.Character
+                hrp  = char and char:FindFirstChild("HumanoidRootPart")
+                if not hrp then
+                    if conn.Connected then conn:Disconnect() end
+                    return true
+                end
+                if not part.Parent then
+                    if conn.Connected then conn:Disconnect() end
+                    return true
+                end
+                hrp.CFrame = CFrame.new(part.Position + Vector3.new(0, 3, 0)) * (hrp.CFrame - hrp.CFrame.Position)
+                fireTouch(part, hrp)
+                if (hrp.Position - posBeforeTP).Magnitude > 50 and (os.clock() - t0) > 0.5 then
+                    if conn.Connected then conn:Disconnect() end
+                    return true
+                end
+                task.wait(0.1)
+            end
+            return true
+        end
+
+        Library:Notify({ Title = "Auto Play", Description = "Moving to " .. selected .. " teleporter...", Duration = 3 })
+        if not touchPart(tpFrame) then return end
+        if checkDied() then return end
+
+        if not singleEntry then
+            Library:Notify({ Title = "Auto Play", Description = "Waiting for teleport...", Duration = 3 })
+            if not touchPart(teleportTo) then return end
+            if checkDied() then return end
+        end
+
+        Library:Notify({ Title = "Auto Play", Description = "Waiting for teleport to complete...", Duration = 3 })
+        posBeforeTP = hrp and hrp.Position or posBeforeTP
         task.wait(0.5)
         VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.W, false, game)
+        local nudgeStop = os.clock() + 8
         repeat
             if checkDied() then
                 VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
@@ -1384,13 +1513,20 @@ startAutoPlay = function()
             task.wait(0.1)
             char = player.Character
             hrp  = char and char:FindFirstChild("HumanoidRootPart")
-        until hrp and (hrp.Position - posBeforeTP).Magnitude > 0.1
+        until (hrp and (hrp.Position - posBeforeTP).Magnitude > 0.1) or os.clock() > nudgeStop
         VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
         if checkDied() then return end
+        if not hrp then
+            abort("Character lost after teleport, stopping!", 3)
+            return
+        end
+
         local deadline = os.clock() + perRepeatTime
         local checkpoints
         local lastErr = ""
         local lastNotify = os.clock()
+        -- Bounded: the original spun forever if the route never returned checkpoints.
+        local cpDeadline = os.clock() + 15
         repeat
             if checkDied() then return end
             local ok2b, result = pcall(getCheckpoints)
@@ -1404,7 +1540,12 @@ startAutoPlay = function()
                 end
             end
             if not checkpoints then task.wait(0.1) end
-        until checkpoints
+        until checkpoints or os.clock() > cpDeadline
+        if not checkpoints then
+            abort("Route returned no checkpoints" .. (lastErr ~= "" and (": " .. lastErr) or " (timed out)."))
+            return
+        end
+
         local totalDistance = 0
         local prevPos = hrp.Position
         local resolvedSteps = {}
@@ -1433,7 +1574,6 @@ startAutoPlay = function()
         if Library.Toggles.ShowRoute.Value then
             showRoute(resolvedSteps)
         end
-        local remainingTime = math.max(deadline - os.clock(), 1)
         Library:Notify({ Title = "Auto Play", Description = "Starting route, " .. #resolvedSteps .. " checkpoints", Duration = 3 })
         warn(("[ProjectEToH] run %d: walking %d steps, %.1fs left"):format(rep, #resolvedSteps, math.max(deadline - os.clock(), 0)))
         local remainingDistances = {}
@@ -1451,9 +1591,6 @@ startAutoPlay = function()
             char = player.Character
             hrp  = char and char:FindFirstChild("HumanoidRootPart")
             if not hrp then
-                -- Character removed without a death = tower win / respawn (checkDied()
-                -- above already handles real deaths). End this run instead of stopping
-                -- autoplay, so the repeat loop can wait for respawn and re-enter.
                 warn(("[ProjectEToH] run %d: character gone at step %d/%d (win/respawn), ending run"):format(rep, i, #resolvedSteps))
                 break
             end
@@ -1550,7 +1687,7 @@ TowerBox:AddButton({
             Library:Notify({ Title = "Auto Play", Description = "Stopping...", Duration = 3 })
             return
         end
-        startAutoPlay()
+        task.spawn(startAutoPlay)
     end,
 })
 local allJumpCheckpoints = {}
@@ -1752,7 +1889,6 @@ PlayerBox:AddToggle("Noclip", {
         local Players    = game:GetService("Players")
         local RunService = game:GetService("RunService")
 
-        -- Tear down any previous noclip hooks.
         if _G.noclipConns then
             for _, c in ipairs(_G.noclipConns) do c:Disconnect() end
         end
@@ -1766,10 +1902,6 @@ PlayerBox:AddToggle("Noclip", {
                 part.CanCollide = false
             end
         end
-        -- Disable collision on every character part, including the HumanoidRootPart,
-        -- and immediately revert it whenever the game re-enables it. Some areas (e.g.
-        -- Pit of Misery) re-assert floor collision every frame, which a once-per-frame
-        -- sweep can lose the race against; reacting to the property change wins it.
         local function hookPart(part)
             if not part:IsA("BasePart") then return end
             forceUncollide(part)
@@ -1786,8 +1918,6 @@ PlayerBox:AddToggle("Noclip", {
         hookChar(Players.LocalPlayer.Character)
         conns[#conns + 1] = Players.LocalPlayer.CharacterAdded:Connect(hookChar)
 
-        -- Per-frame sweep on both sides of the physics step, as a fallback for
-        -- anything the signal hooks miss.
         local function sweep()
             local char = Players.LocalPlayer.Character
             if not char then return end
@@ -1857,7 +1987,6 @@ local function setFly(state)
             local newChar = player.Character
             local newHrp  = newChar and newChar:FindFirstChild("HumanoidRootPart")
             if newHrp ~= hrp then
-                -- Character respawned, reinitialize
                 hrp      = newHrp
                 char     = newChar
                 humanoid = newChar and newChar:FindFirstChildOfClass("Humanoid")
@@ -1964,8 +2093,6 @@ PlayerBox:AddToggle("AntiAFK", {
         if state then
             local VirtualUser = game:GetService("VirtualUser")
             local Players     = game:GetService("Players")
-            -- Idled fires just before Roblox kicks for inactivity; a VirtualUser
-            -- right-click resets the idle timer without affecting gameplay.
             _G.AntiAFKConn = Players.LocalPlayer.Idled:Connect(function()
                 VirtualUser:CaptureController()
                 VirtualUser:ClickButton2(Vector2.new())
@@ -1986,7 +2113,6 @@ PlayerBox:AddToggle("Fullbright", {
             _G.FullbrightConn = nil
         end
         if state then
-            -- Snapshot the original lighting once so we can restore it later.
             if not _G.FullbrightOriginal then
                 _G.FullbrightOriginal = {
                     Brightness     = Lighting.Brightness,
@@ -1998,7 +2124,6 @@ PlayerBox:AddToggle("Fullbright", {
                     OutdoorAmbient = Lighting.OutdoorAmbient,
                 }
             end
-            -- Re-assert every frame -- dark towers keep overwriting lighting per area.
             _G.FullbrightConn = RunService.RenderStepped:Connect(function()
                 Lighting.Brightness     = 2
                 Lighting.ClockTime      = 12
@@ -2036,10 +2161,6 @@ local function isKillBrickPart(inst)
     return false
 end
 
--- Godmode is split into independent methods -- enable any one or several at once.
-
--- Hook: intercept DamageEvent:FireServer through __namecall so damage never reaches
--- the server. Cleanest, but needs hookmetamethod + getnamecallmethod support.
 local function setGodmodeHook(state)
     if godmodeOriginal then
         hookmetamethod(game, "__namecall", godmodeOriginal)
@@ -2055,7 +2176,6 @@ local function setGodmodeHook(state)
     end)
 end
 
--- Auto-Heal: heal back to full whenever health drops (heal loop via DamageEvent).
 local function setGodmodeHeal(state)
     if godmodeV2Connection then
         godmodeV2Connection:Disconnect()
@@ -2075,7 +2195,6 @@ local function setGodmodeHeal(state)
     end)
 end
 
--- Kill Bricks: set CanTouch = false on every kill brick so it can't register a hit.
 local function setGodmodeKillBricks(state)
     if godmodeKillBrickConn then
         godmodeKillBrickConn:Disconnect()
@@ -2103,7 +2222,7 @@ end
 PlayerBox:AddToggle("GodmodeHook", {
     Text    = "Godmode: Hook Damage",
     Default = sUNCSupport.Godmode,
-    Tooltip = "Blocks ALL damage by hooking the game's DamageEvent so the damage call never reaches the server -- you simply never take damage. The cleanest, most reliable method, but needs executor support for hookmetamethod + getnamecallmethod (greyed out if unsupported).",
+    Tooltip = "Blocks ALL damage by hooking the game's DamageEvent. Needs hookmetamethod + getnamecallmethod.",
     Callback = function(state)
         if state and not sUNCSupport.Godmode then
             Library.Toggles.GodmodeHook:SetValue(false)
@@ -2116,7 +2235,7 @@ PlayerBox:AddToggle("GodmodeHook", {
 PlayerBox:AddToggle("GodmodeHeal", {
     Text    = "Godmode: Auto-Heal",
     Default = not sUNCSupport.Godmode,
-    Tooltip = "Instantly heals you back to full whenever you take damage (a loop that fires the DamageEvent with negative damage). Works on ANY executor, but you may flash a bit of damage before healing, so it's less clean than the hook.",
+    Tooltip = "Instantly heals you back to full whenever you take damage. Works on any executor.",
     Callback = function(state)
         setGodmodeHeal(state)
     end,
@@ -2125,7 +2244,7 @@ PlayerBox:AddToggle("GodmodeHeal", {
 PlayerBox:AddToggle("GodmodeKillBricks", {
     Text    = "Godmode: Disable Kill Bricks",
     Default = false,
-    Tooltip = "Turns off touch detection on every kill brick (parts named \"Kill Brick\" or holding a 'kills' value), including ones spawned later, so they can't kill you. Stops kill-brick deaths at the source but does nothing against other damage.",
+    Tooltip = "Turns off touch detection on every kill brick, including ones spawned later.",
     Callback = function(state)
         setGodmodeKillBricks(state)
     end,
@@ -2135,7 +2254,6 @@ if not sUNCSupport.Godmode then
     Library.Toggles.GodmodeHook:SetDisabled(true)
 end
 
--- Apply the current (default or saved) states on load.
 setGodmodeHook(Library.Toggles.GodmodeHook.Value)
 setGodmodeHeal(Library.Toggles.GodmodeHeal.Value)
 setGodmodeKillBricks(Library.Toggles.GodmodeKillBricks.Value)
@@ -2260,10 +2378,6 @@ MenuGroup:AddButton("Rejoin", function()
     Library:Notify({ Title = "Rejoin", Description = "Rejoining server...", Duration = 3 })
 
     local function onFail(msg)
-        -- In a private/VIP server, Teleport(PlaceId) targets a restricted public place
-        -- (Error 773) and Roblox blocks client teleports into the private server, so
-        -- there's no client-side way to rejoin it -- report instead of throwing 773.
-        -- In a public server, fall back to a fresh server.
         if inPrivate then
             Library:Notify({ Title = "Rejoin", Description = "Can't rejoin a private server from a script (Roblox restricts it)." .. (msg and (" " .. tostring(msg)) or ""), Duration = 8 })
         else
@@ -2271,7 +2385,6 @@ MenuGroup:AddButton("Rejoin", function()
         end
     end
 
-    -- Catch async teleport failures so we handle them ourselves instead of the raw dialog.
     local conn
     conn = TeleportService.TeleportInitFailed:Connect(function(plr, _result, msg)
         if plr ~= player then return end
@@ -2279,7 +2392,6 @@ MenuGroup:AddButton("Rejoin", function()
         onFail(msg)
     end)
 
-    -- TeleportToPlaceInstance rejoins the exact server you're in (works in public).
     local ok, err = pcall(function()
         TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, player)
     end)
@@ -2332,8 +2444,6 @@ ThemeManager:ApplyToTab(Tabs.UISettings)
 SaveManager:BuildConfigSection(Tabs.UISettings)
 SaveManager:LoadAutoloadConfig()
 
--- Log every toggle flip. Installed last -- after LoadAutoloadConfig -- so restoring a
--- saved config on startup doesn't spam the log; only genuine flips after load are recorded.
 for idx, toggle in pairs(Library.Toggles) do
     if type(toggle) == "table" and toggle.OnChanged then
         toggle:OnChanged(function(value)
