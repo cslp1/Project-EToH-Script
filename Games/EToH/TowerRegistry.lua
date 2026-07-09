@@ -155,6 +155,12 @@ return {
         { name = "100MT",  category = "100M-Event-Replay", suggestedTime = { min = "0", sec = "10" } },
         { name = "100MF",  category = "100M-Event-Replay", suggestedTime = { min = "0", sec = "30" } },
         { name = "100MR",  category = "100M-Event-Replay", suggestedTime = { min = "2", sec = "30" } },
+        --The Eternal Abyss
+        { name = "ToINE",  category = "TheEternalAbyss", suggestedTime = { min = "23", sec = "10" } },
+        { name = "ToMH",  category = "TheEternalAbyss", suggestedTime = { min = "23", sec = "10" } },
+        { name = "ToMIH",  category = "TheEternalAbyss", suggestedTime = { min = "23", sec = "30" } },
+        { name = "ToQU",  category = "TheEternalAbyss", suggestedTime = { min = "23", sec = "30" } },
+        { name = "ToZS",  category = "TheEternalAbyss", suggestedTime = { min = "22", sec = "30" } },
     },
     TowerRush = {
         { name = "R1TR", category = "Ring1", suggestedTime = { min = "39", sec = "0" }, isTowerRush = true, },
