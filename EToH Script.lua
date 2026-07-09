@@ -129,13 +129,23 @@ local baseRepo = "https://raw.githubusercontent.com/cslp1/Project-EToH-Script/re
 local registryUrl = "https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/Games/EToH/TowerRegistry.lua"
 
 local Registry
-local ok_reg, reg_src = pcall(function() return game:HttpGet(registryUrl) end)
-if ok_reg and reg_src then
-    local fn = loadstring(reg_src)
-    if fn then
-        local ok2, result = pcall(fn)
-        if ok2 then Registry = result end
+local registryLoaded = false
+-- Retry the fetch: a single failed HttpGet (GitHub raw hiccup / rate limit) would
+-- otherwise drop us to the empty fallback registry -> "No towers found" with 0 towers.
+for attempt = 1, 4 do
+    local ok_reg, reg_src = pcall(function() return game:HttpGet(registryUrl) end)
+    if ok_reg and type(reg_src) == "string" and #reg_src > 0 then
+        local fn = loadstring(reg_src)
+        if fn then
+            local ok2, result = pcall(fn)
+            if ok2 and type(result) == "table" and type(result.Towers) == "table" then
+                Registry = result
+                registryLoaded = true
+                break
+            end
+        end
     end
+    if attempt < 4 then task.wait(0.75) end
 end
 if not Registry then
     Registry = {
@@ -180,15 +190,94 @@ local function towerFolderPresent(name)
     return towersFolder ~= nil and towersFolder:FindFirstChild(name) ~= nil
 end
 
+local function towerFolder(name)
+    local towersFolder = workspace:FindFirstChild("Towers")
+    return towersFolder and towersFolder:FindFirstChild(name)
+end
+
+-- Resolve a tower's entry teleporter parts. Tries EToH's exact nesting first
+-- (Teleporter.Teleporter.TPFRAME / Teleporter.TeleportTo), then falls back to a recursive
+-- search by name so towers in other games using the same JToH kit (e.g. The Eternal Abyss)
+-- resolve even if the hierarchy differs. Returns nil if the folder/part is gone.
+local function resolveTPFrame(name)
+    local f = towerFolder(name)
+    if not f then return nil end
+    local tp    = f:FindFirstChild("Teleporter")
+    local inner = tp and tp:FindFirstChild("Teleporter")
+    local exact = inner and inner:FindFirstChild("TPFRAME")
+    return exact or f:FindFirstChild("TPFRAME", true)
+end
+local function resolveTeleportTo(name)
+    local f = towerFolder(name)
+    if not f then return nil end
+    local tp    = f:FindFirstChild("Teleporter")
+    local exact = tp and tp:FindFirstChild("TeleportTo")
+    return exact or f:FindFirstChild("TeleportTo", true)
+end
+
+-- F9 diagnostic: dump a tower folder's children when entry resolution fails, so an
+-- unexpected structure (a game that doesn't use the standard TPFRAME/TeleportTo names)
+-- can be identified in one shot.
+local function warnTowerStructure(name)
+    local f = towerFolder(name)
+    if not f then
+        warn(("[Auto Play] no folder named '%s' in workspace.Towers"):format(name))
+        return
+    end
+    local kids = {}
+    for _, c in ipairs(f:GetChildren()) do kids[#kids + 1] = c.Name end
+    warn(("[Auto Play] '%s' teleporter unresolved. Children: %s"):format(name, table.concat(kids, ", ")))
+end
+
+-- A place spec is one place id or a list of them; true if we're in one of them.
+local function placeMatches(ids)
+    if type(ids) == "table" then
+        for _, id in ipairs(ids) do
+            if id == currentPlaceId then return true end
+        end
+        return false
+    end
+    return ids == currentPlaceId
+end
+
+-- Which places an entry belongs to: its own `places` overrides its category's place(s).
+-- Lets a tower share a category (and route folder) with towers in another game while being
+-- restricted to only some of those places -- e.g. PoMTR is in the Pit of Misery category
+-- but doesn't exist in The Eternal Abyss, so it pins itself to the original place.
+local function entryMatchesPlace(entry)
+    if entry.places ~= nil then
+        return placeMatches(entry.places)
+    end
+    return placeMatches(Registry.Categories[entry.category])
+end
+
+-- Is the current place one the registry recognizes (its id appears in some category)?
+local placeIsKnown = false
+for _, ids in pairs(Registry.Categories or {}) do
+    if placeMatches(ids) then
+        placeIsKnown = true
+        break
+    end
+end
+
+-- Whether to list an entry here. In a KNOWN place we trust the registry's place mapping
+-- exactly. The folder-name fallback (show anything whose folder happens to be loaded) is
+-- only for UNKNOWN places -- e.g. EToH after a place-id update -- otherwise a different
+-- game that reuses EToH acronyms (The Eternal Abyss: ToSD/ToTF/ToER/...) would surface
+-- every colliding tower even though those aren't the real EToH towers.
+local function shouldShow(entry, folderName)
+    if entryMatchesPlace(entry) then return true end
+    return (not placeIsKnown) and towerFolderPresent(folderName)
+end
+
 for _, tower in ipairs(Registry.Towers or {}) do
     local n = tower.name
-    local placeId = Registry.Categories[tower.category]
     local tpName = getTpFrameName(n)
-    if placeId ~= currentPlaceId and not towerFolderPresent(tpName) then continue end
+    if not shouldShow(tower, tpName) then continue end
     SuggestedTimes[n] = tower.suggestedTime
     TowerConfigs[n] = {
-        tpFrame    = function() return workspace.Towers[tpName].Teleporter.Teleporter.TPFRAME end,
-        teleportTo = function() return workspace.Towers[tpName].Teleporter.TeleportTo end,
+        tpFrame    = function() return resolveTPFrame(tpName) end,
+        teleportTo = function() return resolveTeleportTo(tpName) end,
         routeUrl   = baseRepo .. tower.category .. "/" .. n .. ".lua",
     }
     table.insert(DropdownValues, n)
@@ -196,8 +285,7 @@ end
 
 for _, tr in ipairs(Registry.TowerRush or {}) do
     local n = tr.name
-    local placeId = Registry.Categories[tr.category]
-    if placeId ~= currentPlaceId and not towerFolderPresent(n) then continue end
+    if not shouldShow(tr, n) then continue end
     SuggestedTimes[n] = tr.suggestedTime
     TowerConfigs[n] = {
         tpFrame = function()
@@ -220,10 +308,13 @@ end
 if #DropdownValues == 0 then
     local towersFolder = workspace:FindFirstChild("Towers")
     local loadedCount = towersFolder and #towersFolder:GetChildren() or 0
+    local reason = registryLoaded
+        and "The registry may be out of date for this game version."
+        or "Couldn't fetch the tower registry (network/HttpGet) -- try re-executing the script."
     Library:Notify({
         Title       = "Project EToH Script",
-        Description  = ("No towers found (PlaceId %s, registry towers: %d, loaded in workspace.Towers: %d). The registry may be out of date for this game version.")
-            :format(tostring(currentPlaceId), #(Registry.Towers or {}), loadedCount),
+        Description  = ("No towers found (PlaceId %s, registry towers: %d, loaded in workspace.Towers: %d). %s")
+            :format(tostring(currentPlaceId), #(Registry.Towers or {}), loadedCount, reason),
         Duration    = 10,
     })
 end
@@ -643,15 +734,13 @@ local function runVMFlow(towerNames)
             if not _G.vmActive then break end
             Library:Notify({ Title = "Auto VM", Description = ("(%d/%d) %s"):format(i, #towerNames, name), Duration = 3 })
 
-            -- Enter the tower via its teleporter (TPFRAME then TeleportTo).
-            local tp = tower:FindFirstChild("Teleporter")
+            -- Enter the tower via its teleporter (TPFRAME then TeleportTo). Recursive search
+            -- by name so it works regardless of how the game nests them.
             local entryParts = {}
-            if tp and tp:FindFirstChild("Teleporter") and tp.Teleporter:FindFirstChild("TPFRAME") then
-                entryParts[#entryParts + 1] = tp.Teleporter.TPFRAME
-            end
-            if tp and tp:FindFirstChild("TeleportTo") then
-                entryParts[#entryParts + 1] = tp.TeleportTo
-            end
+            local tpFramePart = tower:FindFirstChild("TPFRAME", true)
+            local teleToPart  = tower:FindFirstChild("TeleportTo", true)
+            if tpFramePart then entryParts[#entryParts + 1] = tpFramePart end
+            if teleToPart  then entryParts[#entryParts + 1] = teleToPart end
             for _, part in ipairs(entryParts) do
                 local t0 = os.clock()
                 repeat
@@ -670,14 +759,14 @@ local function runVMFlow(towerNames)
             VIM:SendKeyEvent(false, slotKey, false, game)
 
             -- Wait for the boost to clear the tower: 5-15 min for citadels, 15-60s otherwise.
-            local waitSec   = citadel and math.random(60, 390) or math.random(15, 60)
+            local waitSec   = citadel and math.random(300, 900) or math.random(15, 60)
             local waitLabel = citadel and ("%.1f min"):format(waitSec / 60) or ("%ds"):format(waitSec)
             Library:Notify({ Title = "Auto VM", Description = ("(%d/%d) %s -- %s, waiting %s"):format(i, #towerNames, name, itemName, waitLabel), Duration = 4 })
             local waitUntil = os.clock() + waitSec
             while os.clock() < waitUntil and _G.vmActive do task.wait(0.5) end
 
-            -- Teleport to the WinPad to complete the tower.
-            local winpad = tower:FindFirstChild("WinPad")
+            -- Teleport to the WinPad to complete the tower (recursive: nesting may vary).
+            local winpad = tower:FindFirstChild("WinPad", true)
             if winpad then
                 local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
                 if hrp then hrp.CFrame = winpad.CFrame + Vector3.new(0, 3, 0) end
@@ -888,6 +977,7 @@ startAutoPlay = function()
             local VirtualInputManager = game:GetService("VirtualInputManager")
             local ok, tpFrame = pcall(config.tpFrame)
             if not ok or not tpFrame then
+                warnTowerStructure(getTpFrameName(selected))
                 Library:Notify({ Title = "Auto Play", Description = selected .. " teleporter not found!", Duration = 3 })
                 isAutoPlaying = false
                 stopAutoNoclip()
@@ -1240,6 +1330,7 @@ startAutoPlay = function()
         -- walk the route -- the same as pressing Auto Play again after a completion.
         local ok, tpFrame = pcall(config.tpFrame)
         if not ok or not tpFrame then
+            warnTowerStructure(getTpFrameName(selected))
             Library:Notify({ Title = "Auto Play", Description = selected .. " teleporter not found!", Duration = 3 })
             isAutoPlaying = false
             return
