@@ -197,7 +197,6 @@ return {
         { name = "ToCBTS",  category = "SteelspireHorizon", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToTFC",  category = "SteelspireHorizon", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToSRT",  category = "SteelspireHorizon", suggestedTime = { min = "6", sec = "0" } },
-        
         --Zone 1
         { name = "SAT",  category = "Zone1", suggestedTime = { min = "0", sec = "5" } },
         { name = "ToPHaT",  category = "Zone1", suggestedTime = { min = "6", sec = "0" } },
@@ -241,7 +240,7 @@ return {
         { name = "ToPZ",  category = "Zone5", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToAR",  category = "Zone5", suggestedTime = { min = "6", sec = "0" } },
         --Zone 6
-        { name = "ToMM",  category = "Zone5", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToMM",  category = "Zone6", suggestedTime = { min = "6", sec = "0" } },
         --Zone 7
         { name = "ToFM",  category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToUA",  category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
