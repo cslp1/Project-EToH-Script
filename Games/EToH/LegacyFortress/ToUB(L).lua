@@ -601,6 +601,6 @@ return function()
         workspace.Towers["ToUB(L)"].Obby:GetChildren()[221],
         workspace.Towers["ToUB(L)"].Obby:GetChildren()[234],
         workspace.Towers["ToUB(L)"].Obby:GetChildren()[540],
-        workspace.Towers.ToUB(L).WinPad,
+        workspace.Towers["ToUB(L)"].WinPad
     }
 end
