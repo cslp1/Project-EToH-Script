@@ -1905,10 +1905,14 @@ local function applyCharacterStats(char)
         char:WaitForChild("Humanoid", 5)
         hum = char:FindFirstChildOfClass("Humanoid")
     end
-    if hum then
-        hum.WalkSpeed = Library.Options.WalkSpeed.Value
-        hum.JumpPower = Library.Options.JumpPower.Value
-    end
+    if not hum then return end
+    -- The WalkSpeed/JumpPower sliders are created further down, but this runs on
+    -- CharacterAdded, which can fire (respawn / tower entry / lobby return) before
+    -- those Options exist. Guard each so we never index nil with '.Value'.
+    local ws = Library.Options.WalkSpeed
+    local jp = Library.Options.JumpPower
+    if ws then hum.WalkSpeed = ws.Value end
+    if jp then hum.JumpPower = jp.Value end
 end
 
 game:GetService("Players").LocalPlayer.CharacterAdded:Connect(applyCharacterStats)
@@ -1941,10 +1945,12 @@ PlayerBox:AddToggle("LockWalkSpeed", {
                 hum = char:FindFirstChildOfClass("Humanoid")
             end
             if not hum then return end
-            hum.WalkSpeed = Library.Options.WalkSpeed.Value
+            local ws = Library.Options.WalkSpeed
+            if not ws then return end
+            hum.WalkSpeed = ws.Value
             wsConn = hum:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
                 if Library.Toggles.LockWalkSpeed.Value then
-                    hum.WalkSpeed = Library.Options.WalkSpeed.Value
+                    hum.WalkSpeed = ws.Value
                 end
             end)
         end
@@ -1984,10 +1990,12 @@ PlayerBox:AddToggle("LockJumpPower", {
                 hum = char:FindFirstChildOfClass("Humanoid")
             end
             if not hum then return end
-            hum.JumpPower = Library.Options.JumpPower.Value
+            local jp = Library.Options.JumpPower
+            if not jp then return end
+            hum.JumpPower = jp.Value
             jpConn = hum:GetPropertyChangedSignal("JumpPower"):Connect(function()
                 if Library.Toggles.LockJumpPower.Value then
-                    hum.JumpPower = Library.Options.JumpPower.Value
+                    hum.JumpPower = jp.Value
                 end
             end)
         end
