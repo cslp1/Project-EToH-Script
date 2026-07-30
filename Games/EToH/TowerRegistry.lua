@@ -288,7 +288,7 @@ return {
         { name = "SoGE",  category = "ElysianFields", suggestedTime = { min = "4", sec = "36" } },
         --Legacy Fortress
         { name = "ToC(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
-        { name = "ToUB(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
+        { name = "ToUB("L")",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
         --100M Event Replay
         { name = "100MC",  category = "100M-Event-Replay", suggestedTime = { min = "0", sec = "10" } },
         { name = "100MT",  category = "100M-Event-Replay", suggestedTime = { min = "0", sec = "10" } },
