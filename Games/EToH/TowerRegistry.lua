@@ -303,6 +303,6 @@ return {
         { name = "R5TR", category = "Ring5", suggestedTime = { min = "33", sec = "0" }, isTowerRush = true, },
         { name = "R9TR", category = "Ring9", suggestedTime = { min = "40", sec = "0" }, isTowerRush = true, },
         { name = "Z1TR", category = "Zone1", suggestedTime = { min = "40", sec = "0" }, isTowerRush = true, },
-        { name = "Z1TR", category = "Zone1", suggestedTime = { min = "40", sec = "0" }, isTowerRush = true, },
+        { name = "Z9TR", category = "Zone9", suggestedTime = { min = "40", sec = "0" }, isTowerRush = true, },
     },
 }
