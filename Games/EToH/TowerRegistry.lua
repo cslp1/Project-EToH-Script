@@ -28,6 +28,7 @@ local Categories = {
     Zone10 = 9071004898,
     ["Pit-of-Misery"] = 15639952229,
     ElysianFields = 95241871632790,
+    LegacyFortress = 116826560849733,
     ["100M-Event-Replay"] = 115856553162061,
 }
 
@@ -283,8 +284,11 @@ return {
         { name = "ToEV",  category = "Pit-of-Misery", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToWM",  category = "Pit-of-Misery", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToBF",  category = "Pit-of-Misery", suggestedTime = { min = "6", sec = "0" } },
-        --Pit of Misery
+        --Elysian  Fields
         { name = "SoGE",  category = "ElysianFields", suggestedTime = { min = "4", sec = "36" } },
+        --Legacy Fortress
+        { name = "ToC(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
+        { name = "ToUB(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
         --100M Event Replay
         { name = "100MC",  category = "100M-Event-Replay", suggestedTime = { min = "0", sec = "10" } },
         { name = "100MT",  category = "100M-Event-Replay", suggestedTime = { min = "0", sec = "10" } },
