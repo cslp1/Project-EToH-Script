@@ -35,6 +35,12 @@ pcall(function()
     end
 end)
 
+-- Dev/testing override: pick a library for this run without touching the saved setting
+-- (the mobile test loader uses it to guarantee the PES UI, which owns the mobile layout).
+if _G.PES_FORCE_UI_STYLE == "PES" or _G.PES_FORCE_UI_STYLE == "Obsidian" or _G.PES_FORCE_UI_STYLE == "Linoria" then
+    uiStyle = _G.PES_FORCE_UI_STYLE
+end
+
 local PES_UI_URL =
     "https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/PESUI.lua"
 
@@ -92,19 +98,19 @@ local okHook, errHook = pcall(function() hookmetamethod = missing("function", ho
 local okNcm,  errNcm  = pcall(function() getnamecallmethod = missing("function", getnamecallmethod or get_namecall_method) end)
 local queueteleport   = missing("function", queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport))
 
-local sUNCSupport = {
+local UNCSupport = {
     hookmetamethod    = okHook and hookmetamethod ~= nil,
     getnamecallmethod = okNcm  and getnamecallmethod ~= nil,
     queueteleport     = queueteleport ~= nil,
 }
-sUNCSupport.Godmode = sUNCSupport.hookmetamethod and sUNCSupport.getnamecallmethod
+UNCSupport.Godmode = UNCSupport.hookmetamethod and UNCSupport.getnamecallmethod
 
 print("[Project EToH Script] Functions Check:")
 print("[Project EToH Script] Metatable Library:")
-print((sUNCSupport.hookmetamethod    and "✅" or "❌") .. " hookmetamethod"    .. (not okHook and ": " .. tostring(errHook) or ""))
-print((sUNCSupport.getnamecallmethod and "✅" or "❌") .. " getnamecallmethod" .. (not okNcm  and ": " .. tostring(errNcm)  or ""))
+print((UNCSupport.hookmetamethod    and "✅" or "❌") .. " hookmetamethod"    .. (not okHook and ": " .. tostring(errHook) or ""))
+print((UNCSupport.getnamecallmethod and "✅" or "❌") .. " getnamecallmethod" .. (not okNcm  and ": " .. tostring(errNcm)  or ""))
 print("[Project EToH Script] Miscellaneous Library:")
-print((sUNCSupport.queueteleport     and "✅" or "❌") .. " queueonteleport")
+print((UNCSupport.queueteleport     and "✅" or "❌") .. " queueonteleport")
 local HttpService = game:GetService("HttpService")
 local version = "Unknown"
 local ok, result = pcall(function()
@@ -122,7 +128,7 @@ local Window = Library:CreateWindow({
 local isDev = game:GetService("Players").LocalPlayer.Name == "cslp1"
 
 local Tabs = {
-    Main       = Window:AddTab("Main",        "zap"),
+    Main       = Window:AddTab("Main",        "house"),
     UISettings = Window:AddTab("UI Settings", "settings"),
     Logs       = Window:AddTab("Logs",        "list"),
 }
@@ -185,21 +191,39 @@ local registryUrl = "https://raw.githubusercontent.com/cslp1/Project-EToH-Script
 
 local Registry
 local registryLoaded = false
+-- Why the last attempt failed. Every stage below used to throw its error away, so a
+-- registry with a syntax error looked identical to a network failure: an empty tower
+-- dropdown and a notification blaming HttpGet. Keep the reason and report it.
+local registryErr = nil
 -- Retry the fetch: a single failed HttpGet (GitHub raw hiccup / rate limit) would
 -- otherwise drop us to the empty fallback registry -> "No towers found" with 0 towers.
 for attempt = 1, 4 do
     local ok_reg, reg_src = pcall(function() return game:HttpGet(registryUrl) end)
-    if ok_reg and type(reg_src) == "string" and #reg_src > 0 then
-        local fn = loadstring(reg_src)
-        if fn then
+    if not ok_reg then
+        registryErr = "fetch failed: " .. tostring(reg_src)
+    elseif type(reg_src) ~= "string" or #reg_src == 0 then
+        registryErr = "fetch returned an empty body"
+    else
+        -- loadstring returns nil PLUS the syntax error; keeping that second value is the
+        -- difference between "no towers, no idea why" and being told the exact line.
+        local fn, syntaxErr = loadstring(reg_src)
+        if not fn then
+            registryErr = "registry has a syntax error: " .. tostring(syntaxErr)
+        else
             local ok2, result = pcall(fn)
-            if ok2 and type(result) == "table" and type(result.Towers) == "table" then
+            if not ok2 then
+                registryErr = "registry errored while running: " .. tostring(result)
+            elseif type(result) ~= "table" or type(result.Towers) ~= "table" then
+                registryErr = "registry didn't return a table with a Towers list"
+            else
                 Registry = result
                 registryLoaded = true
+                registryErr = nil
                 break
             end
         end
     end
+    warn(("[ProjectEToH] tower registry attempt %d/4 failed -- %s"):format(attempt, registryErr))
     if attempt < 4 then task.wait(0.75) end
 end
 if not Registry then
@@ -405,6 +429,105 @@ for _, tr in ipairs(Registry.TowerRush or {}) do
     table.insert(DropdownValues, n)
 end
 
+-- ===== Pit of Misery XL (place 14894545694) -- dynamic checkpoint routing =====
+-- This game ships no per-tower route files. Every tower that has a folder in
+-- workspace.Checkpoints is auto-discovered, and its route is that folder's numbered
+-- checkpoints walked in NUMERIC ORDER (the child names are the order -- explorer order is
+-- not), finishing on the tower's WinPad. Add a tower in-game and it just appears; no
+-- script edit needed.
+local POM_PLACE, POM_UNIVERSE = 14894545694, 5131529859
+local isPomXL = (currentPlaceId == POM_PLACE) or (game.GameId == POM_UNIVERSE)
+
+-- Entry portal: workspace["Tower Portals"].<name> -> a touchable Teleporter part.
+local function pomPortal(name)
+    local portals = workspace:FindFirstChild("Tower Portals")
+    local folder  = portals and portals:FindFirstChild(name)
+    if not folder then return nil end
+    return toBasePart(folder:FindFirstChild("Teleporter", true))
+        or toBasePart(folder:FindFirstChild("Portal", true))
+        or toBasePart(folder)
+end
+
+-- WinPad so the route finishes on it and the win registers. The Winpads folder's naming
+-- isn't confirmed, so try an exact-name child then a name-contains match; nil just means
+-- the route ends on the last numbered checkpoint.
+local function pomWinPad(name)
+    local wpf = workspace:FindFirstChild("Winpads")
+    if not wpf then return nil end
+    local exact = wpf:FindFirstChild(name)
+    if exact then return toBasePart(exact) end
+    for _, c in ipairs(wpf:GetChildren()) do
+        if c.Name:find(name, 1, true) then return toBasePart(c) end
+    end
+    return nil
+end
+
+-- The route: numbered checkpoints (sorted by number, not explorer order) + the WinPad.
+-- Rebuilt on each call so parts that stream in late are picked up.
+local function pomRoute(name)
+    local cpRoot = workspace:FindFirstChild("Checkpoints")
+    local folder = cpRoot and cpRoot:FindFirstChild(name)
+    if not folder then return {} end
+    local ordered = {}
+    for _, c in ipairs(folder:GetChildren()) do
+        local num = tonumber(c.Name)
+        if num then ordered[#ordered + 1] = { num = num, inst = c } end
+    end
+    table.sort(ordered, function(a, b) return a.num < b.num end)
+    local route = {}
+    for _, e in ipairs(ordered) do
+        local part = toBasePart(e.inst)
+        if part then route[#route + 1] = part end
+    end
+    local wp = pomWinPad(name)
+    if wp then route[#route + 1] = wp end
+    return route
+end
+
+if isPomXL then
+    local cpRoot = workspace:FindFirstChild("Checkpoints")
+    if cpRoot then
+        for _, folder in ipairs(cpRoot:GetChildren()) do
+            local n = folder.Name
+            local count = 0
+            for _, c in ipairs(folder:GetChildren()) do
+                if tonumber(c.Name) then count = count + 1 end
+            end
+            if count > 0 and not TowerConfigs[n] then
+                -- Generous default budget (~45s per checkpoint, min 60s) so long Citadels
+                -- don't walk fast enough to trip the server-side skip check. Tune per run
+                -- with the Completion Time fields.
+                local secTotal = math.max(count * 45, 60)
+                SuggestedTimes[n] = { min = tostring(math.floor(secTotal / 60)), sec = tostring(secTotal % 60) }
+                TowerConfigs[n] = {
+                    tpFrame    = function() return pomPortal(n) end,
+                    teleportTo = function() return pomPortal(n) end,
+                    routeFn    = function() return pomRoute(n) end,
+                }
+                table.insert(DropdownValues, n)
+            end
+        end
+        table.sort(DropdownValues)
+    end
+end
+
+-- Resolve a tower's getCheckpoints() function. PoM XL towers carry a routeFn and use it
+-- directly; every other tower fetches + loadstrings its route file as before. Returns the
+-- function, or nil + an error message.
+local function loadRouteFn(config)
+    if config.routeFn then return config.routeFn end
+    local routeSrc
+    local ok, err = pcall(function() routeSrc = game:HttpGet(config.routeUrl) end)
+    if not ok or not routeSrc then return nil, "Fetch failed: " .. tostring(err) end
+    local fn, fnErr = loadstring(routeSrc)
+    if not fn then return nil, "Parse failed: " .. tostring(fnErr) end
+    local ok2, getCheckpoints = pcall(fn)
+    if not ok2 or type(getCheckpoints) ~= "function" then
+        return nil, "Load failed: " .. tostring(getCheckpoints)
+    end
+    return getCheckpoints
+end
+
 -- Surface why the tower list is empty instead of failing silently. This usually means
 -- the registry didn't load, or none of its towers match this place (PlaceId may have
 -- changed in a game update) and none are loaded in workspace.Towers.
@@ -413,7 +536,8 @@ if #DropdownValues == 0 then
     local loadedCount = towersFolder and #towersFolder:GetChildren() or 0
     local reason = registryLoaded
         and "The registry may be out of date for this game version."
-        or "Couldn't fetch the tower registry (network/HttpGet) -- try re-executing the script."
+        or ((registryErr or "the tower registry couldn't be loaded")
+            .. " -- full details in the F9 console.")
     Library:Notify({
         Title       = "Project EToH Script",
         Description  = ("No towers found (PlaceId %s, registry towers: %d, loaded in workspace.Towers: %d). %s")
@@ -466,7 +590,7 @@ TowerBox:AddToggle("UseSuggestedTime", {
         end
     end,
 })
-SuggestedLabel = TowerBox:AddLabel(getSuggestedLabel("NEAT"))
+SuggestedLabel = TowerBox:AddLabel(getSuggestedLabel(DropdownValues[1] or "NEAT"))
 TowerBox:AddInput("CompletionMin", {
     Text        = "Completion Time (min)",
     Default     = "3",
@@ -485,6 +609,20 @@ TowerBox:AddInput("RepeatCount", {
     Numeric     = true,
     Placeholder = "1",
     Tooltip     = "Auto Play the tower this many times. The Completion Time above is the TOTAL for all repeats, split evenly across them.",
+})
+TowerBox:AddInput("LobbyDelay", {
+    Text        = "Delay Before Lobby (s)",
+    Default     = "5",
+    Numeric     = true,
+    Placeholder = "5",
+    Tooltip     = "After winning, wait this long before returning to spawn. Lowering it too far can cut off the win registering.",
+})
+TowerBox:AddInput("NextTowerDelay", {
+    Text        = "Delay Before Next Tower (s)",
+    Default     = "5",
+    Numeric     = true,
+    Placeholder = "5",
+    Tooltip     = "After returning to spawn, wait this long before entering the next tower or repeating. Lowering it too far can enter before the lobby finishes loading.",
 })
 local routeHighlights = {}
 local routeUpdateConn = nil
@@ -602,13 +740,8 @@ local ShowRouteToggle = TowerBox:AddToggle("ShowRoute", {
             local selected = Library.Options.TowerSelect.Value
             local config   = TowerConfigs[selected]
             if not config then return end
-            local routeSrc
-            local ok = pcall(function() routeSrc = game:HttpGet(config.routeUrl) end)
-            if not ok or not routeSrc then return end
-            local fn = loadstring(routeSrc)
-            if not fn then return end
-            local ok2, getCheckpoints = pcall(fn)
-            if not ok2 or type(getCheckpoints) ~= "function" then return end
+            local getCheckpoints = loadRouteFn(config)
+            if not getCheckpoints then return end
             local ok3, checkpoints = pcall(getCheckpoints)
             if not ok3 or type(checkpoints) ~= "table" then return end
             local steps = {}
@@ -654,11 +787,21 @@ local function getLobbyReturnPart()
     return workspace:FindFirstChild("RestartBrick", true)
 end
 
--- After a win: wait 5s, fire the RestartBrick's touch to return to the lobby, then wait
--- another 5s. Shared by the Return to Lobby toggle and Auto Play repeats. Never re-enters.
+-- Reads a Numeric input as a number, falling back to `default` if it's blank, junk or
+-- negative (the inputs are free text, so all three are reachable).
+local function numOpt(name, default)
+    local o = Library.Options[name]
+    local v = o and tonumber(o.Value)
+    if not v or v < 0 then return default end
+    return v
+end
+
+-- After a win: wait (Delay Before Lobby), fire the RestartBrick's touch to return to the
+-- lobby, then wait (Delay Before Next Tower) before the next tower / repeat is entered.
+-- Shared by the Return to Lobby toggle and Auto Play repeats. Never re-enters.
 local function returnToLobby()
     local player = game:GetService("Players").LocalPlayer
-    task.wait(5)
+    task.wait(numOpt("LobbyDelay", 5))
     local part = getLobbyReturnPart()
     local char = player.Character
     local hrp  = char and char:FindFirstChild("HumanoidRootPart")
@@ -684,7 +827,7 @@ local function returnToLobby()
             until os.clock() >= stop
         end
     end
-    task.wait(5)
+    task.wait(numOpt("NextTowerDelay", 5))
 end
 
 TowerBox:AddToggle("AutoReturnToLobby", {
@@ -1152,10 +1295,9 @@ startAutoPlay = function()
                 local towerConfig = TowerConfigs[towerName]
                 if not towerConfig then continue end
                 Library:Notify({ Title = "Auto Play", Description = "Fetching " .. towerName .. " route... (" .. towerIndex .. "/" .. #towerList .. ")", Duration = 3 })
-                local routeSrc
-                local okFetch = pcall(function() routeSrc = game:HttpGet(towerConfig.routeUrl) end)
-                if not okFetch or not routeSrc then
-                    Library:Notify({ Title = "Auto Play", Description = "Fetch failed for " .. towerName, Duration = 5 })
+                local getCheckpoints, loadErr = loadRouteFn(towerConfig)
+                if not getCheckpoints then
+                    Library:Notify({ Title = "Auto Play", Description = (loadErr or "Load failed") .. " for " .. towerName, Duration = 5 })
                     isAutoPlaying = false
                     stopAutoNoclip()
                     return
@@ -1216,20 +1358,7 @@ startAutoPlay = function()
                 until hrp and (hrp.Position - posBeforeTP).Magnitude > 0.1
                 VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
                 if checkDied() then return end
-                local fn, fnErr = loadstring(routeSrc)
-                if not fn then
-                    Library:Notify({ Title = "Auto Play", Description = towerName .. " parse failed: " .. tostring(fnErr), Duration = 5 })
-                    isAutoPlaying = false
-                    stopAutoNoclip()
-                    return
-                end
-                local ok3, getCheckpoints = pcall(fn)
-                if not ok3 or type(getCheckpoints) ~= "function" then
-                    Library:Notify({ Title = "Auto Play", Description = towerName .. " load failed!", Duration = 5 })
-                    isAutoPlaying = false
-                    stopAutoNoclip()
-                    return
-                end
+                -- getCheckpoints was already resolved by loadRouteFn above (before entering).
                 local checkpoints
                 repeat
                     if checkDied() then return end
@@ -1359,27 +1488,12 @@ startAutoPlay = function()
             return
         end
 
-        local routeSrc
-        local ok0, err0 = pcall(function()
-            routeSrc = game:HttpGet(config.routeUrl)
-        end)
-        if not ok0 or not routeSrc then
-            Library:Notify({ Title = "Auto Play", Description = "Fetch failed: " .. tostring(err0), Duration = 5 })
-            isAutoPlaying = false
-            return
-        end
-
-        -- Load the route once and reuse it for every repeat. Re-running loadstring each
-        -- repeat fails on executors that throttle/forward loadstring to a server.
-        local fn, fnErr = loadstring(routeSrc)
-        if not fn then
-            Library:Notify({ Title = "Auto Play", Description = "Parse failed: " .. tostring(fnErr), Duration = 5 })
-            isAutoPlaying = false
-            return
-        end
-        local okLoad, getCheckpoints = pcall(fn)
-        if not okLoad or type(getCheckpoints) ~= "function" then
-            Library:Notify({ Title = "Auto Play", Description = "Load failed: " .. tostring(getCheckpoints), Duration = 5 })
+        -- Load the route once and reuse it for every repeat. PoM XL towers build it in-game
+        -- from their numbered checkpoints; every other tower fetches its route file. (Re-
+        -- running loadstring each repeat fails on executors that forward it to a server.)
+        local getCheckpoints, loadErr = loadRouteFn(config)
+        if not getCheckpoints then
+            Library:Notify({ Title = "Auto Play", Description = loadErr, Duration = 5 })
             isAutoPlaying = false
             return
         end
@@ -1905,14 +2019,10 @@ local function applyCharacterStats(char)
         char:WaitForChild("Humanoid", 5)
         hum = char:FindFirstChildOfClass("Humanoid")
     end
-    if not hum then return end
-    -- The WalkSpeed/JumpPower sliders are created further down, but this runs on
-    -- CharacterAdded, which can fire (respawn / tower entry / lobby return) before
-    -- those Options exist. Guard each so we never index nil with '.Value'.
-    local ws = Library.Options.WalkSpeed
-    local jp = Library.Options.JumpPower
-    if ws then hum.WalkSpeed = ws.Value end
-    if jp then hum.JumpPower = jp.Value end
+    if hum then
+        hum.WalkSpeed = Library.Options.WalkSpeed.Value
+        hum.JumpPower = Library.Options.JumpPower.Value
+    end
 end
 
 game:GetService("Players").LocalPlayer.CharacterAdded:Connect(applyCharacterStats)
@@ -1945,12 +2055,10 @@ PlayerBox:AddToggle("LockWalkSpeed", {
                 hum = char:FindFirstChildOfClass("Humanoid")
             end
             if not hum then return end
-            local ws = Library.Options.WalkSpeed
-            if not ws then return end
-            hum.WalkSpeed = ws.Value
+            hum.WalkSpeed = Library.Options.WalkSpeed.Value
             wsConn = hum:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
                 if Library.Toggles.LockWalkSpeed.Value then
-                    hum.WalkSpeed = ws.Value
+                    hum.WalkSpeed = Library.Options.WalkSpeed.Value
                 end
             end)
         end
@@ -1990,12 +2098,10 @@ PlayerBox:AddToggle("LockJumpPower", {
                 hum = char:FindFirstChildOfClass("Humanoid")
             end
             if not hum then return end
-            local jp = Library.Options.JumpPower
-            if not jp then return end
-            hum.JumpPower = jp.Value
+            hum.JumpPower = Library.Options.JumpPower.Value
             jpConn = hum:GetPropertyChangedSignal("JumpPower"):Connect(function()
                 if Library.Toggles.LockJumpPower.Value then
-                    hum.JumpPower = jp.Value
+                    hum.JumpPower = Library.Options.JumpPower.Value
                 end
             end)
         end
@@ -2400,10 +2506,10 @@ end
 
 PlayerBox:AddToggle("GodmodeHook", {
     Text    = "Godmode: Hook Damage",
-    Default = sUNCSupport.Godmode,
+    Default = UNCSupport.Godmode,
     Tooltip = "Blocks ALL damage by hooking the game's DamageEvent so the damage call never reaches the server -- you simply never take damage. The cleanest, most reliable method, but needs executor support for hookmetamethod + getnamecallmethod (greyed out if unsupported).",
     Callback = function(state)
-        if state and not sUNCSupport.Godmode then
+        if state and not UNCSupport.Godmode then
             Library.Toggles.GodmodeHook:SetValue(false)
             return
         end
@@ -2413,7 +2519,7 @@ PlayerBox:AddToggle("GodmodeHook", {
 
 PlayerBox:AddToggle("GodmodeHeal", {
     Text    = "Godmode: Auto-Heal",
-    Default = not sUNCSupport.Godmode,
+    Default = not UNCSupport.Godmode,
     Tooltip = "Instantly heals you back to full whenever you take damage (a loop that fires the DamageEvent with negative damage). Works on ANY executor, but you may flash a bit of damage before healing, so it's less clean than the hook.",
     Callback = function(state)
         setGodmodeHeal(state)
@@ -2429,7 +2535,7 @@ PlayerBox:AddToggle("GodmodeKillBricks", {
     end,
 })
 
-if not sUNCSupport.Godmode then
+if not UNCSupport.Godmode then
     Library.Toggles.GodmodeHook:SetDisabled(true)
 end
 
@@ -2439,6 +2545,621 @@ setGodmodeHeal(Library.Toggles.GodmodeHeal.Value)
 setGodmodeKillBricks(Library.Toggles.GodmodeKillBricks.Value)
 
 Library.Toggles.UseSuggestedTime:SetValue(true)
+
+-- Avatar loader, ported from AJ hub: type a username or UserId and wear their full R6
+-- look -- body package, clothes, colours, face, accessories, headless.
+--
+-- Own function scope so its locals don't count against the main chunk's 200-local cap.
+local function _initAvatar()
+    local Players = game:GetService("Players")
+    local player  = Players.LocalPlayer
+
+    local AvatarBox = Tabs.Main:AddRightGroupbox("Avatar")
+
+    local avatarTemplate       = nil    -- cached look-only clones (no live Humanoid)
+    local avatarHead           = nil    -- cached head mesh/face for respawn re-apply
+    local avatarActive         = false
+    local avatarTargetHeadless = false  -- the loaded avatar is itself headless
+    local statusLabel
+
+    local function setStatus(text)
+        if statusLabel then statusLabel:SetText(text) end
+    end
+
+    local function opt(name)
+        local t = Library.Toggles[name]
+        return t and t.Value
+    end
+
+    local function setHeadless(char, on)
+        local head = char and char:FindFirstChild("Head")
+        if not head then return end
+        pcall(function() head.Transparency = on and 1 or 0 end)
+        for _, d in ipairs(head:GetChildren()) do
+            if d:IsA("Decal") then pcall(function() d.Transparency = on and 1 or 0 end) end
+        end
+    end
+
+    local function isWelded(acc)
+        local handle = acc:FindFirstChild("Handle")
+        if not handle then return false end
+        for _, w in ipairs(handle:GetChildren()) do
+            if (w:IsA("Weld") or w:IsA("WeldConstraint") or w:IsA("Motor6D"))
+                and w.Part0 and w.Part1 then return true end
+        end
+        return false
+    end
+
+    local function manualWeld(char, acc)
+        local handle = acc:FindFirstChild("Handle")
+        if not handle then return false end
+        pcall(function() handle.Anchored = false; handle.CanCollide = false end)
+        local a0 = handle:FindFirstChildWhichIsA("Attachment")
+        if a0 then
+            for _, d in ipairs(char:GetDescendants()) do
+                if d:IsA("Attachment") and d.Name == a0.Name and d.Parent
+                    and d.Parent:IsA("BasePart") and d.Parent ~= handle then
+                    acc.Parent = char
+                    local w = Instance.new("Weld")
+                    w.Name = "PESAccWeld"
+                    w.Part0, w.Part1 = d.Parent, handle
+                    w.C0, w.C1 = d.CFrame, a0.CFrame
+                    w.Parent = handle
+                    return true
+                end
+            end
+        end
+        -- Legacy hats carry no attachment; weld them to the head.
+        local head = char:FindFirstChild("Head")
+        if head then
+            acc.Parent = char
+            local mesh = handle:FindFirstChildOfClass("SpecialMesh")
+            local w = Instance.new("Weld")
+            w.Name = "PESAccWeld"
+            w.Part0, w.Part1 = head, handle
+            w.C1 = CFrame.new(-((mesh and mesh.Offset) or Vector3.new(0, 0.5, 0)))
+            w.Parent = handle
+            return true
+        end
+        return false
+    end
+
+    local function attachAccessory(char, hum, acc)
+        -- The clone still carries the source model's weld, which pins the hat at the
+        -- world origin instead of on your body. Strip it before re-adding.
+        local handle = acc:FindFirstChild("Handle")
+        if handle then
+            for _, w in ipairs(handle:GetChildren()) do
+                if w:IsA("JointInstance") or w:IsA("WeldConstraint") then w:Destroy() end
+            end
+        end
+        pcall(function() hum:AddAccessory(acc) end)
+        local ok = (acc.Parent == char and isWelded(acc)) or manualWeld(char, acc)
+        if ok then
+            -- Kill physics on it, so wings and trailing accessories can't catch on
+            -- tower parts and drag you off a ledge.
+            for _, p in ipairs(acc:GetDescendants()) do
+                if p:IsA("BasePart") then
+                    pcall(function()
+                        p.CanCollide, p.CanTouch, p.CanQuery = false, false, false
+                        p.Massless, p.Anchored = true, false
+                    end)
+                end
+            end
+        end
+        return ok
+    end
+
+    local function targetIsHeadless(userId)
+        local info
+        local ok = pcall(function() info = Players:GetCharacterAppearanceInfoAsync(userId) end)
+        if not ok or type(info) ~= "table" or type(info.assets) ~= "table" then return false end
+        for _, a in ipairs(info.assets) do
+            if tostring(a.name or ""):lower():find("headless") then return true end
+        end
+        return false
+    end
+
+    -- Keep only the appearance, so the heavy rig and its Humanoid can be freed.
+    local function extractTemplate(model)
+        local folder = Instance.new("Folder")
+        local headInfo
+        local head = model:FindFirstChild("Head")
+        if head then
+            local sm   = head:FindFirstChildOfClass("SpecialMesh")
+            local face = head:FindFirstChild("face") or head:FindFirstChildOfClass("Decal")
+            headInfo = {
+                meshId  = sm and sm.MeshId or nil,
+                texId   = sm and sm.TextureId or nil,
+                scale   = sm and sm.Scale or nil,
+                faceTex = face and face.Texture or nil,
+            }
+        end
+        for _, item in ipairs(model:GetChildren()) do
+            if item:IsA("CharacterMesh") or item:IsA("Shirt") or item:IsA("Pants")
+                or item:IsA("ShirtGraphic") or item:IsA("BodyColors") or item:IsA("Accessory") then
+                item:Clone().Parent = folder
+            end
+        end
+        return folder, headInfo
+    end
+
+    local function applyLook(char, hum, folder, headInfo)
+        for _, c in ipairs(char:GetChildren()) do
+            if c:IsA("Accessory") or c:IsA("Shirt") or c:IsA("Pants")
+                or c:IsA("ShirtGraphic") or c:IsA("BodyColors") or c:IsA("CharacterMesh") then
+                c:Destroy()
+            end
+        end
+        local myHead = char:FindFirstChild("Head")
+        if myHead and headInfo then
+            if headInfo.meshId then
+                local mm = myHead:FindFirstChildOfClass("SpecialMesh")
+                if not mm then mm = Instance.new("SpecialMesh"); mm.Parent = myHead end
+                mm.MeshId, mm.TextureId = headInfo.meshId, headInfo.texId or ""
+                if headInfo.scale then mm.Scale = headInfo.scale end
+            end
+            if headInfo.faceTex then
+                local mf = myHead:FindFirstChild("face") or myHead:FindFirstChildOfClass("Decal")
+                if mf then mf.Texture = headInfo.faceTex end
+            end
+        end
+        local found, attached = 0, 0
+        for _, item in ipairs(folder:GetChildren()) do
+            if item:IsA("Accessory") then
+                found = found + 1
+                if opt("AvatarAccessories") and attachAccessory(char, hum, item:Clone()) then
+                    attached = attached + 1
+                end
+            else
+                pcall(function() item:Clone().Parent = char end)
+            end
+        end
+        return found, attached
+    end
+
+    -- Building the model is allowed even where live ApplyDescription is blocked.
+    local function buildModel(userId)
+        local desc
+        pcall(function() desc = Players:GetHumanoidDescriptionFromUserId(userId) end)
+        local model
+        if desc then
+            pcall(function()
+                model = Players:CreateHumanoidModelFromDescription(desc, Enum.HumanoidRigType.R6)
+            end)
+        end
+        if not model then
+            pcall(function() model = Players:CreateHumanoidModelFromUserId(userId) end)
+        end
+        return model
+    end
+
+    local function resolveUserId(input)
+        input = tostring(input or ""):gsub("^%s+", ""):gsub("%s+$", "")
+        if input == "" then return nil, "Enter a username or UserId" end
+        if input:match("^%d+$") then return tonumber(input) end
+        local uid
+        local ok = pcall(function() uid = Players:GetUserIdFromNameAsync(input) end)
+        if ok and uid then return uid end
+        return nil, ("User '%s' not found"):format(input)
+    end
+
+    local function currentCharacter()
+        local char = player.Character
+        local hum  = char and char:FindFirstChildOfClass("Humanoid")
+        return char, hum
+    end
+
+    -- Forward declarations: the config hook below closes over these, and both are defined
+    -- further down. Without this it would capture a nil global instead.
+    local applyAvatar, wearPreset
+
+    -- Round-trip the worn avatar through configs: saving records what you have on,
+    -- loading puts it back. Registered straight into the library's config registry, so
+    -- the existing serialise/deserialise path carries it with no special-casing --
+    -- deserialise calls SetValue, which is what re-applies the look.
+    --
+    -- PESUI only. The Obsidian fallback owns its own registry and only serialises its
+    -- Toggles/Options, so there it degrades to remembering nothing rather than breaking.
+    local wornEntry
+    local function setWorn(value)
+        if wornEntry then wornEntry.Value = value end
+    end
+    if Library.Registry then
+        wornEntry = { Type = "AvatarWorn", Value = nil }
+        function wornEntry:SetValue(value)
+            self.Value = value
+            if type(value) ~= "string" or value == "" then return end
+            local kind, rest = value:match("^(%a+):(.+)$")
+            -- Deferred: a config can load before the character exists.
+            task.spawn(function()
+                if not player.Character then
+                    player.CharacterAdded:Wait()
+                    task.wait(0.5)
+                end
+                if kind == "user" then
+                    applyAvatar(rest)
+                elseif kind == "preset" then
+                    wearPreset(rest)
+                end
+            end)
+        end
+        Library.Registry["AvatarWorn"] = wornEntry
+    end
+
+    applyAvatar = function(input)
+        task.spawn(function()
+            setStatus("Building avatar...")
+            local uid, err = resolveUserId(input)
+            if not uid then
+                setStatus(err)
+                Library:Notify({ Title = "Avatar", Description = err, Duration = 4 })
+                return
+            end
+            local char, hum = currentCharacter()
+            if not char or not hum then setStatus("No character.") return end
+
+            local model = buildModel(uid)
+            if not model then
+                setStatus("Couldn't build that avatar (rate-limited?)")
+                Library:Notify({ Title = "Avatar", Description = "Couldn't build that avatar -- possibly rate-limited.", Duration = 5 })
+                return
+            end
+            local folder, headInfo = extractTemplate(model)
+            pcall(function() model:Destroy() end)
+
+            if avatarTemplate then pcall(function() avatarTemplate:Destroy() end) end
+            avatarTemplate       = folder
+            avatarHead           = headInfo
+            avatarActive         = true
+            avatarTargetHeadless = targetIsHeadless(uid)
+
+            local found, attached = applyLook(char, hum, folder, headInfo)
+            setHeadless(char, opt("AvatarHeadless") or avatarTargetHeadless)
+            setWorn("user:" .. tostring(uid))
+            setStatus(("Loaded UserId %d -- %d/%d accessories"):format(uid, attached, found))
+            Library:Notify({
+                Title       = "Avatar",
+                Description = ("Loaded UserId %d (%d/%d accessories)"):format(uid, attached, found),
+                Duration    = 4,
+            })
+        end)
+    end
+
+    local function resetAvatar()
+        task.spawn(function()
+            avatarActive         = false
+            avatarTargetHeadless = false
+            setWorn(nil)
+            local char, hum = currentCharacter()
+            setHeadless(char, opt("AvatarHeadless"))
+            if avatarTemplate then
+                pcall(function() avatarTemplate:Destroy() end)
+                avatarTemplate = nil
+            end
+            avatarHead = nil
+            if not char or not hum then setStatus("No character.") return end
+
+            setStatus("Resetting...")
+            local model = buildModel(player.UserId)
+            if not model then setStatus("Reset failed (head restored)") return end
+            local folder, headInfo = extractTemplate(model)
+            pcall(function() model:Destroy() end)
+            applyLook(char, hum, folder, headInfo)
+            pcall(function() folder:Destroy() end)   -- one-shot, don't cache
+            setHeadless(char, opt("AvatarHeadless"))
+            setStatus("Reset to your own avatar")
+        end)
+    end
+
+    ----------------------------------------------------------------------------
+    -- Presets: saved HumanoidDescriptions you can wear without looking up a user.
+    ----------------------------------------------------------------------------
+    local HttpService = game:GetService("HttpService")
+    local PRESET_DIR  = "ProjectEToHScript/outfits"
+
+    local DESC_NUMS   = { "Head", "Torso", "LeftArm", "RightArm", "LeftLeg", "RightLeg",
+                          "Face", "Shirt", "Pants", "GraphicTShirt" }
+    local DESC_COLORS = { "HeadColor", "TorsoColor", "LeftArmColor", "RightArmColor",
+                          "LeftLegColor", "RightLegColor" }
+    local DESC_SCALES = { "HeightScale", "WidthScale", "HeadScale", "DepthScale",
+                          "ProportionScale", "BodyTypeScale" }
+    local DESC_ACCSTR = { "HatAccessory", "HairAccessory", "FaceAccessory", "NeckAccessory",
+                          "ShouldersAccessory", "FrontAccessory", "BackAccessory", "WaistAccessory" }
+
+    -- Shipped presets. Held as JSON rather than Lua tables because that is exactly the
+    -- format the save/load path already round-trips, so there's no hand-conversion to get
+    -- wrong. Order here is the order shown in the dropdown.
+    local BUILTIN_ORDER = { "blockerman", "gehad", "kaan2005", "skit", "skit current" }
+    local BUILTIN_PRESETS = {
+        ["blockerman"] = [==[{"nums":{"RightArm":0,"Head":15093053680,"Torso":0,"GraphicTShirt":0,"Shirt":8354334846,"LeftArm":0,"Pants":89528719756784,"Face":0,"RightLeg":0,"LeftLeg":0},"scales":{"BodyTypeScale":0,"DepthScale":1,"HeadScale":1,"HeightScale":1,"WidthScale":1,"ProportionScale":0},"colors":{"HeadColor":[255,255,0],"TorsoColor":[163,162,165],"LeftArmColor":[255,255,0],"RightLegColor":[99,95,98],"RightArmColor":[255,255,0],"LeftLegColor":[99,95,98]},"accStrings":{"NeckAccessory":"13312726192","ShouldersAccessory":"","FrontAccessory":"","FaceAccessory":"","WaistAccessory":"6934144658,13937231284,18864865684","BackAccessory":"2222538922","HatAccessory":"","HairAccessory":""},"accessories":[{"AssetId":2222538922,"IsLayered":false,"AccessoryType":"Back"},{"AssetId":6934144658,"IsLayered":false,"AccessoryType":"Waist"},{"AssetId":13312726192,"IsLayered":false,"AccessoryType":"Neck"},{"AssetId":13937231284,"IsLayered":false,"AccessoryType":"Waist"},{"AssetId":18864865684,"IsLayered":false,"AccessoryType":"Waist"}]}]==],
+        ["gehad"] = [==[{"nums":{"RightArm":0,"Head":74974372367270,"Torso":0,"GraphicTShirt":7541912145,"Shirt":330030567,"LeftArm":0,"Pants":330030618,"Face":0,"RightLeg":0,"LeftLeg":0},"scales":{"BodyTypeScale":0,"DepthScale":1,"HeadScale":1,"HeightScale":1,"WidthScale":1,"ProportionScale":0},"colors":{"HeadColor":[248,248,248],"TorsoColor":[17,17,17],"LeftArmColor":[27,42,53],"RightLegColor":[27,42,53],"RightArmColor":[163,162,165],"LeftLegColor":[99,95,98]},"accStrings":{"NeckAccessory":"","ShouldersAccessory":"10715291261,11970138578,18556350860","FrontAccessory":"","FaceAccessory":"","WaistAccessory":"5269089688","BackAccessory":"","HatAccessory":"7608861705","HairAccessory":""},"accessories":[{"AssetId":7608861705,"IsLayered":false,"AccessoryType":"Hat"},{"AssetId":10715291261,"IsLayered":false,"AccessoryType":"Shoulder"},{"AssetId":11970138578,"IsLayered":false,"AccessoryType":"Shoulder"},{"AssetId":18556350860,"IsLayered":false,"AccessoryType":"Shoulder"},{"AssetId":5269089688,"IsLayered":false,"AccessoryType":"Waist"}]}]==],
+        ["kaan2005"] = [==[{"nums":{"RightArm":0,"Head":15093053680,"Torso":0,"GraphicTShirt":11968498114,"Shirt":0,"LeftArm":0,"Pants":1033312407,"Face":0,"RightLeg":0,"LeftLeg":0},"scales":{"BodyTypeScale":0,"DepthScale":1,"HeadScale":1,"HeightScale":1,"WidthScale":1,"ProportionScale":0},"colors":{"HeadColor":[205,205,205],"TorsoColor":[205,205,205],"LeftArmColor":[205,205,205],"RightLegColor":[205,205,205],"RightArmColor":[205,205,205],"LeftLegColor":[205,205,205]},"accStrings":{"NeckAccessory":"","ShouldersAccessory":"","FrontAccessory":"","FaceAccessory":"","WaistAccessory":"","BackAccessory":"","HatAccessory":"321346550","HairAccessory":""},"accessories":[{"AssetId":321346550,"IsLayered":false,"AccessoryType":"Hat"}]}]==],
+        ["skit"] = [==[{"nums":{"RightArm":0,"Head":15093053680,"Torso":0,"GraphicTShirt":0,"Shirt":0,"LeftArm":0,"Pants":6941288880,"Face":0,"RightLeg":0,"LeftLeg":0},"scales":{"BodyTypeScale":0,"DepthScale":1,"HeadScale":1,"HeightScale":1,"WidthScale":1,"ProportionScale":0},"colors":{"HeadColor":[175,221,255],"TorsoColor":[175,221,255],"LeftArmColor":[128,187,220],"RightLegColor":[17,17,17],"RightArmColor":[0,255,0],"LeftLegColor":[255,255,0]},"accStrings":{"NeckAccessory":"","ShouldersAccessory":"","FrontAccessory":"","FaceAccessory":"","WaistAccessory":"6252477190","BackAccessory":"","HatAccessory":"14673809937","HairAccessory":""},"accessories":[{"AssetId":14673809937,"IsLayered":false,"AccessoryType":"Hat"},{"AssetId":6252477190,"IsLayered":false,"AccessoryType":"Waist"}]}]==],
+        ["skit current"] = [==[{"nums":{"RightArm":0,"Head":15093053680,"Torso":48474356,"GraphicTShirt":0,"Shirt":0,"LeftArm":0,"Pants":0,"Face":0,"RightLeg":0,"LeftLeg":0},"scales":{"BodyTypeScale":0.20000000298023225,"DepthScale":0.8500000238418579,"HeadScale":1,"HeightScale":0.8999999761581421,"WidthScale":0.699999988079071,"ProportionScale":1},"colors":{"HeadColor":[249,249,249],"TorsoColor":[252,240,182],"LeftArmColor":[249,249,249],"RightLegColor":[25,25,25],"RightArmColor":[249,249,249],"LeftLegColor":[25,25,25]},"accStrings":{"NeckAccessory":"","ShouldersAccessory":"","FrontAccessory":"","FaceAccessory":"","WaistAccessory":"7853207982,13218275142","BackAccessory":"","HatAccessory":"1080949,71844152179630,1365767,76953774632480","HairAccessory":"75654134505201,111191802672513,114970157890902,124684280646469"},"accessories":[{"AssetId":1080949,"IsLayered":false,"AccessoryType":"Hat"},{"AssetId":1365767,"IsLayered":false,"AccessoryType":"Hat"},{"AssetId":7853207982,"IsLayered":false,"AccessoryType":"Waist"},{"AssetId":13218275142,"IsLayered":false,"AccessoryType":"Waist"},{"AssetId":71844152179630,"IsLayered":false,"AccessoryType":"Hat"},{"AssetId":75654134505201,"IsLayered":false,"AccessoryType":"Hair"},{"AssetId":76953774632480,"IsLayered":false,"AccessoryType":"Hat"},{"AssetId":111191802672513,"IsLayered":false,"AccessoryType":"Hair"},{"AssetId":114970157890902,"IsLayered":false,"AccessoryType":"Hair"},{"AssetId":124684280646469,"IsLayered":false,"AccessoryType":"Hair"}]}]==],
+    }
+
+    local function filesOK()
+        return typeof(writefile) == "function" and typeof(readfile) == "function"
+            and typeof(isfile) == "function" and typeof(listfiles) == "function"
+    end
+
+    local function ensurePresetDir()
+        pcall(function()
+            if typeof(makefolder) ~= "function" or typeof(isfolder) ~= "function" then return end
+            if not isfolder("ProjectEToHScript") then makefolder("ProjectEToHScript") end
+            if not isfolder(PRESET_DIR) then makefolder(PRESET_DIR) end
+        end)
+    end
+
+    local function serializeDesc(desc)
+        local t = { nums = {}, colors = {}, scales = {}, accStrings = {}, accessories = {} }
+        for _, k in ipairs(DESC_NUMS)   do t.nums[k]       = desc[k] end
+        for _, k in ipairs(DESC_SCALES) do t.scales[k]     = desc[k] end
+        for _, k in ipairs(DESC_ACCSTR) do t.accStrings[k] = desc[k] end
+        for _, k in ipairs(DESC_COLORS) do
+            local c = desc[k]
+            t.colors[k] = {
+                math.floor(c.R * 255 + 0.5), math.floor(c.G * 255 + 0.5), math.floor(c.B * 255 + 0.5),
+            }
+        end
+        local ok, list = pcall(function() return desc:GetAccessories(true) end)
+        if ok and type(list) == "table" then
+            for _, a in ipairs(list) do
+                t.accessories[#t.accessories + 1] = {
+                    AssetId       = a.AssetId,
+                    AccessoryType = (typeof(a.AccessoryType) == "EnumItem") and a.AccessoryType.Name or nil,
+                    IsLayered     = a.IsLayered,
+                    Order         = a.Order,
+                    Puffiness     = a.Puffiness,
+                }
+            end
+        end
+        return t
+    end
+
+    local function deserializeDesc(t)
+        local desc = Instance.new("HumanoidDescription")
+        for _, k in ipairs(DESC_NUMS) do
+            if t.nums and t.nums[k] then pcall(function() desc[k] = t.nums[k] end) end
+        end
+        for _, k in ipairs(DESC_SCALES) do
+            if t.scales and t.scales[k] then pcall(function() desc[k] = t.scales[k] end) end
+        end
+        for _, k in ipairs(DESC_COLORS) do
+            local rgb = t.colors and t.colors[k]
+            if rgb then pcall(function() desc[k] = Color3.fromRGB(rgb[1], rgb[2], rgb[3]) end) end
+        end
+        -- Prefer the structured accessory list (keeps layered/order/puffiness); fall back
+        -- to the legacy comma-separated id strings when a preset has none.
+        if t.accessories and #t.accessories > 0 then
+            local list = {}
+            for _, a in ipairs(t.accessories) do
+                local e = {
+                    AssetId = a.AssetId, Order = a.Order,
+                    Puffiness = a.Puffiness, IsLayered = a.IsLayered,
+                }
+                if a.AccessoryType then
+                    pcall(function() e.AccessoryType = Enum.AccessoryType[a.AccessoryType] end)
+                end
+                list[#list + 1] = e
+            end
+            pcall(function() desc:SetAccessories(list, true) end)
+        else
+            for _, k in ipairs(DESC_ACCSTR) do
+                if t.accStrings and t.accStrings[k] then
+                    pcall(function() desc[k] = t.accStrings[k] end)
+                end
+            end
+        end
+        return desc
+    end
+
+    local function buildFromDesc(desc)
+        local model
+        pcall(function()
+            model = Players:CreateHumanoidModelFromDescription(desc, Enum.HumanoidRigType.R6)
+        end)
+        return model
+    end
+
+    local function userPresetNames()
+        local out = {}
+        if not filesOK() then return out end
+        ensurePresetDir()
+        pcall(function()
+            for _, path in ipairs(listfiles(PRESET_DIR)) do
+                local name = path:match("([^/\\]+)%.json$")
+                -- A saved preset may share a built-in's name; the saved one wins on read.
+                if name then out[#out + 1] = name end
+            end
+        end)
+        table.sort(out)
+        return out
+    end
+
+    local function presetNames()
+        local seen, out = {}, {}
+        for _, n in ipairs(BUILTIN_ORDER) do
+            seen[n] = true
+            out[#out + 1] = n
+        end
+        for _, n in ipairs(userPresetNames()) do
+            if not seen[n] then out[#out + 1] = n end
+        end
+        return out
+    end
+
+    local function readPreset(name)
+        -- Saved file takes priority, so a user can override a shipped preset.
+        if filesOK() then
+            local path, data = ("%s/%s.json"):format(PRESET_DIR, name), nil
+            local ok = pcall(function()
+                if isfile(path) then data = HttpService:JSONDecode(readfile(path)) end
+            end)
+            if ok and data then return data end
+        end
+        local raw = BUILTIN_PRESETS[name]
+        if not raw then return nil end
+        local ok, decoded = pcall(function() return HttpService:JSONDecode(raw) end)
+        return ok and decoded or nil
+    end
+
+    wearPreset = function(name)
+        task.spawn(function()
+            if not name or name == "" then
+                setStatus("Pick a preset first.")
+                return
+            end
+            local data = readPreset(name)
+            if not data then setStatus(("Preset '%s' not found"):format(name)) return end
+
+            local char, hum = currentCharacter()
+            if not char or not hum then setStatus("No character.") return end
+
+            setStatus(("Wearing '%s'..."):format(name))
+            local model = buildFromDesc(deserializeDesc(data))
+            if not model then
+                setStatus("Couldn't build that preset (rate-limited?)")
+                return
+            end
+            local folder, headInfo = extractTemplate(model)
+            pcall(function() model:Destroy() end)
+
+            if avatarTemplate then pcall(function() avatarTemplate:Destroy() end) end
+            avatarTemplate       = folder
+            avatarHead           = headInfo
+            avatarActive         = true
+            avatarTargetHeadless = false
+
+            local found, attached = applyLook(char, hum, folder, headInfo)
+            setHeadless(char, opt("AvatarHeadless"))
+            setWorn("preset:" .. name)
+            setStatus(("Wearing '%s' -- %d/%d accessories"):format(name, attached, found))
+            Library:Notify({
+                Title       = "Avatar",
+                Description = ("Wearing preset '%s'"):format(name),
+                Duration    = 4,
+            })
+        end)
+    end
+
+    local function saveCurrentPreset(name)
+        if not name or name == "" then setStatus("Type a name to save as.") return end
+        if not filesOK() then setStatus("Executor can't write files.") return end
+        local desc
+        local ok = pcall(function()
+            desc = Players:GetHumanoidDescriptionFromUserId(player.UserId)
+        end)
+        if not ok or not desc then setStatus("Couldn't read your current avatar.") return end
+        ensurePresetDir()
+        local wrote = pcall(function()
+            writefile(("%s/%s.json"):format(PRESET_DIR, name),
+                HttpService:JSONEncode(serializeDesc(desc)))
+        end)
+        setStatus(wrote and ("Saved preset '%s'"):format(name) or "Save failed.")
+        if wrote and Library.Options.AvatarPreset then
+            Library.Options.AvatarPreset:SetValues(presetNames())
+        end
+    end
+
+    AvatarBox:AddInput("AvatarUser", {
+        Text        = "Username / ID",
+        Default     = "",
+        -- Finished=false so .Value tracks what's typed. With Finished=true the value only
+        -- commits on Enter, so typing a name and clicking Load Avatar read an empty box.
+        -- No Callback on purpose: with per-keystroke firing it would try to load an
+        -- avatar for every partial name as you type.
+        Finished    = false,
+        Placeholder = "e.g. builderman",
+        Tooltip     = "Type a username or UserId, then press Load Avatar.",
+    })
+
+    AvatarBox:AddButton({
+        Text     = "Load Avatar",
+        Tooltip  = "Wear this user's full R6 look.",
+        Callback = function()
+            local box = Library.Options.AvatarUser
+            applyAvatar(box and box.Value or "")
+        end,
+    })
+    AvatarBox:AddButton({
+        Text     = "Reset Avatar",
+        Tooltip  = "Restore your own appearance.",
+        Callback = resetAvatar,
+    })
+
+    statusLabel = AvatarBox:AddLabel({ Text = "Idle.", DoesWrap = true })
+
+    AvatarBox:AddToggle("AvatarAccessories", {
+        Text    = "Load accessories",
+        Default = true,
+        Tooltip = "Accessories are welded with collision off so they can't snag on tower parts.",
+    })
+    AvatarBox:AddToggle("AvatarHeadless", {
+        Text     = "Headless (hide head)",
+        Default  = false,
+        Callback = function(state)
+            local char = player.Character
+            setHeadless(char, state or (avatarActive and avatarTargetHeadless))
+        end,
+    })
+    AvatarBox:AddToggle("AvatarKeepOnRespawn", {
+        Text    = "Keep avatar on respawn",
+        -- On by default: tower games rebuild your character on every death, so without
+        -- this the look is lost constantly. Re-applies from the cached template, which is
+        -- why it's instant rather than a rebuild.
+        Default = true,
+        Tooltip = "Re-apply your loaded avatar after deaths and respawns.",
+    })
+
+    AvatarBox:AddDivider()
+
+    AvatarBox:AddDropdown("AvatarPreset", {
+        Text      = "Preset",
+        Values    = presetNames(),
+        Default   = BUILTIN_ORDER[1],
+        AllowNull = true,
+        Tooltip   = "Saved avatars. Wearing one doesn't need a username lookup.",
+    })
+    AvatarBox:AddButton({
+        Text     = "Wear Preset",
+        Callback = function()
+            local d = Library.Options.AvatarPreset
+            wearPreset(d and d.Value or nil)
+        end,
+    })
+    AvatarBox:AddInput("AvatarPresetName", {
+        Text        = "Save current as",
+        Default     = "",
+        Finished    = false,
+        Placeholder = "preset name",
+        Tooltip     = "Saves YOUR current avatar under this name.",
+    })
+    AvatarBox:AddButton({
+        Text     = "Save Current Avatar",
+        Callback = function()
+            local box = Library.Options.AvatarPresetName
+            saveCurrentPreset(box and box.Value or "")
+        end,
+    })
+
+    -- Tower games rebuild the character constantly, so re-apply from the cached template.
+    player.CharacterAdded:Connect(function(char)
+        local hum = char:FindFirstChildOfClass("Humanoid") or char:WaitForChild("Humanoid", 5)
+        if not hum then return end
+        if avatarActive and avatarTemplate and opt("AvatarKeepOnRespawn") then
+            task.wait(0.4)
+            applyLook(char, hum, avatarTemplate, avatarHead)
+            setHeadless(char, opt("AvatarHeadless") or avatarTargetHeadless)
+        elseif opt("AvatarHeadless") then
+            task.wait(0.3)
+            setHeadless(char, true)
+        end
+    end)
+end
+_initAvatar()
+
 local MenuGroup = Tabs.UISettings:AddLeftGroupbox("Menu")
 MenuGroup:AddDropdown("UIStyle", {
     Text    = "UI Style",
@@ -2521,9 +3242,9 @@ end
 MenuGroup:AddToggle("AutoExecute", {
     Text    = "Auto Execute on Teleport",
     Default = autoExecuteDefault,
-    Tooltip = sUNCSupport.queueteleport and "Re-executes this script after teleporting" or "Not supported by this executor",
+    Tooltip = UNCSupport.queueteleport and "Re-executes this script after teleporting" or "Not supported by this executor",
     Callback = function(state)
-        if not sUNCSupport.queueteleport then
+        if not UNCSupport.queueteleport then
             Library:Notify({ Title = "Auto Execute", Description = "queue_on_teleport not supported!", Duration = 3 })
             Library.Toggles.AutoExecute:SetValue(false)
             return
@@ -2546,7 +3267,7 @@ MenuGroup:AddToggle("AutoExecute", {
         end
     end,
 })
-if not sUNCSupport.queueteleport then
+if not UNCSupport.queueteleport then
     Library.Toggles.AutoExecute:SetDisabled(true)
 end
 MenuGroup:AddDivider()
@@ -2587,16 +3308,87 @@ MenuGroup:AddButton("Rejoin", function()
         onFail(err)
     end
 end)
+MenuGroup:AddButton("Sever Hop", function()
+    local TeleportService = game:GetService("TeleportService")
+    local player = game:GetService("Players").LocalPlayer
+    Library:Notify({ Title = "Server Hop", Description = "Hopping to a new server...", Duration = 3 })
+    local ok, err = pcall(function()
+        TeleportService:Teleport(game.PlaceId, player)
+    end)
+    if not ok then
+        Library:Notify({ Title = "Server Hop", Description = "Failed: " .. tostring(err), Duration = 5 })
+    end
+end)
 MenuGroup:AddButton("Unload", function()
     _G.ProjectEToHLoaded = nil
     Library:Unload()
 end)
 Library.ToggleKeybind = Options.MenuKeybind
 
+-- ===== Mobile (UI Settings) =====
+-- Phones have no keyboard, so every keybind action is unreachable there. This adds movable
+-- on-screen buttons for them, opt-in via a toggle. Kept in its own function so its locals
+-- don't add to the main chunk's 200-local budget.
+local function _initMobile()
+    local MobileGroup = Tabs.UISettings:AddLeftGroupbox("Mobile")
+
+    -- These controls are PES-UI only; Obsidian/Linoria don't have the mobile API.
+    if type(Library.AddMobileButton) ~= "function" then
+        MobileGroup:AddLabel("Mobile controls need the PES UI style (see UI Style above).", true)
+        return
+    end
+
+    local onMobile = Library.IsMobile and true or false
+    MobileGroup:AddLabel(onMobile
+        and "Mobile detected -- the menu is using its compact size."
+        or  "Desktop detected -- the menu is full size.", true)
+    if onMobile then
+        MobileGroup:AddLabel("Tap the round PES button to hide/show the menu. Drag it, the menu title bar, or any on-screen button to move them.", true)
+    end
+
+    MobileGroup:AddToggle("MobileButtons", {
+        Text    = "On-screen buttons",
+        Default = onMobile,
+        Tooltip = "Movable buttons for the keybind actions. Drag one to reposition it, tap to use it.",
+        Callback = function(value)
+            Library:SetMobileButtonsVisible(value)
+        end,
+    })
+    MobileGroup:AddSlider("MobileButtonScale", {
+        Text     = "Button Size",
+        Default  = 100,
+        Min      = 60,
+        Max      = 200,
+        Rounding = 0,
+        Callback = function(value)
+            Library:SetMobileButtonScale(value)
+        end,
+    })
+    MobileGroup:AddButton("Reset Button Positions", function()
+        Library:ResetMobileButtons()
+    end)
+
+    -- One button per keybind action. Toggles flip through SetValue so the menu checkbox and
+    -- the button never disagree; the All Jump ones call the same functions the keys do.
+    local function flipToggle(name)
+        local t = Library.Toggles[name]
+        if t then t:SetValue(not t.Value) end
+    end
+    Library:AddMobileButton("Fly",         function() flipToggle("Fly") end)
+    Library:AddMobileButton("Noclip",      function() flipToggle("Noclip") end)
+    Library:AddMobileButton("AJ Place",    function() pcall(allJumpPlace) end)
+    Library:AddMobileButton("AJ Remove",   function() pcall(allJumpRemove) end)
+    Library:AddMobileButton("AJ Teleport", function() pcall(allJumpTeleport) end)
+
+    if onMobile then Library:SetMobileButtonsVisible(true) end
+end
+_initMobile()
+
 local CreditsGroup = Tabs.UISettings:AddRightGroupbox("Credits")
-CreditsGroup:AddLabel('<font color="rgb(255,210,70)">[Mr.man]</font>  Owner', true)
-CreditsGroup:AddLabel('<font color="rgb(90,200,255)">[cslp1]</font>  Original Creator', true)
+CreditsGroup:AddLabel('<font color="rgb(90,200,255)">[cslp1]</font>  Owner', true)
+CreditsGroup:AddLabel('<font color="rgb(255,210,70)">[Mr.man]</font>  Co-owner', true)
 CreditsGroup:AddLabel('<font color="rgb(120,230,120)">[canadianeditz]</font>  Contributor', true)
+CreditsGroup:AddLabel('<font color="rgb(120,230,120)">[eli]</font>  Contributor', true)
 
 local OtherScriptsGroup = Tabs.UISettings:AddRightGroupbox("Other Scripts")
 local function copyLoadstring(name, code)
