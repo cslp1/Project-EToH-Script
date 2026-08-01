@@ -517,7 +517,7 @@ end
 local function loadRouteFn(config)
     if config.routeFn then return config.routeFn end
     local routeSrc
-    local ok, err = pcall(function() routeSrc = game:HttpGet(config.routeUrl) end)
+    local ok, err = pcall(function() routeSrc = game:HttpGet(config.routeUrl .. "?cb=" .. tostring(os.time())) end)
     if not ok or not routeSrc then return nil, "Fetch failed: " .. tostring(err) end
     local fn, fnErr = loadstring(routeSrc)
     if not fn then return nil, "Parse failed: " .. tostring(fnErr) end
