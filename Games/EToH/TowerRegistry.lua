@@ -29,7 +29,7 @@ local Categories = {
     ["Pit-of-Misery"] = 15639952229,
     ElysianFields = 95241871632790,
     TheDoghouse = 16976865869,
-    LegacyFortress = 116826560849733l,
+    LegacyFortress = 116826560849733l
     ["100M-Event-Replay"] = 115856553162061,
 }
 
