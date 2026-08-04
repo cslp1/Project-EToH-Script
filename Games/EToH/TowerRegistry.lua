@@ -74,6 +74,8 @@ return {
         { name = "ToA(C)",  category = "SummitOfMemories", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToFT(C)",  category = "SummitOfMemories", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToPHaT(C)",  category = "SummitOfMemories", suggestedTime = { min = "6", sec = "0" } },
+        { name = "TT(C)",  category = "SummitOfMemories", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToDC(C)",  category = "SummitOfMemories", suggestedTime = { min = "6", sec = "0" } },
         --Ring 2
         { name = "MAT",  category = "Ring2", suggestedTime = { min = "0", sec = "5" } },
         { name = "ToPS",  category = "Ring2", suggestedTime = { min = "6", sec = "0" } },
