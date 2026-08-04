@@ -294,6 +294,15 @@ return {
         --Legacy Fortress
         { name = "ToC(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
         { name = "ToUB(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
+        { name = "ToPS(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
+        { name = "ToT(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
+        { name = "ToGI(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
+        { name = "ToMD(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
+        { name = "ToST(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
+        { name = "ToTE(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
+        { name = "ToTU(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
+        { name = "ToUP(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
+        { name = "ToWS(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
         --100M Event Replay
         { name = "100MC",  category = "100M-Event-Replay", suggestedTime = { min = "0", sec = "10" } },
         { name = "100MT",  category = "100M-Event-Replay", suggestedTime = { min = "0", sec = "10" } },
