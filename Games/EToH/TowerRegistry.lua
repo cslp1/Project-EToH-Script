@@ -202,7 +202,6 @@ return {
         { name = "ToFH",  category = "SteelspireHorizon", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToCBTS",  category = "SteelspireHorizon", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToTFC",  category = "SteelspireHorizon", suggestedTime = { min = "6", sec = "0" } },
-        { name = "ToSRT",  category = "SteelspireHorizon", suggestedTime = { min = "6", sec = "0" } },
         --Zone 1
         { name = "SAT",  category = "Zone1", suggestedTime = { min = "0", sec = "5" } },
         { name = "ToPHaT",  category = "Zone1", suggestedTime = { min = "6", sec = "0" } },
