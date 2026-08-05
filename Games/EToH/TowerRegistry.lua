@@ -125,6 +125,8 @@ return {
         { name = "ToI",  category = "Ring4", suggestedTime = { min = "6", sec = "0" } },
         --Silent Abyss
         { name = "ToTINT",  category = "SilentAbyss", suggestedTime = { min = "6", sec = "0" } },
+        { name = "SoMB",  category = "ForgottenRidge", suggestedTime = { min = "6", sec = "5" } },
+        { name = "SoMA",  category = "ForgottenRidge", suggestedTime = { min = "6", sec = "5" } },
         --Ring 5
         { name = "ToNV",  category = "Ring5", suggestedTime = { min = "6", sec = "0" } },
         { name = "LAT",  category = "Ring5", suggestedTime = { min = "0", sec = "10" } },
