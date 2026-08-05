@@ -10,7 +10,7 @@ return function()
         "ToLLL",
         "ToFSF",
         "ToCB",
-        "ToRG",
+        "ToRH",
         "ToMD",
     }
 end
