@@ -232,6 +232,13 @@ return {
         { name = "SoAS",  category = "ArcaneArea", suggestedTime = { min = "3", sec = "0" } },
         { name = "SoRO",  category = "ArcaneArea", suggestedTime = { min = "3", sec = "0" } },
         { name = "SoAP",  category = "ArcaneArea", suggestedTime = { min = "3", sec = "0" } },
+        { name = "SoBT",  category = "ArcaneArea", suggestedTime = { min = "3", sec = "0" } },
+        { name = "SoTC",  category = "ArcaneArea", suggestedTime = { min = "3", sec = "0" } },
+        { name = "SoME",  category = "ArcaneArea", suggestedTime = { min = "3", sec = "0" } },
+        { name = "SoCA",  category = "ArcaneArea", suggestedTime = { min = "3", sec = "0" } },
+        { name = "SoWC",  category = "ArcaneArea", suggestedTime = { min = "3", sec = "0" } },
+        { name = "SoMC",  category = "ArcaneArea", suggestedTime = { min = "3", sec = "0" } },
+        { name = "ToIA",  category = "ArcaneArea", suggestedTime = { min = "3", sec = "0" } },
         --Zone 3
         { name = "ToOD",  category = "Zone3", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToCOF",  category = "Zone3", suggestedTime = { min = "6", sec = "0" } },
