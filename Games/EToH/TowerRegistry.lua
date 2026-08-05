@@ -239,8 +239,20 @@ return {
         --Paradise Atoll
         { name = "SoUV",  category = "ParadiseAtoll", suggestedTime = { min = "3", sec = "0" } },
         --Zone 4
+        { name = "ToFSC",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToAC",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToFaST",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToUID",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToET",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToWW",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToPC",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToMIM",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToSS",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToDDD",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToFG",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToIF",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
+        { name = "CoQ",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToTV",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToAAA",  category = "Zone4", suggestedTime = { min = "6", sec = "0" } },
         --Zone 5
         { name = "ToPZ",  category = "Zone5", suggestedTime = { min = "6", sec = "0" } },
@@ -317,6 +329,7 @@ return {
         { name = "R5TR", category = "Ring5", suggestedTime = { min = "33", sec = "0" }, isTowerRush = true, },
         { name = "R9TR", category = "Ring9", suggestedTime = { min = "40", sec = "0" }, isTowerRush = true, },
         { name = "Z1TR", category = "Zone1", suggestedTime = { min = "40", sec = "0" }, isTowerRush = true, },
+        { name = "Z4TR", category = "Zone4", suggestedTime = { min = "40", sec = "0" }, isTowerRush = true, },
         { name = "Z9TR", category = "Zone9", suggestedTime = { min = "40", sec = "0" }, isTowerRush = true, },
         { name = "LFTR", category = "LegacyFortress", suggestedTime = { min = "39", sec = "0" }, isTowerRush = true, },
     },
