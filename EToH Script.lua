@@ -517,7 +517,7 @@ end
 local function loadRouteFn(config)
     if config.routeFn then return config.routeFn end
     local routeSrc
-    local ok, err = pcall(function() routeSrc = game:HttpGet(config.routeUrl .. "?cb=" .. tostring(os.time())) end)
+    local ok, err = pcall(function() routeSrc = game:HttpGet(config.routeUrl) end)
     if not ok or not routeSrc then return nil, "Fetch failed: " .. tostring(err) end
     local fn, fnErr = loadstring(routeSrc)
     if not fn then return nil, "Parse failed: " .. tostring(fnErr) end
@@ -1107,21 +1107,47 @@ startAutoPlay = function()
         if humanoid.Sit then humanoid.Sit = false end
         humanoid.PlatformStand = true
         local RunService = game:GetService("RunService")
-        local antiGravConn = RunService.Heartbeat:Connect(function()
+        -- Declared before the stabiliser below, which behaves differently once the route
+        -- starts (see there).
+        local walking = false
+        -- Keeps the character from fighting the route tween.
+        --
+        -- While `walking`, the tween is what drives position, so ANY leftover velocity is
+        -- pure interference: a contact that survives noclip shoves the body sideways
+        -- against the tween (stutter, and it can wedge in geometry), and the angular
+        -- velocity from that same contact spins the root part -- which is what throws the
+        -- camera around, since it follows the root's orientation. Zero both.
+        --
+        -- Before the route starts we still walk into the tower under our own power, so
+        -- only gravity is cancelled there; zeroing everything would pin us in place.
+        local function stabilise()
             if hrp and hrp.Parent then
-                hrp.AssemblyLinearVelocity = Vector3.new(
-                    hrp.AssemblyLinearVelocity.X,
-                    0,
-                    hrp.AssemblyLinearVelocity.Z
-                )
+                if walking then
+                    hrp.AssemblyLinearVelocity  = Vector3.zero
+                    hrp.AssemblyAngularVelocity = Vector3.zero
+                else
+                    hrp.AssemblyLinearVelocity = Vector3.new(
+                        hrp.AssemblyLinearVelocity.X,
+                        0,
+                        hrp.AssemblyLinearVelocity.Z
+                    )
+                end
             end
             local h = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-            if h and h.Sit then h.Sit = false end
-        end)
+            if h then
+                if h.Sit then h.Sit = false end
+                -- Re-assert: some towers knock the humanoid back out of PlatformStand,
+                -- and once it's walking/standing again it fights the tween too.
+                if walking and not h.PlatformStand then h.PlatformStand = true end
+            end
+        end
+        -- Both sides of the physics step: Heartbeat alone only cleans up AFTER the solver
+        -- has already applied the push, which is a frame of visible spin each time.
+        local antiGravConn  = RunService.Heartbeat:Connect(stabilise)
+        local antiGravConn2 = RunService.Stepped:Connect(stabilise)
         -- Anti-stuck: while walking the route, if the character hasn't moved ~4 studs in
         -- 5s (e.g. caught on a vine or zipline that needs a jump to release), jump to free
         -- it. Runs in parallel with the walk and only acts while `walking` is true.
-        local walking = false
         task.spawn(function()
             local lastPos, lastMove
             while isAutoPlaying do
@@ -1175,9 +1201,14 @@ startAutoPlay = function()
         end)
 
         local function stopAutoNoclip()
+            walking = false
             if antiGravConn then
                 antiGravConn:Disconnect()
                 antiGravConn = nil
+            end
+            if antiGravConn2 then
+                antiGravConn2:Disconnect()
+                antiGravConn2 = nil
             end
             Library.Toggles.Noclip:SetDisabled(false)
             Library.Toggles.Noclip:SetValue(false)
@@ -1989,6 +2020,160 @@ local function _initTowerPortal()
         end,
     })
 
+    -- ===== Automake Route =====
+    -- Builds a route from the tower's own parts instead of a hand-made file: every
+    -- BasePart in its Obby ordered bottom-to-top by height, finishing on the WinPad.
+    -- A tower is a vertical climb, so height order approximates progression well enough
+    -- to autoplay most towers. Note this sorts by POSITION, not by child index --
+    -- Obby:GetChildren() order is effectively arbitrary (early children are grouped
+    -- section models), which is why an index-ordered version was tried and reverted.
+    local function collectAutoRoute(name, descending)
+        local folder = towerFolder(name)
+        if not folder then return nil, name .. " isn't loaded in workspace.Towers." end
+        local obby = folder:FindFirstChild("Obby")
+        if not obby then return nil, name .. " has no Obby folder." end
+
+        -- Direct children first: that's the usual layout and it keeps the emitted paths
+        -- short. But some towers group their obby into section Models, so the top level
+        -- holds no BaseParts at all -- fall back to the full descendant list instead of
+        -- reporting the Obby as empty (which is what "CoIV's Obby has no parts" was).
+        local parts = {}
+        for _, v in ipairs(obby:GetChildren()) do
+            if v:IsA("BasePart") then parts[#parts + 1] = v end
+        end
+        if #parts == 0 then
+            for _, v in ipairs(obby:GetDescendants()) do
+                if v:IsA("BasePart") then parts[#parts + 1] = v end
+            end
+        end
+        if #parts == 0 then return nil, name .. "'s Obby has no parts." end
+        -- Ascending = climb (lowest part first). Descending = a tower you go DOWN, so the
+        -- highest part is the start and the order flips.
+        if descending then
+            table.sort(parts, function(a, b) return a.Position.Y > b.Position.Y end)
+        else
+            table.sort(parts, function(a, b) return a.Position.Y < b.Position.Y end)
+        end
+
+        local winPad = folder:FindFirstChild("WinPad", true) or folder:FindFirstChild("Winpad", true)
+        return { parts = parts, winPad = winPad, obby = obby }
+    end
+
+    -- Path to a part written relative to the tower's Obby, by child index at every level.
+    -- Index rather than name because obby parts share names constantly, and this has to
+    -- work for parts nested inside section Models, not just direct children.
+    local function pathFromObby(data, part, name)
+        local segs, node = {}, part
+        while node and node ~= data.obby do
+            local parent = node.Parent
+            if not parent then return nil end
+            local idx
+            for i, c in ipairs(parent:GetChildren()) do
+                if c == node then idx = i break end
+            end
+            if not idx then return nil end
+            table.insert(segs, 1, (":GetChildren()[%d]"):format(idx))
+            node = parent
+        end
+        if node ~= data.obby then return nil end
+        return ("workspace.Towers[%q].Obby%s"):format(name, table.concat(segs))
+    end
+
+    -- The same route as Lua source, in the exact format the repo's route files use, so it
+    -- can be dropped into Games/EToH/<category>/ as-is.
+    local function autoRouteSource(name, data)
+        local out = { "return function()", "    return {" }
+        for _, part in ipairs(data.parts) do
+            local path = pathFromObby(data, part, name)
+            if path then out[#out + 1] = "        " .. path .. "," end
+        end
+        if data.winPad then
+            out[#out + 1] = "        " .. (data.winPad:GetFullName():gsub("^Workspace%.", "workspace."))  .. ","
+        end
+        out[#out + 1] = "    }"
+        out[#out + 1] = "end"
+        return table.concat(out, "\n")
+    end
+
+    PortalBox:AddDropdown("AutoRouteOrder", {
+        Text    = "Route Order",
+        Values  = { "Ascending", "Descending" },
+        Default = "Ascending",
+        Tooltip = "Ascending: a normal climb, lowest part first. Descending: a tower you go DOWN, highest part first.",
+    })
+
+    PortalBox:AddButton({
+        Text    = "Automake Route",
+        Tooltip = "Build a route for the selected tower from its own parts in the chosen order, arm it for Auto Play, and save it to a file.",
+        Callback = function()
+            local label = Options.PortalMatch and Options.PortalMatch.Value
+            local name  = label and labelToName[label]
+            if not name then
+                Library:Notify({ Title = "Automake", Description = "Pick a tower first.", Duration = 3 })
+                return
+            end
+
+            -- Read the order once, here, and keep it: the armed route must stay in the
+            -- order it was made in even if the dropdown is changed afterwards.
+            local descending = (Options.AutoRouteOrder and Options.AutoRouteOrder.Value) == "Descending"
+
+            local data, err = collectAutoRoute(name, descending)
+            if not data then
+                Library:Notify({ Title = "Automake", Description = err, Duration = 5 })
+                return
+            end
+
+            -- Resolve live each call so parts that streamed in since still count, and so a
+            -- re-entry after a death doesn't walk stale instances.
+            local function routeFn()
+                local fresh = collectAutoRoute(name, descending)
+                local steps = {}
+                if fresh then
+                    for _, p in ipairs(fresh.parts) do steps[#steps + 1] = p end
+                    if fresh.winPad then steps[#steps + 1] = fresh.winPad end
+                end
+                return steps
+            end
+
+            -- Arm it: loadRouteFn() prefers config.routeFn over fetching a route file, so
+            -- Auto Play uses this immediately with nothing published.
+            local cfgName
+            for n in pairs(TowerConfigs) do
+                if getTpFrameName(n) == name then cfgName = n break end
+            end
+            if cfgName then
+                TowerConfigs[cfgName].routeFn = routeFn
+            else
+                -- Not in the registry at all -- make it selectable so it can be played.
+                cfgName = name
+                TowerConfigs[name] = {
+                    tpFrame    = function() return resolveTPFrame(name) end,
+                    teleportTo = function() return resolveTeleportTo(name) end,
+                    routeFn    = routeFn,
+                }
+                SuggestedTimes[name] = SuggestedTimes[name] or { min = "5", sec = "5" }
+                table.insert(DropdownValues, name)
+                table.sort(DropdownValues)
+                pcall(function() Options.TowerSelect:SetValues(DropdownValues) end)
+            end
+            pcall(function() Options.TowerSelect:SetValue(cfgName) end)
+
+            local saved = ""
+            if type(writefile) == "function" then
+                local ok = pcall(writefile, name .. ".lua", autoRouteSource(name, data))
+                saved = ok and (" Saved to " .. name .. ".lua.") or " (couldn't write the file)"
+            end
+            local dir = descending and "descending" or "ascending"
+            Library:Notify({
+                Title       = "Automake",
+                Description = ("%s: %d checkpoints %s%s, armed for Auto Play.%s"):format(
+                    name, #data.parts, dir, data.winPad and " + WinPad" or " (no WinPad found)", saved),
+                Duration    = 6,
+            })
+            logAction(("Automade a %d-checkpoint %s route for %s"):format(#data.parts, dir, name))
+        end,
+    })
+
     -- Keep scanning: towers stream in and out as you move, so a match that was "(not
     -- loaded)" a second ago may be teleportable now.
     task.spawn(function()
@@ -2135,12 +2320,44 @@ PlayerBox:AddToggle("Noclip", {
         end
         _G.noclipConns = {}
         if noclipConnection then noclipConnection:Disconnect() noclipConnection = nil end
+
+        -- Put collision back on everything noclip switched off -- the WORLD and the
+        -- CHARACTER. (Missing the character half is a softlock: the world is solid again
+        -- but you still fall through it.)
+        --
+        -- Only parts that were collidable when we touched them are ever recorded, so this
+        -- can never turn on something the game ships non-collidable -- it strictly undoes
+        -- our own changes. Restored in big batches so the floor is back almost instantly.
+        if _G.noclipChanged then
+            local restoring = _G.noclipChanged
+            _G.noclipChanged = nil
+            task.spawn(function()
+                local n = 0
+                for part in pairs(restoring) do
+                    -- Noclip switched back on mid-restore: stop, or we'd be handing
+                    -- collision back to parts the new pass has just switched off.
+                    if _G.noclipChanged ~= nil then return end
+                    if part and part.Parent then pcall(function() part.CanCollide = true end) end
+                    n += 1
+                    if n % 2000 == 0 then task.wait() end
+                end
+            end)
+        end
+
         if not state then return end
         local conns = _G.noclipConns
 
+        -- Every part noclip switches off is recorded here so it can be switched back on.
+        -- The `part.CanCollide` test is the whole safety rule: a part is only ever recorded
+        -- at the moment it was collidable, so restoring can only ever undo our own work.
+        -- Not weak-keyed -- losing an entry would mean leaving that part non-collidable
+        -- forever; destroyed parts are skipped on restore by the Parent check instead.
+        local changed = {}
+        _G.noclipChanged = changed
         local function forceUncollide(part)
             if part:IsA("BasePart") and part.CanCollide then
                 part.CanCollide = false
+                changed[part] = true
             end
         end
         -- Disable collision on every character part, including the HumanoidRootPart,
@@ -2151,7 +2368,10 @@ PlayerBox:AddToggle("Noclip", {
             if not part:IsA("BasePart") then return end
             forceUncollide(part)
             conns[#conns + 1] = part:GetPropertyChangedSignal("CanCollide"):Connect(function()
-                if part.CanCollide then part.CanCollide = false end
+                if part.CanCollide then
+                    part.CanCollide = false
+                    changed[part] = true      -- it was on again; make sure we hand it back on
+                end
             end)
         end
         local function hookChar(char)
@@ -2162,6 +2382,41 @@ PlayerBox:AddToggle("Noclip", {
 
         hookChar(Players.LocalPlayer.Character)
         conns[#conns + 1] = Players.LocalPlayer.CharacterAdded:Connect(hookChar)
+
+        -- Uncollide the WORLD too, not just the character.
+        --
+        -- Character-only noclip is not enough: a collision needs both sides, so the moment
+        -- the game re-asserts CanCollide on a body part (Pit of Misery does this
+        -- constantly) the contact is back. And a contact does not just add velocity --
+        -- the solver pushes the overlapping parts APART positionally, which is what
+        -- fights the autoplay tween, throws the camera around and wedges you in geometry.
+        -- Zeroing velocity cannot prevent that; the collision has to not exist. Killing it
+        -- on the world side means it survives the character side being re-enabled.
+        --
+        -- The initial pass is spread over frames because a tower game's workspace is tens
+        -- of thousands of parts and doing it in one go is a visible hitch.
+        -- Shares the `changed` record above, so world and character are restored together.
+        local uncollideWorld = forceUncollide
+        -- Repeats, because re-asserted collision on an EXISTING world part is exactly the
+        -- case a one-shot pass plus DescendantAdded would miss -- and re-asserting is the
+        -- thing Pit of Misery does. Incremental (800 parts per frame) with a pause between
+        -- passes, so it stays cheap on a tower-sized workspace.
+        task.spawn(function()
+            while _G.noclipConns == conns do
+                local stack, n = { workspace }, 0
+                while #stack > 0 do
+                    if not (_G.noclipConns == conns) then return end   -- noclip turned off mid-sweep
+                    local inst = table.remove(stack)
+                    uncollideWorld(inst)
+                    for _, kid in ipairs(inst:GetChildren()) do stack[#stack + 1] = kid end
+                    n += 1
+                    if n % 800 == 0 then task.wait() end
+                end
+                task.wait(2)
+            end
+        end)
+        -- Parts that stream in later (new towers, moving platforms) get the same treatment.
+        conns[#conns + 1] = workspace.DescendantAdded:Connect(uncollideWorld)
 
         -- Per-frame sweep on both sides of the physics step, as a fallback for
         -- anything the signal hooks miss.
@@ -2408,6 +2663,7 @@ local godmodeOriginal = nil
 local godmodeV2Connection = nil
 local godmodeKillBrickConn = nil
 local godmodeKillBrickParts = {}
+local godmodeKillBrickToken = nil   -- identity of the current re-sweep; stops the old one
 
 local function isKillBrickPart(inst)
     if not inst:IsA("BasePart") then return false end
@@ -2450,12 +2706,42 @@ local function setGodmodeHook(state)
     if not state then return end
     local damageEvent = getDamageEvent()
     if not damageEvent then return godmodeUnavailable("GodmodeHook") end
-    godmodeOriginal = hookmetamethod(game, "__namecall", function(self, ...)
-        if self == damageEvent and getnamecallmethod() == "FireServer" then
-            return
+
+    -- `original` is captured in its own local rather than read back out of
+    -- `godmodeOriginal`. The hook runs for EVERY namecall in the game, so if godmode is
+    -- switched off (or re-applied) while a call is in flight, reading the shared variable
+    -- could find it nil mid-call and error -- and an erroring hook lets the damage call
+    -- through. This copy can never be cleared out from under it.
+    local original
+    local blocker = function(self, ...)
+        -- Identity check first: a cheap pointer compare that keeps the far more expensive
+        -- getnamecallmethod() off the path of every unrelated namecall in the game. That
+        -- matters when a floor is firing a damage call every few milliseconds.
+        if self == damageEvent then
+            -- Fail SAFE. getnamecallmethod() is the flaky part under a flood -- if it
+            -- throws or returns nothing while calls are stacking up, the old
+            -- `== "FireServer"` test was false and the damage went through, which is
+            -- exactly godmode "sometimes" failing when instakills come thick and fast.
+            -- Anything we can't positively identify as a different method is blocked;
+            -- FireServer is realistically the only thing called on this remote anyway.
+            local ok, method = pcall(getnamecallmethod)
+            if not ok or method == nil or method == "FireServer" then
+                return
+            end
         end
-        return godmodeOriginal(self, ...)
-    end)
+        return original(self, ...)
+    end
+    -- Wrap it so the metamethod stays a C closure. A plain Lua function here adds Lua
+    -- stack frames to every namecall in the game, which under a flood of damage calls can
+    -- overflow the C stack -- the hook then errors and damage lands. This is the likely
+    -- cause of godmode failing only when there are lots of instakills.
+    if type(newcclosure) == "function" then
+        local ok, wrapped = pcall(newcclosure, blocker)
+        if ok and wrapped then blocker = wrapped end
+    end
+
+    original = hookmetamethod(game, "__namecall", blocker)
+    godmodeOriginal = original
 end
 
 -- Auto-Heal: heal back to full whenever health drops (heal loop via DamageEvent).
@@ -2485,6 +2771,7 @@ local function setGodmodeKillBricks(state)
         godmodeKillBrickConn:Disconnect()
         godmodeKillBrickConn = nil
     end
+    godmodeKillBrickToken = nil   -- stop any running re-sweep before changing state
     if not state then
         for part in pairs(godmodeKillBrickParts) do
             if part and part.Parent then part.CanTouch = true end
@@ -2502,12 +2789,33 @@ local function setGodmodeKillBricks(state)
         scanAndDisable(inst)
     end
     godmodeKillBrickConn = workspace.DescendantAdded:Connect(scanAndDisable)
+
+    -- Re-sweep on a timer as well. A one-shot pass plus DescendantAdded misses a kill
+    -- brick that ALREADY existed and had its CanTouch turned back on -- towers re-enable
+    -- them, and a floor full of instakills is exactly where one slipping through is fatal.
+    -- Incremental so a tower-sized workspace doesn't hitch.
+    local token = {}
+    godmodeKillBrickToken = token
+    task.spawn(function()
+        while godmodeKillBrickToken == token do
+            local stack, n = { workspace }, 0
+            while #stack > 0 do
+                if godmodeKillBrickToken ~= token then return end
+                local inst = table.remove(stack)
+                scanAndDisable(inst)
+                for _, kid in ipairs(inst:GetChildren()) do stack[#stack + 1] = kid end
+                n += 1
+                if n % 800 == 0 then task.wait() end
+            end
+            task.wait(2)
+        end
+    end)
 end
 
 PlayerBox:AddToggle("GodmodeHook", {
     Text    = "Godmode: Hook Damage",
     Default = UNCSupport.Godmode,
-    Tooltip = "Blocks ALL damage by hooking the game's DamageEvent so the damage call never reaches the server -- you simply never take damage. The cleanest, most reliable method, but needs executor support for hookmetamethod + getnamecallmethod (greyed out if unsupported).",
+    Tooltip = "Blocks ALL damage by hooking the game's DamageEvent so the damage call never reaches the server -- you simply never take damage. The cleanest method, but needs executor support for hookmetamethod + getnamecallmethod (greyed out if unsupported). On floors that spam instakills, turn on Kill Bricks as well: that stops the touches happening at all, instead of filtering a flood of damage calls.",
     Callback = function(state)
         if state and not UNCSupport.Godmode then
             Library.Toggles.GodmodeHook:SetValue(false)
@@ -3273,6 +3581,82 @@ end
 MenuGroup:AddDivider()
 MenuGroup:AddLabel("Menu bind")
     :AddKeyPicker("MenuKeybind", { Default = "RightShift", NoUI = true, Text = "Menu keybind" })
+-- ===== Auto Rejoin =====
+-- Gets you back in after a disconnect/kick instead of leaving the session dead. Kept in
+-- its own function so its locals don't add to the main chunk's 200-local budget.
+local function _initAutoRejoin()
+    local TeleportService = game:GetService("TeleportService")
+    local GuiService      = game:GetService("GuiService")
+    local plr             = game:GetService("Players").LocalPlayer
+
+    local enabled   = true
+    local rejoining = false
+
+    local function rejoinNow()
+        -- One attempt at a time: the error prompt and the teleport-failed signal can both
+        -- fire for the same disconnect, and two teleports at once just fail each other.
+        if rejoining then return end
+        rejoining = true
+        task.delay(15, function() rejoining = false end)
+
+        -- Private/VIP server: the same instance is off the table -- Roblox blocks client
+        -- teleports into them (Error 773), TeleportToPlaceInstance does not work for
+        -- reserved servers, and rejoining one needs an access code only the server side
+        -- ever has. Roblox's own Reconnect fails the same way. Trying it anyway just
+        -- produces a 773 dialog, so go straight to a normal server for the same place:
+        -- a different server, but back in the game instead of stuck on a dead prompt.
+        if game.PrivateServerId ~= "" then
+            Library:Notify({
+                Title       = "Auto Rejoin",
+                Description = "Private server can't be rejoined by a script -- joining a public server for this place instead.",
+                Duration    = 8,
+            })
+            pcall(function() TeleportService:Teleport(game.PlaceId, plr) end)
+            return
+        end
+
+        -- Public server: rejoin the same instance, falling back to any instance of the
+        -- place if that one is gone.
+        local ok = pcall(function()
+            TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, plr)
+        end)
+        if not ok then
+            pcall(function() TeleportService:Teleport(game.PlaceId, plr) end)
+        end
+    end
+
+    MenuGroup:AddToggle("AutoRejoin", {
+        Text    = "Auto Rejoin on disconnect",
+        Default = true,
+        Tooltip = "Automatically rejoin when you get disconnected or kicked.",
+        Callback = function(value) enabled = value end,
+    })
+
+    -- Primary signal: the client replicator being removed IS the disconnect, so this
+    -- can't be confused with anything else.
+    pcall(function()
+        local net = game:GetService("NetworkClient")
+        net.ChildRemoved:Connect(function()
+            if enabled then task.wait(0.5) rejoinNow() end
+        end)
+    end)
+    -- Backup: the disconnect/kick dialog appearing. Kept because the replicator signal
+    -- doesn't fire on every kick path, but it's the looser of the two -- other errors can
+    -- raise a dialog too, which is what the rejoining guard above is there to contain.
+    pcall(function()
+        GuiService.ErrorMessageChanged:Connect(function()
+            if enabled then task.wait(0.5) rejoinNow() end
+        end)
+    end)
+    -- And retry if the teleport itself is what failed.
+    pcall(function()
+        TeleportService.TeleportInitFailed:Connect(function(who)
+            if enabled and who == plr then task.wait(2) rejoinNow() end
+        end)
+    end)
+end
+_initAutoRejoin()
+
 MenuGroup:AddButton("Rejoin", function()
     local TeleportService = game:GetService("TeleportService")
     local player = game:GetService("Players").LocalPlayer
@@ -3386,9 +3770,6 @@ _initMobile()
 
 local CreditsGroup = Tabs.UISettings:AddRightGroupbox("Credits")
 CreditsGroup:AddLabel('<font color="rgb(90,200,255)">[cslp1]</font>  Owner', true)
-CreditsGroup:AddLabel('<font color="rgb(255,210,70)">[Mr.man]</font>  Co-owner', true)
-CreditsGroup:AddLabel('<font color="rgb(120,230,120)">[canadianeditz]</font>  Contributor', true)
-CreditsGroup:AddLabel('<font color="rgb(120,230,120)">[eli]</font>  Contributor', true)
 
 local OtherScriptsGroup = Tabs.UISettings:AddRightGroupbox("Other Scripts")
 local function copyLoadstring(name, code)
