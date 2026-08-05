@@ -70,6 +70,7 @@ return {
         { name = "ToIG",  category = "Ring1", suggestedTime = { min = "6", sec = "0" } },
         --Forgotten Ridge
         { name = "CoWN",  category = "ForgottenRidge", suggestedTime = { min = "35", sec = "5" } },
+        { name = "CoWN",  category = "ForgottenRidge", suggestedTime = { min = "6", sec = "5" } },
         { name = "ToMB",  category = "ForgottenRidge", suggestedTime = { min = "10", sec = "5" } },
         --Summit of Memories
         { name = "ToAST(C)",  category = "SummitOfMemories", suggestedTime = { min = "6", sec = "0" } },
