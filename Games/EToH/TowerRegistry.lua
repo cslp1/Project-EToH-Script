@@ -30,6 +30,7 @@ local Categories = {
     ElysianFields = 95241871632790,
     TheDoghouse = 16976865869,
     LegacyFortress = 116826560849733,
+    HeccfireDepths = 9070963935,
     ["100M-Event-Replay"] = 115856553162061,
 }
 
@@ -324,6 +325,8 @@ return {
         { name = "ToTU(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
         { name = "ToUP(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
         { name = "ToWS(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
+        --Legacy Fortress
+        { name = "SoRP",  category = "HeccfireDepths", suggestedTime = { min = "4", sec = "36" } },
         --100M Event Replay
         { name = "100MC",  category = "100M-Event-Replay", suggestedTime = { min = "0", sec = "10" } },
         { name = "100MT",  category = "100M-Event-Replay", suggestedTime = { min = "0", sec = "10" } },
