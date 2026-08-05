@@ -326,6 +326,7 @@ return {
         { name = "R1TR", category = "Ring1", suggestedTime = { min = "39", sec = "0" }, isTowerRush = true, },
         { name = "R2TR", category = "Ring2", suggestedTime = { min = "55", sec = "0" }, isTowerRush = true, },
         { name = "R3TR", category = "Ring3", suggestedTime = { min = "55", sec = "0" }, isTowerRush = true, },
+        { name = "R4TR", category = "Ring3", suggestedTime = { min = "55", sec = "0" }, isTowerRush = true, },
         { name = "R5TR", category = "Ring5", suggestedTime = { min = "33", sec = "0" }, isTowerRush = true, },
         { name = "R9TR", category = "Ring9", suggestedTime = { min = "40", sec = "0" }, isTowerRush = true, },
         { name = "Z1TR", category = "Zone1", suggestedTime = { min = "40", sec = "0" }, isTowerRush = true, },
