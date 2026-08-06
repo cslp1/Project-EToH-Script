@@ -1461,6 +1461,8 @@ startAutoPlay = function()
                     local moveTarget = step.target
                     local done       = false
                     local lastPos    = hrp.Position
+                    local stuckStart = os.clock()
+                    local stuckPos   = hrp.Position
                     local moveConn
                     moveConn = RunService.Heartbeat:Connect(function(dt)
                         if died then
@@ -1479,6 +1481,8 @@ startAutoPlay = function()
                             task.wait(0.5)
                             lastPos = h.Position
                             startTime = os.clock()
+                            stuckPos   = h.Position
+                            stuckStart = os.clock()
                             return
                         end
                         lastPos = h.Position
@@ -1487,7 +1491,21 @@ startAutoPlay = function()
                             currentDest = getTopPos(moveTarget)
                         end
                         local currentDist = (currentDest - h.Position).Magnitude
-                        if currentDist <= 0.1 then
+                        -- Arrived: wider radius (2 studs) so a dest sitting just inside a
+                        -- wall still counts instead of grinding at the surface forever.
+                        if currentDist <= 2 then
+                            h.CFrame = CFrame.new(currentDest)
+                            done = true
+                            moveConn:Disconnect()
+                            return
+                        end
+                        -- Stall exit: no ground gained in 1.2s means we're wedged on a
+                        -- part. Snap to the dest and move on instead of vibrating.
+                        if (stuckPos - h.Position).Magnitude > 1 then
+                            stuckPos   = h.Position
+                            stuckStart = os.clock()
+                        elseif os.clock() - stuckStart >= 1.2 then
+                            h.CFrame = CFrame.new(currentDest)
                             done = true
                             moveConn:Disconnect()
                             return
@@ -1739,6 +1757,8 @@ startAutoPlay = function()
                         end
                     end)
                 end
+                local stuckStart = os.clock()
+                local stuckPos   = hrp.Position
                 local moveConn
                 moveConn = RunService.Heartbeat:Connect(function(dt)
                     if died then done = true moveConn:Disconnect() return end
@@ -1750,7 +1770,21 @@ startAutoPlay = function()
                         currentDest = getTopPos(moveTarget)
                     end
                     local currentDist = (currentDest - h.Position).Magnitude
-                    if currentDist <= 0.1 then done = true moveConn:Disconnect() return end
+                    -- Arrived: wider radius (2 studs) so a dest sitting just inside a wall
+                    -- still counts instead of grinding at the surface forever.
+                    if currentDist <= 2 then
+                        h.CFrame = CFrame.new(currentDest)
+                        done = true moveConn:Disconnect() return
+                    end
+                    -- Stall exit: no ground gained in 1.2s means we're wedged on a part.
+                    -- Snap to the dest and move on instead of vibrating out the step.
+                    if (stuckPos - h.Position).Magnitude > 1 then
+                        stuckPos   = h.Position
+                        stuckStart = os.clock()
+                    elseif os.clock() - stuckStart >= 1.2 then
+                        h.CFrame = CFrame.new(currentDest)
+                        done = true moveConn:Disconnect() return
+                    end
                     local speed = stepTime > 0 and (dist / stepTime) or 50
                     local moveDist = math.min(speed * dt, currentDist)
                     local rawDir = (currentDest - h.Position)
