@@ -281,8 +281,21 @@ return {
         --Zone 6
         { name = "ToMM",  category = "Zone6", suggestedTime = { min = "6", sec = "0" } },
         --Zone 7
-        { name = "ToFM",  category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
-        { name = "ToUA",  category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToJ",    category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToRW",   category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToSV",   category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToBR",   category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToDF",   category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToGM",   category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToCE",   category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToWS",   category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToY",    category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToCMC",  category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToSaPS", category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToUI",   category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
+        { name = "CoACT",  category = "Zone7", suggestedTime = { min = "35", sec = "0" } },
+        { name = "ToFM",   category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
+        { name = "ToUA",   category = "Zone7", suggestedTime = { min = "6", sec = "0" } },
         --Zone 8
         { name = "CoPE",  category = "Zone8", suggestedTime = { min = "35", sec = "0" } },
         { name = "ToAE",  category = "Zone8", suggestedTime = { min = "6", sec = "0" } },
