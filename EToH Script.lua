@@ -1156,14 +1156,10 @@ TowerBox:AddButton({
 -- ===== Personal Features (built specifically for gavin) =====
 local PersonalBox = Tabs.Main:AddLeftGroupbox("Personal Features")
 
--- For each tower: enter via its teleporter, use a boost item, wait, then teleport to its
--- WinPad to complete it. Regular towers use the VM (slot 5) with a ~30-75s wait; citadels
--- ("Citadel of X" -> "CoX") use the jump coil (slot 4) with a 5-25 min wait, since they're
--- much larger. A boost-item way to clear towers, including ones not in the registry.
+-- For each tower: enter via its teleporter, use the VM (slot 5), wait 0-5s, then teleport
+-- to its WinPad to complete it. Applies the same way to regular towers, citadels, and
+-- steeples. A boost-item way to clear towers, including ones not in the registry.
 -- Returns to the lobby between towers.
-local function isCitadel(name)
-    return name:match("^Co%u") ~= nil
-end
 local function runVMFlow(towerNames)
     local player = game:GetService("Players").LocalPlayer
     local VIM    = game:GetService("VirtualInputManager")
@@ -1197,17 +1193,16 @@ local function runVMFlow(towerNames)
                 until os.clock() - t0 > 1.5 or not _G.vmActive
             end
 
-            -- Citadels get the jump coil (slot 4) + a long wait; everything else the VM (slot 5).
-            local citadel  = isCitadel(name)
-            local slotKey  = citadel and Enum.KeyCode.Four or Enum.KeyCode.Five
-            local itemName = citadel and "jump coil" or "VM"
+            -- Towers, citadels, and steeples all use the VM (slot 5).
+            local slotKey  = Enum.KeyCode.Five
+            local itemName = "VM"
             VIM:SendKeyEvent(true, slotKey, false, game)
             task.wait(0.1)
             VIM:SendKeyEvent(false, slotKey, false, game)
 
-            -- Wait for the boost to clear the tower: 5-15 min for citadels, 15-60s otherwise.
-            local waitSec   = citadel and math.random(300, 900) or math.random(15, 60)
-            local waitLabel = citadel and ("%.1f min"):format(waitSec / 60) or ("%ds"):format(waitSec)
+            -- Wait for the boost to clear the tower: 0-5s for towers, citadels, and steeples alike.
+            local waitSec   = math.random(0, 5)
+            local waitLabel = ("%ds"):format(waitSec)
             Library:Notify({ Title = "Auto VM", Description = ("(%d/%d) %s -- %s, waiting %s"):format(i, #towerNames, name, itemName, waitLabel), Duration = 4 })
             local waitUntil = os.clock() + waitSec
             while os.clock() < waitUntil and _G.vmActive do task.wait(0.5) end
@@ -1229,7 +1224,7 @@ end
 
 PersonalBox:AddButton({
     Text    = "Auto Use VM (selected)",
-    Tooltip = "For each ticked tower in 'Auto Complete: Towers': enter it, use the VM item (key 5), wait 30s, then teleport to the WinPad. Press again to stop.",
+    Tooltip = "For each ticked tower in 'Auto Complete: Towers': enter it, use the VM item (key 5), wait 0-5s, then teleport to the WinPad. Press again to stop.",
     Callback = function()
         if _G.vmActive then
             _G.vmActive = false
