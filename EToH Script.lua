@@ -718,18 +718,22 @@ local function getCurrentFloor()
 end
 
 local FloorLabel
+local floorOverlayGui
+local FloorOverlayLabel
 local floorCounterConn
 TowerBox:AddToggle("FloorCounter", {
     Text    = "Floor Counter",
     Default = false,
-    Tooltip = "Shows which floor you're on by matching the floor color under you. Builds the color palette live from the tower you're in, so it works for any tower.",
+    Tooltip = "Shows which floor you're on by matching the floor color under you, both in this menu and as a small draggable overlay. Builds the color palette live from the tower you're in, so it works for any tower.",
     Callback = function(state)
         if floorCounterConn then
             floorCounterConn:Disconnect()
             floorCounterConn = nil
         end
+        if floorOverlayGui then floorOverlayGui.Enabled = state end
         if not state then
             FloorLabel:SetText("Floor: --/--")
+            if FloorOverlayLabel then FloorOverlayLabel.Text = "Floor: --/--" end
             return
         end
         local RunService = game:GetService("RunService")
@@ -747,11 +751,79 @@ TowerBox:AddToggle("FloorCounter", {
             if text ~= lastText then
                 lastText = text
                 FloorLabel:SetText(text)
+                if FloorOverlayLabel then FloorOverlayLabel.Text = text end
             end
         end)
     end,
 })
 FloorLabel = TowerBox:AddLabel("Floor: --/--")
+
+-- Small draggable overlay that mirrors the label above, so the floor count stays visible
+-- even with the main menu closed or on a different tab. Same "clean up a stale instance
+-- from a previous execution, then build fresh" convention TowerRushUI.lua uses for its GUI.
+do
+    local player = game:GetService("Players").LocalPlayer
+    local playerGui = player:WaitForChild("PlayerGui")
+    pcall(function()
+        local existing = playerGui:FindFirstChild("FloorCounterOverlay")
+        if existing then existing:Destroy() end
+    end)
+
+    local overlayGui = Instance.new("ScreenGui")
+    overlayGui.Name           = "FloorCounterOverlay"
+    overlayGui.ResetOnSpawn   = false
+    overlayGui.IgnoreGuiInset = true
+    overlayGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    overlayGui.Enabled        = false
+    overlayGui.Parent         = playerGui
+
+    local frame = Instance.new("Frame")
+    frame.Name                   = "FloorFrame"
+    frame.Size                   = UDim2.fromOffset(160, 36)
+    frame.Position                = UDim2.new(0.5, -80, 0, 80)
+    frame.BackgroundColor3       = Color3.fromRGB(24, 24, 28)
+    frame.BackgroundTransparency = 0.15
+    frame.BorderSizePixel        = 0
+    frame.Active                  = true
+    frame.Parent                  = overlayGui
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 6)
+    corner.Parent        = frame
+
+    local label = Instance.new("TextLabel")
+    label.Name                  = "Label"
+    label.BackgroundTransparency = 1
+    label.Size                  = UDim2.fromScale(1, 1)
+    label.Font                  = Enum.Font.GothamBold
+    label.TextSize              = 16
+    label.TextColor3            = Color3.fromRGB(255, 255, 255)
+    label.Text                  = "Floor: --/--"
+    label.Parent                = frame
+
+    -- Drag to reposition (mouse + touch) -- same pattern as TowerRushUI's title bar drag.
+    local UIS = game:GetService("UserInputService")
+    local dragging, dragStart, startPos
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging  = true
+            dragStart = input.Position
+            startPos  = frame.Position
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then dragging = false end
+            end)
+        end
+    end)
+    UIS.InputChanged:Connect(function(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            local delta = input.Position - dragStart
+            frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+    end)
+
+    floorOverlayGui   = overlayGui
+    FloorOverlayLabel = label
+end
 
 local routeHighlights = {}
 local routeUpdateConn = nil
