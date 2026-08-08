@@ -624,6 +624,135 @@ TowerBox:AddInput("NextTowerDelay", {
     Placeholder = "5",
     Tooltip     = "After returning to spawn, wait this long before entering the next tower or repeating. Lowering it too far can enter before the lobby finishes loading.",
 })
+
+-- ===== Floor Counter (detects current floor from floor color) =====
+-- EToH doesn't number floor parts -- confirmed in-game (F9 console dump of
+-- workspace.Towers.ToH.Frame) that every child is just named "Part", and each floor's
+-- walls/tiles all share one fixed color, rainbow-banded bottom to top. Rather than
+-- hand-typing a color table per tower, the palette is built live: group every BasePart in
+-- the tower's Frame by exact color, order the groups by height (lowest = floor 1), and
+-- that ordering *is* the floor list. Works for any tower with no per-tower data needed.
+local floorPaletteCache = {} -- towerName -> array of {color=Color3} ordered bottom-to-top
+
+local function buildFloorPalette(towerName)
+    local cached = floorPaletteCache[towerName]
+    if cached then return cached end
+
+    local towersFolder = workspace:FindFirstChild("Towers")
+    local tower = towersFolder and towersFolder:FindFirstChild(towerName)
+    local frame = tower and tower:FindFirstChild("Frame")
+    if not frame then return nil end
+
+    local groups = {} -- hex -> { color = Color3, minY = number }
+    local partCount = 0
+    for _, inst in ipairs(frame:GetDescendants()) do
+        if inst:IsA("BasePart") then
+            partCount = partCount + 1
+            local hex = inst.Color:ToHex()
+            local y = inst.Position.Y - inst.Size.Y / 2
+            local g = groups[hex]
+            if not g then
+                groups[hex] = { color = inst.Color, minY = y }
+            elseif y < g.minY then
+                g.minY = y
+            end
+        end
+    end
+
+    local list = {}
+    for _, g in pairs(groups) do list[#list + 1] = g end
+    if #list == 0 then return nil end
+    table.sort(list, function(a, b) return a.minY < b.minY end)
+
+    -- Only cache once the tower looks fully streamed in (a handful of parts likely means
+    -- Frame is still loading) so an early scan doesn't lock in a wrong/incomplete palette.
+    if partCount >= 10 then
+        floorPaletteCache[towerName] = list
+    end
+    return list
+end
+
+-- Raycasts straight down from the player, walks the hit part up to its tower folder under
+-- workspace.Towers, then matches the part's Color against the closest entry in that
+-- tower's live-built palette (nearest-distance, not exact-equality, so it still works if a
+-- color is off by a shade). Returns floor, total, towerName -- floor/total are nil if no
+-- palette could be built yet; towerName is nil if not standing over a tower at all.
+local function getCurrentFloor()
+    local player = game:GetService("Players").LocalPlayer
+    local char   = player.Character
+    local hrp    = char and char:FindFirstChild("HumanoidRootPart")
+    if not hrp then return nil end
+
+    local params = RaycastParams.new()
+    params.FilterType = Enum.RaycastFilterType.Exclude
+    params.FilterDescendantsInstances = { char }
+    local hit = workspace:Raycast(hrp.Position, Vector3.new(0, -500, 0), params)
+    if not hit or not hit.Instance then return nil end
+
+    local towersFolder = workspace:FindFirstChild("Towers")
+    if not towersFolder then return nil end
+    local towerName
+    local anc = hit.Instance
+    while anc and anc ~= workspace do
+        if anc.Parent == towersFolder then
+            towerName = anc.Name
+            break
+        end
+        anc = anc.Parent
+    end
+    if not towerName then return nil end
+
+    local palette = buildFloorPalette(towerName)
+    if not palette then return nil, nil, towerName end
+
+    local hitColor = hit.Instance.Color
+    local hitVec = Vector3.new(hitColor.R, hitColor.G, hitColor.B)
+    local bestFloor, bestDist = nil, math.huge
+    for i, g in ipairs(palette) do
+        local dist = (Vector3.new(g.color.R, g.color.G, g.color.B) - hitVec).Magnitude
+        if dist < bestDist then
+            bestDist, bestFloor = dist, i
+        end
+    end
+    return bestFloor, #palette, towerName
+end
+
+local FloorLabel
+local floorCounterConn
+TowerBox:AddToggle("FloorCounter", {
+    Text    = "Floor Counter",
+    Default = false,
+    Tooltip = "Shows which floor you're on by matching the floor color under you. Builds the color palette live from the tower you're in, so it works for any tower.",
+    Callback = function(state)
+        if floorCounterConn then
+            floorCounterConn:Disconnect()
+            floorCounterConn = nil
+        end
+        if not state then
+            FloorLabel:SetText("Floor: --/--")
+            return
+        end
+        local RunService = game:GetService("RunService")
+        local lastText
+        floorCounterConn = RunService.Heartbeat:Connect(function()
+            local floor, total, towerName = getCurrentFloor()
+            local text
+            if floor and total then
+                text = ("Floor: %d/%d"):format(floor, total)
+            elseif towerName then
+                text = ("Floor: ?/? (reading %s...)"):format(towerName)
+            else
+                text = "Floor: --/--"
+            end
+            if text ~= lastText then
+                lastText = text
+                FloorLabel:SetText(text)
+            end
+        end)
+    end,
+})
+FloorLabel = TowerBox:AddLabel("Floor: --/--")
+
 local routeHighlights = {}
 local routeUpdateConn = nil
 
