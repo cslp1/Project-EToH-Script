@@ -125,8 +125,8 @@ return {
         { name = "ToI",  category = "Ring4", suggestedTime = { min = "6", sec = "0" } },
         --Silent Abyss
         { name = "ToTINT",  category = "SilentAbyss", suggestedTime = { min = "6", sec = "0" } },
-        { name = "SoMB",  category = "ForgottenRidge", suggestedTime = { min = "6", sec = "5" } },
-        { name = "SoMA",  category = "ForgottenRidge", suggestedTime = { min = "6", sec = "5" } },
+        { name = "SoMB",  category = "SilentAbyss", suggestedTime = { min = "6", sec = "5" } },
+        { name = "SoMA",  category = "SilentAbyss", suggestedTime = { min = "6", sec = "5" } },
         --Ring 5
         { name = "ToNV",  category = "Ring5", suggestedTime = { min = "6", sec = "0" } },
         { name = "LAT",  category = "Ring5", suggestedTime = { min = "0", sec = "10" } },
@@ -226,7 +226,6 @@ return {
         { name = "ToMH",  category = "Zone1", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToHS",  category = "Zone1", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToCO",  category = "Zone1", suggestedTime = { min = "6", sec = "0" } },
-        { name = "ToP",  category = "Zone1", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToYS",  category = "Zone1", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToAV",  category = "Zone1", suggestedTime = { min = "6", sec = "0" } },
         { name = "ToWEL",  category = "Zone1", suggestedTime = { min = "6", sec = "0" } },
@@ -341,6 +340,7 @@ return {
         { name = "ToC(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
         { name = "ToUB(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
         { name = "ToPS(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
+        { name = "ToG(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
         { name = "ToT(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
         { name = "ToGI(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
         { name = "ToMD(L)",  category = "LegacyFortress", suggestedTime = { min = "4", sec = "36" } },
