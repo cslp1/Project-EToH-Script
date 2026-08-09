@@ -337,7 +337,13 @@ local function resolveTeleportTo(name)
     if not f then return nil end
     local tp    = f:FindFirstChild("Teleporter")
     local exact = tp and tp:FindFirstChild("TeleportTo")
-    return exact or f:FindFirstChild("TeleportTo", true)
+    local found = exact or f:FindFirstChild("TeleportTo", true)
+    if found then return toBasePart(found) end
+    -- Games with a single combined entry part (no separate TPFRAME + TeleportTo stage --
+    -- e.g. TEA's Portal, CSCD's TP, EToH XL's TowerStart) have nothing named TeleportTo at
+    -- all. Fall back to the same part resolveTPFrame found: the player is already standing
+    -- on it from the walk-to loop above, so the "wait for teleport" touch fires right away.
+    return resolveTPFrame(name)
 end
 
 -- F9 diagnostic: dump a tower folder's children when entry resolution fails, so an
