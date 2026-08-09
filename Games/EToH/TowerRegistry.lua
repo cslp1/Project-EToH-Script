@@ -33,10 +33,10 @@ local Categories = {
     LegacyFortress = 116826560849733,
     HeccfireDepths = 9070963935,
     ["100M-Event-Replay"] = 115856553162061,
-    -- EToH XL (place 13228556826) -- a separate game with its own ring/citadel
-    -- progression. Add more XLRingN categories here as later rings get surveyed.
+    -- EToH XL -- a separate game with its own ring/citadel progression. Each ring is its
+    -- own place. Add more XLRingN categories here as later rings get surveyed.
     XLRing1 = 13228556826,
-    XLRing2 = 13333937540,
+    XLRing3 = 13654432865,
 }
 
 return {
@@ -364,10 +364,11 @@ return {
         --EToH XL: Ring 1 Citadels (place 13228556826). suggestedTime is a placeholder
         --(35:00, matching other citadels) until real completion times are known.
         { name = "CoA",     category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
-        { name = "CoKJ",     category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
         { name = "CoIG",    category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
         { name = "CoR",     category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
-        { name = "CoDC",     category = "XLRing2", suggestedTime = { min = "35", sec = "0" } },
+        --EToH XL: Ring 3 Citadels (place 13654432865). suggestedTime is a placeholder
+        --(35:00, matching other citadels) until real completion times are known.
+        { name = "CoUC",    category = "XLRing3", suggestedTime = { min = "35", sec = "0" } },
     },
     TowerRush = {
         { name = "PTR", category = "Ring0", suggestedTime = { min = "39", sec = "0" }, isTowerRush = true, },
