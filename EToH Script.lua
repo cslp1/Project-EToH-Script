@@ -279,16 +279,18 @@ end
 -- search by name so towers in other games using the same JToH kit (e.g. The Eternal Abyss)
 -- resolve even if the hierarchy differs. Returns nil if the folder/part is gone.
 -- Tower games don't agree on what the entry portal is called. Observed so far:
---   EToH  Teleporter.Teleporter.TPFRAME
---   TEA   Portal            (siblings: Frame, WinPad, SpawnPad)
---   CSCD  TP                (siblings: Checkpoints, Frame, DO_NOT_MOVE_...)
+--   EToH    Teleporter.Teleporter.TPFRAME
+--   TEA     Portal            (siblings: Frame, WinPad, SpawnPad)
+--   CSCD    TP                (siblings: Checkpoints, Frame, DO_NOT_MOVE_...)
+--   EToH XL TowerStart        (siblings: WinPad, WinSpawn, FloorN parts -- no Teleporter
+--                              nesting, no TPFRAME/TeleportTo at all)
 -- Ordered most- to least-specific. Deliberately excludes Frame (the tower's base) and
 -- WinPad (the finish, not the entry).
 local PORTAL_NAMES = {
-    "TPFRAME", "Portal", "TP", "TeleportTo", "Teleporter", "Entrance", "SpawnPad", "Spawn",
+    "TPFRAME", "Portal", "TP", "TeleportTo", "Teleporter", "TowerStart", "Entrance", "SpawnPad", "Spawn",
 }
 -- Substring pass for games not covered above. Same exclusions.
-local PORTAL_HINTS = { "tpframe", "portal", "teleport", "entrance", "spawnpad" }
+local PORTAL_HINTS = { "tpframe", "portal", "teleport", "towerstart", "entrance", "spawnpad" }
 
 -- Callers need a BasePart (they read .CFrame/.Position/.Size), but these can be Models
 -- or Folders, so resolve down to an actual part.
@@ -1177,13 +1179,16 @@ local function runVMFlow(towerNames)
             if not _G.vmActive then break end
             Library:Notify({ Title = "Auto VM", Description = ("(%d/%d) %s"):format(i, #towerNames, name), Duration = 3 })
 
-            -- Enter the tower via its teleporter (TPFRAME then TeleportTo). Recursive search
-            -- by name so it works regardless of how the game nests them.
+            -- Enter the tower via its teleporter (TPFRAME then TeleportTo, or TowerStart for
+            -- EToH XL). Recursive search by name so it works regardless of how the game nests
+            -- them.
             local entryParts = {}
-            local tpFramePart = tower:FindFirstChild("TPFRAME", true)
-            local teleToPart  = tower:FindFirstChild("TeleportTo", true)
-            if tpFramePart then entryParts[#entryParts + 1] = tpFramePart end
-            if teleToPart  then entryParts[#entryParts + 1] = teleToPart end
+            local tpFramePart   = tower:FindFirstChild("TPFRAME", true)
+            local teleToPart    = tower:FindFirstChild("TeleportTo", true)
+            local towerStartPart = tower:FindFirstChild("TowerStart", true)
+            if tpFramePart    then entryParts[#entryParts + 1] = tpFramePart end
+            if teleToPart     then entryParts[#entryParts + 1] = teleToPart end
+            if towerStartPart then entryParts[#entryParts + 1] = towerStartPart end
             for _, part in ipairs(entryParts) do
                 local t0 = os.clock()
                 repeat
