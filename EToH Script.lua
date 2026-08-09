@@ -1502,6 +1502,11 @@ startAutoPlay = function()
             end
             if checkDied() then return end
 
+            -- From here on the moveConn loop below drives position every frame, same as the
+            -- non-rush route tween -- so it needs the same velocity/angular-velocity zeroing
+            -- from stabilise() or leftover physics fights the manual CFrame sets (the jitter).
+            walking = true
+
             local totalSuggestedSec = 0
             for _, towerName in ipairs(towerList) do
                 local st = SuggestedTimes[towerName]
