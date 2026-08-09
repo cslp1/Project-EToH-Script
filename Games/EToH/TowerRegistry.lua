@@ -363,21 +363,8 @@ return {
         --EToH XL: Ring 1 Citadels (place 13228556826). suggestedTime is a placeholder
         --(35:00, matching other citadels) until real completion times are known.
         { name = "CoA",     category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
-        { name = "CoAST",   category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
-        { name = "CoH",     category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
-        { name = "CoIE",    category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
         { name = "CoIG",    category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
-        { name = "CoKJ",    category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
-        { name = "CoKY",    category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
-        { name = "CoM",     category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
-        { name = "CoNI",    category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
         { name = "CoR",     category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
-        { name = "CoS",     category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
-        { name = "CoSP",    category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
-        { name = "CoTS",    category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
-        { name = "CoVM(C)", category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
-        { name = "NEAC",    category = "XLRing1", suggestedTime = { min = "0",  sec = "5" } },
-        { name = "OoLS",    category = "XLRing1", suggestedTime = { min = "60", sec = "0" } }, --45-75 min range, using the midpoint
     },
     TowerRush = {
         { name = "PTR", category = "Ring0", suggestedTime = { min = "39", sec = "0" }, isTowerRush = true, },
