@@ -377,7 +377,7 @@ return {
         { name = "CoTS",    category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
         { name = "CoVM(C)", category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
         { name = "NEAC",    category = "XLRing1", suggestedTime = { min = "0",  sec = "5" } },
-        { name = "OoLS",    category = "XLRing1", suggestedTime = { min = "0",  sec = "5" } },
+        { name = "OoLS",    category = "XLRing1", suggestedTime = { min = "60", sec = "0" } }, --45-75 min range, using the midpoint
     },
     TowerRush = {
         { name = "PTR", category = "Ring0", suggestedTime = { min = "39", sec = "0" }, isTowerRush = true, },
