@@ -363,6 +363,7 @@ return {
         --EToH XL: Ring 1 Citadels (place 13228556826). suggestedTime is a placeholder
         --(35:00, matching other citadels) until real completion times are known.
         { name = "CoA",     category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
+        { name = "CoKJ",     category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
         { name = "CoIG",    category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
         { name = "CoR",     category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
     },
