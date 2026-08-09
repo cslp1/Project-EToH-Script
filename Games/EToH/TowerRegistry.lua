@@ -36,6 +36,7 @@ local Categories = {
     -- EToH XL (place 13228556826) -- a separate game with its own ring/citadel
     -- progression. Add more XLRingN categories here as later rings get surveyed.
     XLRing1 = 13228556826,
+    XLRing2 = 13333937540,
 }
 
 return {
@@ -366,6 +367,7 @@ return {
         { name = "CoKJ",     category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
         { name = "CoIG",    category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
         { name = "CoR",     category = "XLRing1", suggestedTime = { min = "35", sec = "0" } },
+        { name = "CoDC",     category = "XLRing2", suggestedTime = { min = "35", sec = "0" } },
     },
     TowerRush = {
         { name = "PTR", category = "Ring0", suggestedTime = { min = "39", sec = "0" }, isTowerRush = true, },
