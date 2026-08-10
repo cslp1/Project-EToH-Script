@@ -2323,6 +2323,25 @@ local function _initTowerPortal()
     -- to autoplay most towers. Note this sorts by POSITION, not by child index --
     -- Obby:GetChildren() order is effectively arbitrary (early children are grouped
     -- section models), which is why an index-ordered version was tried and reverted.
+    -- Places whose towers DON'T use a per-tower Obby: entering a tower streams its parts
+    -- into one shared top-level workspace.Parts instead (The Eternal Abyss). In these
+    -- places workspace.Parts is the ONLY source -- the tower folder is never consulted --
+    -- and since it holds just the tower you're currently inside, Automake Route has to be
+    -- run from in there. Add TEA's place id(s) here; anywhere not listed keeps using Obby.
+    local SHARED_PARTS_PLACES = {
+        -- The Eternal Abyss (its areas are separate places, same shared-parts layout)
+        131042387601353,
+        15873244701,
+        121814103864070,
+        137721171983074,
+    }
+    local function usesSharedParts()
+        for _, id in ipairs(SHARED_PARTS_PLACES) do
+            if id == currentPlaceId then return true end
+        end
+        return false
+    end
+
     -- Direct children first: that's the usual layout and it keeps the emitted paths short.
     -- But some towers group their obby into section Models, so the top level holds no
     -- BaseParts at all -- fall back to the full descendant list instead of reporting the
@@ -2343,17 +2362,19 @@ local function _initTowerPortal()
     local function collectAutoRoute(name, descending)
         local folder = towerFolder(name)
 
-        -- Where the obstacle parts live. Most games nest them under the tower's own folder
-        -- (workspace.Towers.<name>.Obby). The Eternal Abyss doesn't: entering a tower
-        -- streams its parts into one shared top-level workspace.Parts, which only ever
-        -- holds the tower you are CURRENTLY inside -- so that fallback only works from
-        -- in there, and it's why this can't be run for a TEA tower from the lobby.
+        -- Where the obstacle parts live.
         local root, rootExpr
         local parts = {}
-        local obby = folder and folder:FindFirstChild("Obby")
-        if obby then
-            root, rootExpr = obby, ("workspace.Towers[%q].Obby"):format(name)
-            parts = gatherParts(obby)
+        local sharedOnly = usesSharedParts()
+
+        -- In a shared-parts place (TEA) the Obby is deliberately never looked at, even if
+        -- the tower folder happens to have one -- workspace.Parts is the live obby there.
+        if not sharedOnly then
+            local obby = folder and folder:FindFirstChild("Obby")
+            if obby then
+                root, rootExpr = obby, ("workspace.Towers[%q].Obby"):format(name)
+                parts = gatherParts(obby)
+            end
         end
         if #parts == 0 then
             local shared = workspace:FindFirstChild("Parts")
@@ -2363,6 +2384,9 @@ local function _initTowerPortal()
             end
         end
         if #parts == 0 then
+            if sharedOnly then
+                return nil, "Nothing in workspace.Parts -- this game only exposes a tower's parts while you're inside it, so enter the tower first."
+            end
             if not folder and not workspace:FindFirstChild("Parts") then
                 return nil, name .. " isn't loaded in workspace.Towers, and there's no workspace.Parts either."
             end
