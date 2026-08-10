@@ -2779,11 +2779,6 @@ PlayerBox:AddToggle("Noclip", {
         conns[#conns + 1] = RunService.Stepped:Connect(sweep)
         conns[#conns + 1] = RunService.Heartbeat:Connect(sweep)
     end,
-}):AddKeyPicker("NoclipKeybind", {
-    Text            = "Noclip Keybind",
-    Default         = "V",
-    Mode            = "Toggle",
-    SyncToggleState = true,
 })
 local flyConnection = nil
 local flyInputBeganConn = nil
@@ -2899,19 +2894,13 @@ local function setFly(state)
         if humanoid then humanoid.PlatformStand = false end
     end
 end
-local FlyToggle = PlayerBox:AddToggle("Fly", {
+PlayerBox:AddToggle("Fly", {
     Text    = "Fly",
     Default = false,
     Tooltip = "Toggle fly mode",
     Callback = function(state)
         setFly(state)
     end,
-})
-FlyToggle:AddKeyPicker("FlyKeybind", {
-    Text             = "Fly Keybind",
-    Default          = "F",
-    Mode             = "Toggle",
-    SyncToggleState  = true,
 })
 
 PlayerBox:AddToggle("InfiniteJump", {
