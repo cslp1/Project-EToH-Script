@@ -4153,53 +4153,97 @@ do
 
     local function trim(s) return (tostring(s):gsub("^%s+", ""):gsub("%s+$", "")) end
 
-    -- A time readout looks like 0:01.68 / 29:28.67. Never matches our own labels because
-    -- the search skips our ScreenGui entirely.
+    -- A time readout looks like 0:01.68 / 29:28.67.
     local function looksLikeTime(s) return trim(s):match("^%d+:%d%d%.%d%d$") ~= nil end
 
-    -- Our own ScreenGuis must never be searched. This isn't hypothetical: PESUI falls back
-    -- to parenting the menu into PlayerGui, and its tower dropdown displays a bare acronym
-    -- ("ToH"), which would otherwise match as the tower tag and get the menu's own frame
-    -- hidden. Matched by instance where we can, since PESUI's name is randomised.
-    local function isOurs(sg)
-        if sg == retroGui or sg == Library.ScreenGui then return true end
-        local n = sg.Name
-        return n == GUI_NAME or n == "FloorCounterOverlay" or n == "TowerRushGUI"
-            or n:match("^PESUI_") ~= nil
+    -- Anything of ours must never be treated as the game's HUD. This isn't hypothetical:
+    -- PESUI falls back to parenting the menu into PlayerGui, and its tower dropdown
+    -- displays a bare acronym ("ToH") that would otherwise match as the tower tag and get
+    -- the menu's own frame hidden. Checked over the whole ancestor chain, since the match
+    -- can be nested deep inside one of our windows, and by instance where we can, because
+    -- PESUI's ScreenGui name is randomised.
+    local function isOurs(inst)
+        local node = inst
+        while node and node ~= game do
+            if node == retroGui or node == Library.ScreenGui then return true end
+            local n = node.Name
+            if n == GUI_NAME or n == "FloorCounterOverlay" or n == "TowerRushGUI"
+                or n:match("^PESUI_") then
+                return true
+            end
+            node = node.Parent
+        end
+        return false
+    end
+
+    -- Text can live on a TextButton or TextBox too, not just a TextLabel.
+    local function readText(inst)
+        if inst:IsA("TextLabel") or inst:IsA("TextButton") or inst:IsA("TextBox") then
+            return inst.Text
+        end
+        return nil
+    end
+
+    local function screenGuiOf(inst)
+        local node = inst
+        while node and not node:IsA("ScreenGui") do node = node.Parent end
+        return node
     end
 
     local function rescanGameLabels()
         local pg = player:FindFirstChild("PlayerGui")
         if not pg then return end
         timerSrc, tagSrc = nil, nil
-        for _, sg in ipairs(pg:GetChildren()) do
-            if sg:IsA("ScreenGui") and not isOurs(sg) then
-                local found
-                for _, d in ipairs(sg:GetDescendants()) do
-                    if d:IsA("TextLabel") and looksLikeTime(d.Text) then found = d break end
-                end
-                if found then
-                    timerSrc = found
-                    -- The tower tag is part of the same HUD as the timer, so only that
-                    -- ScreenGui is searched for it -- which is also what keeps a stray
-                    -- acronym elsewhere on screen from being mistaken for it.
-                    for _, d in ipairs(sg:GetDescendants()) do
-                        if d:IsA("TextLabel") and d ~= timerSrc and knownTowers[trim(d.Text)] then
-                            tagSrc = d
-                            break
-                        end
-                    end
-                    return
-                end
+
+        -- Every descendant of PlayerGui, not just direct ScreenGui children: the HUD can
+        -- sit any number of levels down, and assuming otherwise is why this found nothing.
+        for _, d in ipairs(pg:GetDescendants()) do
+            local txt = readText(d)
+            if txt and looksLikeTime(txt) and not isOurs(d) then
+                timerSrc = d
+                break
             end
         end
+        if not timerSrc then
+            warn("[2024 Timer] couldn't find the game's timer label under PlayerGui.")
+            return
+        end
+
+        -- The tower tag belongs to the same HUD as the timer, so only that ScreenGui is
+        -- searched for it -- which also stops a stray acronym elsewhere from matching.
+        local hud = screenGuiOf(timerSrc)
+        for _, d in ipairs((hud or pg):GetDescendants()) do
+            local txt = readText(d)
+            if txt and d ~= timerSrc and knownTowers[trim(txt)] and not isOurs(d) then
+                tagSrc = d
+                break
+            end
+        end
+        warn(("[2024 Timer] timer: %s | tower tag: %s"):format(
+            timerSrc:GetFullName(), tagSrc and tagSrc:GetFullName() or "not found"))
+    end
+
+    -- The badge is a composite -- dark hexagon, gold border, clock icon, text -- so hiding
+    -- the text's immediate parent can leave the frame and border sitting there. Walk up
+    -- instead and hide the OUTERMOST ancestor that's still badge-sized, stopping before any
+    -- container that spans the screen, since that one is the HUD root and would take the
+    -- health bar and everything else with it.
+    local function badgeAncestor(label)
+        local cam = workspace.CurrentCamera
+        local vp  = (cam and cam.ViewportSize) or Vector2.new(1920, 1080)
+        local best, node = label, label.Parent
+        while node and node:IsA("GuiObject") do
+            local s = node.AbsoluteSize
+            if s.X > vp.X * 0.6 or s.Y > vp.Y * 0.35 then break end
+            best = node
+            node = node.Parent
+        end
+        return best
     end
 
     local function hideOriginal(inst)
-        -- Hide the label's parent frame: that's the badge itself, whereas hiding the label
-        -- alone would leave the modern frame and border sitting there empty. The label keeps
-        -- updating while invisible, which is what we go on reading.
-        local target = inst and inst.Parent
+        -- The label keeps updating while invisible, which is what we go on reading.
+        local target = inst and badgeAncestor(inst)
         if target and target:IsA("GuiObject") and hiddenOriginals[target] == nil then
             hiddenOriginals[target] = target.Visible
             target.Visible = false
