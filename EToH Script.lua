@@ -4149,7 +4149,8 @@ do
     local retroGui, acronymLabel, timeLabel, pill
     local timerSrc, tagSrc          -- the copies we mirror (the ones that were on screen)
     local timerAll, tagAll = {}, {} -- every copy found; all of them get hidden
-    local hiddenOriginals = {}      -- instance -> the Visible we found it with
+    local hiddenOriginals = {}      -- GuiObject -> the Visible we found it with
+    local hiddenGuis      = {}      -- ScreenGui -> the Enabled we found it with
     local retroConn, lastScan = nil, 0
     -- Declared up here so the definitions below bind to these locals rather than creating
     -- globals, since each is referenced before it's defined.
@@ -4229,12 +4230,24 @@ do
             local picked = byAcronym or byName or anyText
             if picked then return picked end
         end
-        -- Fall back to a HUD-wide search by acronym for layouts where they aren't siblings.
+        -- Fall back to a search by acronym: first the timer's own ScreenGui, then the whole
+        -- of PlayerGui. The wider pass matters because the real badge lives in a ScreenGui
+        -- of its own ("Timer") and the tower name is NOT inside it -- scoping the search to
+        -- that ScreenGui is why this reported "tower tag: not found".
         local hud = screenGuiOf(timerLabel)
-        for _, d in ipairs((hud or pg):GetDescendants()) do
-            local txt = readText(d)
-            if txt and d ~= timerLabel and knownTowers[trim(txt)] and not isOurs(d) then
-                return d
+        for _, scope in ipairs({ hud, pg }) do
+            if scope then
+                local first
+                for _, d in ipairs(scope:GetDescendants()) do
+                    local txt = readText(d)
+                    if txt and d ~= timerLabel and knownTowers[trim(txt)] and not isOurs(d) then
+                        first = first or d
+                        -- Prefer a copy that's actually on screen, so the one we hide is the
+                        -- one being seen.
+                        if wasOnScreen(d) then return d end
+                    end
+                end
+                if first then return first end
             end
         end
         return nil
@@ -4244,8 +4257,11 @@ do
     -- as visible if that's how we found it, so re-scanning after a hide doesn't decide the
     -- real badge was never showing and switch to mirroring an off-screen copy.
     local function visibleAsFound(inst)
+        if inst:IsA("ScreenGui") then
+            if hiddenGuis[inst] ~= nil then return hiddenGuis[inst] end
+            return inst.Enabled
+        end
         if hiddenOriginals[inst] ~= nil then return hiddenOriginals[inst] end
-        if inst:IsA("ScreenGui") then return inst.Enabled end
         if inst:IsA("GuiObject") then return inst.Visible end
         return true
     end
@@ -4322,8 +4338,24 @@ do
         return best
     end
 
+    -- A ScreenGui that exists solely for this badge can be switched off wholesale. That's
+    -- the only way to remove the hexagon and gold border, which live ABOVE the text's own
+    -- row: EToH's real badge is its own ScreenGui literally named "Timer". Deliberately
+    -- name-gated so a shared HUD like "Spectate" -- which holds health, the player list and
+    -- everything else -- is never switched off.
+    local function hideDedicatedGui(inst)
+        local sg = screenGuiOf(inst)
+        if not sg or isOurs(sg) then return end
+        local n = sg.Name:lower()
+        if n:find("timer", 1, true) or n:find("tower", 1, true) then
+            if hiddenGuis[sg] == nil then hiddenGuis[sg] = sg.Enabled end
+            if sg.Enabled then sg.Enabled = false end
+        end
+    end
+
     local function hideOriginal(inst)
         -- The label keeps updating while invisible, which is what we go on reading.
+        hideDedicatedGui(inst)
         local target = inst and badgeAncestor(inst)
         if target and target:IsA("GuiObject") then
             -- Remember the original the first time only, but re-assert every frame: the
@@ -4347,10 +4379,19 @@ do
                 pcall(function() inst.Visible = false end)
             end
         end
+        for sg in pairs(hiddenGuis) do
+            if sg.Parent and sg.Enabled then
+                pcall(function() sg.Enabled = false end)
+            end
+        end
     end
 
     local function restoreOriginals()
         pcall(function() game:GetService("RunService"):UnbindFromRenderStep(RENDER_KEY) end)
+        for sg, wasEnabled in pairs(hiddenGuis) do
+            pcall(function() sg.Enabled = wasEnabled end)
+        end
+        hiddenGuis = {}
         for inst, wasVisible in pairs(hiddenOriginals) do
             pcall(function() inst.Visible = wasVisible end)
         end
