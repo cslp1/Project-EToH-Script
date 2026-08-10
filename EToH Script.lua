@@ -4147,9 +4147,13 @@ do
 
     local GUI_NAME = "RetroTimerGui"
     local retroGui, acronymLabel, timeLabel, pill
-    local timerSrc, tagSrc          -- the game's own labels we read from
+    local timerSrc, tagSrc          -- the copies we mirror (the ones that were on screen)
+    local timerAll, tagAll = {}, {} -- every copy found; all of them get hidden
     local hiddenOriginals = {}      -- instance -> the Visible we found it with
     local retroConn, lastScan = nil, 0
+    -- Declared up here so the definitions below bind to these locals rather than creating
+    -- globals, since each is referenced before it's defined.
+    local findTagFor, wasOnScreen
 
     local function trim(s) return (tostring(s):gsub("^%s+", ""):gsub("%s+$", "")) end
 
@@ -4190,38 +4194,18 @@ do
         return node
     end
 
-    local function rescanGameLabels()
-        local pg = player:FindFirstChild("PlayerGui")
-        if not pg then return end
-        timerSrc, tagSrc = nil, nil
-
-        -- Every descendant of PlayerGui, not just direct ScreenGui children: the HUD can
-        -- sit any number of levels down, and assuming otherwise is why this found nothing.
-        for _, d in ipairs(pg:GetDescendants()) do
-            local txt = readText(d)
-            if txt and looksLikeTime(txt) and not isOurs(d) then
-                timerSrc = d
-                break
-            end
-        end
-        if not timerSrc then
-            warn("[2024 Timer] couldn't find the game's timer label under PlayerGui.")
-            return
-        end
-
-        -- The tower tag belongs to the same HUD as the timer, so only that ScreenGui is
-        -- searched for it -- which also stops a stray acronym elsewhere from matching.
-        -- The tower name sits right next to the timer (both are children of the same row),
-        -- so look at the siblings -- but in priority order, because taking the first
-        -- text-bearing one grabs whatever else shares that row and lands on a blank label.
-        -- Matching the text against a known acronym can't be the only rule either: in the
-        -- lobby that label exists but is EMPTY, so it never matches, which is what made the
-        -- scan re-run every second. Hence acronym first, then the name, then anything.
-        local row = timerSrc.Parent
+    -- The tower name sits right next to the timer (children of the same row), so look at the
+    -- siblings -- but in priority order, because taking the first text-bearing one grabs
+    -- whatever else shares that row (it was landing on "rush"). Matching the text against a
+    -- known acronym can't be the only rule either: in the lobby that label exists but is
+    -- EMPTY, so it never matches, which is what made the scan re-run every second. Hence
+    -- acronym first, then a child actually named "tower", then anything with text.
+    function findTagFor(timerLabel, pg)
+        local row = timerLabel.Parent
         if row then
             local byAcronym, byName, anyText
             for _, d in ipairs(row:GetChildren()) do
-                if d ~= timerSrc and not isOurs(d) then
+                if d ~= timerLabel and not isOurs(d) then
                     local txt = readText(d)
                     if txt then
                         if knownTowers[trim(txt)] then byAcronym = byAcronym or d end
@@ -4230,21 +4214,77 @@ do
                     end
                 end
             end
-            tagSrc = byAcronym or byName or anyText
+            local picked = byAcronym or byName or anyText
+            if picked then return picked end
         end
         -- Fall back to a HUD-wide search by acronym for layouts where they aren't siblings.
-        if not tagSrc then
-            local hud = screenGuiOf(timerSrc)
-            for _, d in ipairs((hud or pg):GetDescendants()) do
-                local txt = readText(d)
-                if txt and d ~= timerSrc and knownTowers[trim(txt)] and not isOurs(d) then
-                    tagSrc = d
-                    break
+        local hud = screenGuiOf(timerLabel)
+        for _, d in ipairs((hud or pg):GetDescendants()) do
+            local txt = readText(d)
+            if txt and d ~= timerLabel and knownTowers[trim(txt)] and not isOurs(d) then
+                return d
+            end
+        end
+        return nil
+    end
+
+    -- Was this on screen BEFORE we started hiding things? Anything we hid ourselves counts
+    -- as visible if that's how we found it, so re-scanning after a hide doesn't decide the
+    -- real badge was never showing and switch to mirroring an off-screen copy.
+    local function visibleAsFound(inst)
+        if hiddenOriginals[inst] ~= nil then return hiddenOriginals[inst] end
+        if inst:IsA("ScreenGui") then return inst.Enabled end
+        if inst:IsA("GuiObject") then return inst.Visible end
+        return true
+    end
+
+    function wasOnScreen(inst)
+        local node = inst
+        while node and node ~= game do
+            if (node:IsA("GuiObject") or node:IsA("ScreenGui")) and not visibleAsFound(node) then
+                return false
+            end
+            node = node.Parent
+        end
+        return true
+    end
+
+    local function rescanGameLabels()
+        local pg = player:FindFirstChild("PlayerGui")
+        if not pg then return end
+        timerSrc, tagSrc = nil, nil
+        timerAll, tagAll = {}, {}
+
+        -- Every descendant of PlayerGui, not just direct ScreenGui children: the HUD can
+        -- sit any number of levels down, and assuming otherwise is why this found nothing.
+        --
+        -- Crucially this collects EVERY match, not the first. The game keeps more than one
+        -- copy of the badge (the first one found lives under a "Spectate" ScreenGui), and
+        -- they all track the same time -- so hiding only the first hid a copy that wasn't
+        -- even on screen while the real badge carried on showing. All of them get hidden;
+        -- the one that was actually on screen is what we mirror.
+        for _, d in ipairs(pg:GetDescendants()) do
+            local txt = readText(d)
+            if txt and looksLikeTime(txt) and not isOurs(d) then
+                timerAll[#timerAll + 1] = d
+                local tag = findTagFor(d, pg)
+                if tag then tagAll[#tagAll + 1] = tag end
+                if not timerSrc and wasOnScreen(d) then
+                    timerSrc, tagSrc = d, tag
                 end
             end
         end
-        warn(("[2024 Timer] timer: %s | tower tag: %s"):format(
-            timerSrc:GetFullName(), tagSrc and tagSrc:GetFullName() or "not found"))
+        if #timerAll == 0 then
+            warn("[2024 Timer] couldn't find the game's timer label under PlayerGui.")
+            return
+        end
+        -- Nothing looked on screen (every copy hidden, or the check was too strict): mirror
+        -- the first rather than showing nothing.
+        if not timerSrc then
+            timerSrc, tagSrc = timerAll[1], tagAll[1]
+        end
+        warn(("[2024 Timer] %d timer copies | mirroring: %s | tower tag: %s"):format(
+            #timerAll, timerSrc:GetFullName(), tagSrc and tagSrc:GetFullName() or "not found"))
     end
 
     -- The badge is a composite -- dark hexagon, gold border, clock icon, text -- so hiding
@@ -4475,12 +4515,19 @@ do
                     lastScan = os.clock()
                 end
 
+                -- Hide EVERY copy, not just the one being mirrored: the visible badge and
+                -- the copy we read from are different instances.
+                for _, inst in ipairs(timerAll) do
+                    if inst.Parent then hideOriginal(inst) end
+                end
+                for _, inst in ipairs(tagAll) do
+                    if inst.Parent then hideOriginal(inst) end
+                end
+
                 if timerSrc and timerSrc.Parent then
-                    hideOriginal(timerSrc)
                     timeLabel.Text = trim(timerSrc.Text)
                 end
                 local tagText = (tagSrc and tagSrc.Parent) and trim(tagSrc.Text) or ""
-                if tagSrc and tagSrc.Parent then hideOriginal(tagSrc) end
                 if tagText ~= "" then
                     acronymLabel.Text       = tagText
                     acronymLabel.TextColor3 = tagSrc.TextColor3
