@@ -4211,12 +4211,28 @@ do
 
         -- The tower tag belongs to the same HUD as the timer, so only that ScreenGui is
         -- searched for it -- which also stops a stray acronym elsewhere from matching.
-        local hud = screenGuiOf(timerSrc)
-        for _, d in ipairs((hud or pg):GetDescendants()) do
-            local txt = readText(d)
-            if txt and d ~= timerSrc and knownTowers[trim(txt)] and not isOurs(d) then
-                tagSrc = d
-                break
+        -- The tower name sits right next to the timer (both are children of the same row),
+        -- so take the sibling. Matching on the text being a known acronym isn't enough on
+        -- its own: in the lobby that label exists but is EMPTY, so it never matched and the
+        -- scan re-ran every second looking for it. Structure is stable, its text isn't.
+        local row = timerSrc.Parent
+        if row then
+            for _, d in ipairs(row:GetChildren()) do
+                if d ~= timerSrc and readText(d) and not isOurs(d) then
+                    tagSrc = d
+                    break
+                end
+            end
+        end
+        -- Fall back to a HUD-wide search by acronym for layouts where they aren't siblings.
+        if not tagSrc then
+            local hud = screenGuiOf(timerSrc)
+            for _, d in ipairs((hud or pg):GetDescendants()) do
+                local txt = readText(d)
+                if txt and d ~= timerSrc and knownTowers[trim(txt)] and not isOurs(d) then
+                    tagSrc = d
+                    break
+                end
             end
         end
         warn(("[2024 Timer] timer: %s | tower tag: %s"):format(
@@ -4244,9 +4260,14 @@ do
     local function hideOriginal(inst)
         -- The label keeps updating while invisible, which is what we go on reading.
         local target = inst and badgeAncestor(inst)
-        if target and target:IsA("GuiObject") and hiddenOriginals[target] == nil then
-            hiddenOriginals[target] = target.Visible
-            target.Visible = false
+        if target and target:IsA("GuiObject") then
+            -- Remember the original the first time only, but re-assert every frame: the
+            -- game's own HUD controller sets Visible back to true on its next update, which
+            -- is why hiding it once left the badge on screen.
+            if hiddenOriginals[target] == nil then
+                hiddenOriginals[target] = target.Visible
+            end
+            if target.Visible then target.Visible = false end
         end
     end
 
@@ -4404,9 +4425,11 @@ do
             local RunService = game:GetService("RunService")
             retroConn = RunService.Heartbeat:Connect(function()
                 -- The game's labels are recreated on respawn/teleport, so re-find them when
-                -- one goes missing -- but only once a second, since this walks all of
+                -- the timer goes missing -- but only once a second, since this walks all of
                 -- PlayerGui and doing that every frame would cost more than it's worth.
-                local needScan = not timerSrc or not timerSrc.Parent or not tagSrc or not tagSrc.Parent
+                -- Keyed on the timer alone: keying it on the tag too meant the lobby (where
+                -- the tag exists but is blank) rescanned every second, forever.
+                local needScan = not timerSrc or not timerSrc.Parent
                 if needScan and os.clock() - lastScan >= 1 then
                     rescanGameLabels()
                     lastScan = os.clock()
@@ -4416,13 +4439,14 @@ do
                     hideOriginal(timerSrc)
                     timeLabel.Text = trim(timerSrc.Text)
                 end
-                if tagSrc and tagSrc.Parent then
-                    hideOriginal(tagSrc)
-                    acronymLabel.Text       = trim(tagSrc.Text)
+                local tagText = (tagSrc and tagSrc.Parent) and trim(tagSrc.Text) or ""
+                if tagSrc and tagSrc.Parent then hideOriginal(tagSrc) end
+                if tagText ~= "" then
+                    acronymLabel.Text       = tagText
                     acronymLabel.TextColor3 = tagSrc.TextColor3
                     acronymLabel.Visible    = true
                 else
-                    -- No tower name on screen (the lobby) -- the 2024 HUD showed just the pill.
+                    -- Blank in the lobby -- the 2024 HUD showed just the pill there.
                     acronymLabel.Visible = false
                 end
             end)
