@@ -1455,6 +1455,61 @@ startAutoPlay = function()
             end
             return false
         end
+
+        -- Stand on an entry part until it registers us, without ever hanging.
+        --
+        -- Touched fires only when a contact BEGINS. If the character already overlaps the
+        -- part when the handler connects -- a respawn, a previous run, or a game whose entry
+        -- part is the one we just teleported onto (EToH XL's TowerStart) all leave us
+        -- standing on it -- then no event fires, and re-applying an IDENTICAL CFrame every
+        -- iteration never produces a fresh contact for it to fire on either. The old
+        -- `while not tpTouched` loops had no exit for that, which is the intermittent
+        -- "stuck on Moving to <tower> teleporter..." freeze. Three fixes here:
+        --   * alternate the offset so a genuine trigger part gets a NEW contact to fire on,
+        --   * accept proximity once graceSec has passed (arrival, for stages where the touch
+        --     isn't what triggers anything), and
+        --   * always give up after PORTAL_WAIT_SEC instead of spinning forever.
+        -- Also re-resolves the part and the character each pass: streaming can orphan the
+        -- part, and CFrame-ing an orphaned HumanoidRootPart silently does nothing forever.
+        --
+        -- Returns "touched" / "near" / "timeout" / "missing", or nil if we died or stopped
+        -- (in which case checkDied already cleaned up and the caller must return).
+        local PORTAL_WAIT_SEC, PORTAL_NEAR_STUDS = 12, 6
+        local function waitAtPart(resolvePart, graceSec)
+            local part = resolvePart()
+            if not part then return "missing" end
+            local touched = false
+            local conn = part.Touched:Connect(function(hit)
+                if hit:IsDescendantOf(player.Character) then touched = true end
+            end)
+            local graceUntil = graceSec and (os.clock() + graceSec) or nil
+            local giveUpAt   = os.clock() + PORTAL_WAIT_SEC
+            local result
+            while true do
+                if checkDied() then break end
+                if touched then result = "touched" break end
+                if not part.Parent then
+                    part = resolvePart()
+                    if not part then result = "missing" break end
+                end
+                char = player.Character
+                hrp  = char and char:FindFirstChild("HumanoidRootPart")
+                if hrp then
+                    local yOffset = (math.floor(os.clock() * 5) % 2 == 0) and 3 or 3.6
+                    hrp.CFrame = CFrame.new(part.Position + Vector3.new(0, yOffset, 0))
+                        * (hrp.CFrame - hrp.CFrame.Position)
+                    if graceUntil and os.clock() >= graceUntil
+                        and (hrp.Position - part.Position).Magnitude <= PORTAL_NEAR_STUDS then
+                        result = "near"
+                        break
+                    end
+                end
+                if os.clock() >= giveUpAt then result = "timeout" break end
+                task.wait(0.1)
+            end
+            conn:Disconnect()
+            return result
+        end
         Library:Notify({ Title = "Auto Play", Description = "Fetching " .. selected .. " route...", Duration = 3 })
 
         if config.isTowerRush then
@@ -1498,18 +1553,17 @@ startAutoPlay = function()
                 return
             end
             Library:Notify({ Title = "Auto Play", Description = "Moving to " .. selected .. " teleporter...", Duration = 3 })
-            local tpTouched = false
-            local tpConn
-            tpConn = tpFrame.Touched:Connect(function(hit)
-                if hit:IsDescendantOf(char) and not tpTouched then
-                    tpTouched = true
-                    tpConn:Disconnect()
-                end
-            end)
-            while not tpTouched do
-                if checkDied() then return end
-                hrp.CFrame = CFrame.new(tpFrame.Position + Vector3.new(0, 3, 0)) * (hrp.CFrame - hrp.CFrame.Position)
-                task.wait(0.1)
+            local tpArrived = waitAtPart(function()
+                local okTp, part = pcall(config.tpFrame)
+                return okTp and part or nil
+            end, 1.5)
+            if not tpArrived then return end
+            if tpArrived == "missing" then
+                warnTowerStructure(getTpFrameName(selected))
+                Library:Notify({ Title = "Auto Play", Description = selected .. " teleporter not found!", Duration = 3 })
+                isAutoPlaying = false
+                stopAutoNoclip()
+                return
             end
             if checkDied() then return end
 
@@ -1814,39 +1868,32 @@ startAutoPlay = function()
             return
         end
         Library:Notify({ Title = "Auto Play", Description = "Moving to " .. selected .. " teleporter...", Duration = 3 })
-        local tpTouched = false
-        local tpConn
-        tpConn = tpFrame.Touched:Connect(function(hit)
-            if hit:IsDescendantOf(char) and not tpTouched then
-                tpTouched = true
-                tpConn:Disconnect()
-            end
-        end)
-        while not tpTouched do
-            if checkDied() then return end
-            hrp.CFrame = CFrame.new(tpFrame.Position + Vector3.new(0, 3, 0)) * (hrp.CFrame - hrp.CFrame.Position)
-            task.wait(0.1)
-        end
-        if checkDied() then return end
-        local ok2, teleportTo = pcall(config.teleportTo)
-        if not ok2 or not teleportTo then
-            Library:Notify({ Title = "Auto Play", Description = "TeleportTo not found!", Duration = 3 })
+        -- Getting here is just "arrive at the portal", so proximity counts as success.
+        local tpArrived = waitAtPart(function()
+            local okTp, part = pcall(config.tpFrame)
+            return okTp and part or nil
+        end, 1.5)
+        if not tpArrived then return end
+        if tpArrived == "missing" then
+            warnTowerStructure(getTpFrameName(selected))
+            Library:Notify({ Title = "Auto Play", Description = selected .. " teleporter not found!", Duration = 3 })
             isAutoPlaying = false
             return
         end
+        if checkDied() then return end
         Library:Notify({ Title = "Auto Play", Description = "Waiting for teleport...", Duration = 3 })
-        local touched = false
-        local connection
-        connection = teleportTo.Touched:Connect(function(hit)
-            if hit:IsDescendantOf(char) and not touched then
-                touched = true
-                connection:Disconnect()
-            end
-        end)
-        while not touched do
-            if checkDied() then return end
-            hrp.CFrame = teleportTo.CFrame + Vector3.new(0, 3, 0)
-            task.wait(0.1)
+        -- No grace here: on the main game it's the TOUCH on this part that fires the actual
+        -- teleport, so proximity must not count as done. If it times out we still fall
+        -- through -- the movement check below is what proves we actually got teleported.
+        local tpToResult = waitAtPart(function()
+            local okTo, part = pcall(config.teleportTo)
+            return okTo and part or nil
+        end, nil)
+        if not tpToResult then return end
+        if tpToResult == "missing" then
+            Library:Notify({ Title = "Auto Play", Description = "TeleportTo not found!", Duration = 3 })
+            isAutoPlaying = false
+            return
         end
         if checkDied() then return end
         Library:Notify({ Title = "Auto Play", Description = "Waiting for teleport to complete...", Duration = 3 })
@@ -1854,6 +1901,9 @@ startAutoPlay = function()
         local VirtualInputManager = game:GetService("VirtualInputManager")
         task.wait(0.5)
         VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.W, false, game)
+        -- Bounded: in games where standing on the entry part already puts you in the tower,
+        -- nothing teleports us anywhere and this would otherwise wait for movement forever.
+        local movedBy = os.clock() + 10
         repeat
             if checkDied() then
                 VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
@@ -1862,7 +1912,7 @@ startAutoPlay = function()
             task.wait(0.1)
             char = player.Character
             hrp  = char and char:FindFirstChild("HumanoidRootPart")
-        until hrp and (hrp.Position - posBeforeTP).Magnitude > 0.1
+        until (hrp and (hrp.Position - posBeforeTP).Magnitude > 0.1) or os.clock() >= movedBy
         VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
         if checkDied() then return end
         local deadline = os.clock() + perRepeatTime

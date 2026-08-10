@@ -37,6 +37,7 @@ local Categories = {
     -- own place. Add more XLRingN categories here as later rings get surveyed.
     XLRing1 = 13228556826,
     XLRing3 = 13654432865,
+    XLRing5 = 80018210783565,
 }
 
 return {
@@ -369,6 +370,9 @@ return {
         --EToH XL: Ring 3 Citadels (place 13654432865). suggestedTime is a placeholder
         --(35:00, matching other citadels) until real completion times are known.
         { name = "CoUC",    category = "XLRing3", suggestedTime = { min = "35", sec = "0" } },
+        --EToH XL: Ring 5 Citadels (place 80018210783565). suggestedTime is a placeholder
+        --(35:00, matching other citadels) until real completion times are known.
+        { name = "CoIB",    category = "XLRing5", suggestedTime = { min = "35", sec = "0" } },
     },
     TowerRush = {
         { name = "PTR", category = "Ring0", suggestedTime = { min = "39", sec = "0" }, isTowerRush = true, },
