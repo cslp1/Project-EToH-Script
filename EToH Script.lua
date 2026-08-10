@@ -4201,6 +4201,40 @@ do
     -- known acronym can't be the only rule either: in the lobby that label exists but is
     -- EMPTY, so it never matches, which is what made the scan re-run every second. Hence
     -- acronym first, then a child actually named "tower", then anything with text.
+    -- Does this element, or something it sits inside, call itself a tower? Registry-free, so
+    -- it holds for every tower in the game rather than the 305 the registry lists.
+    local function nameSuggestsTower(inst)
+        local node, hops = inst, 0
+        while node and hops < 4 do
+            if node.Name:lower():find("tower", 1, true) then return true end
+            node = node.Parent
+            hops = hops + 1
+        end
+        return false
+    end
+
+    -- Is this sitting right beside the timer on screen? The tower tag is the badge's
+    -- immediate neighbour, so geometry identifies it without knowing any tower names, and
+    -- rules out same-named text elsewhere on screen (the player list's "Towers" heading, a
+    -- tower name in a chat line) that a pure text match would happily grab.
+    local function isAdjacentTo(candidate, timerLabel)
+        local cp, cs = candidate.AbsolutePosition, candidate.AbsoluteSize
+        local tp, ts = timerLabel.AbsolutePosition, timerLabel.AbsoluteSize
+        if cs.X <= 0 or cs.Y <= 0 then return false end
+        -- Same horizontal band as the timer.
+        if math.abs((cp.Y + cs.Y / 2) - (tp.Y + ts.Y / 2)) > math.max(ts.Y, cs.Y) then
+            return false
+        end
+        -- And close by horizontally: gap between the two rectangles, 0 if they overlap.
+        local gap = 0
+        if cp.X >= tp.X + ts.X then
+            gap = cp.X - (tp.X + ts.X)
+        elseif tp.X >= cp.X + cs.X then
+            gap = tp.X - (cp.X + cs.X)
+        end
+        return gap <= 260
+    end
+
     -- Text-bearing self-or-descendant. The tower element isn't always the label itself: in
     -- one copy of the HUD it's a Frame with the text nested inside, and requiring the child
     -- ITSELF to be text-bearing skipped it -- leaving the acronym blank and the game's real
@@ -4230,27 +4264,34 @@ do
             local picked = byAcronym or byName or anyText
             if picked then return picked end
         end
-        -- Fall back to a search by acronym: first the timer's own ScreenGui, then the whole
-        -- of PlayerGui. The wider pass matters because the real badge lives in a ScreenGui
-        -- of its own ("Timer") and the tower name is NOT inside it -- scoping the search to
-        -- that ScreenGui is why this reported "tower tag: not found".
-        local hud = screenGuiOf(timerLabel)
-        for _, scope in ipairs({ hud, pg }) do
-            if scope then
-                local first
-                for _, d in ipairs(scope:GetDescendants()) do
-                    local txt = readText(d)
-                    if txt and d ~= timerLabel and knownTowers[trim(txt)] and not isOurs(d) then
-                        first = first or d
-                        -- Prefer a copy that's actually on screen, so the one we hide is the
-                        -- one being seen.
-                        if wasOnScreen(d) then return d end
+        -- The real badge lives in a ScreenGui of its own ("Timer") and the tower name is NOT
+        -- inside it, so a wider search is needed. It deliberately does NOT hinge on the
+        -- acronym list: that covers 305 of the game's ~753 towers, so anything keyed on it
+        -- silently fails for the rest and goes stale as towers are added. Instead take the
+        -- on-screen text sitting right next to the timer, preferring what a name says is the
+        -- tower, with the acronym list only as a tiebreak.
+        local timerOnScreen = timerLabel.AbsoluteSize.X > 0
+        local byName, byAcronym, byAdjacent
+        for _, d in ipairs(pg:GetDescendants()) do
+            if d ~= timerLabel and not isOurs(d) then
+                local txt = readText(d)
+                local s   = txt and trim(txt) or nil
+                -- Short, non-empty, not another time readout: keeps chat lines and the
+                -- global "has beaten <tower> in <time>" messages out of the running.
+                if s and s ~= "" and #s <= 12 and not looksLikeTime(s) and wasOnScreen(d) then
+                    if timerOnScreen and isAdjacentTo(d, timerLabel) then
+                        if nameSuggestsTower(d) then byName = byName or d end
+                        if knownTowers[s]      then byAcronym = byAcronym or d end
+                        byAdjacent = byAdjacent or d
+                    elseif not timerOnScreen and nameSuggestsTower(d) and knownTowers[s] then
+                        -- No geometry to judge by (the badge is already hidden, so sizes read
+                        -- as zero) -- require both weaker signals rather than guessing.
+                        byName = byName or d
                     end
                 end
-                if first then return first end
             end
         end
-        return nil
+        return byName or byAcronym or byAdjacent
     end
 
     -- Was this on screen BEFORE we started hiding things? Anything we hid ourselves counts
