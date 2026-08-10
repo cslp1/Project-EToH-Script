@@ -4212,17 +4212,25 @@ do
         -- The tower tag belongs to the same HUD as the timer, so only that ScreenGui is
         -- searched for it -- which also stops a stray acronym elsewhere from matching.
         -- The tower name sits right next to the timer (both are children of the same row),
-        -- so take the sibling. Matching on the text being a known acronym isn't enough on
-        -- its own: in the lobby that label exists but is EMPTY, so it never matched and the
-        -- scan re-ran every second looking for it. Structure is stable, its text isn't.
+        -- so look at the siblings -- but in priority order, because taking the first
+        -- text-bearing one grabs whatever else shares that row and lands on a blank label.
+        -- Matching the text against a known acronym can't be the only rule either: in the
+        -- lobby that label exists but is EMPTY, so it never matches, which is what made the
+        -- scan re-run every second. Hence acronym first, then the name, then anything.
         local row = timerSrc.Parent
         if row then
+            local byAcronym, byName, anyText
             for _, d in ipairs(row:GetChildren()) do
-                if d ~= timerSrc and readText(d) and not isOurs(d) then
-                    tagSrc = d
-                    break
+                if d ~= timerSrc and not isOurs(d) then
+                    local txt = readText(d)
+                    if txt then
+                        if knownTowers[trim(txt)] then byAcronym = byAcronym or d end
+                        if d.Name:lower():find("tower", 1, true) then byName = byName or d end
+                        anyText = anyText or d
+                    end
                 end
             end
+            tagSrc = byAcronym or byName or anyText
         end
         -- Fall back to a HUD-wide search by acronym for layouts where they aren't siblings.
         if not tagSrc then
@@ -4247,7 +4255,12 @@ do
     local function badgeAncestor(label)
         local cam = workspace.CurrentCamera
         local vp  = (cam and cam.ViewportSize) or Vector2.new(1920, 1080)
-        local best, node = label, label.Parent
+        -- Always take the immediate parent (the badge row), even if it's wide: the hexagon,
+        -- gold border and clock are siblings of the text, so hiding only the label left all
+        -- of that art on screen. Above that, climb only while still badge-sized, so a
+        -- screen-spanning HUD root never gets hidden along with it.
+        local best = (label.Parent and label.Parent:IsA("GuiObject")) and label.Parent or label
+        local node = best.Parent
         while node and node:IsA("GuiObject") do
             local s = node.AbsoluteSize
             if s.X > vp.X * 0.6 or s.Y > vp.Y * 0.35 then break end
@@ -4271,7 +4284,21 @@ do
         end
     end
 
+    -- Re-assert on a Last-priority render step as well as on Heartbeat. The game's HUD
+    -- controller sets Visible back to true during the frame, and re-asserting only on
+    -- Heartbeat meant it could win the race and the badge stayed on screen; a Last-priority
+    -- render step runs after that update, so we're the final writer before it renders.
+    local RENDER_KEY = "PES_RetroTimer_Hide"
+    local function reassertHidden()
+        for inst in pairs(hiddenOriginals) do
+            if inst.Parent and inst.Visible then
+                pcall(function() inst.Visible = false end)
+            end
+        end
+    end
+
     local function restoreOriginals()
+        pcall(function() game:GetService("RunService"):UnbindFromRenderStep(RENDER_KEY) end)
         for inst, wasVisible in pairs(hiddenOriginals) do
             pcall(function() inst.Visible = wasVisible end)
         end
@@ -4423,13 +4450,22 @@ do
             rescanGameLabels()
             lastScan = os.clock()
             local RunService = game:GetService("RunService")
+            -- Unbind first: re-binding a key that's already bound throws, which would leave
+            -- the toggle working only the first time it's switched on.
+            pcall(function() RunService:UnbindFromRenderStep(RENDER_KEY) end)
+            pcall(function()
+                RunService:BindToRenderStep(RENDER_KEY, Enum.RenderPriority.Last.Value, reassertHidden)
+            end)
             retroConn = RunService.Heartbeat:Connect(function()
                 -- The game's labels are recreated on respawn/teleport, so re-find them when
                 -- the timer goes missing -- but only once a second, since this walks all of
                 -- PlayerGui and doing that every frame would cost more than it's worth.
-                -- Keyed on the timer alone: keying it on the tag too meant the lobby (where
-                -- the tag exists but is blank) rescanned every second, forever.
+                -- Keyed on the timer, plus a tag we HAD that has since been destroyed (the
+                -- HUD can rebuild it). Deliberately not keyed on the tag merely being nil:
+                -- that's what made the lobby, where the tag exists but is blank, rescan
+                -- every second forever.
                 local needScan = not timerSrc or not timerSrc.Parent
+                    or (tagSrc ~= nil and tagSrc.Parent == nil)
                 if needScan and os.clock() - lastScan >= 1 then
                     rescanGameLabels()
                     lastScan = os.clock()
