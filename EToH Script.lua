@@ -4316,7 +4316,11 @@ do
         retroGui.Name           = GUI_NAME
         retroGui.ResetOnSpawn   = false
         retroGui.IgnoreGuiInset = true
-        retroGui.DisplayOrder   = 50
+        -- Very high: this sits in the same top-centre spot as the game's own badge, so at a
+        -- modest DisplayOrder it renders BEHIND the game HUD and looks like it never
+        -- appeared at all. It must draw above the HUD whether or not hiding the old badge
+        -- succeeded.
+        retroGui.DisplayOrder   = 1000000
         retroGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
         retroGui.Enabled        = false
         retroGui.Parent         = pg
