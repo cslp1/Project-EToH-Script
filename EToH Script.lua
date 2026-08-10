@@ -2323,26 +2323,51 @@ local function _initTowerPortal()
     -- to autoplay most towers. Note this sorts by POSITION, not by child index --
     -- Obby:GetChildren() order is effectively arbitrary (early children are grouped
     -- section models), which is why an index-ordered version was tried and reverted.
+    -- Direct children first: that's the usual layout and it keeps the emitted paths short.
+    -- But some towers group their obby into section Models, so the top level holds no
+    -- BaseParts at all -- fall back to the full descendant list instead of reporting the
+    -- container as empty (which is what "CoIV's Obby has no parts" was).
+    local function gatherParts(container)
+        local direct = {}
+        for _, v in ipairs(container:GetChildren()) do
+            if v:IsA("BasePart") then direct[#direct + 1] = v end
+        end
+        if #direct > 0 then return direct end
+        local all = {}
+        for _, v in ipairs(container:GetDescendants()) do
+            if v:IsA("BasePart") then all[#all + 1] = v end
+        end
+        return all
+    end
+
     local function collectAutoRoute(name, descending)
         local folder = towerFolder(name)
-        if not folder then return nil, name .. " isn't loaded in workspace.Towers." end
-        local obby = folder:FindFirstChild("Obby")
-        if not obby then return nil, name .. " has no Obby folder." end
 
-        -- Direct children first: that's the usual layout and it keeps the emitted paths
-        -- short. But some towers group their obby into section Models, so the top level
-        -- holds no BaseParts at all -- fall back to the full descendant list instead of
-        -- reporting the Obby as empty (which is what "CoIV's Obby has no parts" was).
+        -- Where the obstacle parts live. Most games nest them under the tower's own folder
+        -- (workspace.Towers.<name>.Obby). The Eternal Abyss doesn't: entering a tower
+        -- streams its parts into one shared top-level workspace.Parts, which only ever
+        -- holds the tower you are CURRENTLY inside -- so that fallback only works from
+        -- in there, and it's why this can't be run for a TEA tower from the lobby.
+        local root, rootExpr
         local parts = {}
-        for _, v in ipairs(obby:GetChildren()) do
-            if v:IsA("BasePart") then parts[#parts + 1] = v end
+        local obby = folder and folder:FindFirstChild("Obby")
+        if obby then
+            root, rootExpr = obby, ("workspace.Towers[%q].Obby"):format(name)
+            parts = gatherParts(obby)
         end
         if #parts == 0 then
-            for _, v in ipairs(obby:GetDescendants()) do
-                if v:IsA("BasePart") then parts[#parts + 1] = v end
+            local shared = workspace:FindFirstChild("Parts")
+            if shared then
+                root, rootExpr = shared, "workspace.Parts"
+                parts = gatherParts(shared)
             end
         end
-        if #parts == 0 then return nil, name .. "'s Obby has no parts." end
+        if #parts == 0 then
+            if not folder and not workspace:FindFirstChild("Parts") then
+                return nil, name .. " isn't loaded in workspace.Towers, and there's no workspace.Parts either."
+            end
+            return nil, ("No parts found for %s. Towers that keep their parts in workspace.Parts (e.g. The Eternal Abyss) only expose them while you're inside the tower -- enter it first."):format(name)
+        end
         -- Ascending = climb (lowest part first). Descending = a tower you go DOWN, so the
         -- highest part is the start and the order flips.
         if descending then
@@ -2351,16 +2376,22 @@ local function _initTowerPortal()
             table.sort(parts, function(a, b) return a.Position.Y < b.Position.Y end)
         end
 
-        local winPad = folder:FindFirstChild("WinPad", true) or folder:FindFirstChild("Winpad", true)
-        return { parts = parts, winPad = winPad, obby = obby }
+        -- Prefer the tower folder's own WinPad (TEA keeps one there next to Portal/Frame),
+        -- then look inside the parts source for games that ship it with the obby instead.
+        local winPad = folder and (folder:FindFirstChild("WinPad", true) or folder:FindFirstChild("Winpad", true))
+        if not winPad then
+            winPad = root:FindFirstChild("WinPad", true) or root:FindFirstChild("Winpad", true)
+        end
+        return { parts = parts, winPad = winPad, root = root, rootExpr = rootExpr }
     end
 
-    -- Path to a part written relative to the tower's Obby, by child index at every level.
+    -- Path to a part written relative to the parts source, by child index at every level.
     -- Index rather than name because obby parts share names constantly, and this has to
-    -- work for parts nested inside section Models, not just direct children.
-    local function pathFromObby(data, part, name)
+    -- work for parts nested inside section Models, not just direct children. The root is
+    -- whatever collectAutoRoute found -- the tower's Obby, or workspace.Parts.
+    local function pathFromRoot(data, part)
         local segs, node = {}, part
-        while node and node ~= data.obby do
+        while node and node ~= data.root do
             local parent = node.Parent
             if not parent then return nil end
             local idx
@@ -2371,16 +2402,16 @@ local function _initTowerPortal()
             table.insert(segs, 1, (":GetChildren()[%d]"):format(idx))
             node = parent
         end
-        if node ~= data.obby then return nil end
-        return ("workspace.Towers[%q].Obby%s"):format(name, table.concat(segs))
+        if node ~= data.root then return nil end
+        return data.rootExpr .. table.concat(segs)
     end
 
     -- The same route as Lua source, in the exact format the repo's route files use, so it
     -- can be dropped into Games/EToH/<category>/ as-is.
-    local function autoRouteSource(name, data)
+    local function autoRouteSource(data)
         local out = { "return function()", "    return {" }
         for _, part in ipairs(data.parts) do
-            local path = pathFromObby(data, part, name)
+            local path = pathFromRoot(data, part)
             if path then out[#out + 1] = "        " .. path .. "," end
         end
         if data.winPad then
@@ -2400,7 +2431,7 @@ local function _initTowerPortal()
 
     PortalBox:AddButton({
         Text    = "Automake Route",
-        Tooltip = "Build a route for the selected tower from its own parts in the chosen order, arm it for Auto Play, and save it to a file.",
+        Tooltip = "Build a route for the selected tower from its own parts in the chosen order, arm it for Auto Play, and save it to a file. Uses the tower's Obby folder; for towers that stream their parts into workspace.Parts instead (The Eternal Abyss), run it while you're inside the tower.",
         Callback = function()
             local label = Options.PortalMatch and Options.PortalMatch.Value
             local name  = label and labelToName[label]
@@ -2456,7 +2487,7 @@ local function _initTowerPortal()
 
             local saved = ""
             if type(writefile) == "function" then
-                local ok = pcall(writefile, name .. ".lua", autoRouteSource(name, data))
+                local ok = pcall(writefile, name .. ".lua", autoRouteSource(data))
                 saved = ok and (" Saved to " .. name .. ".lua.") or " (couldn't write the file)"
             end
             local dir = descending and "descending" or "ascending"
