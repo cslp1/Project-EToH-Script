@@ -4054,8 +4054,14 @@ MenuGroup:AddButton("Sever Hop", function()
         Library:Notify({ Title = "Server Hop", Description = "Failed: " .. tostring(err), Duration = 5 })
     end
 end)
+-- Assigned by the 2024 Timer below. Unloading has to put the game's own timer badge back:
+-- the library's Unload only destroys its own ScreenGui, so without this the real timer
+-- would stay hidden with the menu gone and no way to switch it back short of rejoining.
+local retroTimerCleanup
+
 MenuGroup:AddButton("Unload", function()
     _G.ProjectEToHLoaded = nil
+    if retroTimerCleanup then pcall(retroTimerCleanup) end
     Library:Unload()
 end)
 Library.ToggleKeybind = Options.MenuKeybind
@@ -4118,6 +4124,279 @@ local function _initMobile()
     if onMobile then Library:SetMobileButtonsVisible(true) end
 end
 _initMobile()
+
+-- ===== 2024 Timer (retro HUD) =====
+-- Recreates the timer EToH used in 2024: the tower acronym on the left in its difficulty
+-- colour, then a dark translucent pill holding an outlined clock and a monospaced M:SS.mm
+-- readout. It doesn't time anything itself -- it MIRRORS the game's current timer label, so
+-- the readout can't drift from the real run -- and it hides the modern badge while it's on.
+local HudGroup = Tabs.UISettings:AddLeftGroupbox("HUD")
+do
+    local Players = game:GetService("Players")
+    local player  = Players.LocalPlayer
+
+    -- Every tower acronym the registry knows, regardless of place. Used to identify the
+    -- game's tower-name label by its TEXT, which is far steadier than guessing at a path
+    -- or a screen position -- and it hands us the difficulty colour for free.
+    local knownTowers = {}
+    for _, list in ipairs({ Registry.Towers or {}, Registry.TowerRush or {} }) do
+        for _, t in ipairs(list) do
+            if type(t.name) == "string" then knownTowers[t.name] = true end
+        end
+    end
+
+    local GUI_NAME = "RetroTimerGui"
+    local retroGui, acronymLabel, timeLabel, pill
+    local timerSrc, tagSrc          -- the game's own labels we read from
+    local hiddenOriginals = {}      -- instance -> the Visible we found it with
+    local retroConn, lastScan = nil, 0
+
+    local function trim(s) return (tostring(s):gsub("^%s+", ""):gsub("%s+$", "")) end
+
+    -- A time readout looks like 0:01.68 / 29:28.67. Never matches our own labels because
+    -- the search skips our ScreenGui entirely.
+    local function looksLikeTime(s) return trim(s):match("^%d+:%d%d%.%d%d$") ~= nil end
+
+    -- Our own ScreenGuis must never be searched. This isn't hypothetical: PESUI falls back
+    -- to parenting the menu into PlayerGui, and its tower dropdown displays a bare acronym
+    -- ("ToH"), which would otherwise match as the tower tag and get the menu's own frame
+    -- hidden. Matched by instance where we can, since PESUI's name is randomised.
+    local function isOurs(sg)
+        if sg == retroGui or sg == Library.ScreenGui then return true end
+        local n = sg.Name
+        return n == GUI_NAME or n == "FloorCounterOverlay" or n == "TowerRushGUI"
+            or n:match("^PESUI_") ~= nil
+    end
+
+    local function rescanGameLabels()
+        local pg = player:FindFirstChild("PlayerGui")
+        if not pg then return end
+        timerSrc, tagSrc = nil, nil
+        for _, sg in ipairs(pg:GetChildren()) do
+            if sg:IsA("ScreenGui") and not isOurs(sg) then
+                local found
+                for _, d in ipairs(sg:GetDescendants()) do
+                    if d:IsA("TextLabel") and looksLikeTime(d.Text) then found = d break end
+                end
+                if found then
+                    timerSrc = found
+                    -- The tower tag is part of the same HUD as the timer, so only that
+                    -- ScreenGui is searched for it -- which is also what keeps a stray
+                    -- acronym elsewhere on screen from being mistaken for it.
+                    for _, d in ipairs(sg:GetDescendants()) do
+                        if d:IsA("TextLabel") and d ~= timerSrc and knownTowers[trim(d.Text)] then
+                            tagSrc = d
+                            break
+                        end
+                    end
+                    return
+                end
+            end
+        end
+    end
+
+    local function hideOriginal(inst)
+        -- Hide the label's parent frame: that's the badge itself, whereas hiding the label
+        -- alone would leave the modern frame and border sitting there empty. The label keeps
+        -- updating while invisible, which is what we go on reading.
+        local target = inst and inst.Parent
+        if target and target:IsA("GuiObject") and hiddenOriginals[target] == nil then
+            hiddenOriginals[target] = target.Visible
+            target.Visible = false
+        end
+    end
+
+    local function restoreOriginals()
+        for inst, wasVisible in pairs(hiddenOriginals) do
+            pcall(function() inst.Visible = wasVisible end)
+        end
+        hiddenOriginals = {}
+    end
+
+    local function buildRetroGui()
+        local pg = player:WaitForChild("PlayerGui")
+        pcall(function()
+            local stale = pg:FindFirstChild(GUI_NAME)
+            if stale then stale:Destroy() end
+        end)
+
+        retroGui = Instance.new("ScreenGui")
+        retroGui.Name           = GUI_NAME
+        retroGui.ResetOnSpawn   = false
+        retroGui.IgnoreGuiInset = true
+        retroGui.DisplayOrder   = 50
+        retroGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+        retroGui.Enabled        = false
+        retroGui.Parent         = pg
+
+        -- Acronym + pill sit in one auto-sized row that stays centred at the top, so the
+        -- group re-centres itself as the tower name and the minutes digit change width.
+        local row = Instance.new("Frame")
+        row.Name                   = "Row"
+        row.AnchorPoint            = Vector2.new(0.5, 0)
+        row.Position               = UDim2.new(0.5, 0, 0, 4)
+        row.BackgroundTransparency = 1
+        row.AutomaticSize          = Enum.AutomaticSize.XY
+        row.Size                   = UDim2.fromOffset(0, 34)
+        row.Parent                 = retroGui
+
+        local rowLayout = Instance.new("UIListLayout")
+        rowLayout.FillDirection      = Enum.FillDirection.Horizontal
+        rowLayout.VerticalAlignment  = Enum.VerticalAlignment.Center
+        rowLayout.SortOrder          = Enum.SortOrder.LayoutOrder
+        rowLayout.Padding            = UDim.new(0, 6)
+        rowLayout.Parent             = row
+
+        acronymLabel = Instance.new("TextLabel")
+        acronymLabel.Name                   = "Acronym"
+        acronymLabel.LayoutOrder            = 1
+        acronymLabel.BackgroundTransparency = 1
+        acronymLabel.AutomaticSize          = Enum.AutomaticSize.X
+        acronymLabel.Size                   = UDim2.fromOffset(0, 30)
+        acronymLabel.Font                   = Enum.Font.GothamBold
+        acronymLabel.TextSize               = 24
+        acronymLabel.Text                   = ""
+        acronymLabel.TextColor3             = Color3.fromRGB(40, 90, 240)
+        -- The 2024 acronym had a heavy dark outline, which is what keeps a saturated
+        -- difficulty colour readable against a bright tower.
+        acronymLabel.TextStrokeTransparency = 0
+        acronymLabel.TextStrokeColor3       = Color3.fromRGB(10, 15, 40)
+        acronymLabel.Visible                = false
+        acronymLabel.Parent                 = row
+
+        pill = Instance.new("Frame")
+        pill.Name                   = "Pill"
+        pill.LayoutOrder            = 2
+        pill.BackgroundColor3       = Color3.fromRGB(20, 24, 34)
+        pill.BackgroundTransparency = 0.45
+        pill.BorderSizePixel        = 0
+        pill.AutomaticSize          = Enum.AutomaticSize.X
+        pill.Size                   = UDim2.fromOffset(0, 32)
+        pill.Parent                 = row
+
+        local pillCorner = Instance.new("UICorner")
+        pillCorner.CornerRadius = UDim.new(1, 0) -- fully rounded ends
+        pillCorner.Parent       = pill
+
+        local pillPad = Instance.new("UIPadding")
+        pillPad.PaddingLeft  = UDim.new(0, 9)
+        pillPad.PaddingRight = UDim.new(0, 12)
+        pillPad.Parent       = pill
+
+        local pillLayout = Instance.new("UIListLayout")
+        pillLayout.FillDirection     = Enum.FillDirection.Horizontal
+        pillLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+        pillLayout.SortOrder         = Enum.SortOrder.LayoutOrder
+        pillLayout.Padding           = UDim.new(0, 7)
+        pillLayout.Parent            = pill
+
+        -- Clock drawn from primitives rather than an image asset, so it can't break on an
+        -- asset that fails to load: a stroked circle plus two hands rotated about the
+        -- centre (0 = pointing at 12, 120 = at 4), matching the original's outlined look.
+        local clock = Instance.new("Frame")
+        clock.Name                   = "Clock"
+        clock.LayoutOrder            = 1
+        clock.BackgroundTransparency = 1
+        clock.Size                   = UDim2.fromOffset(20, 20)
+        clock.Parent                 = pill
+
+        local dial = Instance.new("Frame")
+        dial.BackgroundTransparency = 1
+        dial.Size                   = UDim2.fromScale(1, 1)
+        dial.Parent                 = clock
+        local dialCorner = Instance.new("UICorner")
+        dialCorner.CornerRadius = UDim.new(1, 0)
+        dialCorner.Parent       = dial
+        local dialStroke = Instance.new("UIStroke")
+        dialStroke.Thickness = 2.2
+        dialStroke.Color     = Color3.fromRGB(255, 255, 255)
+        dialStroke.Parent    = dial
+
+        for _, hand in ipairs({ { 6, 0 }, { 5, 120 } }) do
+            local h = Instance.new("Frame")
+            h.AnchorPoint      = Vector2.new(0.5, 1)
+            h.Position         = UDim2.fromScale(0.5, 0.5)
+            h.Size             = UDim2.fromOffset(2, hand[1])
+            h.Rotation         = hand[2]
+            h.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            h.BorderSizePixel  = 0
+            h.Parent           = dial
+        end
+
+        timeLabel = Instance.new("TextLabel")
+        timeLabel.Name                   = "Time"
+        timeLabel.LayoutOrder            = 2
+        timeLabel.BackgroundTransparency = 1
+        timeLabel.AutomaticSize          = Enum.AutomaticSize.X
+        timeLabel.Size                   = UDim2.fromOffset(0, 26)
+        -- Monospaced so the readout doesn't jitter sideways as the digits tick over.
+        timeLabel.Font                   = Enum.Font.RobotoMono
+        timeLabel.TextSize               = 22
+        timeLabel.TextColor3             = Color3.fromRGB(255, 255, 255)
+        timeLabel.Text                   = "0:00.00"
+        timeLabel.Parent                 = pill
+    end
+
+    HudGroup:AddToggle("RetroTimer", {
+        Text    = "2024 Timer",
+        Default = false,
+        Tooltip = "Replaces the modern timer badge with the 2024 one: tower acronym, then a dark pill with a clock and the time. Reads the real timer, so the time always matches.",
+        Callback = function(state)
+            if retroConn then
+                retroConn:Disconnect()
+                retroConn = nil
+            end
+            if not retroGui then buildRetroGui() end
+            retroGui.Enabled = state
+
+            if not state then
+                restoreOriginals()
+                timerSrc, tagSrc = nil, nil
+                return
+            end
+
+            rescanGameLabels()
+            lastScan = os.clock()
+            local RunService = game:GetService("RunService")
+            retroConn = RunService.Heartbeat:Connect(function()
+                -- The game's labels are recreated on respawn/teleport, so re-find them when
+                -- one goes missing -- but only once a second, since this walks all of
+                -- PlayerGui and doing that every frame would cost more than it's worth.
+                local needScan = not timerSrc or not timerSrc.Parent or not tagSrc or not tagSrc.Parent
+                if needScan and os.clock() - lastScan >= 1 then
+                    rescanGameLabels()
+                    lastScan = os.clock()
+                end
+
+                if timerSrc and timerSrc.Parent then
+                    hideOriginal(timerSrc)
+                    timeLabel.Text = trim(timerSrc.Text)
+                end
+                if tagSrc and tagSrc.Parent then
+                    hideOriginal(tagSrc)
+                    acronymLabel.Text       = trim(tagSrc.Text)
+                    acronymLabel.TextColor3 = tagSrc.TextColor3
+                    acronymLabel.Visible    = true
+                else
+                    -- No tower name on screen (the lobby) -- the 2024 HUD showed just the pill.
+                    acronymLabel.Visible = false
+                end
+            end)
+        end,
+    })
+
+    retroTimerCleanup = function()
+        if retroConn then
+            retroConn:Disconnect()
+            retroConn = nil
+        end
+        restoreOriginals()
+        if retroGui then
+            retroGui:Destroy()
+            retroGui = nil
+        end
+    end
+end
 
 local CreditsGroup = Tabs.UISettings:AddRightGroupbox("Credits")
 CreditsGroup:AddLabel('<font color="rgb(90,200,255)">[cslp1]</font>  Owner', true)
