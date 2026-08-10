@@ -4200,17 +4200,29 @@ do
     -- known acronym can't be the only rule either: in the lobby that label exists but is
     -- EMPTY, so it never matches, which is what made the scan re-run every second. Hence
     -- acronym first, then a child actually named "tower", then anything with text.
+    -- Text-bearing self-or-descendant. The tower element isn't always the label itself: in
+    -- one copy of the HUD it's a Frame with the text nested inside, and requiring the child
+    -- ITSELF to be text-bearing skipped it -- leaving the acronym blank and the game's real
+    -- tag unhidden, which is exactly the "acronym on the wrong side" symptom.
+    local function textIn(inst, timerLabel)
+        if inst ~= timerLabel and readText(inst) then return inst end
+        for _, d in ipairs(inst:GetDescendants()) do
+            if d ~= timerLabel and readText(d) then return d end
+        end
+        return nil
+    end
+
     function findTagFor(timerLabel, pg)
         local row = timerLabel.Parent
         if row then
             local byAcronym, byName, anyText
-            for _, d in ipairs(row:GetChildren()) do
-                if d ~= timerLabel and not isOurs(d) then
-                    local txt = readText(d)
-                    if txt then
-                        if knownTowers[trim(txt)] then byAcronym = byAcronym or d end
-                        if d.Name:lower():find("tower", 1, true) then byName = byName or d end
-                        anyText = anyText or d
+            for _, child in ipairs(row:GetChildren()) do
+                if child ~= timerLabel and not isOurs(child) then
+                    local cand = textIn(child, timerLabel)
+                    if cand then
+                        if knownTowers[trim(readText(cand))] then byAcronym = byAcronym or cand end
+                        if child.Name:lower():find("tower", 1, true) then byName = byName or cand end
+                        anyText = anyText or cand
                     end
                 end
             end
