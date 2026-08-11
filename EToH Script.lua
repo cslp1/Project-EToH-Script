@@ -4135,15 +4135,16 @@ do
     end
 
     local GUI_NAME = "RetroTimerGui"
-    local retroGui, acronymLabel, timeLabel, pill
-    local timerSrc, tagSrc          -- the copies we mirror (the ones that were on screen)
+    local retroGui, acronymLabels, timeLabel, pill
+    local timerSrc                  -- the copy we mirror (the one that was on screen)
+    local tagSrcs = {}              -- its tags in screen order: tower, plus rush during a rush
     local timerAll, tagAll = {}, {} -- every copy found; all of them get hidden
     local hiddenOriginals = {}      -- GuiObject -> the Visible we found it with
     local hiddenGuis      = {}      -- ScreenGui -> the Enabled we found it with
     local retroConn, lastScan = nil, 0
     -- Declared up here so the definitions below bind to these locals rather than creating
     -- globals, since each is referenced before it's defined.
-    local findTagFor, wasOnScreen
+    local findTagsFor, wasOnScreen
 
     local function trim(s) return (tostring(s):gsub("^%s+", ""):gsub("%s+$", "")) end
 
@@ -4236,22 +4237,27 @@ do
         return nil
     end
 
-    function findTagFor(timerLabel, pg)
+    -- Left-to-right on screen, so the mirrored labels sit in the order the game shows them.
+    local function sortByScreenX(list)
+        table.sort(list, function(a, b) return a.AbsolutePosition.X < b.AbsolutePosition.X end)
+        return list
+    end
+
+    -- Every label the game shows beside the timer, not just the tower one. During a tower
+    -- rush the badge carries a rush element as well (the HUD row holds timer/tower/rush), so
+    -- returning the whole set is what makes rushes work without special-casing them -- and
+    -- it means all of them get hidden rather than leaving the rush tag behind.
+    function findTagsFor(timerLabel, pg)
         local row = timerLabel.Parent
         if row then
-            local byAcronym, byName, anyText
+            local found = {}
             for _, child in ipairs(row:GetChildren()) do
                 if child ~= timerLabel and not isOurs(child) then
                     local cand = textIn(child, timerLabel)
-                    if cand then
-                        if knownTowers[trim(readText(cand))] then byAcronym = byAcronym or cand end
-                        if child.Name:lower():find("tower", 1, true) then byName = byName or cand end
-                        anyText = anyText or cand
-                    end
+                    if cand then found[#found + 1] = cand end
                 end
             end
-            local picked = byAcronym or byName or anyText
-            if picked then return picked end
+            if #found > 0 then return sortByScreenX(found) end
         end
         -- The real badge lives in a ScreenGui of its own ("Timer") and the tower name is NOT
         -- inside it, so a wider search is needed. It deliberately does NOT hinge on the
@@ -4260,7 +4266,7 @@ do
         -- on-screen text sitting right next to the timer, preferring what a name says is the
         -- tower, with the acronym list only as a tiebreak.
         local timerOnScreen = timerLabel.AbsoluteSize.X > 0
-        local byName, byAcronym, byAdjacent
+        local adjacent, weak = {}, {}
         for _, d in ipairs(pg:GetDescendants()) do
             if d ~= timerLabel and not isOurs(d) then
                 local txt = readText(d)
@@ -4269,18 +4275,17 @@ do
                 -- global "has beaten <tower> in <time>" messages out of the running.
                 if s and s ~= "" and #s <= 12 and not looksLikeTime(s) and wasOnScreen(d) then
                     if timerOnScreen and isAdjacentTo(d, timerLabel) then
-                        if nameSuggestsTower(d) then byName = byName or d end
-                        if knownTowers[s]      then byAcronym = byAcronym or d end
-                        byAdjacent = byAdjacent or d
+                        adjacent[#adjacent + 1] = d
                     elseif not timerOnScreen and nameSuggestsTower(d) and knownTowers[s] then
                         -- No geometry to judge by (the badge is already hidden, so sizes read
                         -- as zero) -- require both weaker signals rather than guessing.
-                        byName = byName or d
+                        weak[#weak + 1] = d
                     end
                 end
             end
         end
-        return byName or byAcronym or byAdjacent
+        if #adjacent > 0 then return sortByScreenX(adjacent) end
+        return weak
     end
 
     -- Was this on screen BEFORE we started hiding things? Anything we hid ourselves counts
@@ -4310,8 +4315,8 @@ do
     local function rescanGameLabels()
         local pg = player:FindFirstChild("PlayerGui")
         if not pg then return end
-        timerSrc, tagSrc = nil, nil
-        timerAll, tagAll = {}, {}
+        timerSrc, tagSrcs = nil, {}
+        timerAll, tagAll  = {}, {}
 
         -- Every descendant of PlayerGui, not just direct ScreenGui children: the HUD can
         -- sit any number of levels down, and assuming otherwise is why this found nothing.
@@ -4325,10 +4330,10 @@ do
             local txt = readText(d)
             if txt and looksLikeTime(txt) and not isOurs(d) then
                 timerAll[#timerAll + 1] = d
-                local tag = findTagFor(d, pg)
-                if tag then tagAll[#tagAll + 1] = tag end
+                local tags = findTagsFor(d, pg)
+                for _, t in ipairs(tags) do tagAll[#tagAll + 1] = t end
                 if not timerSrc and wasOnScreen(d) then
-                    timerSrc, tagSrc = d, tag
+                    timerSrc, tagSrcs = d, tags
                 end
             end
         end
@@ -4339,10 +4344,13 @@ do
         -- Nothing looked on screen (every copy hidden, or the check was too strict): mirror
         -- the first rather than showing nothing.
         if not timerSrc then
-            timerSrc, tagSrc = timerAll[1], tagAll[1]
+            timerSrc, tagSrcs = timerAll[1], findTagsFor(timerAll[1], pg)
         end
-        warn(("[2024 Timer] %d timer copies | mirroring: %s | tower tag: %s"):format(
-            #timerAll, timerSrc:GetFullName(), tagSrc and tagSrc:GetFullName() or "not found"))
+        local names = {}
+        for _, t in ipairs(tagSrcs) do names[#names + 1] = t.Name end
+        warn(("[2024 Timer] %d timer copies | mirroring: %s | tags: %s"):format(
+            #timerAll, timerSrc:GetFullName(),
+            #names > 0 and table.concat(names, ", ") or "none found"))
     end
 
     -- The badge is a composite -- dark hexagon, gold border, clock icon, text -- so hiding
@@ -4466,9 +4474,14 @@ do
         rowLayout.Padding            = UDim.new(0, 6)
         rowLayout.Parent             = row
 
-        acronymLabel = Instance.new("TextLabel")
-        acronymLabel.Name                   = "Acronym"
-        acronymLabel.LayoutOrder            = 1
+        -- A small pool rather than one label: a tower rush shows a rush tag as well as the
+        -- tower, and each keeps its own difficulty colour this way instead of being flattened
+        -- into one string. Laid out left of the pill in the order the game shows them.
+        acronymLabels = {}
+        for i = 1, 3 do
+        local acronymLabel = Instance.new("TextLabel")
+        acronymLabel.Name                   = "Acronym" .. i
+        acronymLabel.LayoutOrder            = i
         acronymLabel.BackgroundTransparency = 1
         acronymLabel.AutomaticSize          = Enum.AutomaticSize.X
         acronymLabel.Size                   = UDim2.fromOffset(0, 30)
@@ -4482,10 +4495,13 @@ do
         acronymLabel.TextStrokeColor3       = Color3.fromRGB(10, 15, 40)
         acronymLabel.Visible                = false
         acronymLabel.Parent                 = row
+        acronymLabels[i] = acronymLabel
+        end
 
         pill = Instance.new("Frame")
         pill.Name                   = "Pill"
-        pill.LayoutOrder            = 2
+        -- After the acronym pool, so the pill always sits to their right.
+        pill.LayoutOrder            = 10
         pill.BackgroundColor3       = Color3.fromRGB(20, 24, 34)
         pill.BackgroundTransparency = 0.45
         pill.BorderSizePixel        = 0
@@ -4570,7 +4586,7 @@ do
 
             if not state then
                 restoreOriginals()
-                timerSrc, tagSrc = nil, nil
+                timerSrc, tagSrcs = nil, {}
                 return
             end
 
@@ -4592,7 +4608,11 @@ do
                 -- that's what made the lobby, where the tag exists but is blank, rescan
                 -- every second forever.
                 local needScan = not timerSrc or not timerSrc.Parent
-                    or (tagSrc ~= nil and tagSrc.Parent == nil)
+                if not needScan then
+                    for _, t in ipairs(tagSrcs) do
+                        if not t.Parent then needScan = true break end
+                    end
+                end
                 if needScan and os.clock() - lastScan >= 1 then
                     rescanGameLabels()
                     lastScan = os.clock()
@@ -4610,14 +4630,23 @@ do
                 if timerSrc and timerSrc.Parent then
                     timeLabel.Text = trim(timerSrc.Text)
                 end
-                local tagText = (tagSrc and tagSrc.Parent) and trim(tagSrc.Text) or ""
-                if tagText ~= "" then
-                    acronymLabel.Text       = tagText
-                    acronymLabel.TextColor3 = tagSrc.TextColor3
-                    acronymLabel.Visible    = true
-                else
-                    -- Blank in the lobby -- the 2024 HUD showed just the pill there.
-                    acronymLabel.Visible = false
+                -- Mirror each tag the game is showing into its own label, keeping its colour.
+                -- A tower rush populates more than one (rush plus tower); a normal climb
+                -- populates one; the lobby populates none, where the 2024 HUD showed just the
+                -- pill. Blank sources are skipped so gaps don't appear between the labels.
+                local slot = 0
+                for _, src in ipairs(tagSrcs) do
+                    local s = src.Parent and trim(src.Text) or ""
+                    if s ~= "" and slot < #acronymLabels then
+                        slot = slot + 1
+                        local lbl = acronymLabels[slot]
+                        lbl.Text       = s
+                        lbl.TextColor3 = src.TextColor3
+                        lbl.Visible    = true
+                    end
+                end
+                for i = slot + 1, #acronymLabels do
+                    acronymLabels[i].Visible = false
                 end
             end)
         end,
