@@ -4237,6 +4237,19 @@ do
         return nil
     end
 
+    -- Readouts that share the HUD row but aren't part of the badge. Checked by instance name
+    -- as well as by text, because the FPS counter is a plain number and nothing about its
+    -- text says what it is.
+    local NOISE_NAMES = { "fps", "ping", "memory", "mem", "version", "player" }
+    local function isNoise(inst, text)
+        local n = inst.Name:lower()
+        for _, bad in ipairs(NOISE_NAMES) do
+            if n:find(bad, 1, true) then return true end
+        end
+        -- Pure digits: an FPS or a count, never a tower acronym or a rush progress ("1/11").
+        return text ~= nil and text:match("^%d+$") ~= nil
+    end
+
     -- Left-to-right on screen, so the mirrored labels sit in the order the game shows them.
     local function sortByScreenX(list)
         table.sort(list, function(a, b) return a.AbsolutePosition.X < b.AbsolutePosition.X end)
@@ -4248,13 +4261,20 @@ do
     -- returning the whole set is what makes rushes work without special-casing them -- and
     -- it means all of them get hidden rather than leaving the rush tag behind.
     function findTagsFor(timerLabel, pg)
-        local row = timerLabel.Parent
+        local row  = timerLabel.Parent
+        local geom = timerLabel.AbsoluteSize.X > 0
         if row then
             local found = {}
             for _, child in ipairs(row:GetChildren()) do
                 if child ~= timerLabel and not isOurs(child) then
                     local cand = textIn(child, timerLabel)
-                    if cand then found[#found + 1] = cand end
+                    -- Sharing a row in the tree is not the same as sharing a place on screen:
+                    -- this row also carries the FPS readout, anchored far off at the top-left.
+                    -- Require visual adjacency so only the badge's own labels come through.
+                    if cand and not isNoise(cand, trim(readText(cand)))
+                        and (not geom or isAdjacentTo(cand, timerLabel)) then
+                        found[#found + 1] = cand
+                    end
                 end
             end
             if #found > 0 then return sortByScreenX(found) end
@@ -4265,15 +4285,17 @@ do
         -- silently fails for the rest and goes stale as towers are added. Instead take the
         -- on-screen text sitting right next to the timer, preferring what a name says is the
         -- tower, with the acronym list only as a tiebreak.
-        local timerOnScreen = timerLabel.AbsoluteSize.X > 0
+        local timerOnScreen = geom
         local adjacent, weak = {}, {}
         for _, d in ipairs(pg:GetDescendants()) do
             if d ~= timerLabel and not isOurs(d) then
                 local txt = readText(d)
                 local s   = txt and trim(txt) or nil
-                -- Short, non-empty, not another time readout: keeps chat lines and the
-                -- global "has beaten <tower> in <time>" messages out of the running.
-                if s and s ~= "" and #s <= 12 and not looksLikeTime(s) and wasOnScreen(d) then
+                -- Short, non-empty, not another time readout, not an FPS/ping style counter:
+                -- keeps chat lines and the global "has beaten <tower> in <time>" messages out
+                -- of the running too.
+                if s and s ~= "" and #s <= 12 and not looksLikeTime(s) and not isNoise(d, s)
+                    and wasOnScreen(d) then
                     if timerOnScreen and isAdjacentTo(d, timerLabel) then
                         adjacent[#adjacent + 1] = d
                     elseif not timerOnScreen and nameSuggestsTower(d) and knownTowers[s] then
