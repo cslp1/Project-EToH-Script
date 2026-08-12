@@ -1328,7 +1328,7 @@ startAutoPlay = function()
 
         -- Sends a Discord webhook message on successful completion.
         -- Silently skips if request() is unavailable.
-        local WEBHOOK_URL = "https://discord.com/api/webhooks/1536919624967258224/2aOO4FNcewX1DTBDBY3WUc6Qb4H5HRFVhHqzvh-4Dq6PKAVUdiE8S8jLD_9iE-pWKceb"
+        local WEBHOOK_URL = "https://discord.com/api/webhooks/1536980682591436913/LIY74y_kf_FSAoRWg_zVaONt0_gnX4O5W5RuHMZDnbp2JpYJjo5-_wMhnP4Xt1m3nAKi"
         local function sendCompletionWebhook(towerName, elapsed)
             if type(request) ~= "function" then return end
             if not (Library.Toggles.SendWebhook and Library.Toggles.SendWebhook.Value) then return end
