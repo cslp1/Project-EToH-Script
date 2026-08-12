@@ -42,7 +42,7 @@ if _G.PES_FORCE_UI_STYLE == "PES" or _G.PES_FORCE_UI_STYLE == "Obsidian" or _G.P
 end
 
 local PES_UI_URL =
-    "https://raw.githubusercontent.com/MaybeIsRealZack/Project-EToH-Script/refs/heads/main/PESUI.lua"
+    "https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/PESUI.lua"
 
 local repo = ""
 local Library, SaveManager, ThemeManager
@@ -89,7 +89,7 @@ else
     end
 end
 
-local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaybeIsRealZack/ESP-Library/main/Sense/source.lua'))()
+local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/cslp1/ESP-Library/main/Sense/source.lua'))()
 
 local function missing(t, f, fallback)
     if type(f) == t then return f end
@@ -116,7 +116,7 @@ print((UNCSupport.queueteleport     and "✅" or "❌") .. " queueonteleport")
 local HttpService = game:GetService("HttpService")
 local version = "Unknown"
 local ok, result = pcall(function()
-    local data = HttpService:JSONDecode(game:HttpGet("https://raw.githubusercontent.com/MaybeIsRealZack/Project-EToH-Script/refs/heads/main/version.json"))
+    local data = HttpService:JSONDecode(game:HttpGet("https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/version.json"))
     return data.version
 end)
 if ok and result then version = result end
@@ -127,7 +127,7 @@ local Window = Library:CreateWindow({
     ToggleKeybind = Enum.KeyCode.RightShift,
     AutoShow      = true,
 })
-local isDev = game:GetService("Players").LocalPlayer.Name == "MaybeIsRealZack"
+local isDev = game:GetService("Players").LocalPlayer.Name == "cslp1"
 
 local Tabs = {
     Main       = Window:AddTab("Main",        "house"),
@@ -189,8 +189,8 @@ local currentResolvedSteps = nil
 local startAutoPlay -- forward declaration (assigned where the Auto Play button is built)
 local autoPlayStop = false -- set true to stop a running Auto Play without dying/rejoining
 
-local baseRepo = "https://raw.githubusercontent.com/MaybeIsRealZack/Project-EToH-Script/refs/heads/main/Games/EToH/"
-local registryUrl = "https://raw.githubusercontent.com/MaybeIsRealZack/Project-EToH-Script/refs/heads/main/Games/EToH/TowerRegistry.lua"
+local baseRepo = "https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/Games/EToH/"
+local registryUrl = "https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/Games/EToH/TowerRegistry.lua"
 
 local Registry
 local registryLoaded = false
@@ -282,18 +282,16 @@ end
 -- search by name so towers in other games using the same JToH kit (e.g. The Eternal Abyss)
 -- resolve even if the hierarchy differs. Returns nil if the folder/part is gone.
 -- Tower games don't agree on what the entry portal is called. Observed so far:
---   EToH    Teleporter.Teleporter.TPFRAME
---   TEA     Portal            (siblings: Frame, WinPad, SpawnPad)
---   CSCD    TP                (siblings: Checkpoints, Frame, DO_NOT_MOVE_...)
---   EToH XL TowerStart        (siblings: WinPad, WinSpawn, FloorN parts -- no Teleporter
---                              nesting, no TPFRAME/TeleportTo at all)
+--   EToH  Teleporter.Teleporter.TPFRAME
+--   TEA   Portal            (siblings: Frame, WinPad, SpawnPad)
+--   CSCD  TP                (siblings: Checkpoints, Frame, DO_NOT_MOVE_...)
 -- Ordered most- to least-specific. Deliberately excludes Frame (the tower's base) and
 -- WinPad (the finish, not the entry).
 local PORTAL_NAMES = {
-    "TPFRAME", "Portal", "TP", "TeleportTo", "Teleporter", "TowerStart", "Entrance", "SpawnPad", "Spawn",
+    "TPFRAME", "Portal", "TP", "TeleportTo", "Teleporter", "Entrance", "SpawnPad", "Spawn",
 }
 -- Substring pass for games not covered above. Same exclusions.
-local PORTAL_HINTS = { "tpframe", "portal", "teleport", "towerstart", "entrance", "spawnpad" }
+local PORTAL_HINTS = { "tpframe", "portal", "teleport", "entrance", "spawnpad" }
 
 -- Callers need a BasePart (they read .CFrame/.Position/.Size), but these can be Models
 -- or Folders, so resolve down to an actual part.
@@ -340,13 +338,7 @@ local function resolveTeleportTo(name)
     if not f then return nil end
     local tp    = f:FindFirstChild("Teleporter")
     local exact = tp and tp:FindFirstChild("TeleportTo")
-    local found = exact or f:FindFirstChild("TeleportTo", true)
-    if found then return toBasePart(found) end
-    -- Games with a single combined entry part (no separate TPFRAME + TeleportTo stage --
-    -- e.g. TEA's Portal, CSCD's TP, EToH XL's TowerStart) have nothing named TeleportTo at
-    -- all. Fall back to the same part resolveTPFrame found: the player is already standing
-    -- on it from the walk-to loop above, so the "wait for teleport" touch fires right away.
-    return resolveTPFrame(name)
+    return exact or f:FindFirstChild("TeleportTo", true)
 end
 
 -- F9 diagnostic: dump a tower folder's children when entry resolution fails, so an
@@ -635,207 +627,6 @@ TowerBox:AddInput("NextTowerDelay", {
     Placeholder = "5",
     Tooltip     = "After returning to spawn, wait this long before entering the next tower or repeating. Lowering it too far can enter before the lobby finishes loading.",
 })
-
--- ===== Floor Counter (detects current floor from floor color) =====
--- EToH doesn't number floor parts -- confirmed in-game (F9 console dump of
--- workspace.Towers.ToH.Frame) that every child is just named "Part", and each floor's
--- walls/tiles all share one fixed color, rainbow-banded bottom to top. Rather than
--- hand-typing a color table per tower, the palette is built live: group every BasePart in
--- the tower's Frame by exact color, order the groups by height (lowest = floor 1), and
--- that ordering *is* the floor list. Works for any tower with no per-tower data needed.
-local floorPaletteCache = {} -- towerName -> array of {color=Color3} ordered bottom-to-top
-
-local function buildFloorPalette(towerName)
-    local cached = floorPaletteCache[towerName]
-    if cached then return cached end
-
-    local towersFolder = workspace:FindFirstChild("Towers")
-    local tower = towersFolder and towersFolder:FindFirstChild(towerName)
-    local frame = tower and tower:FindFirstChild("Frame")
-    if not frame then return nil end
-
-    local groups = {} -- hex -> { color = Color3, minY = number }
-    local partCount = 0
-    for _, inst in ipairs(frame:GetDescendants()) do
-        if inst:IsA("BasePart") then
-            partCount = partCount + 1
-            local hex = inst.Color:ToHex()
-            local y = inst.Position.Y - inst.Size.Y / 2
-            local g = groups[hex]
-            if not g then
-                groups[hex] = { color = inst.Color, minY = y }
-            elseif y < g.minY then
-                g.minY = y
-            end
-        end
-    end
-
-    local list = {}
-    for _, g in pairs(groups) do list[#list + 1] = g end
-    if #list == 0 then return nil end
-    table.sort(list, function(a, b) return a.minY < b.minY end)
-
-    -- Only cache once the tower looks fully streamed in (a handful of parts likely means
-    -- Frame is still loading) so an early scan doesn't lock in a wrong/incomplete palette.
-    if partCount >= 10 then
-        floorPaletteCache[towerName] = list
-    end
-    return list
-end
-
--- Raycasts straight down from the player, walks the hit part up to its tower folder under
--- workspace.Towers, then matches the part's Color against the closest entry in that
--- tower's live-built palette (nearest-distance, not exact-equality, so it still works if a
--- color is off by a shade). Returns floor, total, towerName -- floor/total are nil if no
--- palette could be built yet; towerName is nil if not standing over a tower at all.
-local function getCurrentFloor()
-    local player = game:GetService("Players").LocalPlayer
-    local char   = player.Character
-    local hrp    = char and char:FindFirstChild("HumanoidRootPart")
-    if not hrp then return nil end
-
-    local params = RaycastParams.new()
-    params.FilterType = Enum.RaycastFilterType.Exclude
-    params.FilterDescendantsInstances = { char }
-    local hit = workspace:Raycast(hrp.Position, Vector3.new(0, -500, 0), params)
-    if not hit or not hit.Instance then return nil end
-
-    local towersFolder = workspace:FindFirstChild("Towers")
-    if not towersFolder then return nil end
-    local towerName
-    local anc = hit.Instance
-    while anc and anc ~= workspace do
-        if anc.Parent == towersFolder then
-            towerName = anc.Name
-            break
-        end
-        anc = anc.Parent
-    end
-    if not towerName then return nil end
-
-    local palette = buildFloorPalette(towerName)
-    if not palette then return nil, nil, towerName end
-
-    local hitColor = hit.Instance.Color
-    local hitVec = Vector3.new(hitColor.R, hitColor.G, hitColor.B)
-    local bestFloor, bestDist = nil, math.huge
-    for i, g in ipairs(palette) do
-        local dist = (Vector3.new(g.color.R, g.color.G, g.color.B) - hitVec).Magnitude
-        if dist < bestDist then
-            bestDist, bestFloor = dist, i
-        end
-    end
-    return bestFloor, #palette, towerName
-end
-
-local FloorLabel
-local floorOverlayGui
-local FloorOverlayLabel
-local floorCounterConn
-TowerBox:AddToggle("FloorCounter", {
-    Text    = "Floor Counter",
-    Default = false,
-    Tooltip = "Shows which floor you're on by matching the floor color under you, both in this menu and as a small draggable overlay. Builds the color palette live from the tower you're in, so it works for any tower.",
-    Callback = function(state)
-        if floorCounterConn then
-            floorCounterConn:Disconnect()
-            floorCounterConn = nil
-        end
-        if floorOverlayGui then floorOverlayGui.Enabled = state end
-        if not state then
-            FloorLabel:SetText("Floor: --/--")
-            if FloorOverlayLabel then FloorOverlayLabel.Text = "Floor: --/--" end
-            return
-        end
-        local RunService = game:GetService("RunService")
-        local lastText
-        floorCounterConn = RunService.Heartbeat:Connect(function()
-            local floor, total, towerName = getCurrentFloor()
-            local text
-            if floor and total then
-                text = ("Floor: %d/%d"):format(floor, total)
-            elseif towerName then
-                text = ("Floor: ?/? (reading %s...)"):format(towerName)
-            else
-                text = "Floor: --/--"
-            end
-            if text ~= lastText then
-                lastText = text
-                FloorLabel:SetText(text)
-                if FloorOverlayLabel then FloorOverlayLabel.Text = text end
-            end
-        end)
-    end,
-})
-FloorLabel = TowerBox:AddLabel("Floor: --/--")
-
--- Small draggable overlay that mirrors the label above, so the floor count stays visible
--- even with the main menu closed or on a different tab. Same "clean up a stale instance
--- from a previous execution, then build fresh" convention TowerRushUI.lua uses for its GUI.
-do
-    local player = game:GetService("Players").LocalPlayer
-    local playerGui = player:WaitForChild("PlayerGui")
-    pcall(function()
-        local existing = playerGui:FindFirstChild("FloorCounterOverlay")
-        if existing then existing:Destroy() end
-    end)
-
-    local overlayGui = Instance.new("ScreenGui")
-    overlayGui.Name           = "FloorCounterOverlay"
-    overlayGui.ResetOnSpawn   = false
-    overlayGui.IgnoreGuiInset = true
-    overlayGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-    overlayGui.Enabled        = false
-    overlayGui.Parent         = playerGui
-
-    local frame = Instance.new("Frame")
-    frame.Name                   = "FloorFrame"
-    frame.Size                   = UDim2.fromOffset(160, 36)
-    frame.Position                = UDim2.new(0.5, -80, 0, 80)
-    frame.BackgroundColor3       = Color3.fromRGB(24, 24, 28)
-    frame.BackgroundTransparency = 0.15
-    frame.BorderSizePixel        = 0
-    frame.Active                  = true
-    frame.Parent                  = overlayGui
-
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 6)
-    corner.Parent        = frame
-
-    local label = Instance.new("TextLabel")
-    label.Name                  = "Label"
-    label.BackgroundTransparency = 1
-    label.Size                  = UDim2.fromScale(1, 1)
-    label.Font                  = Enum.Font.GothamBold
-    label.TextSize              = 16
-    label.TextColor3            = Color3.fromRGB(255, 255, 255)
-    label.Text                  = "Floor: --/--"
-    label.Parent                = frame
-
-    -- Drag to reposition (mouse + touch) -- same pattern as TowerRushUI's title bar drag.
-    local UIS = game:GetService("UserInputService")
-    local dragging, dragStart, startPos
-    frame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            dragging  = true
-            dragStart = input.Position
-            startPos  = frame.Position
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then dragging = false end
-            end)
-        end
-    end)
-    UIS.InputChanged:Connect(function(input)
-        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-            local delta = input.Position - dragStart
-            frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-        end
-    end)
-
-    floorOverlayGui   = overlayGui
-    FloorOverlayLabel = label
-end
-
 local routeHighlights = {}
 local routeUpdateConn = nil
 
@@ -1175,10 +966,11 @@ TowerBox:AddButton({
 -- ===== Personal Features (built specifically for gavin) =====
 local PersonalBox = Tabs.Main:AddLeftGroupbox("Personal Features")
 
--- For each tower: enter via its teleporter, use a boost item, wait 0-5s, then teleport to
--- its WinPad to complete it. Citadels ("Citadel of X" -> "CoX") use the jump coil in slot 4;
--- regular towers and steeples use the VM in slot 5. A boost-item way to clear towers,
--- including ones not in the registry. Returns to the lobby between towers.
+-- For each tower: enter via its teleporter, use a boost item, wait, then teleport to its
+-- WinPad to complete it. Regular towers use the VM (slot 5) with a ~30-75s wait; citadels
+-- ("Citadel of X" -> "CoX") use the jump coil (slot 4) with a 5-25 min wait, since they're
+-- much larger. A boost-item way to clear towers, including ones not in the registry.
+-- Returns to the lobby between towers.
 local function isCitadel(name)
     return name:match("^Co%u") ~= nil
 end
@@ -1199,16 +991,13 @@ local function runVMFlow(towerNames)
             if not _G.vmActive then break end
             Library:Notify({ Title = "Auto VM", Description = ("(%d/%d) %s"):format(i, #towerNames, name), Duration = 3 })
 
-            -- Enter the tower via its teleporter (TPFRAME then TeleportTo, or TowerStart for
-            -- EToH XL). Recursive search by name so it works regardless of how the game nests
-            -- them.
+            -- Enter the tower via its teleporter (TPFRAME then TeleportTo). Recursive search
+            -- by name so it works regardless of how the game nests them.
             local entryParts = {}
-            local tpFramePart    = tower:FindFirstChild("TPFRAME", true)
-            local teleToPart     = tower:FindFirstChild("TeleportTo", true)
-            local towerStartPart = tower:FindFirstChild("TowerStart", true)
-            if tpFramePart    then entryParts[#entryParts + 1] = tpFramePart end
-            if teleToPart     then entryParts[#entryParts + 1] = teleToPart end
-            if towerStartPart then entryParts[#entryParts + 1] = towerStartPart end
+            local tpFramePart = tower:FindFirstChild("TPFRAME", true)
+            local teleToPart  = tower:FindFirstChild("TeleportTo", true)
+            if tpFramePart then entryParts[#entryParts + 1] = tpFramePart end
+            if teleToPart  then entryParts[#entryParts + 1] = teleToPart end
             for _, part in ipairs(entryParts) do
                 local t0 = os.clock()
                 repeat
@@ -1218,7 +1007,7 @@ local function runVMFlow(towerNames)
                 until os.clock() - t0 > 1.5 or not _G.vmActive
             end
 
-            -- Citadels get the jump coil (slot 4); towers and steeples the VM (slot 5).
+            -- Citadels get the jump coil (slot 4) + a long wait; everything else the VM (slot 5).
             local citadel  = isCitadel(name)
             local slotKey  = citadel and Enum.KeyCode.Four or Enum.KeyCode.Five
             local itemName = citadel and "jump coil" or "VM"
@@ -1226,9 +1015,9 @@ local function runVMFlow(towerNames)
             task.wait(0.1)
             VIM:SendKeyEvent(false, slotKey, false, game)
 
-            -- Wait for the boost to clear the tower: 0-5s regardless of which item was used.
-            local waitSec   = math.random(0, 5)
-            local waitLabel = ("%ds"):format(waitSec)
+            -- Wait for the boost to clear the tower: 5-15 min for citadels, 15-60s otherwise.
+            local waitSec   = citadel and math.random(300, 900) or math.random(15, 60)
+            local waitLabel = citadel and ("%.1f min"):format(waitSec / 60) or ("%ds"):format(waitSec)
             Library:Notify({ Title = "Auto VM", Description = ("(%d/%d) %s -- %s, waiting %s"):format(i, #towerNames, name, itemName, waitLabel), Duration = 4 })
             local waitUntil = os.clock() + waitSec
             while os.clock() < waitUntil and _G.vmActive do task.wait(0.5) end
@@ -1250,7 +1039,7 @@ end
 
 PersonalBox:AddButton({
     Text    = "Auto Use VM (selected)",
-    Tooltip = "For each ticked tower in 'Auto Complete: Towers': enter it, use the boost item (jump coil on key 4 for citadels, VM on key 5 otherwise), wait 0-5s, then teleport to the WinPad. Press again to stop.",
+    Tooltip = "For each ticked tower in 'Auto Complete: Towers': enter it, use the VM item (key 5), wait 30s, then teleport to the WinPad. Press again to stop.",
     Callback = function()
         if _G.vmActive then
             _G.vmActive = false
@@ -1328,7 +1117,7 @@ startAutoPlay = function()
 
         -- Sends a Discord webhook message on successful completion.
         -- Silently skips if request() is unavailable.
-        local WEBHOOK_URL = "https://discord.com/api/webhooks/1536980682591436913/LIY74y_kf_FSAoRWg_zVaONt0_gnX4O5W5RuHMZDnbp2JpYJjo5-_wMhnP4Xt1m3nAKi"
+        local WEBHOOK_URL = "https://discord.com/api/webhooks/1536919624967258224/2aOO4FNcewX1DTBDBY3WUc6Qb4H5HRFVhHqzvh-4Dq6PKAVUdiE8S8jLD_9iE-pWKceb"
         local function sendCompletionWebhook(towerName, elapsed)
             if type(request) ~= "function" then return end
             if not (Library.Toggles.SendWebhook and Library.Toggles.SendWebhook.Value) then return end
@@ -1493,61 +1282,6 @@ startAutoPlay = function()
             end
             return false
         end
-
-        -- Stand on an entry part until it registers us, without ever hanging.
-        --
-        -- Touched fires only when a contact BEGINS. If the character already overlaps the
-        -- part when the handler connects -- a respawn, a previous run, or a game whose entry
-        -- part is the one we just teleported onto (EToH XL's TowerStart) all leave us
-        -- standing on it -- then no event fires, and re-applying an IDENTICAL CFrame every
-        -- iteration never produces a fresh contact for it to fire on either. The old
-        -- `while not tpTouched` loops had no exit for that, which is the intermittent
-        -- "stuck on Moving to <tower> teleporter..." freeze. Three fixes here:
-        --   * alternate the offset so a genuine trigger part gets a NEW contact to fire on,
-        --   * accept proximity once graceSec has passed (arrival, for stages where the touch
-        --     isn't what triggers anything), and
-        --   * always give up after PORTAL_WAIT_SEC instead of spinning forever.
-        -- Also re-resolves the part and the character each pass: streaming can orphan the
-        -- part, and CFrame-ing an orphaned HumanoidRootPart silently does nothing forever.
-        --
-        -- Returns "touched" / "near" / "timeout" / "missing", or nil if we died or stopped
-        -- (in which case checkDied already cleaned up and the caller must return).
-        local PORTAL_WAIT_SEC, PORTAL_NEAR_STUDS = 12, 6
-        local function waitAtPart(resolvePart, graceSec)
-            local part = resolvePart()
-            if not part then return "missing" end
-            local touched = false
-            local conn = part.Touched:Connect(function(hit)
-                if hit:IsDescendantOf(player.Character) then touched = true end
-            end)
-            local graceUntil = graceSec and (os.clock() + graceSec) or nil
-            local giveUpAt   = os.clock() + PORTAL_WAIT_SEC
-            local result
-            while true do
-                if checkDied() then break end
-                if touched then result = "touched" break end
-                if not part.Parent then
-                    part = resolvePart()
-                    if not part then result = "missing" break end
-                end
-                char = player.Character
-                hrp  = char and char:FindFirstChild("HumanoidRootPart")
-                if hrp then
-                    local yOffset = (math.floor(os.clock() * 5) % 2 == 0) and 3 or 3.6
-                    hrp.CFrame = CFrame.new(part.Position + Vector3.new(0, yOffset, 0))
-                        * (hrp.CFrame - hrp.CFrame.Position)
-                    if graceUntil and os.clock() >= graceUntil
-                        and (hrp.Position - part.Position).Magnitude <= PORTAL_NEAR_STUDS then
-                        result = "near"
-                        break
-                    end
-                end
-                if os.clock() >= giveUpAt then result = "timeout" break end
-                task.wait(0.1)
-            end
-            conn:Disconnect()
-            return result
-        end
         Library:Notify({ Title = "Auto Play", Description = "Fetching " .. selected .. " route...", Duration = 3 })
 
         if config.isTowerRush then
@@ -1591,25 +1325,21 @@ startAutoPlay = function()
                 return
             end
             Library:Notify({ Title = "Auto Play", Description = "Moving to " .. selected .. " teleporter...", Duration = 3 })
-            local tpArrived = waitAtPart(function()
-                local okTp, part = pcall(config.tpFrame)
-                return okTp and part or nil
-            end, 1.5)
-            if not tpArrived then return end
-            if tpArrived == "missing" then
-                warnTowerStructure(getTpFrameName(selected))
-                Library:Notify({ Title = "Auto Play", Description = selected .. " teleporter not found!", Duration = 3 })
-                isAutoPlaying = false
-                stopAutoNoclip()
-                return
+            local tpTouched = false
+            local tpConn
+            tpConn = tpFrame.Touched:Connect(function(hit)
+                if hit:IsDescendantOf(char) and not tpTouched then
+                    tpTouched = true
+                    tpConn:Disconnect()
+                end
+            end)
+            while not tpTouched do
+                if checkDied() then return end
+                hrp.CFrame = CFrame.new(tpFrame.Position + Vector3.new(0, 3, 0)) * (hrp.CFrame - hrp.CFrame.Position)
+                task.wait(0.1)
             end
             if checkDied() then return end
             runStartTime = os.clock()  -- tower entry confirmed
-
-            -- From here on the moveConn loop below drives position every frame, same as the
-            -- non-rush route tween -- so it needs the same velocity/angular-velocity zeroing
-            -- from stabilise() or leftover physics fights the manual CFrame sets (the jitter).
-            walking = true
 
             local totalSuggestedSec = 0
             for _, towerName in ipairs(towerList) do
@@ -1892,32 +1622,39 @@ startAutoPlay = function()
             return
         end
         Library:Notify({ Title = "Auto Play", Description = "Moving to " .. selected .. " teleporter...", Duration = 3 })
-        -- Getting here is just "arrive at the portal", so proximity counts as success.
-        local tpArrived = waitAtPart(function()
-            local okTp, part = pcall(config.tpFrame)
-            return okTp and part or nil
-        end, 1.5)
-        if not tpArrived then return end
-        if tpArrived == "missing" then
-            warnTowerStructure(getTpFrameName(selected))
-            Library:Notify({ Title = "Auto Play", Description = selected .. " teleporter not found!", Duration = 3 })
-            isAutoPlaying = false
-            return
+        local tpTouched = false
+        local tpConn
+        tpConn = tpFrame.Touched:Connect(function(hit)
+            if hit:IsDescendantOf(char) and not tpTouched then
+                tpTouched = true
+                tpConn:Disconnect()
+            end
+        end)
+        while not tpTouched do
+            if checkDied() then return end
+            hrp.CFrame = CFrame.new(tpFrame.Position + Vector3.new(0, 3, 0)) * (hrp.CFrame - hrp.CFrame.Position)
+            task.wait(0.1)
         end
         if checkDied() then return end
-        Library:Notify({ Title = "Auto Play", Description = "Waiting for teleport...", Duration = 3 })
-        -- No grace here: on the main game it's the TOUCH on this part that fires the actual
-        -- teleport, so proximity must not count as done. If it times out we still fall
-        -- through -- the movement check below is what proves we actually got teleported.
-        local tpToResult = waitAtPart(function()
-            local okTo, part = pcall(config.teleportTo)
-            return okTo and part or nil
-        end, nil)
-        if not tpToResult then return end
-        if tpToResult == "missing" then
+        local ok2, teleportTo = pcall(config.teleportTo)
+        if not ok2 or not teleportTo then
             Library:Notify({ Title = "Auto Play", Description = "TeleportTo not found!", Duration = 3 })
             isAutoPlaying = false
             return
+        end
+        Library:Notify({ Title = "Auto Play", Description = "Waiting for teleport...", Duration = 3 })
+        local touched = false
+        local connection
+        connection = teleportTo.Touched:Connect(function(hit)
+            if hit:IsDescendantOf(char) and not touched then
+                touched = true
+                connection:Disconnect()
+            end
+        end)
+        while not touched do
+            if checkDied() then return end
+            hrp.CFrame = teleportTo.CFrame + Vector3.new(0, 3, 0)
+            task.wait(0.1)
         end
         if checkDied() then return end
         Library:Notify({ Title = "Auto Play", Description = "Waiting for teleport to complete...", Duration = 3 })
@@ -1925,9 +1662,6 @@ startAutoPlay = function()
         local VirtualInputManager = game:GetService("VirtualInputManager")
         task.wait(0.5)
         VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.W, false, game)
-        -- Bounded: in games where standing on the entry part already puts you in the tower,
-        -- nothing teleports us anywhere and this would otherwise wait for movement forever.
-        local movedBy = os.clock() + 10
         repeat
             if checkDied() then
                 VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
@@ -1936,7 +1670,7 @@ startAutoPlay = function()
             task.wait(0.1)
             char = player.Character
             hrp  = char and char:FindFirstChild("HumanoidRootPart")
-        until (hrp and (hrp.Position - posBeforeTP).Magnitude > 0.1) or os.clock() >= movedBy
+        until hrp and (hrp.Position - posBeforeTP).Magnitude > 0.1
         VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
         if checkDied() then return end
         runStartTime = os.clock()  -- tower entry confirmed
@@ -2482,75 +2216,26 @@ local function _initTowerPortal()
     -- to autoplay most towers. Note this sorts by POSITION, not by child index --
     -- Obby:GetChildren() order is effectively arbitrary (early children are grouped
     -- section models), which is why an index-ordered version was tried and reverted.
-    -- Places whose towers DON'T use a per-tower Obby: entering a tower streams its parts
-    -- into one shared top-level workspace.Parts instead (The Eternal Abyss). In these
-    -- places workspace.Parts is the ONLY source -- the tower folder is never consulted --
-    -- and since it holds just the tower you're currently inside, Automake Route has to be
-    -- run from in there. Anywhere not listed keeps using Obby.
-    local SHARED_PARTS_PLACES = {
-        -- The Eternal Abyss (its areas are separate places, same shared-parts layout)
-        131042387601353,
-        15873244701,
-        121814103864070,
-        137721171983074,
-    }
-    local function usesSharedParts()
-        for _, id in ipairs(SHARED_PARTS_PLACES) do
-            if id == currentPlaceId then return true end
-        end
-        return false
-    end
-
-    -- Direct children first: that's the usual layout and it keeps the emitted paths short.
-    -- But some towers group their obby into section Models, so the top level holds no
-    -- BaseParts at all -- fall back to the full descendant list instead of reporting the
-    -- container as empty (which is what "CoIV's Obby has no parts" was).
-    local function gatherParts(container)
-        local direct = {}
-        for _, v in ipairs(container:GetChildren()) do
-            if v:IsA("BasePart") then direct[#direct + 1] = v end
-        end
-        if #direct > 0 then return direct end
-        local all = {}
-        for _, v in ipairs(container:GetDescendants()) do
-            if v:IsA("BasePart") then all[#all + 1] = v end
-        end
-        return all
-    end
-
     local function collectAutoRoute(name, descending)
         local folder = towerFolder(name)
+        if not folder then return nil, name .. " isn't loaded in workspace.Towers." end
+        local obby = folder:FindFirstChild("Obby")
+        if not obby then return nil, name .. " has no Obby folder." end
 
-        -- Where the obstacle parts live.
-        local root, rootExpr
+        -- Direct children first: that's the usual layout and it keeps the emitted paths
+        -- short. But some towers group their obby into section Models, so the top level
+        -- holds no BaseParts at all -- fall back to the full descendant list instead of
+        -- reporting the Obby as empty (which is what "CoIV's Obby has no parts" was).
         local parts = {}
-        local sharedOnly = usesSharedParts()
-
-        -- In a shared-parts place (TEA) the Obby is deliberately never looked at, even if
-        -- the tower folder happens to have one -- workspace.Parts is the live obby there.
-        if not sharedOnly then
-            local obby = folder and folder:FindFirstChild("Obby")
-            if obby then
-                root, rootExpr = obby, ("workspace.Towers[%q].Obby"):format(name)
-                parts = gatherParts(obby)
-            end
+        for _, v in ipairs(obby:GetChildren()) do
+            if v:IsA("BasePart") then parts[#parts + 1] = v end
         end
         if #parts == 0 then
-            local shared = workspace:FindFirstChild("Parts")
-            if shared then
-                root, rootExpr = shared, "workspace.Parts"
-                parts = gatherParts(shared)
+            for _, v in ipairs(obby:GetDescendants()) do
+                if v:IsA("BasePart") then parts[#parts + 1] = v end
             end
         end
-        if #parts == 0 then
-            if sharedOnly then
-                return nil, "Nothing in workspace.Parts -- this game only exposes a tower's parts while you're inside it, so enter the tower first."
-            end
-            if not folder and not workspace:FindFirstChild("Parts") then
-                return nil, name .. " isn't loaded in workspace.Towers, and there's no workspace.Parts either."
-            end
-            return nil, ("No parts found for %s. Towers that keep their parts in workspace.Parts (e.g. The Eternal Abyss) only expose them while you're inside the tower -- enter it first."):format(name)
-        end
+        if #parts == 0 then return nil, name .. "'s Obby has no parts." end
         -- Ascending = climb (lowest part first). Descending = a tower you go DOWN, so the
         -- highest part is the start and the order flips.
         if descending then
@@ -2559,22 +2244,16 @@ local function _initTowerPortal()
             table.sort(parts, function(a, b) return a.Position.Y < b.Position.Y end)
         end
 
-        -- Prefer the tower folder's own WinPad (TEA keeps one there next to Portal/Frame),
-        -- then look inside the parts source for games that ship it with the obby instead.
-        local winPad = folder and (folder:FindFirstChild("WinPad", true) or folder:FindFirstChild("Winpad", true))
-        if not winPad then
-            winPad = root:FindFirstChild("WinPad", true) or root:FindFirstChild("Winpad", true)
-        end
-        return { parts = parts, winPad = winPad, root = root, rootExpr = rootExpr }
+        local winPad = folder:FindFirstChild("WinPad", true) or folder:FindFirstChild("Winpad", true)
+        return { parts = parts, winPad = winPad, obby = obby }
     end
 
-    -- Path to a part written relative to the parts source, by child index at every level.
+    -- Path to a part written relative to the tower's Obby, by child index at every level.
     -- Index rather than name because obby parts share names constantly, and this has to
-    -- work for parts nested inside section Models, not just direct children. The root is
-    -- whatever collectAutoRoute found -- the tower's Obby, or workspace.Parts.
-    local function pathFromRoot(data, part)
+    -- work for parts nested inside section Models, not just direct children.
+    local function pathFromObby(data, part, name)
         local segs, node = {}, part
-        while node and node ~= data.root do
+        while node and node ~= data.obby do
             local parent = node.Parent
             if not parent then return nil end
             local idx
@@ -2585,16 +2264,16 @@ local function _initTowerPortal()
             table.insert(segs, 1, (":GetChildren()[%d]"):format(idx))
             node = parent
         end
-        if node ~= data.root then return nil end
-        return data.rootExpr .. table.concat(segs)
+        if node ~= data.obby then return nil end
+        return ("workspace.Towers[%q].Obby%s"):format(name, table.concat(segs))
     end
 
     -- The same route as Lua source, in the exact format the repo's route files use, so it
     -- can be dropped into Games/EToH/<category>/ as-is.
-    local function autoRouteSource(data)
+    local function autoRouteSource(name, data)
         local out = { "return function()", "    return {" }
         for _, part in ipairs(data.parts) do
-            local path = pathFromRoot(data, part)
+            local path = pathFromObby(data, part, name)
             if path then out[#out + 1] = "        " .. path .. "," end
         end
         if data.winPad then
@@ -2614,7 +2293,7 @@ local function _initTowerPortal()
 
     PortalBox:AddButton({
         Text    = "Automake Route",
-        Tooltip = "Build a route for the selected tower from its own parts in the chosen order, arm it for Auto Play, and save it to a file. Uses the tower's Obby folder; for towers that stream their parts into workspace.Parts instead (The Eternal Abyss), run it while you're inside the tower.",
+        Tooltip = "Build a route for the selected tower from its own parts in the chosen order, arm it for Auto Play, and save it to a file.",
         Callback = function()
             local label = Options.PortalMatch and Options.PortalMatch.Value
             local name  = label and labelToName[label]
@@ -2670,7 +2349,7 @@ local function _initTowerPortal()
 
             local saved = ""
             if type(writefile) == "function" then
-                local ok = pcall(writefile, name .. ".lua", autoRouteSource(data))
+                local ok = pcall(writefile, name .. ".lua", autoRouteSource(name, data))
                 saved = ok and (" Saved to " .. name .. ".lua.") or " (couldn't write the file)"
             end
             local dir = descending and "descending" or "ascending"
@@ -2938,6 +2617,11 @@ PlayerBox:AddToggle("Noclip", {
         conns[#conns + 1] = RunService.Stepped:Connect(sweep)
         conns[#conns + 1] = RunService.Heartbeat:Connect(sweep)
     end,
+}):AddKeyPicker("NoclipKeybind", {
+    Text            = "Noclip Keybind",
+    Default         = "V",
+    Mode            = "Toggle",
+    SyncToggleState = true,
 })
 local flyConnection = nil
 local flyInputBeganConn = nil
@@ -3053,13 +2737,19 @@ local function setFly(state)
         if humanoid then humanoid.PlatformStand = false end
     end
 end
-PlayerBox:AddToggle("Fly", {
+local FlyToggle = PlayerBox:AddToggle("Fly", {
     Text    = "Fly",
     Default = false,
     Tooltip = "Toggle fly mode",
     Callback = function(state)
         setFly(state)
     end,
+})
+FlyToggle:AddKeyPicker("FlyKeybind", {
+    Text             = "Fly Keybind",
+    Default          = "F",
+    Mode             = "Toggle",
+    SyncToggleState  = true,
 })
 
 PlayerBox:AddToggle("InfiniteJump", {
@@ -4021,7 +3711,7 @@ MenuGroup:AddToggle("AutoExecute", {
                     end
                 end)
                 SCRIPT_KEY = "KEYLESS"
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/MaybeIsRealZack/Project-EToH-Script/refs/heads/main/SC%20Script.lua"))()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/SC%20Script.lua"))()
             ]])
         end
     end,
@@ -4154,14 +3844,8 @@ MenuGroup:AddButton("Sever Hop", function()
         Library:Notify({ Title = "Server Hop", Description = "Failed: " .. tostring(err), Duration = 5 })
     end
 end)
--- Assigned by the 2024 Timer below. Unloading has to put the game's own timer badge back:
--- the library's Unload only destroys its own ScreenGui, so without this the real timer
--- would stay hidden with the menu gone and no way to switch it back short of rejoining.
-local retroTimerCleanup
-
 MenuGroup:AddButton("Unload", function()
     _G.ProjectEToHLoaded = nil
-    if retroTimerCleanup then pcall(retroTimerCleanup) end
     Library:Unload()
 end)
 Library.ToggleKeybind = Options.MenuKeybind
@@ -4304,7 +3988,7 @@ end
 _initAutoChat()
 
 -- ===== ESP (Visuals tab) =====
--- Wraps the Sense library (github.com/MaybeIsRealZack/ESP-Library) in Obsidian UI controls.
+-- Wraps the Sense library (github.com/cslp1/ESP-Library) in Obsidian UI controls.
 -- All visual features (Box, Name, Tracer …) are applied to both teams simultaneously;
 -- only the colour differs: Start team → enemy slot, Winner! team → friendly slot.
 -- Sense is lazy-loaded on the first Enable, so startup speed is unaffected.
@@ -4748,581 +4432,8 @@ local function _initMobile()
 end
 _initMobile()
 
--- ===== 2024 Timer (retro HUD) =====
--- Recreates the timer EToH used in 2024: the tower acronym on the left in its difficulty
--- colour, then a dark translucent pill holding an outlined clock and a monospaced M:SS.mm
--- readout. It doesn't time anything itself -- it MIRRORS the game's current timer label, so
--- the readout can't drift from the real run -- and it hides the modern badge while it's on.
-local HudGroup = Tabs.UISettings:AddLeftGroupbox("HUD")
-do
-    local Players = game:GetService("Players")
-    local player  = Players.LocalPlayer
-
-    -- Every tower acronym the registry knows, regardless of place. Used to identify the
-    -- game's tower-name label by its TEXT, which is far steadier than guessing at a path
-    -- or a screen position -- and it hands us the difficulty colour for free.
-    local knownTowers = {}
-    for _, list in ipairs({ Registry.Towers or {}, Registry.TowerRush or {} }) do
-        for _, t in ipairs(list) do
-            if type(t.name) == "string" then knownTowers[t.name] = true end
-        end
-    end
-
-    local GUI_NAME = "RetroTimerGui"
-    local retroGui, acronymLabels, timeLabel, pill
-    local timerSrc                  -- the copy we mirror (the one that was on screen)
-    local tagSrcs = {}              -- its tags in screen order: tower, plus rush during a rush
-    local timerAll, tagAll = {}, {} -- every copy found; all of them get hidden
-    local hiddenOriginals = {}      -- GuiObject -> the Visible we found it with
-    local hiddenGuis      = {}      -- ScreenGui -> the Enabled we found it with
-    local retroConn, lastScan = nil, 0
-    -- Declared up here so the definitions below bind to these locals rather than creating
-    -- globals, since each is referenced before it's defined.
-    local findTagsFor, wasOnScreen
-
-    local function trim(s) return (tostring(s):gsub("^%s+", ""):gsub("%s+$", "")) end
-
-    -- A time readout looks like 0:01.68 / 29:28.67.
-    local function looksLikeTime(s) return trim(s):match("^%d+:%d%d%.%d%d$") ~= nil end
-
-    -- Anything of ours must never be treated as the game's HUD. This isn't hypothetical:
-    -- PESUI falls back to parenting the menu into PlayerGui, and its tower dropdown
-    -- displays a bare acronym ("ToH") that would otherwise match as the tower tag and get
-    -- the menu's own frame hidden. Checked over the whole ancestor chain, since the match
-    -- can be nested deep inside one of our windows, and by instance where we can, because
-    -- PESUI's ScreenGui name is randomised.
-    local function isOurs(inst)
-        local node = inst
-        while node and node ~= game do
-            if node == retroGui or node == Library.ScreenGui then return true end
-            local n = node.Name
-            if n == GUI_NAME or n == "FloorCounterOverlay" or n == "TowerRushGUI"
-                or n:match("^PESUI_") then
-                return true
-            end
-            node = node.Parent
-        end
-        return false
-    end
-
-    -- Text can live on a TextButton or TextBox too, not just a TextLabel.
-    local function readText(inst)
-        if inst:IsA("TextLabel") or inst:IsA("TextButton") or inst:IsA("TextBox") then
-            return inst.Text
-        end
-        return nil
-    end
-
-    local function screenGuiOf(inst)
-        local node = inst
-        while node and not node:IsA("ScreenGui") do node = node.Parent end
-        return node
-    end
-
-    -- The tower name sits right next to the timer (children of the same row), so look at the
-    -- siblings -- but in priority order, because taking the first text-bearing one grabs
-    -- whatever else shares that row (it was landing on "rush"). Matching the text against a
-    -- known acronym can't be the only rule either: in the lobby that label exists but is
-    -- EMPTY, so it never matches, which is what made the scan re-run every second. Hence
-    -- acronym first, then a child actually named "tower", then anything with text.
-    -- Does this element, or something it sits inside, call itself a tower? Registry-free, so
-    -- it holds for every tower in the game rather than the 305 the registry lists.
-    local function nameSuggestsTower(inst)
-        local node, hops = inst, 0
-        while node and hops < 4 do
-            if node.Name:lower():find("tower", 1, true) then return true end
-            node = node.Parent
-            hops = hops + 1
-        end
-        return false
-    end
-
-    -- Is this sitting right beside the timer on screen? The tower tag is the badge's
-    -- immediate neighbour, so geometry identifies it without knowing any tower names, and
-    -- rules out same-named text elsewhere on screen (the player list's "Towers" heading, a
-    -- tower name in a chat line) that a pure text match would happily grab.
-    local function isAdjacentTo(candidate, timerLabel)
-        local cp, cs = candidate.AbsolutePosition, candidate.AbsoluteSize
-        local tp, ts = timerLabel.AbsolutePosition, timerLabel.AbsoluteSize
-        if cs.X <= 0 or cs.Y <= 0 then return false end
-        -- Same horizontal band as the timer.
-        if math.abs((cp.Y + cs.Y / 2) - (tp.Y + ts.Y / 2)) > math.max(ts.Y, cs.Y) then
-            return false
-        end
-        -- And close by horizontally: gap between the two rectangles, 0 if they overlap.
-        local gap = 0
-        if cp.X >= tp.X + ts.X then
-            gap = cp.X - (tp.X + ts.X)
-        elseif tp.X >= cp.X + cs.X then
-            gap = tp.X - (cp.X + cs.X)
-        end
-        return gap <= 260
-    end
-
-    -- Text-bearing self-or-descendant. The tower element isn't always the label itself: in
-    -- one copy of the HUD it's a Frame with the text nested inside, and requiring the child
-    -- ITSELF to be text-bearing skipped it -- leaving the acronym blank and the game's real
-    -- tag unhidden, which is exactly the "acronym on the wrong side" symptom.
-    local function textIn(inst, timerLabel)
-        if inst ~= timerLabel and readText(inst) then return inst end
-        for _, d in ipairs(inst:GetDescendants()) do
-            if d ~= timerLabel and readText(d) then return d end
-        end
-        return nil
-    end
-
-    -- Readouts that share the HUD row but aren't part of the badge. Checked by instance name
-    -- as well as by text, because the FPS counter is a plain number and nothing about its
-    -- text says what it is.
-    local NOISE_NAMES = { "fps", "ping", "memory", "mem", "version", "player" }
-    local function isNoise(inst, text)
-        local n = inst.Name:lower()
-        for _, bad in ipairs(NOISE_NAMES) do
-            if n:find(bad, 1, true) then return true end
-        end
-        -- Pure digits: an FPS or a count, never a tower acronym or a rush progress ("1/11").
-        return text ~= nil and text:match("^%d+$") ~= nil
-    end
-
-    -- Left-to-right on screen, so the mirrored labels sit in the order the game shows them.
-    local function sortByScreenX(list)
-        table.sort(list, function(a, b) return a.AbsolutePosition.X < b.AbsolutePosition.X end)
-        return list
-    end
-
-    -- Every label the game shows beside the timer, not just the tower one. During a tower
-    -- rush the badge carries a rush element as well (the HUD row holds timer/tower/rush), so
-    -- returning the whole set is what makes rushes work without special-casing them -- and
-    -- it means all of them get hidden rather than leaving the rush tag behind.
-    function findTagsFor(timerLabel, pg)
-        local row  = timerLabel.Parent
-        local geom = timerLabel.AbsoluteSize.X > 0
-        if row then
-            local found = {}
-            for _, child in ipairs(row:GetChildren()) do
-                if child ~= timerLabel and not isOurs(child) then
-                    local cand = textIn(child, timerLabel)
-                    -- Sharing a row in the tree is not the same as sharing a place on screen:
-                    -- this row also carries the FPS readout, anchored far off at the top-left.
-                    -- Require visual adjacency so only the badge's own labels come through.
-                    if cand and not isNoise(cand, trim(readText(cand)))
-                        and (not geom or isAdjacentTo(cand, timerLabel)) then
-                        found[#found + 1] = cand
-                    end
-                end
-            end
-            if #found > 0 then return sortByScreenX(found) end
-        end
-        -- The real badge lives in a ScreenGui of its own ("Timer") and the tower name is NOT
-        -- inside it, so a wider search is needed. It deliberately does NOT hinge on the
-        -- acronym list: that covers 305 of the game's ~753 towers, so anything keyed on it
-        -- silently fails for the rest and goes stale as towers are added. Instead take the
-        -- on-screen text sitting right next to the timer, preferring what a name says is the
-        -- tower, with the acronym list only as a tiebreak.
-        local timerOnScreen = geom
-        local adjacent, weak = {}, {}
-        for _, d in ipairs(pg:GetDescendants()) do
-            if d ~= timerLabel and not isOurs(d) then
-                local txt = readText(d)
-                local s   = txt and trim(txt) or nil
-                -- Short, non-empty, not another time readout, not an FPS/ping style counter:
-                -- keeps chat lines and the global "has beaten <tower> in <time>" messages out
-                -- of the running too.
-                if s and s ~= "" and #s <= 12 and not looksLikeTime(s) and not isNoise(d, s)
-                    and wasOnScreen(d) then
-                    if timerOnScreen and isAdjacentTo(d, timerLabel) then
-                        adjacent[#adjacent + 1] = d
-                    elseif not timerOnScreen and nameSuggestsTower(d) and knownTowers[s] then
-                        -- No geometry to judge by (the badge is already hidden, so sizes read
-                        -- as zero) -- require both weaker signals rather than guessing.
-                        weak[#weak + 1] = d
-                    end
-                end
-            end
-        end
-        if #adjacent > 0 then return sortByScreenX(adjacent) end
-        return weak
-    end
-
-    -- Was this on screen BEFORE we started hiding things? Anything we hid ourselves counts
-    -- as visible if that's how we found it, so re-scanning after a hide doesn't decide the
-    -- real badge was never showing and switch to mirroring an off-screen copy.
-    local function visibleAsFound(inst)
-        if inst:IsA("ScreenGui") then
-            if hiddenGuis[inst] ~= nil then return hiddenGuis[inst] end
-            return inst.Enabled
-        end
-        if hiddenOriginals[inst] ~= nil then return hiddenOriginals[inst] end
-        if inst:IsA("GuiObject") then return inst.Visible end
-        return true
-    end
-
-    function wasOnScreen(inst)
-        local node = inst
-        while node and node ~= game do
-            if (node:IsA("GuiObject") or node:IsA("ScreenGui")) and not visibleAsFound(node) then
-                return false
-            end
-            node = node.Parent
-        end
-        return true
-    end
-
-    local function rescanGameLabels()
-        local pg = player:FindFirstChild("PlayerGui")
-        if not pg then return end
-        timerSrc, tagSrcs = nil, {}
-        timerAll, tagAll  = {}, {}
-
-        -- Every descendant of PlayerGui, not just direct ScreenGui children: the HUD can
-        -- sit any number of levels down, and assuming otherwise is why this found nothing.
-        --
-        -- Crucially this collects EVERY match, not the first. The game keeps more than one
-        -- copy of the badge (the first one found lives under a "Spectate" ScreenGui), and
-        -- they all track the same time -- so hiding only the first hid a copy that wasn't
-        -- even on screen while the real badge carried on showing. All of them get hidden;
-        -- the one that was actually on screen is what we mirror.
-        for _, d in ipairs(pg:GetDescendants()) do
-            local txt = readText(d)
-            if txt and looksLikeTime(txt) and not isOurs(d) then
-                timerAll[#timerAll + 1] = d
-                local tags = findTagsFor(d, pg)
-                for _, t in ipairs(tags) do tagAll[#tagAll + 1] = t end
-                if not timerSrc and wasOnScreen(d) then
-                    timerSrc, tagSrcs = d, tags
-                end
-            end
-        end
-        if #timerAll == 0 then
-            warn("[2024 Timer] couldn't find the game's timer label under PlayerGui.")
-            return
-        end
-        -- Nothing looked on screen (every copy hidden, or the check was too strict): mirror
-        -- the first rather than showing nothing.
-        if not timerSrc then
-            timerSrc, tagSrcs = timerAll[1], findTagsFor(timerAll[1], pg)
-        end
-        local names = {}
-        for _, t in ipairs(tagSrcs) do names[#names + 1] = t.Name end
-        warn(("[2024 Timer] %d timer copies | mirroring: %s | tags: %s"):format(
-            #timerAll, timerSrc:GetFullName(),
-            #names > 0 and table.concat(names, ", ") or "none found"))
-    end
-
-    -- The badge is a composite -- dark hexagon, gold border, clock icon, text -- so hiding
-    -- the text's immediate parent can leave the frame and border sitting there. Walk up
-    -- instead and hide the OUTERMOST ancestor that's still badge-sized, stopping before any
-    -- container that spans the screen, since that one is the HUD root and would take the
-    -- health bar and everything else with it.
-    local function badgeAncestor(label)
-        local cam = workspace.CurrentCamera
-        local vp  = (cam and cam.ViewportSize) or Vector2.new(1920, 1080)
-        -- Always take the immediate parent (the badge row), even if it's wide: the hexagon,
-        -- gold border and clock are siblings of the text, so hiding only the label left all
-        -- of that art on screen. Above that, climb only while still badge-sized, so a
-        -- screen-spanning HUD root never gets hidden along with it.
-        local best = (label.Parent and label.Parent:IsA("GuiObject")) and label.Parent or label
-        local node = best.Parent
-        while node and node:IsA("GuiObject") do
-            local s = node.AbsoluteSize
-            if s.X > vp.X * 0.6 or s.Y > vp.Y * 0.35 then break end
-            best = node
-            node = node.Parent
-        end
-        return best
-    end
-
-    -- A ScreenGui that exists solely for this badge can be switched off wholesale. That's
-    -- the only way to remove the hexagon and gold border, which live ABOVE the text's own
-    -- row: EToH's real badge is its own ScreenGui literally named "Timer". Deliberately
-    -- name-gated so a shared HUD like "Spectate" -- which holds health, the player list and
-    -- everything else -- is never switched off.
-    local function hideDedicatedGui(inst)
-        local sg = screenGuiOf(inst)
-        if not sg or isOurs(sg) then return end
-        local n = sg.Name:lower()
-        if n:find("timer", 1, true) or n:find("tower", 1, true) then
-            if hiddenGuis[sg] == nil then hiddenGuis[sg] = sg.Enabled end
-            if sg.Enabled then sg.Enabled = false end
-        end
-    end
-
-    local function hideOriginal(inst)
-        -- The label keeps updating while invisible, which is what we go on reading.
-        hideDedicatedGui(inst)
-        local target = inst and badgeAncestor(inst)
-        if target and target:IsA("GuiObject") then
-            -- Remember the original the first time only, but re-assert every frame: the
-            -- game's own HUD controller sets Visible back to true on its next update, which
-            -- is why hiding it once left the badge on screen.
-            if hiddenOriginals[target] == nil then
-                hiddenOriginals[target] = target.Visible
-            end
-            if target.Visible then target.Visible = false end
-        end
-    end
-
-    -- Re-assert on a Last-priority render step as well as on Heartbeat. The game's HUD
-    -- controller sets Visible back to true during the frame, and re-asserting only on
-    -- Heartbeat meant it could win the race and the badge stayed on screen; a Last-priority
-    -- render step runs after that update, so we're the final writer before it renders.
-    local RENDER_KEY = "PES_RetroTimer_Hide"
-    local function reassertHidden()
-        for inst in pairs(hiddenOriginals) do
-            if inst.Parent and inst.Visible then
-                pcall(function() inst.Visible = false end)
-            end
-        end
-        for sg in pairs(hiddenGuis) do
-            if sg.Parent and sg.Enabled then
-                pcall(function() sg.Enabled = false end)
-            end
-        end
-    end
-
-    local function restoreOriginals()
-        pcall(function() game:GetService("RunService"):UnbindFromRenderStep(RENDER_KEY) end)
-        for sg, wasEnabled in pairs(hiddenGuis) do
-            pcall(function() sg.Enabled = wasEnabled end)
-        end
-        hiddenGuis = {}
-        for inst, wasVisible in pairs(hiddenOriginals) do
-            pcall(function() inst.Visible = wasVisible end)
-        end
-        hiddenOriginals = {}
-    end
-
-    local function buildRetroGui()
-        local pg = player:WaitForChild("PlayerGui")
-        pcall(function()
-            local stale = pg:FindFirstChild(GUI_NAME)
-            if stale then stale:Destroy() end
-        end)
-
-        retroGui = Instance.new("ScreenGui")
-        retroGui.Name           = GUI_NAME
-        retroGui.ResetOnSpawn   = false
-        retroGui.IgnoreGuiInset = true
-        -- Very high: this sits in the same top-centre spot as the game's own badge, so at a
-        -- modest DisplayOrder it renders BEHIND the game HUD and looks like it never
-        -- appeared at all. It must draw above the HUD whether or not hiding the old badge
-        -- succeeded.
-        retroGui.DisplayOrder   = 1000000
-        retroGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-        retroGui.Enabled        = false
-        retroGui.Parent         = pg
-
-        -- Acronym + pill sit in one auto-sized row that stays centred at the top, so the
-        -- group re-centres itself as the tower name and the minutes digit change width.
-        local row = Instance.new("Frame")
-        row.Name                   = "Row"
-        row.AnchorPoint            = Vector2.new(0.5, 0)
-        row.Position               = UDim2.new(0.5, 0, 0, 4)
-        row.BackgroundTransparency = 1
-        row.AutomaticSize          = Enum.AutomaticSize.XY
-        row.Size                   = UDim2.fromOffset(0, 34)
-        row.Parent                 = retroGui
-
-        local rowLayout = Instance.new("UIListLayout")
-        rowLayout.FillDirection      = Enum.FillDirection.Horizontal
-        rowLayout.VerticalAlignment  = Enum.VerticalAlignment.Center
-        rowLayout.SortOrder          = Enum.SortOrder.LayoutOrder
-        rowLayout.Padding            = UDim.new(0, 6)
-        rowLayout.Parent             = row
-
-        -- A small pool rather than one label: a tower rush shows a rush tag as well as the
-        -- tower, and each keeps its own difficulty colour this way instead of being flattened
-        -- into one string. Laid out left of the pill in the order the game shows them.
-        acronymLabels = {}
-        for i = 1, 3 do
-        local acronymLabel = Instance.new("TextLabel")
-        acronymLabel.Name                   = "Acronym" .. i
-        acronymLabel.LayoutOrder            = i
-        acronymLabel.BackgroundTransparency = 1
-        acronymLabel.AutomaticSize          = Enum.AutomaticSize.X
-        acronymLabel.Size                   = UDim2.fromOffset(0, 30)
-        acronymLabel.Font                   = Enum.Font.GothamBold
-        acronymLabel.TextSize               = 24
-        acronymLabel.Text                   = ""
-        acronymLabel.TextColor3             = Color3.fromRGB(40, 90, 240)
-        -- The 2024 acronym had a heavy dark outline, which is what keeps a saturated
-        -- difficulty colour readable against a bright tower.
-        acronymLabel.TextStrokeTransparency = 0
-        acronymLabel.TextStrokeColor3       = Color3.fromRGB(10, 15, 40)
-        acronymLabel.Visible                = false
-        acronymLabel.Parent                 = row
-        acronymLabels[i] = acronymLabel
-        end
-
-        pill = Instance.new("Frame")
-        pill.Name                   = "Pill"
-        -- After the acronym pool, so the pill always sits to their right.
-        pill.LayoutOrder            = 10
-        pill.BackgroundColor3       = Color3.fromRGB(20, 24, 34)
-        pill.BackgroundTransparency = 0.45
-        pill.BorderSizePixel        = 0
-        pill.AutomaticSize          = Enum.AutomaticSize.X
-        pill.Size                   = UDim2.fromOffset(0, 32)
-        pill.Parent                 = row
-
-        local pillCorner = Instance.new("UICorner")
-        pillCorner.CornerRadius = UDim.new(1, 0) -- fully rounded ends
-        pillCorner.Parent       = pill
-
-        local pillPad = Instance.new("UIPadding")
-        pillPad.PaddingLeft  = UDim.new(0, 9)
-        pillPad.PaddingRight = UDim.new(0, 12)
-        pillPad.Parent       = pill
-
-        local pillLayout = Instance.new("UIListLayout")
-        pillLayout.FillDirection     = Enum.FillDirection.Horizontal
-        pillLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-        pillLayout.SortOrder         = Enum.SortOrder.LayoutOrder
-        pillLayout.Padding           = UDim.new(0, 7)
-        pillLayout.Parent            = pill
-
-        -- Clock drawn from primitives rather than an image asset, so it can't break on an
-        -- asset that fails to load: a stroked circle plus two hands rotated about the
-        -- centre (0 = pointing at 12, 120 = at 4), matching the original's outlined look.
-        local clock = Instance.new("Frame")
-        clock.Name                   = "Clock"
-        clock.LayoutOrder            = 1
-        clock.BackgroundTransparency = 1
-        clock.Size                   = UDim2.fromOffset(20, 20)
-        clock.Parent                 = pill
-
-        local dial = Instance.new("Frame")
-        dial.BackgroundTransparency = 1
-        dial.Size                   = UDim2.fromScale(1, 1)
-        dial.Parent                 = clock
-        local dialCorner = Instance.new("UICorner")
-        dialCorner.CornerRadius = UDim.new(1, 0)
-        dialCorner.Parent       = dial
-        local dialStroke = Instance.new("UIStroke")
-        dialStroke.Thickness = 2.2
-        dialStroke.Color     = Color3.fromRGB(255, 255, 255)
-        dialStroke.Parent    = dial
-
-        for _, hand in ipairs({ { 6, 0 }, { 5, 120 } }) do
-            local h = Instance.new("Frame")
-            h.AnchorPoint      = Vector2.new(0.5, 1)
-            h.Position         = UDim2.fromScale(0.5, 0.5)
-            h.Size             = UDim2.fromOffset(2, hand[1])
-            h.Rotation         = hand[2]
-            h.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-            h.BorderSizePixel  = 0
-            h.Parent           = dial
-        end
-
-        timeLabel = Instance.new("TextLabel")
-        timeLabel.Name                   = "Time"
-        timeLabel.LayoutOrder            = 2
-        timeLabel.BackgroundTransparency = 1
-        timeLabel.AutomaticSize          = Enum.AutomaticSize.X
-        timeLabel.Size                   = UDim2.fromOffset(0, 26)
-        -- Monospaced so the readout doesn't jitter sideways as the digits tick over.
-        timeLabel.Font                   = Enum.Font.RobotoMono
-        timeLabel.TextSize               = 22
-        timeLabel.TextColor3             = Color3.fromRGB(255, 255, 255)
-        timeLabel.Text                   = "0:00.00"
-        timeLabel.Parent                 = pill
-    end
-
-    HudGroup:AddToggle("RetroTimer", {
-        Text    = "2024 Timer",
-        Default = false,
-        Tooltip = "Replaces the modern timer badge with the 2024 one: tower acronym, then a dark pill with a clock and the time. Reads the real timer, so the time always matches.",
-        Callback = function(state)
-            if retroConn then
-                retroConn:Disconnect()
-                retroConn = nil
-            end
-            if not retroGui then buildRetroGui() end
-            retroGui.Enabled = state
-
-            if not state then
-                restoreOriginals()
-                timerSrc, tagSrcs = nil, {}
-                return
-            end
-
-            rescanGameLabels()
-            lastScan = os.clock()
-            local RunService = game:GetService("RunService")
-            -- Unbind first: re-binding a key that's already bound throws, which would leave
-            -- the toggle working only the first time it's switched on.
-            pcall(function() RunService:UnbindFromRenderStep(RENDER_KEY) end)
-            pcall(function()
-                RunService:BindToRenderStep(RENDER_KEY, Enum.RenderPriority.Last.Value, reassertHidden)
-            end)
-            retroConn = RunService.Heartbeat:Connect(function()
-                -- The game's labels are recreated on respawn/teleport, so re-find them when
-                -- the timer goes missing -- but only once a second, since this walks all of
-                -- PlayerGui and doing that every frame would cost more than it's worth.
-                -- Keyed on the timer, plus a tag we HAD that has since been destroyed (the
-                -- HUD can rebuild it). Deliberately not keyed on the tag merely being nil:
-                -- that's what made the lobby, where the tag exists but is blank, rescan
-                -- every second forever.
-                local needScan = not timerSrc or not timerSrc.Parent
-                if not needScan then
-                    for _, t in ipairs(tagSrcs) do
-                        if not t.Parent then needScan = true break end
-                    end
-                end
-                if needScan and os.clock() - lastScan >= 1 then
-                    rescanGameLabels()
-                    lastScan = os.clock()
-                end
-
-                -- Hide EVERY copy, not just the one being mirrored: the visible badge and
-                -- the copy we read from are different instances.
-                for _, inst in ipairs(timerAll) do
-                    if inst.Parent then hideOriginal(inst) end
-                end
-                for _, inst in ipairs(tagAll) do
-                    if inst.Parent then hideOriginal(inst) end
-                end
-
-                if timerSrc and timerSrc.Parent then
-                    timeLabel.Text = trim(timerSrc.Text)
-                end
-                -- Mirror each tag the game is showing into its own label, keeping its colour.
-                -- A tower rush populates more than one (rush plus tower); a normal climb
-                -- populates one; the lobby populates none, where the 2024 HUD showed just the
-                -- pill. Blank sources are skipped so gaps don't appear between the labels.
-                local slot = 0
-                for _, src in ipairs(tagSrcs) do
-                    local s = src.Parent and trim(src.Text) or ""
-                    if s ~= "" and slot < #acronymLabels then
-                        slot = slot + 1
-                        local lbl = acronymLabels[slot]
-                        lbl.Text       = s
-                        lbl.TextColor3 = src.TextColor3
-                        lbl.Visible    = true
-                    end
-                end
-                for i = slot + 1, #acronymLabels do
-                    acronymLabels[i].Visible = false
-                end
-            end)
-        end,
-    })
-
-    retroTimerCleanup = function()
-        if retroConn then
-            retroConn:Disconnect()
-            retroConn = nil
-        end
-        restoreOriginals()
-        if retroGui then
-            retroGui:Destroy()
-            retroGui = nil
-        end
-    end
-end
-
 local CreditsGroup = Tabs.UISettings:AddRightGroupbox("Credits")
-CreditsGroup:AddLabel('<font color="rgb(90,200,255)">[MaybeIsRealZack]</font>  Owner', true)
+CreditsGroup:AddLabel('<font color="rgb(90,200,255)">[cslp1]</font>  Owner', true)
 CreditsGroup:AddLabel('<font color="rgb(255,210,70)">[Mr.man]</font>  Co-owner', true)
 CreditsGroup:AddLabel('<font color="rgb(120,230,120)">[canadianeditz]</font>  Contributor', true)
 CreditsGroup:AddLabel('<font color="rgb(120,230,120)">[eli]</font>  Contributor', true)
@@ -5340,7 +4451,7 @@ OtherScriptsGroup:AddButton({
     Text     = "Original Script",
     Tooltip  = "Original script of this project. Click to copy its loadstring.",
     Callback = function()
-        copyLoadstring("Original Script", 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MaybeIsRealZack/Project-EToH-Script/refs/heads/main/Loader.lua"))()')
+        copyLoadstring("Original Script", 'loadstring(game:HttpGet("https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/Loader.lua"))()')
     end,
 })
 OtherScriptsGroup:AddButton({
