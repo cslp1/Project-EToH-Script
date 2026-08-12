@@ -89,7 +89,7 @@ else
     end
 end
 
-local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/cslp1/ESP-Library/main/Sense/source.lua'))()
+local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaybeIsRealZack/ESP-Library/main/Sense/source.lua'))()
 
 local function missing(t, f, fallback)
     if type(f) == t then return f end
@@ -127,7 +127,7 @@ local Window = Library:CreateWindow({
     ToggleKeybind = Enum.KeyCode.RightShift,
     AutoShow      = true,
 })
-local isDev = game:GetService("Players").LocalPlayer.Name == "cslp1"
+local isDev = game:GetService("Players").LocalPlayer.Name == "MaybeIsRealZack"
 
 local Tabs = {
     Main       = Window:AddTab("Main",        "house"),
@@ -3711,7 +3711,7 @@ MenuGroup:AddToggle("AutoExecute", {
                     end
                 end)
                 SCRIPT_KEY = "KEYLESS"
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/SC%20Script.lua"))()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/MaybeIsRealZack/Project-EToH-Script/refs/heads/main/SC%20Script.lua"))()
             ]])
         end
     end,
@@ -3988,7 +3988,7 @@ end
 _initAutoChat()
 
 -- ===== ESP (Visuals tab) =====
--- Wraps the Sense library (github.com/cslp1/ESP-Library) in Obsidian UI controls.
+-- Wraps the Sense library (github.com/MaybeIsRealZack/ESP-Library) in Obsidian UI controls.
 -- All visual features (Box, Name, Tracer …) are applied to both teams simultaneously;
 -- only the colour differs: Start team → enemy slot, Winner! team → friendly slot.
 -- Sense is lazy-loaded on the first Enable, so startup speed is unaffected.
@@ -4451,7 +4451,7 @@ OtherScriptsGroup:AddButton({
     Text     = "Original Script",
     Tooltip  = "Original script of this project. Click to copy its loadstring.",
     Callback = function()
-        copyLoadstring("Original Script", 'loadstring(game:HttpGet("https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/Loader.lua"))()')
+        copyLoadstring("Original Script", 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MaybeIsRealZack/Project-EToH-Script/refs/heads/main/Loader.lua"))()')
     end,
 })
 OtherScriptsGroup:AddButton({
