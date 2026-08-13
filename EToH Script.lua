@@ -42,7 +42,7 @@ if _G.PES_FORCE_UI_STYLE == "PES" or _G.PES_FORCE_UI_STYLE == "Obsidian" or _G.P
 end
 
 local PES_UI_URL =
-    "https://raw.githubusercontent.com/MaybeIsRealZack/Project-EToH-Script/refs/heads/main/PESUI.lua"
+    "https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/PESUI.lua"
 
 local repo = ""
 local Library, SaveManager, ThemeManager
@@ -89,8 +89,6 @@ else
     end
 end
 
-local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaybeIsRealZack/ESP-Library/main/Sense/source.lua'))()
-
 local function missing(t, f, fallback)
     if type(f) == t then return f end
     return fallback
@@ -116,7 +114,7 @@ print((UNCSupport.queueteleport     and "✅" or "❌") .. " queueonteleport")
 local HttpService = game:GetService("HttpService")
 local version = "Unknown"
 local ok, result = pcall(function()
-    local data = HttpService:JSONDecode(game:HttpGet("https://raw.githubusercontent.com/MaybeIsRealZack/Project-EToH-Script/refs/heads/main/version.json"))
+    local data = HttpService:JSONDecode(game:HttpGet("https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/version.json"))
     return data.version
 end)
 if ok and result then version = result end
@@ -127,11 +125,10 @@ local Window = Library:CreateWindow({
     ToggleKeybind = Enum.KeyCode.RightShift,
     AutoShow      = true,
 })
-local isDev = game:GetService("Players").LocalPlayer.Name == "MaybeIsRealZack"
+local isDev = game:GetService("Players").LocalPlayer.Name == "cslp1"
 
 local Tabs = {
     Main       = Window:AddTab("Main",        "house"),
-    Visuals    = Window:AddTab("Visuals",     "eye"),
     UISettings = Window:AddTab("UI Settings", "settings"),
     Logs       = Window:AddTab("Logs",        "list"),
 }
@@ -189,8 +186,8 @@ local currentResolvedSteps = nil
 local startAutoPlay -- forward declaration (assigned where the Auto Play button is built)
 local autoPlayStop = false -- set true to stop a running Auto Play without dying/rejoining
 
-local baseRepo = "https://raw.githubusercontent.com/MaybeIsRealZack/Project-EToH-Script/refs/heads/main/Games/EToH/"
-local registryUrl = "https://raw.githubusercontent.com/MaybeIsRealZack/Project-EToH-Script/refs/heads/main/Games/EToH/TowerRegistry.lua"
+local baseRepo = "https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/Games/EToH/"
+local registryUrl = "https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/Games/EToH/TowerRegistry.lua"
 
 local Registry
 local registryLoaded = false
@@ -1070,14 +1067,6 @@ TowerBox:AddToggle("AutoReturnToLobby", {
         end
     end,
 })
-TowerBox:AddToggle("SendWebhook", {
-    Text    = "Send Completion Webhook",
-    Default = false,
-    Tooltip = "Send a Discord message when a tower is completed via Auto Play.",
-})
-
-TowerBox:AddLabel([[<font color="rgb(255, 0, 0)">Disclaimer:</font>]])
-TowerBox:AddLabel([[<font color="rgb(255, 0, 0)">Send Completion Webhook may reveal your Roblox username on Discord. Use this feature at your own risk. We are not responsible for any bans or consequences resulting from its use</font>]], true)
 
 -- Suggested seconds for a single tower.
 local function towerSuggestedSec(name)
@@ -1175,13 +1164,10 @@ TowerBox:AddButton({
 -- ===== Personal Features (built specifically for gavin) =====
 local PersonalBox = Tabs.Main:AddLeftGroupbox("Personal Features")
 
--- For each tower: enter via its teleporter, use a boost item, wait 0-5s, then teleport to
--- its WinPad to complete it. Citadels ("Citadel of X" -> "CoX") use the jump coil in slot 4;
--- regular towers and steeples use the VM in slot 5. A boost-item way to clear towers,
--- including ones not in the registry. Returns to the lobby between towers.
-local function isCitadel(name)
-    return name:match("^Co%u") ~= nil
-end
+-- For each tower: enter via its teleporter, use the VM (slot 5), wait 0-5s, then teleport
+-- to its WinPad to complete it. Applies the same way to regular towers, citadels, and
+-- steeples. A boost-item way to clear towers, including ones not in the registry.
+-- Returns to the lobby between towers.
 local function runVMFlow(towerNames)
     local player = game:GetService("Players").LocalPlayer
     local VIM    = game:GetService("VirtualInputManager")
@@ -1203,8 +1189,8 @@ local function runVMFlow(towerNames)
             -- EToH XL). Recursive search by name so it works regardless of how the game nests
             -- them.
             local entryParts = {}
-            local tpFramePart    = tower:FindFirstChild("TPFRAME", true)
-            local teleToPart     = tower:FindFirstChild("TeleportTo", true)
+            local tpFramePart   = tower:FindFirstChild("TPFRAME", true)
+            local teleToPart    = tower:FindFirstChild("TeleportTo", true)
             local towerStartPart = tower:FindFirstChild("TowerStart", true)
             if tpFramePart    then entryParts[#entryParts + 1] = tpFramePart end
             if teleToPart     then entryParts[#entryParts + 1] = teleToPart end
@@ -1218,15 +1204,14 @@ local function runVMFlow(towerNames)
                 until os.clock() - t0 > 1.5 or not _G.vmActive
             end
 
-            -- Citadels get the jump coil (slot 4); towers and steeples the VM (slot 5).
-            local citadel  = isCitadel(name)
-            local slotKey  = citadel and Enum.KeyCode.Four or Enum.KeyCode.Five
-            local itemName = citadel and "jump coil" or "VM"
+            -- Towers, citadels, and steeples all use the VM (slot 5).
+            local slotKey  = Enum.KeyCode.Five
+            local itemName = "VM"
             VIM:SendKeyEvent(true, slotKey, false, game)
             task.wait(0.1)
             VIM:SendKeyEvent(false, slotKey, false, game)
 
-            -- Wait for the boost to clear the tower: 0-5s regardless of which item was used.
+            -- Wait for the boost to clear the tower: 0-5s for towers, citadels, and steeples alike.
             local waitSec   = math.random(0, 5)
             local waitLabel = ("%ds"):format(waitSec)
             Library:Notify({ Title = "Auto VM", Description = ("(%d/%d) %s -- %s, waiting %s"):format(i, #towerNames, name, itemName, waitLabel), Duration = 4 })
@@ -1250,7 +1235,7 @@ end
 
 PersonalBox:AddButton({
     Text    = "Auto Use VM (selected)",
-    Tooltip = "For each ticked tower in 'Auto Complete: Towers': enter it, use the boost item (jump coil on key 4 for citadels, VM on key 5 otherwise), wait 0-5s, then teleport to the WinPad. Press again to stop.",
+    Tooltip = "For each ticked tower in 'Auto Complete: Towers': enter it, use the VM item (key 5), wait 0-5s, then teleport to the WinPad. Press again to stop.",
     Callback = function()
         if _G.vmActive then
             _G.vmActive = false
@@ -1325,29 +1310,6 @@ startAutoPlay = function()
         autoPlayStop = false
         Library.Toggles.Noclip:SetValue(true)
         Library.Toggles.Noclip:SetDisabled(true)
-
-        -- Sends a Discord webhook message on successful completion.
-        -- Silently skips if request() is unavailable.
-        local WEBHOOK_URL = "https://discord.com/api/webhooks/1536919624967258224/2aOO4FNcewX1DTBDBY3WUc6Qb4H5HRFVhHqzvh-4Dq6PKAVUdiE8S8jLD_9iE-pWKceb"
-        local function sendCompletionWebhook(towerName, elapsed)
-            if type(request) ~= "function" then return end
-            if not (Library.Toggles.SendWebhook and Library.Toggles.SendWebhook.Value) then return end
-            local mins    = math.floor(elapsed / 60)
-            local secs    = math.floor(elapsed % 60)
-            local timeStr = string.format("%d:%02d", mins, secs)
-            local username = game:GetService("Players").LocalPlayer.Name
-            local content  = string.format("**%s** has beaten **%s** in `%s`", username, towerName, timeStr)
-            pcall(function()
-                request({
-                    Url     = WEBHOOK_URL,
-                    Method  = "POST",
-                    Headers = { ["Content-Type"] = "application/json" },
-                    Body    = game:GetService("HttpService"):JSONEncode({ content = content }),
-                })
-            end)
-        end
-
-        local runStartTime = nil  -- set after confirmed tower entry
         humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
         if humanoid.Sit then humanoid.Sit = false end
         humanoid.PlatformStand = true
@@ -1604,7 +1566,6 @@ startAutoPlay = function()
                 return
             end
             if checkDied() then return end
-            runStartTime = os.clock()  -- tower entry confirmed
 
             -- From here on the moveConn loop below drives position every frame, same as the
             -- non-rush route tween -- so it needs the same velocity/angular-velocity zeroing
@@ -1766,6 +1727,8 @@ startAutoPlay = function()
                     local moveTarget = step.target
                     local done       = false
                     local lastPos    = hrp.Position
+                    local stuckStart = os.clock()
+                    local stuckPos   = hrp.Position
                     local moveConn
                     moveConn = RunService.Heartbeat:Connect(function(dt)
                         if died then
@@ -1784,6 +1747,8 @@ startAutoPlay = function()
                             task.wait(0.5)
                             lastPos = h.Position
                             startTime = os.clock()
+                            stuckPos   = h.Position
+                            stuckStart = os.clock()
                             return
                         end
                         lastPos = h.Position
@@ -1792,7 +1757,21 @@ startAutoPlay = function()
                             currentDest = getTopPos(moveTarget)
                         end
                         local currentDist = (currentDest - h.Position).Magnitude
-                        if currentDist <= 0.1 then
+                        -- Arrived: wider radius (2 studs) so a dest sitting just inside a
+                        -- wall still counts instead of grinding at the surface forever.
+                        if currentDist <= 2 then
+                            h.CFrame = CFrame.new(currentDest)
+                            done = true
+                            moveConn:Disconnect()
+                            return
+                        end
+                        -- Stall exit: no ground gained in 1.2s means we're wedged on a
+                        -- part. Snap to the dest and move on instead of vibrating.
+                        if (stuckPos - h.Position).Magnitude > 1 then
+                            stuckPos   = h.Position
+                            stuckStart = os.clock()
+                        elseif os.clock() - stuckStart >= 1.2 then
+                            h.CFrame = CFrame.new(currentDest)
                             done = true
                             moveConn:Disconnect()
                             return
@@ -1817,9 +1796,6 @@ startAutoPlay = function()
             end
             if not died then
                 Library:Notify({ Title = "Auto Play", Description = selected .. " Complete!", Duration = 5 })
-                if runStartTime then
-                    sendCompletionWebhook(selected, os.clock() - runStartTime)
-                end
                 clearRouteHighlights()
             end
             stopAutoNoclip()
@@ -1939,7 +1915,6 @@ startAutoPlay = function()
         until (hrp and (hrp.Position - posBeforeTP).Magnitude > 0.1) or os.clock() >= movedBy
         VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
         if checkDied() then return end
-        runStartTime = os.clock()  -- tower entry confirmed
         local deadline = os.clock() + perRepeatTime
         local checkpoints
         local lastErr = ""
@@ -2044,6 +2019,8 @@ startAutoPlay = function()
                         end
                     end)
                 end
+                local stuckStart = os.clock()
+                local stuckPos   = hrp.Position
                 local moveConn
                 moveConn = RunService.Heartbeat:Connect(function(dt)
                     if died then done = true moveConn:Disconnect() return end
@@ -2055,7 +2032,21 @@ startAutoPlay = function()
                         currentDest = getTopPos(moveTarget)
                     end
                     local currentDist = (currentDest - h.Position).Magnitude
-                    if currentDist <= 0.1 then done = true moveConn:Disconnect() return end
+                    -- Arrived: wider radius (2 studs) so a dest sitting just inside a wall
+                    -- still counts instead of grinding at the surface forever.
+                    if currentDist <= 2 then
+                        h.CFrame = CFrame.new(currentDest)
+                        done = true moveConn:Disconnect() return
+                    end
+                    -- Stall exit: no ground gained in 1.2s means we're wedged on a part.
+                    -- Snap to the dest and move on instead of vibrating out the step.
+                    if (stuckPos - h.Position).Magnitude > 1 then
+                        stuckPos   = h.Position
+                        stuckStart = os.clock()
+                    elseif os.clock() - stuckStart >= 1.2 then
+                        h.CFrame = CFrame.new(currentDest)
+                        done = true moveConn:Disconnect() return
+                    end
                     local speed = stepTime > 0 and (dist / stepTime) or 50
                     local moveDist = math.min(speed * dt, currentDist)
                     local rawDir = (currentDest - h.Position)
@@ -2078,9 +2069,6 @@ startAutoPlay = function()
         warn(("[ProjectEToH] run %d/%d finished (died=%s)"):format(rep, repeatCount, tostring(died)))
         if not died then
             Library:Notify({ Title = "Auto Play", Description = "Complete!" .. repTag, Duration = 3 })
-            if runStartTime then
-                sendCompletionWebhook(selected, os.clock() - runStartTime)
-            end
         end
         if died then break end
         end -- repeat loop
@@ -2184,153 +2172,6 @@ local kb_AJTeleport = AllJumpBox:AddLabel("Teleport"):AddKeyPicker("AJTeleport",
     Mode    = "Press",
 })
 Options.AJTeleport:OnClick(allJumpTeleport)
-
--- ===== Game All-Jump (Pit of Misery XL) =====
--- Not the All Jump Mode above -- that one is ours (fake checkpoints we place and teleport
--- to). This drives the GAME's own All-Jump: a practice mode PoM XL grants you from its
--- in-tower menu (MenuGui > MainFrame > Options > AllJump), whose handler fires
--- ReplicatedStorage.ChangeMode with the string "All-Jump". All this does is press that
--- button for you -- on entering a tower, and again after every respawn, since the mode
--- lives on the Character and a new character loses it.
---
--- It mirrors the game handler's own three checks (in a tower / character exists / no mode
--- active yet) instead of firing regardless, so the remote never sees a call the game
--- itself wouldn't have sent.
---
--- Its own function so its locals stay out of the main chunk's 200-local budget.
-local activateGameAllJump   -- set only where the mode exists; the mobile section reads it
-
-local function _initGameAllJump()
-    local Players           = game:GetService("Players")
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-    -- FindFirstChild, never a bare WaitForChild: this runs during load, and in a place with
-    -- no ChangeMode an unbounded yield here would silently halt every line below it (the
-    -- exact bug getDamageEvent exists to avoid).
-    local function modeRemote()
-        local remote = ReplicatedStorage:FindFirstChild("ChangeMode")
-        return (remote and remote:IsA("RemoteEvent")) and remote or nil
-    end
-
-    -- Only build the controls where the mode actually exists. EToH has no ChangeMode, and a
-    -- toggle that can never do anything is worse than no toggle at all.
-    if not (isPomXL or modeRemote()) then return end
-
-    local MODE      = "All-Jump"
-    local enabled   = false
-    local busy      = false
-    local attempts  = 0     -- reset whenever the tower or the character changes
-    local lastTower, lastChar
-
-    -- The three things the game's own handler checks before it will fire.
-    local function towerState()
-        local plr  = Players.LocalPlayer
-        local char = plr.Character
-        return plr:GetAttribute("CurrentTower"),
-               char,
-               char and char:GetAttribute("CURRENT_TOWER_MODE") or nil
-    end
-
-    -- Fire once, then wait for the server to confirm by setting CURRENT_TOWER_MODE on the
-    -- character. Confirming rather than assuming matters because the server has its own
-    -- checks and can refuse silently. Returns ok, reason.
-    local function activate()
-        if busy then return false, "already trying" end
-        local remote = modeRemote()
-        if not remote then return false, "this place has no ChangeMode remote" end
-
-        local tower, char, mode = towerState()
-        if not tower then return false, "you're not in a tower" end
-        if not char  then return false, "no character" end
-        if mode then
-            if mode == MODE then return false, "All-Jump is already on" end
-            return false, ("the " .. tostring(mode) .. " mode is already active -- restart or leave the tower first")
-        end
-
-        busy = true
-        if not pcall(function() remote:FireServer(MODE) end) then
-            busy = false
-            return false, "the remote call was blocked"
-        end
-
-        local deadline = os.clock() + 2
-        while os.clock() < deadline do
-            task.wait(0.1)
-            local _, _, nowMode = towerState()
-            if nowMode then
-                busy = false
-                Library:Notify({ Title = "Game All-Jump", Description = "All-Jump is on.", Duration = 3 })
-                logAction("Game All-Jump activated")
-                return true
-            end
-        end
-        busy = false
-        return false, "the game didn't accept it"
-    end
-
-    -- Manual press (button / mobile button): always say why nothing happened, and hand the
-    -- auto loop a fresh set of tries.
-    local function activateAnnounced()
-        local ok, reason = activate()
-        if not ok then
-            Library:Notify({
-                Title       = "Game All-Jump",
-                Description = "Couldn't turn it on: " .. tostring(reason) .. ".",
-                Duration    = 5,
-            })
-        end
-        attempts = 0
-    end
-    activateGameAllJump = activateAnnounced
-
-    local GameAJBox = Tabs.Main:AddLeftGroupbox("Game All-Jump (PoM XL)")
-    GameAJBox:AddToggle("AutoGameAllJump", {
-        Text    = "Auto All-Jump",
-        Default = false,
-        Tooltip = "Switch on the game's own All-Jump as soon as you're in a tower, and again after every respawn.",
-        Callback = function(state)
-            enabled  = state
-            attempts = 0
-        end,
-    })
-    GameAJBox:AddButton({
-        Text     = "All-Jump Now",
-        Tooltip  = "Switch it on for the tower you're in right now.",
-        Callback = function() task.spawn(activateAnnounced) end,
-    })
-    GameAJBox:AddLabel("This is the game's own practice mode (the AllJump button in its tower menu), so the tower may not count as completed -- switch it off for real runs.", true)
-
-    -- One polling loop rather than a web of attribute/CharacterAdded connections: entering a
-    -- tower, respawning and the game clearing the mode all look the same from here. Capped
-    -- at 3 tries per tower+character so a server that keeps refusing isn't spammed; the
-    -- 1s tick plus activate()'s 2s confirm wait keeps them ~3s apart.
-    task.spawn(function()
-        while not Library.Unloaded do
-            task.wait(1)
-            if enabled and not busy then
-                local tower, char, mode = towerState()
-                if tower and char and not mode then
-                    if tower ~= lastTower or char ~= lastChar then
-                        lastTower, lastChar, attempts = tower, char, 0
-                    end
-                    if attempts < 3 then
-                        attempts = attempts + 1
-                        local ok, reason = activate()
-                        if not ok and attempts >= 3 then
-                            Library:Notify({
-                                Title       = "Game All-Jump",
-                                Description = "Gave up after 3 tries (" .. tostring(reason)
-                                    .. "). Re-enter the tower or respawn to try again.",
-                                Duration    = 6,
-                            })
-                        end
-                    end
-                end
-            end
-        end
-    end)
-end
-_initGameAllJump()
 
 -- Tower Portal: type an acronym, get live matches, teleport to that tower's entry portal.
 --
@@ -2486,7 +2327,7 @@ local function _initTowerPortal()
     -- into one shared top-level workspace.Parts instead (The Eternal Abyss). In these
     -- places workspace.Parts is the ONLY source -- the tower folder is never consulted --
     -- and since it holds just the tower you're currently inside, Automake Route has to be
-    -- run from in there. Anywhere not listed keeps using Obby.
+    -- run from in there. Add TEA's place id(s) here; anywhere not listed keeps using Obby.
     local SHARED_PARTS_PLACES = {
         -- The Eternal Abyss (its areas are separate places, same shared-parts layout)
         131042387601353,
@@ -3109,7 +2950,55 @@ PlayerBox:AddToggle("AntiAFK", {
     end,
 })
 
-
+PlayerBox:AddToggle("Fullbright", {
+    Text    = "Fullbright",
+    Default = false,
+    Tooltip = "Removes darkness, fog and shadows so the whole level is fully lit",
+    Callback = function(state)
+        local Lighting   = game:GetService("Lighting")
+        local RunService = game:GetService("RunService")
+        if _G.FullbrightConn then
+            _G.FullbrightConn:Disconnect()
+            _G.FullbrightConn = nil
+        end
+        if state then
+            -- Snapshot the original lighting once so we can restore it later.
+            if not _G.FullbrightOriginal then
+                _G.FullbrightOriginal = {
+                    Brightness     = Lighting.Brightness,
+                    ClockTime      = Lighting.ClockTime,
+                    FogEnd         = Lighting.FogEnd,
+                    FogStart       = Lighting.FogStart,
+                    GlobalShadows  = Lighting.GlobalShadows,
+                    Ambient        = Lighting.Ambient,
+                    OutdoorAmbient = Lighting.OutdoorAmbient,
+                }
+            end
+            -- Re-assert every frame -- dark towers keep overwriting lighting per area.
+            _G.FullbrightConn = RunService.RenderStepped:Connect(function()
+                Lighting.Brightness     = 2
+                Lighting.ClockTime      = 12
+                Lighting.FogEnd         = 1e9
+                Lighting.FogStart       = 0
+                Lighting.GlobalShadows  = false
+                Lighting.Ambient        = Color3.fromRGB(255, 255, 255)
+                Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+            end)
+        else
+            local o = _G.FullbrightOriginal
+            if o then
+                Lighting.Brightness     = o.Brightness
+                Lighting.ClockTime      = o.ClockTime
+                Lighting.FogEnd         = o.FogEnd
+                Lighting.FogStart       = o.FogStart
+                Lighting.GlobalShadows  = o.GlobalShadows
+                Lighting.Ambient        = o.Ambient
+                Lighting.OutdoorAmbient = o.OutdoorAmbient
+                _G.FullbrightOriginal   = nil
+            end
+        end
+    end,
+})
 local godmodeOriginal = nil
 local godmodeV2Connection = nil
 local godmodeKillBrickConn = nil
@@ -4021,7 +3910,7 @@ MenuGroup:AddToggle("AutoExecute", {
                     end
                 end)
                 SCRIPT_KEY = "KEYLESS"
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/MaybeIsRealZack/Project-EToH-Script/refs/heads/main/SC%20Script.lua"))()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/SC%20Script.lua"))()
             ]])
         end
     end,
@@ -4166,525 +4055,6 @@ MenuGroup:AddButton("Unload", function()
 end)
 Library.ToggleKeybind = Options.MenuKeybind
 
--- ===== Auto Chat =====
--- Sends a message into chat on a timer -- either a live status line or your own text,
--- which can embed the same live values through placeholders. Kept in its own function so
--- its locals don't add to the main chunk's 200-local budget.
-local function _initAutoChat()
-    local ChatBox = Tabs.Main:AddRightGroupbox("Auto Chat")
-
-    local enabled     = false
-    local intervalSec = 60
-    -- Empty means "use the status log". There is deliberately no mode setting: having one
-    -- meant you could type a message and have it silently ignored because the mode was
-    -- still on Status log, which is exactly what happened.
-    local customText  = ""
-    local startedAt   = os.clock()
-    local sentCount   = 0
-
-    -- Roblox has two chat systems and games use one or the other, so try the modern one
-    -- and fall back to the legacy remote.
-    local function sendChat(msg)
-        local sent = false
-        pcall(function()
-            local TCS = game:GetService("TextChatService")
-            if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
-                local channels = TCS:FindFirstChild("TextChannels")
-                local general  = channels and channels:FindFirstChild("RBXGeneral")
-                if general then
-                    general:SendAsync(msg)
-                    sent = true
-                end
-            end
-        end)
-        if sent then return true end
-        pcall(function()
-            local events = game:GetService("ReplicatedStorage"):FindFirstChild("DefaultChatSystemChatEvents")
-            local say    = events and events:FindFirstChild("SayMessageRequest")
-            if say then
-                say:FireServer(msg, "All")
-                sent = true
-            end
-        end)
-        return sent
-    end
-
-    local function mmss(seconds)
-        seconds = math.max(math.floor(seconds), 0)
-        return ("%d:%02d"):format(math.floor(seconds / 60), seconds % 60)
-    end
-
-    -- The live values: used by the status log, and available to a typed message as
-    -- {placeholders}.
-    local function values()
-        local tower = "none"
-        pcall(function() tower = tostring(Library.Options.TowerSelect.Value or "none") end)
-        return {
-            tower   = tower,
-            status  = isAutoPlaying and "auto playing" or "idle",
-            steps   = tostring(currentResolvedSteps and #currentResolvedSteps or 0),
-            time    = os.date("%H:%M:%S"),
-            elapsed = mmss(os.clock() - startedAt),
-            sent    = tostring(sentCount + 1),
-        }
-    end
-
-    local function buildMessage()
-        local v = values()
-        local text = customText:match("^%s*(.-)%s*$")
-        if text == "" then
-            -- Nothing typed: send the status log.
-            return ("[PES] %s | %s | %s steps | up %s"):format(v.tower, v.status, v.steps, v.elapsed)
-        end
-        -- Whatever you typed, with any {placeholder} we know substituted in. Unknown ones
-        -- are left as-is rather than blanked.
-        return (text:gsub("{(%w+)}", function(key) return v[key] end))
-    end
-
-    ChatBox:AddToggle("AutoChat", {
-        Text    = "Auto Chat",
-        Default = false,
-        Tooltip = "Send a chat message on a timer.",
-        Callback = function(state)
-            enabled = state
-            if state then startedAt = os.clock() end
-        end,
-    })
-    ChatBox:AddInput("AutoChatInterval", {
-        Text        = "Interval (s)",
-        Default     = "60",
-        Numeric     = true,
-        Placeholder = "60",
-        Tooltip     = "Seconds between messages. Held to 8s minimum -- Roblox rate-limits chat and will drop messages sent faster than that.",
-        Callback    = function(value)
-            intervalSec = math.max(tonumber(value) or 60, 8)
-        end,
-    })
-    ChatBox:AddInput("AutoChatText", {
-        Text        = "Message (empty = status log)",
-        Default     = "",
-        Finished    = false,
-        Placeholder = "Leave empty for the status log",
-        Tooltip     = "Type a message to send that instead of the status log. Placeholders are replaced with live values: {tower} {status} {steps} {time} {elapsed} {sent}. Clear the box to go back to the status log.",
-        Callback    = function(value) customText = value or "" end,
-    })
-    ChatBox:AddButton({
-        Text    = "Send now",
-        Tooltip = "Send the message immediately, to check how it reads.",
-        Callback = function()
-            local msg = buildMessage()
-            if msg == "" then
-                Library:Notify({ Title = "Auto Chat", Description = "The message is empty.", Duration = 4 })
-                return
-            end
-            if sendChat(msg) then
-                sentCount = sentCount + 1
-                logAction("Auto Chat sent: " .. msg)
-            else
-                Library:Notify({ Title = "Auto Chat", Description = "Couldn't find a chat system to send through.", Duration = 5 })
-            end
-        end,
-    })
-    ChatBox:AddLabel("Empty box sends a live status line. Anything you type is sent instead, with {tower} {status} {steps} {time} {elapsed} {sent} filled in. Roblox filters identical repeats, so include a changing value like {time} if you send often.", true)
-
-    task.spawn(function()
-        local nextAt = 0
-        while not Library.Unloaded do
-            task.wait(1)
-            if enabled and os.clock() >= nextAt then
-                nextAt = os.clock() + intervalSec
-                local msg = buildMessage()
-                if msg ~= "" and sendChat(msg) then
-                    sentCount = sentCount + 1
-                end
-            end
-        end
-    end)
-end
-_initAutoChat()
-
--- ===== ESP (Visuals tab) =====
--- Wraps the Sense library (github.com/MaybeIsRealZack/ESP-Library) in Obsidian UI controls.
--- All visual features (Box, Name, Tracer …) are applied to both teams simultaneously;
--- only the colour differs: Start team → enemy slot, Winner! team → friendly slot.
--- Sense is lazy-loaded on the first Enable, so startup speed is unaffected.
-local function _initESP()
-    -- SENSE_URL and Sense are declared at the top of the script.
-
-    -- Apply one Sense setting to both teams at once.
-    local function both(key, value)
-        if not Sense then return end
-        Sense.teamSettings.enemy[key]    = value
-        Sense.teamSettings.friendly[key] = value
-    end
-
-    -- Push one colour to every colour slot of a given team (enemy / friendly).
-    -- Health bar colours (healthyColor / dyingColor) are intentionally left alone
-    -- so their green→red gradient stays readable regardless of team colour.
-    local function applyTeamColor(team, color)
-        if not Sense then return end
-        local t = Sense.teamSettings[team]
-        t.boxColor[1]          = color
-        t.box3dColor[1]        = color
-        t.nameColor[1]         = color
-        t.distanceColor[1]     = color
-        t.tracerColor[1]       = color
-        t.chamsFillColor[1]    = color
-        t.chamsOutlineColor[1] = color
-    end
-
-    -- Sync every current UI value into Sense before (re-)calling Load().
-    -- Needed because SaveManager may restore sub-settings before the master
-    -- ESPEnabled toggle fires, so Sense.Load() would otherwise start with
-    -- whatever defaults Sense ships with.
-    local function syncToSense()
-        if not Sense then return end
-        local T, O = Library.Toggles, Library.Options
-
-        -- Shared -------------------------------------------------------
-        Sense.sharedSettings.limitDistance = T.ESPLimitDist.Value
-        Sense.sharedSettings.maxDistance   = tonumber(O.ESPMaxDist.Value) or 150
-
-        -- Per-team enabled state ---------------------------------------
-        Sense.teamSettings.enemy.enabled    = T.ESPStartTeam.Value
-        Sense.teamSettings.friendly.enabled = T.ESPWinnerTeam.Value
-
-        -- Colours ------------------------------------------------------
-        if O.ESPStartColor  then applyTeamColor("enemy",    O.ESPStartColor.Value)  end
-        if O.ESPWinnerColor then applyTeamColor("friendly", O.ESPWinnerColor.Value) end
-
-        -- Feature toggles (same value for both teams) ------------------
-        local featureMap = {
-            { sense = "box",             toggle = "ESPBox"          },
-            { sense = "boxFill",         toggle = "ESPBoxFill"      },
-            { sense = "box3d",           toggle = "ESPBox3d"        },
-            { sense = "healthBar",       toggle = "ESPHealthBar"    },
-            { sense = "healthText",      toggle = "ESPHealthText"   },
-            { sense = "name",            toggle = "ESPName"         },
-            { sense = "distance",        toggle = "ESPDistance"     },
-            { sense = "tracer",          toggle = "ESPTracer"       },
-            { sense = "offScreenArrow",  toggle = "ESPArrow"        },
-            { sense = "chams",           toggle = "ESPChams"        },
-            { sense = "chamsVisibleOnly",toggle = "ESPChamsVisOnly" },
-        }
-        for _, m in ipairs(featureMap) do
-            local v = T[m.toggle] and T[m.toggle].Value or false
-            Sense.teamSettings.enemy[m.sense]    = v
-            Sense.teamSettings.friendly[m.sense] = v
-        end
-
-        -- Tracer origin ------------------------------------------------
-        local origin = O.ESPTracerOrigin and O.ESPTracerOrigin.Value or "Bottom"
-        both("tracerOrigin", origin)
-    end
-
-    -- Apply EToH-specific overrides once on first enable.
-    local senseConfigured = false
-    local function configureSense()
-        if senseConfigured then return end
-        -- EToH has two teams: "Start" and "Winner!".
-        -- We route Start → enemy config and Winner! → friendly config so that
-        -- each team always gets its designated colour, no matter which team
-        -- the local player is on.
-        Sense.isFriendly = function(player)
-            return player.Team ~= nil and player.Team.Name == "Winner!"
-        end
-        -- EToH has no weapons — suppress the weapon label entirely.
-        Sense.getWeapon = function() return "" end
-        senseConfigured = true
-    end
-
-    -- ── UI ────────────────────────────────────────────────────────────────
-
-    local ESPGroup = Tabs.Visuals:AddLeftGroupbox("ESP")
-
-    -- Master toggle ──────────────────────────────────────────────────────
-    ESPGroup:AddToggle("ESPEnabled", {
-        Text    = "Enable ESP",
-        Default = false,
-        Tooltip = "Show player highlights.",
-        Callback = function(state)
-            if state then
-                configureSense()
-                syncToSense()
-                Sense.Load()
-                logAction("ESP Enabled")
-            else
-                if Sense then
-                    Sense.Unload()
-                    logAction("ESP Disabled")
-                end
-            end
-        end,
-    })
-
-    ESPGroup:AddDivider()
-
-    -- Team toggles + colour pickers ──────────────────────────────────────
-    -- Each toggle enables/disables that team's ESP layer.
-    -- The colour picker sets every colour slot for that team in one go.
-    local StartTeamToggle = ESPGroup:AddToggle("ESPStartTeam", {
-        Text    = "Start Team",
-        Default = true,
-        Tooltip = "Show players on the Start team.",
-        Callback = function(v)
-            if Sense then Sense.teamSettings.enemy.enabled = v end
-        end,
-    })
-    StartTeamToggle:AddColorPicker("ESPStartColor", {
-        Default  = Color3.fromRGB(255, 60, 60),
-        Title    = "Start Color",
-        Callback = function(color)
-            if Sense then applyTeamColor("enemy", color) end
-        end,
-    })
-
-    local WinnerTeamToggle = ESPGroup:AddToggle("ESPWinnerTeam", {
-        Text    = "Winner! Team",
-        Default = true,
-        Tooltip = "Show players on the Winner! team.",
-        Callback = function(v)
-            if Sense then Sense.teamSettings.friendly.enabled = v end
-        end,
-    })
-    WinnerTeamToggle:AddColorPicker("ESPWinnerColor", {
-        Default  = Color3.fromRGB(60, 200, 255),
-        Title    = "Winner! Color",
-        Callback = function(color)
-            if Sense then applyTeamColor("friendly", color) end
-        end,
-    })
-
-    ESPGroup:AddDivider()
-
-    -- Shared distance settings ───────────────────────────────────────────
-    ESPGroup:AddToggle("ESPLimitDist", {
-        Text    = "Limit Distance",
-        Default = false,
-        Tooltip = "Only show players within Max Distance.",
-        Callback = function(v)
-            if Sense then Sense.sharedSettings.limitDistance = v end
-        end,
-    })
-    ESPGroup:AddSlider("ESPMaxDist", {
-        Text     = "Max Distance",
-        Default  = 150,
-        Min      = 10,
-        Max      = 2000,
-        Rounding = 0,
-        Suffix   = " studs",
-        Callback = function(v)
-            if Sense then Sense.sharedSettings.maxDistance = v end
-        end,
-    })
-
-    ESPGroup:AddDivider()
-
-    -- Visual features (applied to both teams simultaneously) ─────────────
-    ESPGroup:AddToggle("ESPBox", {
-        Text    = "Box",
-        Default = false,
-        Callback = function(v) both("box", v) end,
-    })
-    ESPGroup:AddToggle("ESPBoxFill", {
-        Text    = "Box Fill",
-        Default = false,
-        Callback = function(v) both("boxFill", v) end,
-    })
-    ESPGroup:AddToggle("ESPBox3d", {
-        Text    = "3D Box",
-        Default = false,
-        Callback = function(v) both("box3d", v) end,
-    })
-    ESPGroup:AddToggle("ESPHealthBar", {
-        Text    = "Health Bar",
-        Default = false,
-        Callback = function(v) both("healthBar", v) end,
-    })
-    ESPGroup:AddToggle("ESPHealthText", {
-        Text    = "Health Text",
-        Default = false,
-        Callback = function(v) both("healthText", v) end,
-    })
-    ESPGroup:AddToggle("ESPName", {
-        Text    = "Name",
-        Default = false,
-        Callback = function(v) both("name", v) end,
-    })
-    ESPGroup:AddToggle("ESPDistance", {
-        Text    = "Distance",
-        Default = false,
-        Callback = function(v) both("distance", v) end,
-    })
-    local TracerToggle = ESPGroup:AddToggle("ESPTracer", {
-        Text    = "Tracer",
-        Default = false,
-        Callback = function(v) both("tracer", v) end,
-    })
-    ESPGroup:AddDropdown("ESPTracerOrigin", {
-        Text    = "Tracer Origin",
-        Values  = { "Bottom", "Center", "Mouse", "Top" },
-        Default = "Bottom",
-        Callback = function(v) both("tracerOrigin", v) end,
-    })
-    ESPGroup:AddToggle("ESPArrow", {
-        Text    = "Off-Screen Arrow",
-        Default = false,
-        Callback = function(v) both("offScreenArrow", v) end,
-    })
-    ESPGroup:AddToggle("ESPChams", {
-        Text    = "Chams",
-        Default = false,
-        Callback = function(v) both("chams", v) end,
-    })
-    ESPGroup:AddToggle("ESPChamsVisOnly", {
-        Text    = "Chams Visible Only",
-        Default = false,
-        Tooltip = "Only draw Chams on players that are currently visible (not occluded).",
-        Callback = function(v) both("chamsVisibleOnly", v) end,
-    })
-
-    -- Cleanup: ensure Sense is unloaded when the script is unloaded,
-    -- even if the user didn't toggle ESP off first (e.g. pressed Unload directly).
-    task.spawn(function()
-        repeat task.wait(1) until Library.Unloaded
-        if Sense then
-            pcall(Sense.Unload)
-            Sense = nil
-        end
-    end)
-end
-_initESP()
-
--- ===== Ambient (Visuals tab, right column) =====
--- Fullbright, No Fog and Brightness share one RenderStepped connection so
--- they can never fight each other. The connection is created whenever any
--- of the three is active, and torn down (with a full lighting restore) once
--- all three are inactive.
-local function _initAmbient()
-    local Lighting   = game:GetService("Lighting")
-    local RunService = game:GetService("RunService")
-
-    local ambientConn     = nil
-    local ambientOriginal = nil
-
-    -- Capture the game's lighting values before we touch anything.
-    -- Used both for restore and as the "neutral" reference for the
-    -- Brightness slider (so the connection only starts if the user
-    -- actually moves the slider away from the game's own value).
-    local defaultBrightness = math.min(math.max(
-        math.floor(Lighting.Brightness * 10 + 0.5) / 10, 0), 3)
-
-    local function snapshotLighting()
-        if not ambientOriginal then
-            ambientOriginal = {
-                Brightness     = Lighting.Brightness,
-                ClockTime      = Lighting.ClockTime,
-                FogEnd         = Lighting.FogEnd,
-                FogStart       = Lighting.FogStart,
-                GlobalShadows  = Lighting.GlobalShadows,
-                Ambient        = Lighting.Ambient,
-                OutdoorAmbient = Lighting.OutdoorAmbient,
-            }
-        end
-    end
-
-    local function restoreLighting()
-        if ambientOriginal then
-            pcall(function()
-                Lighting.Brightness     = ambientOriginal.Brightness
-                Lighting.ClockTime      = ambientOriginal.ClockTime
-                Lighting.FogEnd         = ambientOriginal.FogEnd
-                Lighting.FogStart       = ambientOriginal.FogStart
-                Lighting.GlobalShadows  = ambientOriginal.GlobalShadows
-                Lighting.Ambient        = ambientOriginal.Ambient
-                Lighting.OutdoorAmbient = ambientOriginal.OutdoorAmbient
-            end)
-            ambientOriginal = nil
-        end
-    end
-
-    -- Called by every toggle/slider callback. Rebuilds the single shared
-    -- RenderStepped connection based on the current UI state.
-    local function updateAmbient()
-        local T, O = Library.Toggles, Library.Options
-
-        local fullbright = T.Fullbright   and T.Fullbright.Value
-        local noFog      = T.AmbientNoFog and T.AmbientNoFog.Value
-        local brightness = tonumber(O.AmbientBrightness and O.AmbientBrightness.Value)
-                           or defaultBrightness
-
-        -- Connection is only needed for Fullbright or No Fog.
-        -- Brightness is a sub-setting of Fullbright, not standalone.
-        local needsConn = fullbright or noFog
-
-        -- Always tear down the old connection first to avoid duplicates.
-        if ambientConn then
-            ambientConn:Disconnect()
-            ambientConn = nil
-        end
-
-        if needsConn then
-            snapshotLighting()
-            ambientConn = RunService.RenderStepped:Connect(function()
-                if fullbright then
-                    -- Fullbright overrides fog/shadows; brightness follows the slider.
-                    Lighting.Brightness     = brightness
-                    Lighting.ClockTime      = 12
-                    Lighting.FogEnd         = 1e9
-                    Lighting.FogStart       = 0
-                    Lighting.GlobalShadows  = false
-                    Lighting.Ambient        = Color3.fromRGB(255, 255, 255)
-                    Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
-                else
-                    if noFog then
-                        Lighting.FogEnd   = 1e9
-                        Lighting.FogStart = 0
-                    end
-                end
-            end)
-        else
-            restoreLighting()
-        end
-    end
-
-    -- UI -----------------------------------------------------------------
-
-    local AmbientGroup = Tabs.Visuals:AddRightGroupbox("Ambient")
-
-    AmbientGroup:AddToggle("Fullbright", {
-        Text    = "Fullbright",
-        Default = false,
-        Tooltip = "Removes darkness, fog and shadows so the whole level is fully lit.",
-        Callback = function() updateAmbient() end,
-    })
-    AmbientGroup:AddToggle("AmbientNoFog", {
-        Text    = "No Fog",
-        Default = false,
-        Tooltip = "Pushes the fog boundary far enough that it becomes invisible.",
-        Callback = function() updateAmbient() end,
-    })
-    AmbientGroup:AddSlider("AmbientBrightness", {
-        Text     = "Brightness",
-        Default  = defaultBrightness,
-        Min      = 0,
-        Max      = 3,
-        Rounding = 1,
-        Callback = function() updateAmbient() end,
-    })
-
-    -- Restore lighting and disconnect when the script is unloaded.
-    task.spawn(function()
-        repeat task.wait(1) until Library.Unloaded
-        if ambientConn then
-            ambientConn:Disconnect()
-            ambientConn = nil
-        end
-        restoreLighting()
-    end)
-end
-_initAmbient()
-
 -- ===== Mobile (UI Settings) =====
 -- Phones have no keyboard, so every keybind action is unreachable there. This adds movable
 -- on-screen buttons for them, opt-in via a toggle. Kept in its own function so its locals
@@ -4739,10 +4109,6 @@ local function _initMobile()
     Library:AddMobileButton("AJ Place",    function() pcall(allJumpPlace) end)
     Library:AddMobileButton("AJ Remove",   function() pcall(allJumpRemove) end)
     Library:AddMobileButton("AJ Teleport", function() pcall(allJumpTeleport) end)
-    -- Only where the game has the mode (PoM XL) -- elsewhere the button would do nothing.
-    if activateGameAllJump then
-        Library:AddMobileButton("All-Jump", function() task.spawn(activateGameAllJump) end)
-    end
 
     if onMobile then Library:SetMobileButtonsVisible(true) end
 end
@@ -5322,10 +4688,7 @@ do
 end
 
 local CreditsGroup = Tabs.UISettings:AddRightGroupbox("Credits")
-CreditsGroup:AddLabel('<font color="rgb(90,200,255)">[MaybeIsRealZack]</font>  Owner', true)
-CreditsGroup:AddLabel('<font color="rgb(255,210,70)">[Mr.man]</font>  Co-owner', true)
-CreditsGroup:AddLabel('<font color="rgb(120,230,120)">[canadianeditz]</font>  Contributor', true)
-CreditsGroup:AddLabel('<font color="rgb(120,230,120)">[eli]</font>  Contributor', true)
+CreditsGroup:AddLabel('<font color="rgb(90,200,255)">[cslp1]</font>  Owner', true)
 
 local OtherScriptsGroup = Tabs.UISettings:AddRightGroupbox("Other Scripts")
 local function copyLoadstring(name, code)
@@ -5340,7 +4703,7 @@ OtherScriptsGroup:AddButton({
     Text     = "Original Script",
     Tooltip  = "Original script of this project. Click to copy its loadstring.",
     Callback = function()
-        copyLoadstring("Original Script", 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MaybeIsRealZack/Project-EToH-Script/refs/heads/main/Loader.lua"))()')
+        copyLoadstring("Original Script", 'loadstring(game:HttpGet("https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/Loader.lua"))()')
     end,
 })
 OtherScriptsGroup:AddButton({
