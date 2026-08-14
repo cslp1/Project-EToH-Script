@@ -89,8 +89,6 @@ else
     end
 end
 
-local Sense = loadstring(game:HttpGet('https://raw.githubusercontent.com/MaybeIsRealZack/ESP-Library/main/Sense/source.lua'))()
-
 local function missing(t, f, fallback)
     if type(f) == t then return f end
     return fallback
@@ -99,33 +97,18 @@ end
 local okHook, errHook = pcall(function() hookmetamethod = missing("function", hookmetamethod) end)
 local okNcm,  errNcm  = pcall(function() getnamecallmethod = missing("function", getnamecallmethod or get_namecall_method) end)
 local queueteleport   = missing("function", queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport))
-hookfunction          = missing("function", hookfunction)
-setreadonly           = missing("function", setreadonly)
-debug.setupvalue      = missing("function", debug.setupvalue)
-debug.getupvalue      = missing("function", debug.getupvalue)
 
 local UNCSupport = {
     hookmetamethod    = okHook and hookmetamethod ~= nil,
     getnamecallmethod = okNcm  and getnamecallmethod ~= nil,
     queueteleport     = queueteleport ~= nil,
-    hookfunction      = hookfunction ~= nil,
-    setreadonly       = setreadonly ~= nil,
-    debugSetupvalue   = debug.setupvalue ~= nil,
-    debugGetupvalue   = debug.getupvalue ~= nil,
 }
-UNCSupport.Godmode           = UNCSupport.hookmetamethod and UNCSupport.getnamecallmethod
-UNCSupport.SwapDamageEvent   = UNCSupport.debugSetupvalue and UNCSupport.debugGetupvalue
+UNCSupport.Godmode = UNCSupport.hookmetamethod and UNCSupport.getnamecallmethod
 
 print("[Project EToH Script] Functions Check:")
-print("[Project EToH Script] Closure Library:")
-print((UNCSupport.hookfunction      and "✅" or "❌") .. " hookfunction")
-print("[Project EToH Script] Debug Library:")
-print((UNCSupport.debugSetupvalue   and "✅" or "❌") .. " debug.setupvalue")
-print((UNCSupport.debugGetupvalue   and "✅" or "❌") .. " debug.getupvalue")
 print("[Project EToH Script] Metatable Library:")
 print((UNCSupport.hookmetamethod    and "✅" or "❌") .. " hookmetamethod"    .. (not okHook and ": " .. tostring(errHook) or ""))
 print((UNCSupport.getnamecallmethod and "✅" or "❌") .. " getnamecallmethod" .. (not okNcm  and ": " .. tostring(errNcm)  or ""))
-print((UNCSupport.setreadonly       and "✅" or "❌") .. " setreadonly")
 print("[Project EToH Script] Miscellaneous Library:")
 print((UNCSupport.queueteleport     and "✅" or "❌") .. " queueonteleport")
 local HttpService = game:GetService("HttpService")
@@ -146,7 +129,6 @@ local isDev = game:GetService("Players").LocalPlayer.Name == "cslp1"
 
 local Tabs = {
     Main       = Window:AddTab("Main",        "house"),
-    Visuals    = Window:AddTab("Visuals",     "eye"),
     UISettings = Window:AddTab("UI Settings", "settings"),
     Logs       = Window:AddTab("Logs",        "list"),
 }
@@ -282,9 +264,26 @@ local currentPlaceId = game.PlaceId
 -- the dropdown shows the towers physically present in the current place even if the
 -- registry's hardcoded category PlaceId no longer matches (e.g. after a game update),
 -- instead of silently filtering everything out and leaving a blank tower list.
+-- Some games keep entry portals in a TOP-LEVEL folder instead of inside the tower:
+--   EToH XL          workspace.TowerPortals.<name>
+--   Pit of Misery XL workspace["Tower Portals"].<name>
+-- In those games workspace.Towers.<name> is only the tower's INTERIOR (TowerStart, WinPad,
+-- the floors), so the portal that actually enters the tower isn't in there at all.
+local PORTAL_FOLDERS = { "TowerPortals", "Tower Portals" }
+local function portalFolder(name)
+    for _, folderName in ipairs(PORTAL_FOLDERS) do
+        local root  = workspace:FindFirstChild(folderName)
+        local entry = root and root:FindFirstChild(name)
+        if entry then return entry end
+    end
+    return nil
+end
+
 local function towerFolderPresent(name)
     local towersFolder = workspace:FindFirstChild("Towers")
-    return towersFolder ~= nil and towersFolder:FindFirstChild(name) ~= nil
+    if towersFolder and towersFolder:FindFirstChild(name) then return true end
+    -- A tower whose interior hasn't streamed in is still reachable if its portal is loaded.
+    return portalFolder(name) ~= nil
 end
 
 local function towerFolder(name)
@@ -297,16 +296,18 @@ end
 -- search by name so towers in other games using the same JToH kit (e.g. The Eternal Abyss)
 -- resolve even if the hierarchy differs. Returns nil if the folder/part is gone.
 -- Tower games don't agree on what the entry portal is called. Observed so far:
---   EToH  Teleporter.Teleporter.TPFRAME
---   TEA   Portal            (siblings: Frame, WinPad, SpawnPad)
---   CSCD  TP                (siblings: Checkpoints, Frame, DO_NOT_MOVE_...)
+--   EToH    Teleporter.Teleporter.TPFRAME
+--   TEA     Portal            (siblings: Frame, WinPad, SpawnPad)
+--   CSCD    TP                (siblings: Checkpoints, Frame, DO_NOT_MOVE_...)
+--   EToH XL TowerStart        (siblings: WinPad, WinSpawn, FloorN parts -- no Teleporter
+--                              nesting, no TPFRAME/TeleportTo at all)
 -- Ordered most- to least-specific. Deliberately excludes Frame (the tower's base) and
 -- WinPad (the finish, not the entry).
 local PORTAL_NAMES = {
-    "TPFRAME", "Portal", "TP", "TeleportTo", "Teleporter", "Entrance", "SpawnPad", "Spawn",
+    "TPFRAME", "Portal", "TP", "TeleportTo", "Teleporter", "TowerStart", "Entrance", "SpawnPad", "Spawn",
 }
 -- Substring pass for games not covered above. Same exclusions.
-local PORTAL_HINTS = { "tpframe", "portal", "teleport", "entrance", "spawnpad" }
+local PORTAL_HINTS = { "tpframe", "portal", "teleport", "towerstart", "entrance", "spawnpad" }
 
 -- Callers need a BasePart (they read .CFrame/.Position/.Size), but these can be Models
 -- or Folders, so resolve down to an actual part.
@@ -317,7 +318,33 @@ local function toBasePart(inst)
     return inst:FindFirstChildWhichIsA("BasePart", true)
 end
 
+-- Known portal names first, then a substring pass, inside whichever container is given.
+local function searchForPortal(container)
+    for _, candidate in ipairs(PORTAL_NAMES) do
+        local part = toBasePart(container:FindFirstChild(candidate, true))
+        if part then return part end
+    end
+    for _, descendant in ipairs(container:GetDescendants()) do
+        if descendant:IsA("BasePart") then
+            local lower = descendant.Name:lower()
+            for _, hint in ipairs(PORTAL_HINTS) do
+                if lower:find(hint, 1, true) then return descendant end
+            end
+        end
+    end
+    return nil
+end
+
 local function resolveTPFrame(name)
+    -- A dedicated portal folder wins over the tower folder. It has to: in EToH XL the tower
+    -- folder holds TowerStart, which is where you SPAWN once inside, so resolving to that
+    -- teleports past the portal instead of entering through it.
+    local pf = portalFolder(name)
+    if pf then
+        local part = searchForPortal(pf) or toBasePart(pf)
+        if part then return part end
+    end
+
     local f = towerFolder(name)
     if not f then return nil end
 
@@ -330,30 +357,20 @@ local function resolveTPFrame(name)
         if part then return part end
     end
 
-    -- Then each known name, recursively, in priority order.
-    for _, candidate in ipairs(PORTAL_NAMES) do
-        local part = toBasePart(f:FindFirstChild(candidate, true))
-        if part then return part end
-    end
-
-    -- Last resort: any part whose name merely looks like a portal.
-    for _, descendant in ipairs(f:GetDescendants()) do
-        if descendant:IsA("BasePart") then
-            local lower = descendant.Name:lower()
-            for _, hint in ipairs(PORTAL_HINTS) do
-                if lower:find(hint, 1, true) then return descendant end
-            end
-        end
-    end
-
-    return nil
+    return searchForPortal(f)
 end
 local function resolveTeleportTo(name)
     local f = towerFolder(name)
     if not f then return nil end
     local tp    = f:FindFirstChild("Teleporter")
     local exact = tp and tp:FindFirstChild("TeleportTo")
-    return exact or f:FindFirstChild("TeleportTo", true)
+    local found = exact or f:FindFirstChild("TeleportTo", true)
+    if found then return toBasePart(found) end
+    -- Games with a single combined entry part (no separate TPFRAME + TeleportTo stage --
+    -- e.g. TEA's Portal, CSCD's TP, EToH XL's TowerStart) have nothing named TeleportTo at
+    -- all. Fall back to the same part resolveTPFrame found: the player is already standing
+    -- on it from the walk-to loop above, so the "wait for teleport" touch fires right away.
+    return resolveTPFrame(name)
 end
 
 -- F9 diagnostic: dump a tower folder's children when entry resolution fails, so an
@@ -609,65 +626,24 @@ TowerBox:AddToggle("UseSuggestedTime", {
     end,
 })
 SuggestedLabel = TowerBox:AddLabel(getSuggestedLabel(DropdownValues[1] or "NEAT"))
--- Both fields take a plain number ("3") or a RANGE with a dash ("20-25"), and the two mean
--- different things once a run has more than one part to it:
---   plain  -- the time for EACH run: every repeat, and every tower of a multi-tower Auto
---             Complete, gets it in full. Only a tower rush treats it as a total to split
---             across the towers it plays.
---   range  -- each run rolls its own time inside that range, so they don't all finish at
---             an identical, obviously-scripted time
--- Numeric is deliberately off: it filters the dash out under Obsidian/Linoria.
 TowerBox:AddInput("CompletionMin", {
     Text        = "Completion Time (min)",
     Default     = "3",
-    Placeholder = "3 or 20-25",
-    Tooltip     = "Minutes for each run. A range like 20-25 gives every run its own random time. A tower rush splits this across its towers instead.",
+    Numeric     = true,
+    Placeholder = "3",
 })
 TowerBox:AddInput("CompletionSec", {
     Text        = "Completion Time (s)",
     Default     = "0",
-    Placeholder = "0 or 30-59",
-    Tooltip     = "Seconds for each run. A range like 30-59 gives every run its own random time. A tower rush splits this across its towers instead.",
+    Numeric     = true,
+    Placeholder = "0",
 })
--- "3" -> 3, 3.  "20-25" -> 20, 25 (typed either way round).  Anything else -> fallback.
-local function parseTimeField(text, fallback)
-    text = tostring(text or ""):gsub("%s", "")
-    local lo, hi = text:match("^(%d+)%-(%d+)$")
-    if lo then
-        lo, hi = tonumber(lo), tonumber(hi)
-        if lo > hi then lo, hi = hi, lo end
-        return lo, hi
-    end
-    local n = tonumber(text)
-    if n then return n, n end
-    return fallback, fallback
-end
-
--- The seconds budget for ONE tower run, rolling each range fresh. Minutes and seconds roll
--- independently, so "20-25" + "30-59" spans 20:30 to 25:59. A plain number always returns
--- itself, so nothing changes for anyone who isn't using a range.
-local function rollCompletionSec()
-    local loM, hiM = parseTimeField(Library.Options.CompletionMin.Value, 0)
-    local loS, hiS = parseTimeField(Library.Options.CompletionSec.Value, 0)
-    local mins = (loM == hiM) and loM or math.random(loM, hiM)
-    local secs = (loS == hiS) and loS or math.random(loS, hiS)
-    return mins * 60 + secs
-end
-
--- Is either field a range? A tower rush normally splits ONE total across its towers; with a
--- range the field means "roll a time per tower" instead, so the rush has to know which.
-local function completionIsRange()
-    local loM, hiM = parseTimeField(Library.Options.CompletionMin.Value, 0)
-    local loS, hiS = parseTimeField(Library.Options.CompletionSec.Value, 0)
-    return loM ~= hiM or loS ~= hiS
-end
-
 TowerBox:AddInput("RepeatCount", {
     Text        = "Repeat Count",
     Default     = "1",
     Numeric     = true,
     Placeholder = "1",
-    Tooltip     = "Auto Play the tower this many times. The Completion Time above applies to EACH run, not the total -- and if it's a range, every run rolls its own time.",
+    Tooltip     = "Auto Play the tower this many times. The Completion Time above is the TOTAL for all repeats, split evenly across them.",
 })
 TowerBox:AddInput("LobbyDelay", {
     Text        = "Delay Before Lobby (s)",
@@ -683,6 +659,207 @@ TowerBox:AddInput("NextTowerDelay", {
     Placeholder = "5",
     Tooltip     = "After returning to spawn, wait this long before entering the next tower or repeating. Lowering it too far can enter before the lobby finishes loading.",
 })
+
+-- ===== Floor Counter (detects current floor from floor color) =====
+-- EToH doesn't number floor parts -- confirmed in-game (F9 console dump of
+-- workspace.Towers.ToH.Frame) that every child is just named "Part", and each floor's
+-- walls/tiles all share one fixed color, rainbow-banded bottom to top. Rather than
+-- hand-typing a color table per tower, the palette is built live: group every BasePart in
+-- the tower's Frame by exact color, order the groups by height (lowest = floor 1), and
+-- that ordering *is* the floor list. Works for any tower with no per-tower data needed.
+local floorPaletteCache = {} -- towerName -> array of {color=Color3} ordered bottom-to-top
+
+local function buildFloorPalette(towerName)
+    local cached = floorPaletteCache[towerName]
+    if cached then return cached end
+
+    local towersFolder = workspace:FindFirstChild("Towers")
+    local tower = towersFolder and towersFolder:FindFirstChild(towerName)
+    local frame = tower and tower:FindFirstChild("Frame")
+    if not frame then return nil end
+
+    local groups = {} -- hex -> { color = Color3, minY = number }
+    local partCount = 0
+    for _, inst in ipairs(frame:GetDescendants()) do
+        if inst:IsA("BasePart") then
+            partCount = partCount + 1
+            local hex = inst.Color:ToHex()
+            local y = inst.Position.Y - inst.Size.Y / 2
+            local g = groups[hex]
+            if not g then
+                groups[hex] = { color = inst.Color, minY = y }
+            elseif y < g.minY then
+                g.minY = y
+            end
+        end
+    end
+
+    local list = {}
+    for _, g in pairs(groups) do list[#list + 1] = g end
+    if #list == 0 then return nil end
+    table.sort(list, function(a, b) return a.minY < b.minY end)
+
+    -- Only cache once the tower looks fully streamed in (a handful of parts likely means
+    -- Frame is still loading) so an early scan doesn't lock in a wrong/incomplete palette.
+    if partCount >= 10 then
+        floorPaletteCache[towerName] = list
+    end
+    return list
+end
+
+-- Raycasts straight down from the player, walks the hit part up to its tower folder under
+-- workspace.Towers, then matches the part's Color against the closest entry in that
+-- tower's live-built palette (nearest-distance, not exact-equality, so it still works if a
+-- color is off by a shade). Returns floor, total, towerName -- floor/total are nil if no
+-- palette could be built yet; towerName is nil if not standing over a tower at all.
+local function getCurrentFloor()
+    local player = game:GetService("Players").LocalPlayer
+    local char   = player.Character
+    local hrp    = char and char:FindFirstChild("HumanoidRootPart")
+    if not hrp then return nil end
+
+    local params = RaycastParams.new()
+    params.FilterType = Enum.RaycastFilterType.Exclude
+    params.FilterDescendantsInstances = { char }
+    local hit = workspace:Raycast(hrp.Position, Vector3.new(0, -500, 0), params)
+    if not hit or not hit.Instance then return nil end
+
+    local towersFolder = workspace:FindFirstChild("Towers")
+    if not towersFolder then return nil end
+    local towerName
+    local anc = hit.Instance
+    while anc and anc ~= workspace do
+        if anc.Parent == towersFolder then
+            towerName = anc.Name
+            break
+        end
+        anc = anc.Parent
+    end
+    if not towerName then return nil end
+
+    local palette = buildFloorPalette(towerName)
+    if not palette then return nil, nil, towerName end
+
+    local hitColor = hit.Instance.Color
+    local hitVec = Vector3.new(hitColor.R, hitColor.G, hitColor.B)
+    local bestFloor, bestDist = nil, math.huge
+    for i, g in ipairs(palette) do
+        local dist = (Vector3.new(g.color.R, g.color.G, g.color.B) - hitVec).Magnitude
+        if dist < bestDist then
+            bestDist, bestFloor = dist, i
+        end
+    end
+    return bestFloor, #palette, towerName
+end
+
+local FloorLabel
+local floorOverlayGui
+local FloorOverlayLabel
+local floorCounterConn
+TowerBox:AddToggle("FloorCounter", {
+    Text    = "Floor Counter",
+    Default = false,
+    Tooltip = "Shows which floor you're on by matching the floor color under you, both in this menu and as a small draggable overlay. Builds the color palette live from the tower you're in, so it works for any tower.",
+    Callback = function(state)
+        if floorCounterConn then
+            floorCounterConn:Disconnect()
+            floorCounterConn = nil
+        end
+        if floorOverlayGui then floorOverlayGui.Enabled = state end
+        if not state then
+            FloorLabel:SetText("Floor: --/--")
+            if FloorOverlayLabel then FloorOverlayLabel.Text = "Floor: --/--" end
+            return
+        end
+        local RunService = game:GetService("RunService")
+        local lastText
+        floorCounterConn = RunService.Heartbeat:Connect(function()
+            local floor, total, towerName = getCurrentFloor()
+            local text
+            if floor and total then
+                text = ("Floor: %d/%d"):format(floor, total)
+            elseif towerName then
+                text = ("Floor: ?/? (reading %s...)"):format(towerName)
+            else
+                text = "Floor: --/--"
+            end
+            if text ~= lastText then
+                lastText = text
+                FloorLabel:SetText(text)
+                if FloorOverlayLabel then FloorOverlayLabel.Text = text end
+            end
+        end)
+    end,
+})
+FloorLabel = TowerBox:AddLabel("Floor: --/--")
+
+-- Small draggable overlay that mirrors the label above, so the floor count stays visible
+-- even with the main menu closed or on a different tab. Same "clean up a stale instance
+-- from a previous execution, then build fresh" convention TowerRushUI.lua uses for its GUI.
+do
+    local player = game:GetService("Players").LocalPlayer
+    local playerGui = player:WaitForChild("PlayerGui")
+    pcall(function()
+        local existing = playerGui:FindFirstChild("FloorCounterOverlay")
+        if existing then existing:Destroy() end
+    end)
+
+    local overlayGui = Instance.new("ScreenGui")
+    overlayGui.Name           = "FloorCounterOverlay"
+    overlayGui.ResetOnSpawn   = false
+    overlayGui.IgnoreGuiInset = true
+    overlayGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    overlayGui.Enabled        = false
+    overlayGui.Parent         = playerGui
+
+    local frame = Instance.new("Frame")
+    frame.Name                   = "FloorFrame"
+    frame.Size                   = UDim2.fromOffset(160, 36)
+    frame.Position                = UDim2.new(0.5, -80, 0, 80)
+    frame.BackgroundColor3       = Color3.fromRGB(24, 24, 28)
+    frame.BackgroundTransparency = 0.15
+    frame.BorderSizePixel        = 0
+    frame.Active                  = true
+    frame.Parent                  = overlayGui
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 6)
+    corner.Parent        = frame
+
+    local label = Instance.new("TextLabel")
+    label.Name                  = "Label"
+    label.BackgroundTransparency = 1
+    label.Size                  = UDim2.fromScale(1, 1)
+    label.Font                  = Enum.Font.GothamBold
+    label.TextSize              = 16
+    label.TextColor3            = Color3.fromRGB(255, 255, 255)
+    label.Text                  = "Floor: --/--"
+    label.Parent                = frame
+
+    -- Drag to reposition (mouse + touch) -- same pattern as TowerRushUI's title bar drag.
+    local UIS = game:GetService("UserInputService")
+    local dragging, dragStart, startPos
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging  = true
+            dragStart = input.Position
+            startPos  = frame.Position
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then dragging = false end
+            end)
+        end
+    end)
+    UIS.InputChanged:Connect(function(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            local delta = input.Position - dragStart
+            frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+    end)
+
+    floorOverlayGui   = overlayGui
+    FloorOverlayLabel = label
+end
+
 local routeHighlights = {}
 local routeUpdateConn = nil
 
@@ -917,14 +1094,6 @@ TowerBox:AddToggle("AutoReturnToLobby", {
         end
     end,
 })
-TowerBox:AddToggle("SendWebhook", {
-    Text    = "Send Completion Webhook",
-    Default = false,
-    Tooltip = "Send a Discord message when a tower is completed via Auto Play.",
-})
-
-TowerBox:AddLabel([[<font color="rgb(255, 0, 0)">Disclaimer:</font>]])
-TowerBox:AddLabel([[<font color="rgb(255, 0, 0)">Send Completion Webhook may reveal your Roblox username on Discord. Use this feature at your own risk. We are not responsible for any bans or consequences resulting from its use</font>]], true)
 
 -- Suggested seconds for a single tower.
 local function towerSuggestedSec(name)
@@ -981,10 +1150,9 @@ TowerBox:AddButton({
                 return
             end
 
-            -- Each tower is played for its own completion time, exactly like a repeat: its
-            -- suggested time when Use Suggested Time is on, otherwise the custom Completion
-            -- Time applied per tower (never a total split across them -- only a tower rush
-            -- splits). A range is per tower too: each run rolls its own time out of it.
+            -- Each tower is played for its own completion time: its suggested time when
+            -- Use Suggested Time is on, otherwise the custom Completion Time applied per
+            -- tower (the time is never split across towers).
             -- Save the UI fields we drive, then restore them at the end.
             local origTower  = Library.Options.TowerSelect.Value
             local origMin    = Library.Options.CompletionMin.Value
@@ -1023,14 +1191,10 @@ TowerBox:AddButton({
 -- ===== Personal Features (built specifically for gavin) =====
 local PersonalBox = Tabs.Main:AddLeftGroupbox("Personal Features")
 
--- For each tower: enter via its teleporter, use a boost item, wait, then teleport to its
--- WinPad to complete it. Regular towers use the VM (slot 5) with a ~30-75s wait; citadels
--- ("Citadel of X" -> "CoX") use the jump coil (slot 4) with a 5-25 min wait, since they're
--- much larger. A boost-item way to clear towers, including ones not in the registry.
+-- For each tower: enter via its teleporter, use the VM (slot 5), wait 0-5s, then teleport
+-- to its WinPad to complete it. Applies the same way to regular towers, citadels, and
+-- steeples. A boost-item way to clear towers, including ones not in the registry.
 -- Returns to the lobby between towers.
-local function isCitadel(name)
-    return name:match("^Co%u") ~= nil
-end
 local function runVMFlow(towerNames)
     local player = game:GetService("Players").LocalPlayer
     local VIM    = game:GetService("VirtualInputManager")
@@ -1048,13 +1212,20 @@ local function runVMFlow(towerNames)
             if not _G.vmActive then break end
             Library:Notify({ Title = "Auto VM", Description = ("(%d/%d) %s"):format(i, #towerNames, name), Duration = 3 })
 
-            -- Enter the tower via its teleporter (TPFRAME then TeleportTo). Recursive search
-            -- by name so it works regardless of how the game nests them.
+            -- Enter the tower via its teleporter (TPFRAME then TeleportTo, or TowerStart for
+            -- EToH XL). Recursive search by name so it works regardless of how the game nests
+            -- them.
             local entryParts = {}
-            local tpFramePart = tower:FindFirstChild("TPFRAME", true)
-            local teleToPart  = tower:FindFirstChild("TeleportTo", true)
-            if tpFramePart then entryParts[#entryParts + 1] = tpFramePart end
-            if teleToPart  then entryParts[#entryParts + 1] = teleToPart end
+            -- The portal first, and from the top-level portal folder when the game keeps it
+            -- there (EToH XL) -- it isn't inside the tower folder at all in those games.
+            local portalPart     = resolveTPFrame(name)
+            local tpFramePart    = tower:FindFirstChild("TPFRAME", true)
+            local teleToPart     = tower:FindFirstChild("TeleportTo", true)
+            local towerStartPart = tower:FindFirstChild("TowerStart", true)
+            if portalPart     then entryParts[#entryParts + 1] = portalPart end
+            if tpFramePart and tpFramePart ~= portalPart then entryParts[#entryParts + 1] = tpFramePart end
+            if teleToPart  and teleToPart  ~= portalPart then entryParts[#entryParts + 1] = teleToPart end
+            if towerStartPart and towerStartPart ~= portalPart then entryParts[#entryParts + 1] = towerStartPart end
             for _, part in ipairs(entryParts) do
                 local t0 = os.clock()
                 repeat
@@ -1064,17 +1235,16 @@ local function runVMFlow(towerNames)
                 until os.clock() - t0 > 1.5 or not _G.vmActive
             end
 
-            -- Citadels get the jump coil (slot 4) + a long wait; everything else the VM (slot 5).
-            local citadel  = isCitadel(name)
-            local slotKey  = citadel and Enum.KeyCode.Four or Enum.KeyCode.Five
-            local itemName = citadel and "jump coil" or "VM"
+            -- Towers, citadels, and steeples all use the VM (slot 5).
+            local slotKey  = Enum.KeyCode.Five
+            local itemName = "VM"
             VIM:SendKeyEvent(true, slotKey, false, game)
             task.wait(0.1)
             VIM:SendKeyEvent(false, slotKey, false, game)
 
-            -- Wait for the boost to clear the tower: 5-15 min for citadels, 15-60s otherwise.
-            local waitSec   = citadel and math.random(300, 900) or math.random(15, 60)
-            local waitLabel = citadel and ("%.1f min"):format(waitSec / 60) or ("%ds"):format(waitSec)
+            -- Wait for the boost to clear the tower: 0-5s for towers, citadels, and steeples alike.
+            local waitSec   = math.random(0, 5)
+            local waitLabel = ("%ds"):format(waitSec)
             Library:Notify({ Title = "Auto VM", Description = ("(%d/%d) %s -- %s, waiting %s"):format(i, #towerNames, name, itemName, waitLabel), Duration = 4 })
             local waitUntil = os.clock() + waitSec
             while os.clock() < waitUntil and _G.vmActive do task.wait(0.5) end
@@ -1096,7 +1266,7 @@ end
 
 PersonalBox:AddButton({
     Text    = "Auto Use VM (selected)",
-    Tooltip = "For each ticked tower in 'Auto Complete: Towers': enter it, use the VM item (key 5), wait 30s, then teleport to the WinPad. Press again to stop.",
+    Tooltip = "For each ticked tower in 'Auto Complete: Towers': enter it, use the VM item (key 5), wait 0-5s, then teleport to the WinPad. Press again to stop.",
     Callback = function()
         if _G.vmActive then
             _G.vmActive = false
@@ -1171,29 +1341,6 @@ startAutoPlay = function()
         autoPlayStop = false
         Library.Toggles.Noclip:SetValue(true)
         Library.Toggles.Noclip:SetDisabled(true)
-
-        -- Sends a Discord webhook message on successful completion.
-        -- Silently skips if request() is unavailable.
-        local WEBHOOK_URL = "https://discord.com/api/webhooks/1536919624967258224/2aOO4FNcewX1DTBDBY3WUc6Qb4H5HRFVhHqzvh-4Dq6PKAVUdiE8S8jLD_9iE-pWKceb"
-        local function sendCompletionWebhook(towerName, elapsed)
-            if type(request) ~= "function" then return end
-            if not (Library.Toggles.SendWebhook and Library.Toggles.SendWebhook.Value) then return end
-            local mins    = math.floor(elapsed / 60)
-            local secs    = math.floor(elapsed % 60)
-            local timeStr = string.format("%d:%02d", mins, secs)
-            local username = game:GetService("Players").LocalPlayer.Name
-            local content  = string.format("**%s** has beaten **%s** in `%s`", username, towerName, timeStr)
-            pcall(function()
-                request({
-                    Url     = WEBHOOK_URL,
-                    Method  = "POST",
-                    Headers = { ["Content-Type"] = "application/json" },
-                    Body    = game:GetService("HttpService"):JSONEncode({ content = content }),
-                })
-            end)
-        end
-
-        local runStartTime = nil  -- set after confirmed tower entry
         humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
         if humanoid.Sit then humanoid.Sit = false end
         humanoid.PlatformStand = true
@@ -1339,6 +1486,61 @@ startAutoPlay = function()
             end
             return false
         end
+
+        -- Stand on an entry part until it registers us, without ever hanging.
+        --
+        -- Touched fires only when a contact BEGINS. If the character already overlaps the
+        -- part when the handler connects -- a respawn, a previous run, or a game whose entry
+        -- part is the one we just teleported onto (EToH XL's TowerStart) all leave us
+        -- standing on it -- then no event fires, and re-applying an IDENTICAL CFrame every
+        -- iteration never produces a fresh contact for it to fire on either. The old
+        -- `while not tpTouched` loops had no exit for that, which is the intermittent
+        -- "stuck on Moving to <tower> teleporter..." freeze. Three fixes here:
+        --   * alternate the offset so a genuine trigger part gets a NEW contact to fire on,
+        --   * accept proximity once graceSec has passed (arrival, for stages where the touch
+        --     isn't what triggers anything), and
+        --   * always give up after PORTAL_WAIT_SEC instead of spinning forever.
+        -- Also re-resolves the part and the character each pass: streaming can orphan the
+        -- part, and CFrame-ing an orphaned HumanoidRootPart silently does nothing forever.
+        --
+        -- Returns "touched" / "near" / "timeout" / "missing", or nil if we died or stopped
+        -- (in which case checkDied already cleaned up and the caller must return).
+        local PORTAL_WAIT_SEC, PORTAL_NEAR_STUDS = 12, 6
+        local function waitAtPart(resolvePart, graceSec)
+            local part = resolvePart()
+            if not part then return "missing" end
+            local touched = false
+            local conn = part.Touched:Connect(function(hit)
+                if hit:IsDescendantOf(player.Character) then touched = true end
+            end)
+            local graceUntil = graceSec and (os.clock() + graceSec) or nil
+            local giveUpAt   = os.clock() + PORTAL_WAIT_SEC
+            local result
+            while true do
+                if checkDied() then break end
+                if touched then result = "touched" break end
+                if not part.Parent then
+                    part = resolvePart()
+                    if not part then result = "missing" break end
+                end
+                char = player.Character
+                hrp  = char and char:FindFirstChild("HumanoidRootPart")
+                if hrp then
+                    local yOffset = (math.floor(os.clock() * 5) % 2 == 0) and 3 or 3.6
+                    hrp.CFrame = CFrame.new(part.Position + Vector3.new(0, yOffset, 0))
+                        * (hrp.CFrame - hrp.CFrame.Position)
+                    if graceUntil and os.clock() >= graceUntil
+                        and (hrp.Position - part.Position).Magnitude <= PORTAL_NEAR_STUDS then
+                        result = "near"
+                        break
+                    end
+                end
+                if os.clock() >= giveUpAt then result = "timeout" break end
+                task.wait(0.1)
+            end
+            conn:Disconnect()
+            return result
+        end
         Library:Notify({ Title = "Auto Play", Description = "Fetching " .. selected .. " route...", Duration = 3 })
 
         if config.isTowerRush then
@@ -1382,21 +1584,24 @@ startAutoPlay = function()
                 return
             end
             Library:Notify({ Title = "Auto Play", Description = "Moving to " .. selected .. " teleporter...", Duration = 3 })
-            local tpTouched = false
-            local tpConn
-            tpConn = tpFrame.Touched:Connect(function(hit)
-                if hit:IsDescendantOf(char) and not tpTouched then
-                    tpTouched = true
-                    tpConn:Disconnect()
-                end
-            end)
-            while not tpTouched do
-                if checkDied() then return end
-                hrp.CFrame = CFrame.new(tpFrame.Position + Vector3.new(0, 3, 0)) * (hrp.CFrame - hrp.CFrame.Position)
-                task.wait(0.1)
+            local tpArrived = waitAtPart(function()
+                local okTp, part = pcall(config.tpFrame)
+                return okTp and part or nil
+            end, 1.5)
+            if not tpArrived then return end
+            if tpArrived == "missing" then
+                warnTowerStructure(getTpFrameName(selected))
+                Library:Notify({ Title = "Auto Play", Description = selected .. " teleporter not found!", Duration = 3 })
+                isAutoPlaying = false
+                stopAutoNoclip()
+                return
             end
             if checkDied() then return end
-            runStartTime = os.clock()  -- tower entry confirmed
+
+            -- From here on the moveConn loop below drives position every frame, same as the
+            -- non-rush route tween -- so it needs the same velocity/angular-velocity zeroing
+            -- from stabilise() or leftover physics fights the manual CFrame sets (the jitter).
+            walking = true
 
             local totalSuggestedSec = 0
             for _, towerName in ipairs(towerList) do
@@ -1406,12 +1611,8 @@ startAutoPlay = function()
                 end
             end
             local useCustomTime = not Library.Toggles.UseSuggestedTime.Value
-            -- A plain custom time is ONE total for the whole rush, split across its towers
-            -- in proportion to their suggested times. A range means the opposite: each
-            -- tower rolls its own time out of that range.
-            local rangeMode = useCustomTime and completionIsRange()
             local totalCustomSec = 0
-            if useCustomTime and not rangeMode then
+            if useCustomTime then
                 local cMin = tonumber(Library.Options.CompletionMin.Value) or 0
                 local cSec = tonumber(Library.Options.CompletionSec.Value) or 0
                 totalCustomSec = cMin * 60 + cSec
@@ -1430,9 +1631,7 @@ startAutoPlay = function()
                     return
                 end
                 local towerSec
-                if rangeMode then
-                    towerSec = rollCompletionSec()
-                elseif useCustomTime and totalSuggestedSec > 0 then
+                if useCustomTime and totalSuggestedSec > 0 then
                     local st = SuggestedTimes[towerName]
                     local thisSuggestedSec = st and ((tonumber(st.min) or 0) * 60 + (tonumber(st.sec) or 0)) or 0
                     towerSec = totalCustomSec * (thisSuggestedSec / totalSuggestedSec)
@@ -1559,6 +1758,8 @@ startAutoPlay = function()
                     local moveTarget = step.target
                     local done       = false
                     local lastPos    = hrp.Position
+                    local stuckStart = os.clock()
+                    local stuckPos   = hrp.Position
                     local moveConn
                     moveConn = RunService.Heartbeat:Connect(function(dt)
                         if died then
@@ -1577,6 +1778,8 @@ startAutoPlay = function()
                             task.wait(0.5)
                             lastPos = h.Position
                             startTime = os.clock()
+                            stuckPos   = h.Position
+                            stuckStart = os.clock()
                             return
                         end
                         lastPos = h.Position
@@ -1585,7 +1788,21 @@ startAutoPlay = function()
                             currentDest = getTopPos(moveTarget)
                         end
                         local currentDist = (currentDest - h.Position).Magnitude
-                        if currentDist <= 0.1 then
+                        -- Arrived: wider radius (2 studs) so a dest sitting just inside a
+                        -- wall still counts instead of grinding at the surface forever.
+                        if currentDist <= 2 then
+                            h.CFrame = CFrame.new(currentDest)
+                            done = true
+                            moveConn:Disconnect()
+                            return
+                        end
+                        -- Stall exit: no ground gained in 1.2s means we're wedged on a
+                        -- part. Snap to the dest and move on instead of vibrating.
+                        if (stuckPos - h.Position).Magnitude > 1 then
+                            stuckPos   = h.Position
+                            stuckStart = os.clock()
+                        elseif os.clock() - stuckStart >= 1.2 then
+                            h.CFrame = CFrame.new(currentDest)
                             done = true
                             moveConn:Disconnect()
                             return
@@ -1610,9 +1827,6 @@ startAutoPlay = function()
             end
             if not died then
                 Library:Notify({ Title = "Auto Play", Description = selected .. " Complete!", Duration = 5 })
-                if runStartTime then
-                    sendCompletionWebhook(selected, os.clock() - runStartTime)
-                end
                 clearRouteHighlights()
             end
             stopAutoNoclip()
@@ -1631,13 +1845,13 @@ startAutoPlay = function()
         end
 
         local repeatCount = math.max(math.floor(tonumber(Library.Options.RepeatCount.Value) or 1), 1)
-        -- The completion time is the time for EACH run, never a total split across the
-        -- repeats. Rolled inside the loop so a range like "20-25" gives every repeat its
-        -- own time rather than one value reused throughout.
-        local perRepeatTime
+        local reqSec = (tonumber(Library.Options.CompletionMin.Value) or 0) * 60
+                     + (tonumber(Library.Options.CompletionSec.Value) or 0)
+        -- The completion time is the time for EACH run (suggested or custom), never a
+        -- total that gets split across repeats.
+        local perRepeatTime = math.max(reqSec, 1)
 
         for rep = 1, repeatCount do
-        perRepeatTime = math.max(rollCompletionSec(), 1)
         local repTag = repeatCount > 1 and (" [" .. rep .. "/" .. repeatCount .. "]") or ""
         warn(("[ProjectEToH] Auto Play run %d/%d (%s) budget=%.1fs"):format(rep, repeatCount, tostring(selected), perRepeatTime))
         if rep > 1 then
@@ -1685,39 +1899,32 @@ startAutoPlay = function()
             return
         end
         Library:Notify({ Title = "Auto Play", Description = "Moving to " .. selected .. " teleporter...", Duration = 3 })
-        local tpTouched = false
-        local tpConn
-        tpConn = tpFrame.Touched:Connect(function(hit)
-            if hit:IsDescendantOf(char) and not tpTouched then
-                tpTouched = true
-                tpConn:Disconnect()
-            end
-        end)
-        while not tpTouched do
-            if checkDied() then return end
-            hrp.CFrame = CFrame.new(tpFrame.Position + Vector3.new(0, 3, 0)) * (hrp.CFrame - hrp.CFrame.Position)
-            task.wait(0.1)
-        end
-        if checkDied() then return end
-        local ok2, teleportTo = pcall(config.teleportTo)
-        if not ok2 or not teleportTo then
-            Library:Notify({ Title = "Auto Play", Description = "TeleportTo not found!", Duration = 3 })
+        -- Getting here is just "arrive at the portal", so proximity counts as success.
+        local tpArrived = waitAtPart(function()
+            local okTp, part = pcall(config.tpFrame)
+            return okTp and part or nil
+        end, 1.5)
+        if not tpArrived then return end
+        if tpArrived == "missing" then
+            warnTowerStructure(getTpFrameName(selected))
+            Library:Notify({ Title = "Auto Play", Description = selected .. " teleporter not found!", Duration = 3 })
             isAutoPlaying = false
             return
         end
+        if checkDied() then return end
         Library:Notify({ Title = "Auto Play", Description = "Waiting for teleport...", Duration = 3 })
-        local touched = false
-        local connection
-        connection = teleportTo.Touched:Connect(function(hit)
-            if hit:IsDescendantOf(char) and not touched then
-                touched = true
-                connection:Disconnect()
-            end
-        end)
-        while not touched do
-            if checkDied() then return end
-            hrp.CFrame = teleportTo.CFrame + Vector3.new(0, 3, 0)
-            task.wait(0.1)
+        -- No grace here: on the main game it's the TOUCH on this part that fires the actual
+        -- teleport, so proximity must not count as done. If it times out we still fall
+        -- through -- the movement check below is what proves we actually got teleported.
+        local tpToResult = waitAtPart(function()
+            local okTo, part = pcall(config.teleportTo)
+            return okTo and part or nil
+        end, nil)
+        if not tpToResult then return end
+        if tpToResult == "missing" then
+            Library:Notify({ Title = "Auto Play", Description = "TeleportTo not found!", Duration = 3 })
+            isAutoPlaying = false
+            return
         end
         if checkDied() then return end
         Library:Notify({ Title = "Auto Play", Description = "Waiting for teleport to complete...", Duration = 3 })
@@ -1725,6 +1932,9 @@ startAutoPlay = function()
         local VirtualInputManager = game:GetService("VirtualInputManager")
         task.wait(0.5)
         VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.W, false, game)
+        -- Bounded: in games where standing on the entry part already puts you in the tower,
+        -- nothing teleports us anywhere and this would otherwise wait for movement forever.
+        local movedBy = os.clock() + 10
         repeat
             if checkDied() then
                 VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
@@ -1733,10 +1943,9 @@ startAutoPlay = function()
             task.wait(0.1)
             char = player.Character
             hrp  = char and char:FindFirstChild("HumanoidRootPart")
-        until hrp and (hrp.Position - posBeforeTP).Magnitude > 0.1
+        until (hrp and (hrp.Position - posBeforeTP).Magnitude > 0.1) or os.clock() >= movedBy
         VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
         if checkDied() then return end
-        runStartTime = os.clock()  -- tower entry confirmed
         local deadline = os.clock() + perRepeatTime
         local checkpoints
         local lastErr = ""
@@ -1841,6 +2050,8 @@ startAutoPlay = function()
                         end
                     end)
                 end
+                local stuckStart = os.clock()
+                local stuckPos   = hrp.Position
                 local moveConn
                 moveConn = RunService.Heartbeat:Connect(function(dt)
                     if died then done = true moveConn:Disconnect() return end
@@ -1852,7 +2063,21 @@ startAutoPlay = function()
                         currentDest = getTopPos(moveTarget)
                     end
                     local currentDist = (currentDest - h.Position).Magnitude
-                    if currentDist <= 0.1 then done = true moveConn:Disconnect() return end
+                    -- Arrived: wider radius (2 studs) so a dest sitting just inside a wall
+                    -- still counts instead of grinding at the surface forever.
+                    if currentDist <= 2 then
+                        h.CFrame = CFrame.new(currentDest)
+                        done = true moveConn:Disconnect() return
+                    end
+                    -- Stall exit: no ground gained in 1.2s means we're wedged on a part.
+                    -- Snap to the dest and move on instead of vibrating out the step.
+                    if (stuckPos - h.Position).Magnitude > 1 then
+                        stuckPos   = h.Position
+                        stuckStart = os.clock()
+                    elseif os.clock() - stuckStart >= 1.2 then
+                        h.CFrame = CFrame.new(currentDest)
+                        done = true moveConn:Disconnect() return
+                    end
                     local speed = stepTime > 0 and (dist / stepTime) or 50
                     local moveDist = math.min(speed * dt, currentDist)
                     local rawDir = (currentDest - h.Position)
@@ -1875,9 +2100,6 @@ startAutoPlay = function()
         warn(("[ProjectEToH] run %d/%d finished (died=%s)"):format(rep, repeatCount, tostring(died)))
         if not died then
             Library:Notify({ Title = "Auto Play", Description = "Complete!" .. repTag, Duration = 3 })
-            if runStartTime then
-                sendCompletionWebhook(selected, os.clock() - runStartTime)
-            end
         end
         if died then break end
         end -- repeat loop
@@ -1981,153 +2203,6 @@ local kb_AJTeleport = AllJumpBox:AddLabel("Teleport"):AddKeyPicker("AJTeleport",
     Mode    = "Press",
 })
 Options.AJTeleport:OnClick(allJumpTeleport)
-
--- ===== Game All-Jump (Pit of Misery XL) =====
--- Not the All Jump Mode above -- that one is ours (fake checkpoints we place and teleport
--- to). This drives the GAME's own All-Jump: a practice mode PoM XL grants you from its
--- in-tower menu (MenuGui > MainFrame > Options > AllJump), whose handler fires
--- ReplicatedStorage.ChangeMode with the string "All-Jump". All this does is press that
--- button for you -- on entering a tower, and again after every respawn, since the mode
--- lives on the Character and a new character loses it.
---
--- It mirrors the game handler's own three checks (in a tower / character exists / no mode
--- active yet) instead of firing regardless, so the remote never sees a call the game
--- itself wouldn't have sent.
---
--- Its own function so its locals stay out of the main chunk's 200-local budget.
-local activateGameAllJump   -- set only where the mode exists; the mobile section reads it
-
-local function _initGameAllJump()
-    local Players           = game:GetService("Players")
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-    -- FindFirstChild, never a bare WaitForChild: this runs during load, and in a place with
-    -- no ChangeMode an unbounded yield here would silently halt every line below it (the
-    -- exact bug getDamageEvent exists to avoid).
-    local function modeRemote()
-        local remote = ReplicatedStorage:FindFirstChild("ChangeMode")
-        return (remote and remote:IsA("RemoteEvent")) and remote or nil
-    end
-
-    -- Only build the controls where the mode actually exists. EToH has no ChangeMode, and a
-    -- toggle that can never do anything is worse than no toggle at all.
-    if not (isPomXL or modeRemote()) then return end
-
-    local MODE      = "All-Jump"
-    local enabled   = false
-    local busy      = false
-    local attempts  = 0     -- reset whenever the tower or the character changes
-    local lastTower, lastChar
-
-    -- The three things the game's own handler checks before it will fire.
-    local function towerState()
-        local plr  = Players.LocalPlayer
-        local char = plr.Character
-        return plr:GetAttribute("CurrentTower"),
-               char,
-               char and char:GetAttribute("CURRENT_TOWER_MODE") or nil
-    end
-
-    -- Fire once, then wait for the server to confirm by setting CURRENT_TOWER_MODE on the
-    -- character. Confirming rather than assuming matters because the server has its own
-    -- checks and can refuse silently. Returns ok, reason.
-    local function activate()
-        if busy then return false, "already trying" end
-        local remote = modeRemote()
-        if not remote then return false, "this place has no ChangeMode remote" end
-
-        local tower, char, mode = towerState()
-        if not tower then return false, "you're not in a tower" end
-        if not char  then return false, "no character" end
-        if mode then
-            if mode == MODE then return false, "All-Jump is already on" end
-            return false, ("the " .. tostring(mode) .. " mode is already active -- restart or leave the tower first")
-        end
-
-        busy = true
-        if not pcall(function() remote:FireServer(MODE) end) then
-            busy = false
-            return false, "the remote call was blocked"
-        end
-
-        local deadline = os.clock() + 2
-        while os.clock() < deadline do
-            task.wait(0.1)
-            local _, _, nowMode = towerState()
-            if nowMode then
-                busy = false
-                Library:Notify({ Title = "Game All-Jump", Description = "All-Jump is on.", Duration = 3 })
-                logAction("Game All-Jump activated")
-                return true
-            end
-        end
-        busy = false
-        return false, "the game didn't accept it"
-    end
-
-    -- Manual press (button / mobile button): always say why nothing happened, and hand the
-    -- auto loop a fresh set of tries.
-    local function activateAnnounced()
-        local ok, reason = activate()
-        if not ok then
-            Library:Notify({
-                Title       = "Game All-Jump",
-                Description = "Couldn't turn it on: " .. tostring(reason) .. ".",
-                Duration    = 5,
-            })
-        end
-        attempts = 0
-    end
-    activateGameAllJump = activateAnnounced
-
-    local GameAJBox = Tabs.Main:AddLeftGroupbox("Game All-Jump (PoM XL)")
-    GameAJBox:AddToggle("AutoGameAllJump", {
-        Text    = "Auto All-Jump",
-        Default = false,
-        Tooltip = "Switch on the game's own All-Jump as soon as you're in a tower, and again after every respawn.",
-        Callback = function(state)
-            enabled  = state
-            attempts = 0
-        end,
-    })
-    GameAJBox:AddButton({
-        Text     = "All-Jump Now",
-        Tooltip  = "Switch it on for the tower you're in right now.",
-        Callback = function() task.spawn(activateAnnounced) end,
-    })
-    GameAJBox:AddLabel("This is the game's own practice mode (the AllJump button in its tower menu), so the tower may not count as completed -- switch it off for real runs.", true)
-
-    -- One polling loop rather than a web of attribute/CharacterAdded connections: entering a
-    -- tower, respawning and the game clearing the mode all look the same from here. Capped
-    -- at 3 tries per tower+character so a server that keeps refusing isn't spammed; the
-    -- 1s tick plus activate()'s 2s confirm wait keeps them ~3s apart.
-    task.spawn(function()
-        while not Library.Unloaded do
-            task.wait(1)
-            if enabled and not busy then
-                local tower, char, mode = towerState()
-                if tower and char and not mode then
-                    if tower ~= lastTower or char ~= lastChar then
-                        lastTower, lastChar, attempts = tower, char, 0
-                    end
-                    if attempts < 3 then
-                        attempts = attempts + 1
-                        local ok, reason = activate()
-                        if not ok and attempts >= 3 then
-                            Library:Notify({
-                                Title       = "Game All-Jump",
-                                Description = "Gave up after 3 tries (" .. tostring(reason)
-                                    .. "). Re-enter the tower or respawn to try again.",
-                                Duration    = 6,
-                            })
-                        end
-                    end
-                end
-            end
-        end
-    end)
-end
-_initGameAllJump()
 
 -- Tower Portal: type an acronym, get live matches, teleport to that tower's entry portal.
 --
@@ -2279,26 +2354,75 @@ local function _initTowerPortal()
     -- to autoplay most towers. Note this sorts by POSITION, not by child index --
     -- Obby:GetChildren() order is effectively arbitrary (early children are grouped
     -- section models), which is why an index-ordered version was tried and reverted.
+    -- Places whose towers DON'T use a per-tower Obby: entering a tower streams its parts
+    -- into one shared top-level workspace.Parts instead (The Eternal Abyss). In these
+    -- places workspace.Parts is the ONLY source -- the tower folder is never consulted --
+    -- and since it holds just the tower you're currently inside, Automake Route has to be
+    -- run from in there. Add TEA's place id(s) here; anywhere not listed keeps using Obby.
+    local SHARED_PARTS_PLACES = {
+        -- The Eternal Abyss (its areas are separate places, same shared-parts layout)
+        131042387601353,
+        15873244701,
+        121814103864070,
+        137721171983074,
+    }
+    local function usesSharedParts()
+        for _, id in ipairs(SHARED_PARTS_PLACES) do
+            if id == currentPlaceId then return true end
+        end
+        return false
+    end
+
+    -- Direct children first: that's the usual layout and it keeps the emitted paths short.
+    -- But some towers group their obby into section Models, so the top level holds no
+    -- BaseParts at all -- fall back to the full descendant list instead of reporting the
+    -- container as empty (which is what "CoIV's Obby has no parts" was).
+    local function gatherParts(container)
+        local direct = {}
+        for _, v in ipairs(container:GetChildren()) do
+            if v:IsA("BasePart") then direct[#direct + 1] = v end
+        end
+        if #direct > 0 then return direct end
+        local all = {}
+        for _, v in ipairs(container:GetDescendants()) do
+            if v:IsA("BasePart") then all[#all + 1] = v end
+        end
+        return all
+    end
+
     local function collectAutoRoute(name, descending)
         local folder = towerFolder(name)
-        if not folder then return nil, name .. " isn't loaded in workspace.Towers." end
-        local obby = folder:FindFirstChild("Obby")
-        if not obby then return nil, name .. " has no Obby folder." end
 
-        -- Direct children first: that's the usual layout and it keeps the emitted paths
-        -- short. But some towers group their obby into section Models, so the top level
-        -- holds no BaseParts at all -- fall back to the full descendant list instead of
-        -- reporting the Obby as empty (which is what "CoIV's Obby has no parts" was).
+        -- Where the obstacle parts live.
+        local root, rootExpr
         local parts = {}
-        for _, v in ipairs(obby:GetChildren()) do
-            if v:IsA("BasePart") then parts[#parts + 1] = v end
-        end
-        if #parts == 0 then
-            for _, v in ipairs(obby:GetDescendants()) do
-                if v:IsA("BasePart") then parts[#parts + 1] = v end
+        local sharedOnly = usesSharedParts()
+
+        -- In a shared-parts place (TEA) the Obby is deliberately never looked at, even if
+        -- the tower folder happens to have one -- workspace.Parts is the live obby there.
+        if not sharedOnly then
+            local obby = folder and folder:FindFirstChild("Obby")
+            if obby then
+                root, rootExpr = obby, ("workspace.Towers[%q].Obby"):format(name)
+                parts = gatherParts(obby)
             end
         end
-        if #parts == 0 then return nil, name .. "'s Obby has no parts." end
+        if #parts == 0 then
+            local shared = workspace:FindFirstChild("Parts")
+            if shared then
+                root, rootExpr = shared, "workspace.Parts"
+                parts = gatherParts(shared)
+            end
+        end
+        if #parts == 0 then
+            if sharedOnly then
+                return nil, "Nothing in workspace.Parts -- this game only exposes a tower's parts while you're inside it, so enter the tower first."
+            end
+            if not folder and not workspace:FindFirstChild("Parts") then
+                return nil, name .. " isn't loaded in workspace.Towers, and there's no workspace.Parts either."
+            end
+            return nil, ("No parts found for %s. Towers that keep their parts in workspace.Parts (e.g. The Eternal Abyss) only expose them while you're inside the tower -- enter it first."):format(name)
+        end
         -- Ascending = climb (lowest part first). Descending = a tower you go DOWN, so the
         -- highest part is the start and the order flips.
         if descending then
@@ -2307,16 +2431,22 @@ local function _initTowerPortal()
             table.sort(parts, function(a, b) return a.Position.Y < b.Position.Y end)
         end
 
-        local winPad = folder:FindFirstChild("WinPad", true) or folder:FindFirstChild("Winpad", true)
-        return { parts = parts, winPad = winPad, obby = obby }
+        -- Prefer the tower folder's own WinPad (TEA keeps one there next to Portal/Frame),
+        -- then look inside the parts source for games that ship it with the obby instead.
+        local winPad = folder and (folder:FindFirstChild("WinPad", true) or folder:FindFirstChild("Winpad", true))
+        if not winPad then
+            winPad = root:FindFirstChild("WinPad", true) or root:FindFirstChild("Winpad", true)
+        end
+        return { parts = parts, winPad = winPad, root = root, rootExpr = rootExpr }
     end
 
-    -- Path to a part written relative to the tower's Obby, by child index at every level.
+    -- Path to a part written relative to the parts source, by child index at every level.
     -- Index rather than name because obby parts share names constantly, and this has to
-    -- work for parts nested inside section Models, not just direct children.
-    local function pathFromObby(data, part, name)
+    -- work for parts nested inside section Models, not just direct children. The root is
+    -- whatever collectAutoRoute found -- the tower's Obby, or workspace.Parts.
+    local function pathFromRoot(data, part)
         local segs, node = {}, part
-        while node and node ~= data.obby do
+        while node and node ~= data.root do
             local parent = node.Parent
             if not parent then return nil end
             local idx
@@ -2327,16 +2457,16 @@ local function _initTowerPortal()
             table.insert(segs, 1, (":GetChildren()[%d]"):format(idx))
             node = parent
         end
-        if node ~= data.obby then return nil end
-        return ("workspace.Towers[%q].Obby%s"):format(name, table.concat(segs))
+        if node ~= data.root then return nil end
+        return data.rootExpr .. table.concat(segs)
     end
 
     -- The same route as Lua source, in the exact format the repo's route files use, so it
     -- can be dropped into Games/EToH/<category>/ as-is.
-    local function autoRouteSource(name, data)
+    local function autoRouteSource(data)
         local out = { "return function()", "    return {" }
         for _, part in ipairs(data.parts) do
-            local path = pathFromObby(data, part, name)
+            local path = pathFromRoot(data, part)
             if path then out[#out + 1] = "        " .. path .. "," end
         end
         if data.winPad then
@@ -2356,7 +2486,7 @@ local function _initTowerPortal()
 
     PortalBox:AddButton({
         Text    = "Automake Route",
-        Tooltip = "Build a route for the selected tower from its own parts in the chosen order, arm it for Auto Play, and save it to a file.",
+        Tooltip = "Build a route for the selected tower from its own parts in the chosen order, arm it for Auto Play, and save it to a file. Uses the tower's Obby folder; for towers that stream their parts into workspace.Parts instead (The Eternal Abyss), run it while you're inside the tower.",
         Callback = function()
             local label = Options.PortalMatch and Options.PortalMatch.Value
             local name  = label and labelToName[label]
@@ -2412,7 +2542,7 @@ local function _initTowerPortal()
 
             local saved = ""
             if type(writefile) == "function" then
-                local ok = pcall(writefile, name .. ".lua", autoRouteSource(name, data))
+                local ok = pcall(writefile, name .. ".lua", autoRouteSource(data))
                 saved = ok and (" Saved to " .. name .. ".lua.") or " (couldn't write the file)"
             end
             local dir = descending and "descending" or "ascending"
@@ -2572,7 +2702,6 @@ PlayerBox:AddToggle("Noclip", {
         end
         _G.noclipConns = {}
         if noclipConnection then noclipConnection:Disconnect() noclipConnection = nil end
-        _G.noclipRunning = state and true or false
 
         -- Put collision back on everything noclip switched off -- the WORLD and the
         -- CHARACTER. (Missing the character half is a softlock: the world is solid again
@@ -2581,39 +2710,23 @@ PlayerBox:AddToggle("Noclip", {
         -- Only parts that were collidable when we touched them are ever recorded, so this
         -- can never turn on something the game ships non-collidable -- it strictly undoes
         -- our own changes. Restored in big batches so the floor is back almost instantly.
-        --
-        -- Each part is dropped from the record AS it is restored, and the record itself
-        -- survives across passes. That is what makes an interrupted restore safe: whatever
-        -- it didn't reach is still recorded, so the next disable finishes the job.
-        -- Previously the whole table was handed over and set to nil up front, so any
-        -- interruption -- Auto Play flipping noclip back on mid-restore, or a quick
-        -- off/on -- orphaned every part the loop hadn't reached: left non-collidable and
-        -- no longer recorded, so no later toggle could ever put them back. That is
-        -- collision never returning until a respawn streams fresh parts in.
-        if not state then
+        if _G.noclipChanged then
             local restoring = _G.noclipChanged
-            if restoring then
-                task.spawn(function()
-                    -- Snapshot the keys before yielding anywhere. The batched loop below
-                    -- gives up the frame, and an enable during one of those gaps writes
-                    -- into this same record -- walking a table with pairs() across an
-                    -- insertion is undefined in Lua and can throw. Building the list is
-                    -- one uninterrupted pass, so it can't be caught mid-traversal.
-                    local list = {}
-                    for part in pairs(restoring) do list[#list + 1] = part end
-                    for n, part in ipairs(list) do
-                        -- Noclip switched back on mid-restore: stop, or we'd be handing
-                        -- collision back to parts the new pass has just switched off.
-                        -- The remainder stays in the record for the next disable.
-                        if _G.noclipRunning then return end
-                        restoring[part] = nil
-                        if part and part.Parent then pcall(function() part.CanCollide = true end) end
-                        if n % 2000 == 0 then task.wait() end
-                    end
-                end)
-            end
-            return
+            _G.noclipChanged = nil
+            task.spawn(function()
+                local n = 0
+                for part in pairs(restoring) do
+                    -- Noclip switched back on mid-restore: stop, or we'd be handing
+                    -- collision back to parts the new pass has just switched off.
+                    if _G.noclipChanged ~= nil then return end
+                    if part and part.Parent then pcall(function() part.CanCollide = true end) end
+                    n += 1
+                    if n % 2000 == 0 then task.wait() end
+                end
+            end)
         end
+
+        if not state then return end
         local conns = _G.noclipConns
 
         -- Every part noclip switches off is recorded here so it can be switched back on.
@@ -2621,9 +2734,7 @@ PlayerBox:AddToggle("Noclip", {
         -- at the moment it was collidable, so restoring can only ever undo our own work.
         -- Not weak-keyed -- losing an entry would mean leaving that part non-collidable
         -- forever; destroyed parts are skipped on restore by the Parent check instead.
-        -- Reuses the existing record rather than starting a fresh one, so parts left over
-        -- from an interrupted restore are still owed a CanCollide and can't be orphaned.
-        local changed = _G.noclipChanged or {}
+        local changed = {}
         _G.noclipChanged = changed
         local function forceUncollide(part)
             if part:IsA("BasePart") and part.CanCollide then
@@ -2699,11 +2810,6 @@ PlayerBox:AddToggle("Noclip", {
         conns[#conns + 1] = RunService.Stepped:Connect(sweep)
         conns[#conns + 1] = RunService.Heartbeat:Connect(sweep)
     end,
-}):AddKeyPicker("NoclipKeybind", {
-    Text            = "Noclip Keybind",
-    Default         = "V",
-    Mode            = "Toggle",
-    SyncToggleState = true,
 })
 local flyConnection = nil
 local flyInputBeganConn = nil
@@ -2819,19 +2925,13 @@ local function setFly(state)
         if humanoid then humanoid.PlatformStand = false end
     end
 end
-local FlyToggle = PlayerBox:AddToggle("Fly", {
+PlayerBox:AddToggle("Fly", {
     Text    = "Fly",
     Default = false,
     Tooltip = "Toggle fly mode",
     Callback = function(state)
         setFly(state)
     end,
-})
-FlyToggle:AddKeyPicker("FlyKeybind", {
-    Text             = "Fly Keybind",
-    Default          = "F",
-    Mode             = "Toggle",
-    SyncToggleState  = true,
 })
 
 PlayerBox:AddToggle("InfiniteJump", {
@@ -2881,19 +2981,60 @@ PlayerBox:AddToggle("AntiAFK", {
     end,
 })
 
-
+PlayerBox:AddToggle("Fullbright", {
+    Text    = "Fullbright",
+    Default = false,
+    Tooltip = "Removes darkness, fog and shadows so the whole level is fully lit",
+    Callback = function(state)
+        local Lighting   = game:GetService("Lighting")
+        local RunService = game:GetService("RunService")
+        if _G.FullbrightConn then
+            _G.FullbrightConn:Disconnect()
+            _G.FullbrightConn = nil
+        end
+        if state then
+            -- Snapshot the original lighting once so we can restore it later.
+            if not _G.FullbrightOriginal then
+                _G.FullbrightOriginal = {
+                    Brightness     = Lighting.Brightness,
+                    ClockTime      = Lighting.ClockTime,
+                    FogEnd         = Lighting.FogEnd,
+                    FogStart       = Lighting.FogStart,
+                    GlobalShadows  = Lighting.GlobalShadows,
+                    Ambient        = Lighting.Ambient,
+                    OutdoorAmbient = Lighting.OutdoorAmbient,
+                }
+            end
+            -- Re-assert every frame -- dark towers keep overwriting lighting per area.
+            _G.FullbrightConn = RunService.RenderStepped:Connect(function()
+                Lighting.Brightness     = 2
+                Lighting.ClockTime      = 12
+                Lighting.FogEnd         = 1e9
+                Lighting.FogStart       = 0
+                Lighting.GlobalShadows  = false
+                Lighting.Ambient        = Color3.fromRGB(255, 255, 255)
+                Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+            end)
+        else
+            local o = _G.FullbrightOriginal
+            if o then
+                Lighting.Brightness     = o.Brightness
+                Lighting.ClockTime      = o.ClockTime
+                Lighting.FogEnd         = o.FogEnd
+                Lighting.FogStart       = o.FogStart
+                Lighting.GlobalShadows  = o.GlobalShadows
+                Lighting.Ambient        = o.Ambient
+                Lighting.OutdoorAmbient = o.OutdoorAmbient
+                _G.FullbrightOriginal   = nil
+            end
+        end
+    end,
+})
 local godmodeOriginal = nil
 local godmodeV2Connection = nil
 local godmodeKillBrickConn = nil
 local godmodeKillBrickParts = {}
 local godmodeKillBrickToken = nil   -- identity of the current re-sweep; stops the old one
-local godmodeLocalHookOriginal = nil  -- original Damage fn, kept for clean restore
-local godmodeLocalHookModule   = nil  -- the required CharacterManager table
-local godmodePoisonActive      = false  -- true while VALID_DAMAGEBRICKS is poisoned
-local godmodeSwapEventOriginal    = nil    -- saved upvalue 3 (real DamageEvent) for restore
-local godmodeSwapEventModule      = nil    -- cached CharacterManager module
-local godmodeHookValidateOriginal = nil    -- original ValidateDamageBrick fn for restore
-local godmodeHookValidateModule   = nil    -- cached CharacterManager module
 
 local function isKillBrickPart(inst)
     if not inst:IsA("BasePart") then return false end
@@ -3042,243 +3183,6 @@ local function setGodmodeKillBricks(state)
     end)
 end
 
--- Local Hook: hook CharacterManager.Damage directly so damage never processes --
--- neither the local health-bar update nor the server FireServer call runs.
--- Intercepts at the game-logic layer, one level above the RemoteEvent layer
--- used by Hook Damage. Only needs hookfunction -- no hookmetamethod or
--- getnamecallmethod required. Pairs with Kill Bricks to cover damage that
--- isn't routed through CharacterManager (e.g. direct kill-brick touches).
-local function setGodmodeLocalHook(state)
-    -- Always restore first, whether enabling or disabling, so toggling off
-    -- then back on doesn't stack two hooks on the same function.
-    if godmodeLocalHookOriginal then
-        pcall(hookfunction, godmodeLocalHookModule.Damage, godmodeLocalHookOriginal)
-        godmodeLocalHookOriginal = nil
-        godmodeLocalHookModule   = nil
-    end
-    if not state then return end
-
-    local ok_cm, cm = pcall(function()
-        return require(game:GetService("ReplicatedStorage").Framework.Kit.Managers.CharacterManager)
-    end)
-    if not ok_cm or type(cm) ~= "table" or type(cm.Damage) ~= "function" then
-        Library:Notify({
-            Title       = "Godmode",
-            Description = "CharacterManager.Damage not found -- Local Hook isn't available in this place.",
-            Duration    = 5,
-        })
-        local t = Library.Toggles.GodmodeLocalHook
-        if t then t:SetValue(false) end
-        return
-    end
-
-    -- Blocker: silently swallow the call so neither the local health effect
-    -- nor DamageEvent:FireServer ever runs. Wrapped in newcclosure where
-    -- available -- a C closure presents a faster call path and is less
-    -- visible to the game's own introspection than a plain Lua function.
-    local blocker = function() end
-    if type(newcclosure) == "function" then
-        local okW, wrapped = pcall(newcclosure, blocker)
-        if okW and wrapped then blocker = wrapped end
-    end
-
-    local ok_hook, orig = pcall(hookfunction, cm.Damage, blocker)
-    if not ok_hook then
-        Library:Notify({
-            Title       = "Godmode",
-            Description = "hookfunction failed on CharacterManager.Damage: " .. tostring(orig),
-            Duration    = 5,
-        })
-        local t = Library.Toggles.GodmodeLocalHook
-        if t then t:SetValue(false) end
-        return
-    end
-
-    godmodeLocalHookOriginal = orig
-    godmodeLocalHookModule   = cm
-end
-
--- Poison Damage: rewrite VALID_DAMAGEBRICKS so every damage type maps to "Heals".
--- The CharacterManager reads this table to decide what a brick does; turning every
--- entry into a heal means kill bricks and instakills restore health instead of
--- dealing damage. No UNC functions needed -- works on any executor.
--- Original values are saved on first enable so they can be restored cleanly.
-local DAMAGE_BRICK_ORIGINALS = nil  -- populated once on first enable
-
-local function setGodmodePoisonDamage(state)
-    local ok_cm, cm = pcall(function()
-        return require(game:GetService("ReplicatedStorage").Framework.Kit.Managers.CharacterManager)
-    end)
-    if not ok_cm or type(cm) ~= "table" or type(cm.VALID_DAMAGEBRICKS) ~= "table" then
-        Library:Notify({
-            Title       = "Godmode",
-            Description = "VALID_DAMAGEBRICKS not found -- Poison Damage isn't available in this place.",
-            Duration    = 5,
-        })
-        local t = Library.Toggles.GodmodePoisonDamage
-        if t then t:SetValue(false) end
-        return
-    end
-
-    local vdb = cm.VALID_DAMAGEBRICKS
-
-    -- VALID_DAMAGEBRICKS is marked readonly by the game; unlock it before
-    -- writing, then re-lock it so the game doesn't notice the tampering.
-    local function withWriteAccess(fn)
-        local isRO = isreadonly and isreadonly(vdb)
-        if isRO then setreadonly(vdb, false) end
-        fn()
-        if isRO then setreadonly(vdb, true) end
-    end
-
-    if state then
-        -- Save originals once so toggling off/on repeatedly keeps the real values.
-        if not DAMAGE_BRICK_ORIGINALS then
-            DAMAGE_BRICK_ORIGINALS = {}
-            for k, v in pairs(vdb) do
-                DAMAGE_BRICK_ORIGINALS[k] = v
-            end
-        end
-        -- Overwrite every entry that isn't already a heal.
-        -- "heals" itself is left alone -- it's already correct.
-        withWriteAccess(function()
-            for k, v in pairs(vdb) do
-                if v ~= "Heals" then
-                    vdb[k] = "Heals"
-                end
-            end
-        end)
-        godmodePoisonActive = true
-    else
-        -- Restore from saved originals.
-        if DAMAGE_BRICK_ORIGINALS then
-            withWriteAccess(function()
-                for k, v in pairs(DAMAGE_BRICK_ORIGINALS) do
-                    vdb[k] = v
-                end
-            end)
-        end
-        godmodePoisonActive = false
-    end
-end
-
--- Swap DamageEvent: use debug.setupvalue to replace upvalue 3 of Damage (the
--- DamageEvent RemoteEvent) with a fake table whose FireServer is a no-op.
--- The game's Damage function runs normally -- ValidateDamageBrick, local effects --
--- but the server call is silently dropped. Restore swaps the real Instance back.
--- Requires debug.setupvalue + debug.getupvalue (greyed out if unsupported).
-local function setGodmodeSwapDamageEvent(state)
-    -- Always restore first so toggling off/on doesn't stack fake references.
-    if godmodeSwapEventOriginal ~= nil and godmodeSwapEventModule then
-        pcall(debug.setupvalue, godmodeSwapEventModule.Damage, 3, godmodeSwapEventOriginal)
-        godmodeSwapEventOriginal = nil
-        godmodeSwapEventModule   = nil
-    end
-    if not state then return end
-
-    local ok_cm, cm = pcall(function()
-        return require(game:GetService("ReplicatedStorage").Framework.Kit.Managers.CharacterManager)
-    end)
-    if not ok_cm or type(cm) ~= "table" or type(cm.Damage) ~= "function" then
-        Library:Notify({
-            Title       = "Godmode",
-            Description = "CharacterManager.Damage not found -- Swap DamageEvent isn't available in this place.",
-            Duration    = 5,
-        })
-        local t = Library.Toggles.GodmodeSwapDamageEvent
-        if t then t:SetValue(false) end
-        return
-    end
-
-    -- Read upvalue 3 (the real DamageEvent RemoteEvent) before replacing it,
-    -- so we can restore cleanly on toggle-off.
-    local ok_get, original = pcall(debug.getupvalue, cm.Damage, 3)
-    if not ok_get or original == nil then
-        Library:Notify({
-            Title       = "Godmode",
-            Description = "Could not read Damage upvalue 3 -- Swap DamageEvent failed.",
-            Duration    = 5,
-        })
-        local t = Library.Toggles.GodmodeSwapDamageEvent
-        if t then t:SetValue(false) end
-        return
-    end
-
-    -- Fake DamageEvent: FireServer is a no-op so the server never receives
-    -- the damage call. All other property accesses fall through to the real
-    -- RemoteEvent via __index so the rest of the game's code still works.
-    local fakeDamageEvent = setmetatable({
-        FireServer = function() end,
-    }, { __index = original })
-
-    local ok_set = pcall(debug.setupvalue, cm.Damage, 3, fakeDamageEvent)
-    if not ok_set then
-        Library:Notify({
-            Title       = "Godmode",
-            Description = "debug.setupvalue failed on Damage upvalue 3.",
-            Duration    = 5,
-        })
-        local t = Library.Toggles.GodmodeSwapDamageEvent
-        if t then t:SetValue(false) end
-        return
-    end
-
-    godmodeSwapEventOriginal = original
-    godmodeSwapEventModule   = cm
-end
-
--- Hook ValidateDamageBrick: hook the validation function so it always returns nil.
--- The Damage function checks ValidateDamageBrick first; a nil return causes it to
--- exit early before LocalDamageEvent:Fire or DamageEvent:FireServer ever runs.
--- More surgical than Local Hook -- only the validation step is intercepted.
--- Requires hookfunction (greyed out if unsupported).
-local function setGodmodeHookValidate(state)
-    if godmodeHookValidateOriginal then
-        pcall(hookfunction, godmodeHookValidateModule.ValidateDamageBrick, godmodeHookValidateOriginal)
-        godmodeHookValidateOriginal = nil
-        godmodeHookValidateModule   = nil
-    end
-    if not state then return end
-
-    local ok_cm, cm = pcall(function()
-        return require(game:GetService("ReplicatedStorage").Framework.Kit.Managers.CharacterManager)
-    end)
-    if not ok_cm or type(cm) ~= "table" or type(cm.ValidateDamageBrick) ~= "function" then
-        Library:Notify({
-            Title       = "Godmode",
-            Description = "CharacterManager.ValidateDamageBrick not found -- Hook Validate isn't available in this place.",
-            Duration    = 5,
-        })
-        local t = Library.Toggles.GodmodeHookValidate
-        if t then t:SetValue(false) end
-        return
-    end
-
-    -- Blocker: always returns nil so the Damage function's validation check
-    -- fails and the entire damage flow (local effects + server call) is skipped.
-    -- Wrapped in newcclosure where available for a faster, less detectable path.
-    local blocker = function() return nil end
-    if newcclosure then
-        local ok, wrapped = pcall(newcclosure, blocker)
-        if ok and wrapped then blocker = wrapped end
-    end
-
-    local ok_hook, orig = pcall(hookfunction, cm.ValidateDamageBrick, blocker)
-    if not ok_hook then
-        Library:Notify({
-            Title       = "Godmode",
-            Description = "hookfunction failed on ValidateDamageBrick: " .. tostring(orig),
-            Duration    = 5,
-        })
-        local t = Library.Toggles.GodmodeHookValidate
-        if t then t:SetValue(false) end
-        return
-    end
-
-    godmodeHookValidateOriginal = orig
-    godmodeHookValidateModule   = cm
-end
-
 PlayerBox:AddToggle("GodmodeHook", {
     Text    = "Godmode: Hook Damage",
     Default = UNCSupport.Godmode,
@@ -3310,73 +3214,14 @@ PlayerBox:AddToggle("GodmodeKillBricks", {
     end,
 })
 
-PlayerBox:AddToggle("GodmodeLocalHook", {
-    Text    = "Godmode: Local Hook",
-    Default = false,
-    Tooltip = "Hooks CharacterManager.Damage directly so the game's own damage function is silently blocked -- no health loss, no server call. Works without hookmetamethod or getnamecallmethod; only needs hookfunction (greyed out if unsupported). Pairs well with Kill Bricks to cover damage not routed through CharacterManager.",
-    Callback = function(state)
-        if state and not UNCSupport.hookfunction then
-            Library.Toggles.GodmodeLocalHook:SetValue(false)
-            return
-        end
-        setGodmodeLocalHook(state)
-    end,
-})
-
-PlayerBox:AddToggle("GodmodePoisonDamage", {
-    Text    = "Godmode: Poison Damage",
-    Default = false,
-    Tooltip = "Rewrites VALID_DAMAGEBRICKS so every damage type (kills, instakills, ouch, double, custom) is treated as a heal instead. Kill bricks and instakills will restore your health rather than deal damage. Requires no UNC functions -- works on any executor. Original values are saved and fully restored on toggle-off.",
-    Callback = function(state)
-        setGodmodePoisonDamage(state)
-    end,
-})
-
-PlayerBox:AddToggle("GodmodeSwapDamageEvent", {
-    Text    = "Godmode: Swap DamageEvent",
-    Default = false,
-    Tooltip = "Replaces the DamageEvent upvalue inside CharacterManager.Damage with a fake RemoteEvent whose FireServer does nothing. The game's damage logic (validation, local effects) runs as normal, but the server call is silently dropped -- so no health is deducted server-side. Requires debug.setupvalue and debug.getupvalue (greyed out if unsupported).",
-    Callback = function(state)
-        if state and not UNCSupport.SwapDamageEvent then
-            Library.Toggles.GodmodeSwapDamageEvent:SetValue(false)
-            return
-        end
-        setGodmodeSwapDamageEvent(state)
-    end,
-})
-
-PlayerBox:AddToggle("GodmodeHookValidate", {
-    Text    = "Godmode: Hook ValidateDamageBrick",
-    Default = false,
-    Tooltip = "Hooks CharacterManager.ValidateDamageBrick to always return nil, so the Damage function's validation step always fails and the entire damage flow is blocked before local effects or the server call ever runs. More surgical than Local Hook -- only the validation function is intercepted. Needs hookfunction (greyed out if unsupported).",
-    Callback = function(state)
-        if state and not UNCSupport.hookfunction then
-            Library.Toggles.GodmodeHookValidate:SetValue(false)
-            return
-        end
-        setGodmodeHookValidate(state)
-    end,
-})
-
 if not UNCSupport.Godmode then
     Library.Toggles.GodmodeHook:SetDisabled(true)
-end
-if not UNCSupport.hookfunction then
-    Library.Toggles.GodmodeLocalHook:SetDisabled(true)
-    Library.Toggles.GodmodeHookValidate:SetDisabled(true)
-end
-if not UNCSupport.SwapDamageEvent then
-    Library.Toggles.GodmodeSwapDamageEvent:SetDisabled(true)
 end
 
 -- Apply the current (default or saved) states on load.
 setGodmodeHook(Library.Toggles.GodmodeHook.Value)
 setGodmodeHeal(Library.Toggles.GodmodeHeal.Value)
 setGodmodeKillBricks(Library.Toggles.GodmodeKillBricks.Value)
-setGodmodeLocalHook(Library.Toggles.GodmodeLocalHook.Value)
-setGodmodePoisonDamage(Library.Toggles.GodmodePoisonDamage.Value)
-setGodmodeSwapDamageEvent(Library.Toggles.GodmodeSwapDamageEvent.Value)
-setGodmodeHookValidate(Library.Toggles.GodmodeHookValidate.Value)
 
 Library.Toggles.UseSuggestedTime:SetValue(true)
 
@@ -4229,530 +4074,17 @@ MenuGroup:AddButton("Sever Hop", function()
         Library:Notify({ Title = "Server Hop", Description = "Failed: " .. tostring(err), Duration = 5 })
     end
 end)
+-- Assigned by the 2024 Timer below. Unloading has to put the game's own timer badge back:
+-- the library's Unload only destroys its own ScreenGui, so without this the real timer
+-- would stay hidden with the menu gone and no way to switch it back short of rejoining.
+local retroTimerCleanup
+
 MenuGroup:AddButton("Unload", function()
     _G.ProjectEToHLoaded = nil
+    if retroTimerCleanup then pcall(retroTimerCleanup) end
     Library:Unload()
 end)
 Library.ToggleKeybind = Options.MenuKeybind
-
--- ===== Auto Chat =====
--- Sends a message into chat on a timer -- either a live status line or your own text,
--- which can embed the same live values through placeholders. Kept in its own function so
--- its locals don't add to the main chunk's 200-local budget.
-local function _initAutoChat()
-    local ChatBox = Tabs.Main:AddRightGroupbox("Auto Chat")
-
-    local enabled     = false
-    local intervalSec = 60
-    -- Empty means "use the status log". There is deliberately no mode setting: having one
-    -- meant you could type a message and have it silently ignored because the mode was
-    -- still on Status log, which is exactly what happened.
-    local customText  = ""
-    local startedAt   = os.clock()
-    local sentCount   = 0
-
-    -- Roblox has two chat systems and games use one or the other, so try the modern one
-    -- and fall back to the legacy remote.
-    local function sendChat(msg)
-        local sent = false
-        pcall(function()
-            local TCS = game:GetService("TextChatService")
-            if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
-                local channels = TCS:FindFirstChild("TextChannels")
-                local general  = channels and channels:FindFirstChild("RBXGeneral")
-                if general then
-                    general:SendAsync(msg)
-                    sent = true
-                end
-            end
-        end)
-        if sent then return true end
-        pcall(function()
-            local events = game:GetService("ReplicatedStorage"):FindFirstChild("DefaultChatSystemChatEvents")
-            local say    = events and events:FindFirstChild("SayMessageRequest")
-            if say then
-                say:FireServer(msg, "All")
-                sent = true
-            end
-        end)
-        return sent
-    end
-
-    local function mmss(seconds)
-        seconds = math.max(math.floor(seconds), 0)
-        return ("%d:%02d"):format(math.floor(seconds / 60), seconds % 60)
-    end
-
-    -- The live values: used by the status log, and available to a typed message as
-    -- {placeholders}.
-    local function values()
-        local tower = "none"
-        pcall(function() tower = tostring(Library.Options.TowerSelect.Value or "none") end)
-        return {
-            tower   = tower,
-            status  = isAutoPlaying and "auto playing" or "idle",
-            steps   = tostring(currentResolvedSteps and #currentResolvedSteps or 0),
-            time    = os.date("%H:%M:%S"),
-            elapsed = mmss(os.clock() - startedAt),
-            sent    = tostring(sentCount + 1),
-        }
-    end
-
-    local function buildMessage()
-        local v = values()
-        local text = customText:match("^%s*(.-)%s*$")
-        if text == "" then
-            -- Nothing typed: send the status log.
-            return ("[PES] %s | %s | %s steps | up %s"):format(v.tower, v.status, v.steps, v.elapsed)
-        end
-        -- Whatever you typed, with any {placeholder} we know substituted in. Unknown ones
-        -- are left as-is rather than blanked.
-        return (text:gsub("{(%w+)}", function(key) return v[key] end))
-    end
-
-    ChatBox:AddToggle("AutoChat", {
-        Text    = "Auto Chat",
-        Default = false,
-        Tooltip = "Send a chat message on a timer.",
-        Callback = function(state)
-            enabled = state
-            if state then startedAt = os.clock() end
-        end,
-    })
-    ChatBox:AddInput("AutoChatInterval", {
-        Text        = "Interval (s)",
-        Default     = "60",
-        Numeric     = true,
-        Placeholder = "60",
-        Tooltip     = "Seconds between messages. Held to 8s minimum -- Roblox rate-limits chat and will drop messages sent faster than that.",
-        Callback    = function(value)
-            intervalSec = math.max(tonumber(value) or 60, 8)
-        end,
-    })
-    ChatBox:AddInput("AutoChatText", {
-        Text        = "Message (empty = status log)",
-        Default     = "",
-        Finished    = false,
-        Placeholder = "Leave empty for the status log",
-        Tooltip     = "Type a message to send that instead of the status log. Placeholders are replaced with live values: {tower} {status} {steps} {time} {elapsed} {sent}. Clear the box to go back to the status log.",
-        Callback    = function(value) customText = value or "" end,
-    })
-    ChatBox:AddButton({
-        Text    = "Send now",
-        Tooltip = "Send the message immediately, to check how it reads.",
-        Callback = function()
-            local msg = buildMessage()
-            if msg == "" then
-                Library:Notify({ Title = "Auto Chat", Description = "The message is empty.", Duration = 4 })
-                return
-            end
-            if sendChat(msg) then
-                sentCount = sentCount + 1
-                logAction("Auto Chat sent: " .. msg)
-            else
-                Library:Notify({ Title = "Auto Chat", Description = "Couldn't find a chat system to send through.", Duration = 5 })
-            end
-        end,
-    })
-    ChatBox:AddLabel("Empty box sends a live status line. Anything you type is sent instead, with {tower} {status} {steps} {time} {elapsed} {sent} filled in. Roblox filters identical repeats, so include a changing value like {time} if you send often.", true)
-
-    task.spawn(function()
-        local nextAt = 0
-        while not Library.Unloaded do
-            task.wait(1)
-            if enabled and os.clock() >= nextAt then
-                nextAt = os.clock() + intervalSec
-                local msg = buildMessage()
-                if msg ~= "" and sendChat(msg) then
-                    sentCount = sentCount + 1
-                end
-            end
-        end
-    end)
-end
-_initAutoChat()
-
--- ===== ESP (Visuals tab) =====
--- Wraps the Sense library (github.com/MaybeIsRealZack/ESP-Library) in Obsidian UI controls.
--- All visual features (Box, Name, Tracer …) are applied to both teams simultaneously;
--- only the colour differs: Start team → enemy slot, Winner! team → friendly slot.
--- Sense is lazy-loaded on the first Enable, so startup speed is unaffected.
-local function _initESP()
-    -- SENSE_URL and Sense are declared at the top of the script.
-
-    -- Apply one Sense setting to both teams at once.
-    local function both(key, value)
-        if not Sense then return end
-        Sense.teamSettings.enemy[key]    = value
-        Sense.teamSettings.friendly[key] = value
-    end
-
-    -- Push one colour to every colour slot of a given team (enemy / friendly).
-    -- Health bar colours (healthyColor / dyingColor) are intentionally left alone
-    -- so their green→red gradient stays readable regardless of team colour.
-    local function applyTeamColor(team, color)
-        if not Sense then return end
-        local t = Sense.teamSettings[team]
-        t.boxColor[1]          = color
-        t.box3dColor[1]        = color
-        t.nameColor[1]         = color
-        t.distanceColor[1]     = color
-        t.tracerColor[1]       = color
-        t.chamsFillColor[1]    = color
-        t.chamsOutlineColor[1] = color
-    end
-
-    -- Sync every current UI value into Sense before (re-)calling Load().
-    -- Needed because SaveManager may restore sub-settings before the master
-    -- ESPEnabled toggle fires, so Sense.Load() would otherwise start with
-    -- whatever defaults Sense ships with.
-    local function syncToSense()
-        if not Sense then return end
-        local T, O = Library.Toggles, Library.Options
-
-        -- Shared -------------------------------------------------------
-        Sense.sharedSettings.limitDistance = T.ESPLimitDist.Value
-        Sense.sharedSettings.maxDistance   = tonumber(O.ESPMaxDist.Value) or 150
-
-        -- Per-team enabled state ---------------------------------------
-        Sense.teamSettings.enemy.enabled    = T.ESPStartTeam.Value
-        Sense.teamSettings.friendly.enabled = T.ESPWinnerTeam.Value
-
-        -- Colours ------------------------------------------------------
-        if O.ESPStartColor  then applyTeamColor("enemy",    O.ESPStartColor.Value)  end
-        if O.ESPWinnerColor then applyTeamColor("friendly", O.ESPWinnerColor.Value) end
-
-        -- Feature toggles (same value for both teams) ------------------
-        local featureMap = {
-            { sense = "box",             toggle = "ESPBox"          },
-            { sense = "boxFill",         toggle = "ESPBoxFill"      },
-            { sense = "box3d",           toggle = "ESPBox3d"        },
-            { sense = "healthBar",       toggle = "ESPHealthBar"    },
-            { sense = "healthText",      toggle = "ESPHealthText"   },
-            { sense = "name",            toggle = "ESPName"         },
-            { sense = "distance",        toggle = "ESPDistance"     },
-            { sense = "tracer",          toggle = "ESPTracer"       },
-            { sense = "offScreenArrow",  toggle = "ESPArrow"        },
-            { sense = "chams",           toggle = "ESPChams"        },
-            { sense = "chamsVisibleOnly",toggle = "ESPChamsVisOnly" },
-        }
-        for _, m in ipairs(featureMap) do
-            local v = T[m.toggle] and T[m.toggle].Value or false
-            Sense.teamSettings.enemy[m.sense]    = v
-            Sense.teamSettings.friendly[m.sense] = v
-        end
-
-        -- Tracer origin ------------------------------------------------
-        local origin = O.ESPTracerOrigin and O.ESPTracerOrigin.Value or "Bottom"
-        both("tracerOrigin", origin)
-    end
-
-    -- Apply EToH-specific overrides once on first enable.
-    local senseConfigured = false
-    local function configureSense()
-        if senseConfigured then return end
-        -- EToH has two teams: "Start" and "Winner!".
-        -- We route Start → enemy config and Winner! → friendly config so that
-        -- each team always gets its designated colour, no matter which team
-        -- the local player is on.
-        Sense.isFriendly = function(player)
-            return player.Team ~= nil and player.Team.Name == "Winner!"
-        end
-        -- EToH has no weapons — suppress the weapon label entirely.
-        Sense.getWeapon = function() return "" end
-        senseConfigured = true
-    end
-
-    -- ── UI ────────────────────────────────────────────────────────────────
-
-    local ESPGroup = Tabs.Visuals:AddLeftGroupbox("ESP")
-
-    -- Master toggle ──────────────────────────────────────────────────────
-    ESPGroup:AddToggle("ESPEnabled", {
-        Text    = "Enable ESP",
-        Default = false,
-        Tooltip = "Show player highlights.",
-        Callback = function(state)
-            if state then
-                configureSense()
-                syncToSense()
-                Sense.Load()
-                logAction("ESP Enabled")
-            else
-                if Sense then
-                    Sense.Unload()
-                    logAction("ESP Disabled")
-                end
-            end
-        end,
-    })
-
-    ESPGroup:AddDivider()
-
-    -- Team toggles + colour pickers ──────────────────────────────────────
-    -- Each toggle enables/disables that team's ESP layer.
-    -- The colour picker sets every colour slot for that team in one go.
-    local StartTeamToggle = ESPGroup:AddToggle("ESPStartTeam", {
-        Text    = "Start Team",
-        Default = true,
-        Tooltip = "Show players on the Start team.",
-        Callback = function(v)
-            if Sense then Sense.teamSettings.enemy.enabled = v end
-        end,
-    })
-    StartTeamToggle:AddColorPicker("ESPStartColor", {
-        Default  = Color3.fromRGB(255, 60, 60),
-        Title    = "Start Color",
-        Callback = function(color)
-            if Sense then applyTeamColor("enemy", color) end
-        end,
-    })
-
-    local WinnerTeamToggle = ESPGroup:AddToggle("ESPWinnerTeam", {
-        Text    = "Winner! Team",
-        Default = true,
-        Tooltip = "Show players on the Winner! team.",
-        Callback = function(v)
-            if Sense then Sense.teamSettings.friendly.enabled = v end
-        end,
-    })
-    WinnerTeamToggle:AddColorPicker("ESPWinnerColor", {
-        Default  = Color3.fromRGB(60, 200, 255),
-        Title    = "Winner! Color",
-        Callback = function(color)
-            if Sense then applyTeamColor("friendly", color) end
-        end,
-    })
-
-    ESPGroup:AddDivider()
-
-    -- Shared distance settings ───────────────────────────────────────────
-    ESPGroup:AddToggle("ESPLimitDist", {
-        Text    = "Limit Distance",
-        Default = false,
-        Tooltip = "Only show players within Max Distance.",
-        Callback = function(v)
-            if Sense then Sense.sharedSettings.limitDistance = v end
-        end,
-    })
-    ESPGroup:AddSlider("ESPMaxDist", {
-        Text     = "Max Distance",
-        Default  = 150,
-        Min      = 10,
-        Max      = 2000,
-        Rounding = 0,
-        Suffix   = " studs",
-        Callback = function(v)
-            if Sense then Sense.sharedSettings.maxDistance = v end
-        end,
-    })
-
-    ESPGroup:AddDivider()
-
-    -- Visual features (applied to both teams simultaneously) ─────────────
-    ESPGroup:AddToggle("ESPBox", {
-        Text    = "Box",
-        Default = false,
-        Callback = function(v) both("box", v) end,
-    })
-    ESPGroup:AddToggle("ESPBoxFill", {
-        Text    = "Box Fill",
-        Default = false,
-        Callback = function(v) both("boxFill", v) end,
-    })
-    ESPGroup:AddToggle("ESPBox3d", {
-        Text    = "3D Box",
-        Default = false,
-        Callback = function(v) both("box3d", v) end,
-    })
-    ESPGroup:AddToggle("ESPHealthBar", {
-        Text    = "Health Bar",
-        Default = false,
-        Callback = function(v) both("healthBar", v) end,
-    })
-    ESPGroup:AddToggle("ESPHealthText", {
-        Text    = "Health Text",
-        Default = false,
-        Callback = function(v) both("healthText", v) end,
-    })
-    ESPGroup:AddToggle("ESPName", {
-        Text    = "Name",
-        Default = false,
-        Callback = function(v) both("name", v) end,
-    })
-    ESPGroup:AddToggle("ESPDistance", {
-        Text    = "Distance",
-        Default = false,
-        Callback = function(v) both("distance", v) end,
-    })
-    local TracerToggle = ESPGroup:AddToggle("ESPTracer", {
-        Text    = "Tracer",
-        Default = false,
-        Callback = function(v) both("tracer", v) end,
-    })
-    ESPGroup:AddDropdown("ESPTracerOrigin", {
-        Text    = "Tracer Origin",
-        Values  = { "Bottom", "Center", "Mouse", "Top" },
-        Default = "Bottom",
-        Callback = function(v) both("tracerOrigin", v) end,
-    })
-    ESPGroup:AddToggle("ESPArrow", {
-        Text    = "Off-Screen Arrow",
-        Default = false,
-        Callback = function(v) both("offScreenArrow", v) end,
-    })
-    ESPGroup:AddToggle("ESPChams", {
-        Text    = "Chams",
-        Default = false,
-        Callback = function(v) both("chams", v) end,
-    })
-    ESPGroup:AddToggle("ESPChamsVisOnly", {
-        Text    = "Chams Visible Only",
-        Default = false,
-        Tooltip = "Only draw Chams on players that are currently visible (not occluded).",
-        Callback = function(v) both("chamsVisibleOnly", v) end,
-    })
-
-    -- Cleanup: ensure Sense is unloaded when the script is unloaded,
-    -- even if the user didn't toggle ESP off first (e.g. pressed Unload directly).
-    task.spawn(function()
-        repeat task.wait(1) until Library.Unloaded
-        if Sense then
-            pcall(Sense.Unload)
-            Sense = nil
-        end
-    end)
-end
-_initESP()
-
--- ===== Ambient (Visuals tab, right column) =====
--- Fullbright, No Fog and Brightness share one RenderStepped connection so
--- they can never fight each other. The connection is created whenever any
--- of the three is active, and torn down (with a full lighting restore) once
--- all three are inactive.
-local function _initAmbient()
-    local Lighting   = game:GetService("Lighting")
-    local RunService = game:GetService("RunService")
-
-    local ambientConn     = nil
-    local ambientOriginal = nil
-
-    -- Capture the game's lighting values before we touch anything.
-    -- Used both for restore and as the "neutral" reference for the
-    -- Brightness slider (so the connection only starts if the user
-    -- actually moves the slider away from the game's own value).
-    local defaultBrightness = math.min(math.max(
-        math.floor(Lighting.Brightness * 10 + 0.5) / 10, 0), 3)
-
-    local function snapshotLighting()
-        if not ambientOriginal then
-            ambientOriginal = {
-                Brightness     = Lighting.Brightness,
-                ClockTime      = Lighting.ClockTime,
-                FogEnd         = Lighting.FogEnd,
-                FogStart       = Lighting.FogStart,
-                GlobalShadows  = Lighting.GlobalShadows,
-                Ambient        = Lighting.Ambient,
-                OutdoorAmbient = Lighting.OutdoorAmbient,
-            }
-        end
-    end
-
-    local function restoreLighting()
-        if ambientOriginal then
-            pcall(function()
-                Lighting.Brightness     = ambientOriginal.Brightness
-                Lighting.ClockTime      = ambientOriginal.ClockTime
-                Lighting.FogEnd         = ambientOriginal.FogEnd
-                Lighting.FogStart       = ambientOriginal.FogStart
-                Lighting.GlobalShadows  = ambientOriginal.GlobalShadows
-                Lighting.Ambient        = ambientOriginal.Ambient
-                Lighting.OutdoorAmbient = ambientOriginal.OutdoorAmbient
-            end)
-            ambientOriginal = nil
-        end
-    end
-
-    -- Called by every toggle/slider callback. Rebuilds the single shared
-    -- RenderStepped connection based on the current UI state.
-    local function updateAmbient()
-        local T, O = Library.Toggles, Library.Options
-
-        local fullbright = T.Fullbright   and T.Fullbright.Value
-        local noFog      = T.AmbientNoFog and T.AmbientNoFog.Value
-        local brightness = tonumber(O.AmbientBrightness and O.AmbientBrightness.Value)
-                           or defaultBrightness
-
-        -- Connection is only needed for Fullbright or No Fog.
-        -- Brightness is a sub-setting of Fullbright, not standalone.
-        local needsConn = fullbright or noFog
-
-        -- Always tear down the old connection first to avoid duplicates.
-        if ambientConn then
-            ambientConn:Disconnect()
-            ambientConn = nil
-        end
-
-        if needsConn then
-            snapshotLighting()
-            ambientConn = RunService.RenderStepped:Connect(function()
-                if fullbright then
-                    -- Fullbright overrides fog/shadows; brightness follows the slider.
-                    Lighting.Brightness     = brightness
-                    Lighting.ClockTime      = 12
-                    Lighting.FogEnd         = 1e9
-                    Lighting.FogStart       = 0
-                    Lighting.GlobalShadows  = false
-                    Lighting.Ambient        = Color3.fromRGB(255, 255, 255)
-                    Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
-                else
-                    if noFog then
-                        Lighting.FogEnd   = 1e9
-                        Lighting.FogStart = 0
-                    end
-                end
-            end)
-        else
-            restoreLighting()
-        end
-    end
-
-    -- UI -----------------------------------------------------------------
-
-    local AmbientGroup = Tabs.Visuals:AddRightGroupbox("Ambient")
-
-    AmbientGroup:AddToggle("Fullbright", {
-        Text    = "Fullbright",
-        Default = false,
-        Tooltip = "Removes darkness, fog and shadows so the whole level is fully lit.",
-        Callback = function() updateAmbient() end,
-    })
-    AmbientGroup:AddToggle("AmbientNoFog", {
-        Text    = "No Fog",
-        Default = false,
-        Tooltip = "Pushes the fog boundary far enough that it becomes invisible.",
-        Callback = function() updateAmbient() end,
-    })
-    AmbientGroup:AddSlider("AmbientBrightness", {
-        Text     = "Brightness",
-        Default  = defaultBrightness,
-        Min      = 0,
-        Max      = 3,
-        Rounding = 1,
-        Callback = function() updateAmbient() end,
-    })
-
-    -- Restore lighting and disconnect when the script is unloaded.
-    task.spawn(function()
-        repeat task.wait(1) until Library.Unloaded
-        if ambientConn then
-            ambientConn:Disconnect()
-            ambientConn = nil
-        end
-        restoreLighting()
-    end)
-end
-_initAmbient()
 
 -- ===== Mobile (UI Settings) =====
 -- Phones have no keyboard, so every keybind action is unreachable there. This adds movable
@@ -4808,19 +4140,586 @@ local function _initMobile()
     Library:AddMobileButton("AJ Place",    function() pcall(allJumpPlace) end)
     Library:AddMobileButton("AJ Remove",   function() pcall(allJumpRemove) end)
     Library:AddMobileButton("AJ Teleport", function() pcall(allJumpTeleport) end)
-    -- Only where the game has the mode (PoM XL) -- elsewhere the button would do nothing.
-    if activateGameAllJump then
-        Library:AddMobileButton("All-Jump", function() task.spawn(activateGameAllJump) end)
-    end
 
     if onMobile then Library:SetMobileButtonsVisible(true) end
 end
 _initMobile()
 
+-- ===== 2024 Timer (retro HUD) =====
+-- Recreates the timer EToH used in 2024: the tower acronym on the left in its difficulty
+-- colour, then a dark translucent pill holding an outlined clock and a monospaced M:SS.mm
+-- readout. It doesn't time anything itself -- it MIRRORS the game's current timer label, so
+-- the readout can't drift from the real run -- and it hides the modern badge while it's on.
+local HudGroup = Tabs.UISettings:AddLeftGroupbox("HUD")
+do
+    local Players = game:GetService("Players")
+    local player  = Players.LocalPlayer
+
+    -- Every tower acronym the registry knows, regardless of place. Used to identify the
+    -- game's tower-name label by its TEXT, which is far steadier than guessing at a path
+    -- or a screen position -- and it hands us the difficulty colour for free.
+    local knownTowers = {}
+    for _, list in ipairs({ Registry.Towers or {}, Registry.TowerRush or {} }) do
+        for _, t in ipairs(list) do
+            if type(t.name) == "string" then knownTowers[t.name] = true end
+        end
+    end
+
+    local GUI_NAME = "RetroTimerGui"
+    local retroGui, acronymLabels, timeLabel, pill
+    local timerSrc                  -- the copy we mirror (the one that was on screen)
+    local tagSrcs = {}              -- its tags in screen order: tower, plus rush during a rush
+    local timerAll, tagAll = {}, {} -- every copy found; all of them get hidden
+    local hiddenOriginals = {}      -- GuiObject -> the Visible we found it with
+    local hiddenGuis      = {}      -- ScreenGui -> the Enabled we found it with
+    local retroConn, lastScan = nil, 0
+    -- Declared up here so the definitions below bind to these locals rather than creating
+    -- globals, since each is referenced before it's defined.
+    local findTagsFor, wasOnScreen
+
+    local function trim(s) return (tostring(s):gsub("^%s+", ""):gsub("%s+$", "")) end
+
+    -- A time readout looks like 0:01.68 / 29:28.67.
+    local function looksLikeTime(s) return trim(s):match("^%d+:%d%d%.%d%d$") ~= nil end
+
+    -- Anything of ours must never be treated as the game's HUD. This isn't hypothetical:
+    -- PESUI falls back to parenting the menu into PlayerGui, and its tower dropdown
+    -- displays a bare acronym ("ToH") that would otherwise match as the tower tag and get
+    -- the menu's own frame hidden. Checked over the whole ancestor chain, since the match
+    -- can be nested deep inside one of our windows, and by instance where we can, because
+    -- PESUI's ScreenGui name is randomised.
+    local function isOurs(inst)
+        local node = inst
+        while node and node ~= game do
+            if node == retroGui or node == Library.ScreenGui then return true end
+            local n = node.Name
+            if n == GUI_NAME or n == "FloorCounterOverlay" or n == "TowerRushGUI"
+                or n:match("^PESUI_") then
+                return true
+            end
+            node = node.Parent
+        end
+        return false
+    end
+
+    -- Text can live on a TextButton or TextBox too, not just a TextLabel.
+    local function readText(inst)
+        if inst:IsA("TextLabel") or inst:IsA("TextButton") or inst:IsA("TextBox") then
+            return inst.Text
+        end
+        return nil
+    end
+
+    local function screenGuiOf(inst)
+        local node = inst
+        while node and not node:IsA("ScreenGui") do node = node.Parent end
+        return node
+    end
+
+    -- The tower name sits right next to the timer (children of the same row), so look at the
+    -- siblings -- but in priority order, because taking the first text-bearing one grabs
+    -- whatever else shares that row (it was landing on "rush"). Matching the text against a
+    -- known acronym can't be the only rule either: in the lobby that label exists but is
+    -- EMPTY, so it never matches, which is what made the scan re-run every second. Hence
+    -- acronym first, then a child actually named "tower", then anything with text.
+    -- Does this element, or something it sits inside, call itself a tower? Registry-free, so
+    -- it holds for every tower in the game rather than the 305 the registry lists.
+    local function nameSuggestsTower(inst)
+        local node, hops = inst, 0
+        while node and hops < 4 do
+            if node.Name:lower():find("tower", 1, true) then return true end
+            node = node.Parent
+            hops = hops + 1
+        end
+        return false
+    end
+
+    -- Is this sitting right beside the timer on screen? The tower tag is the badge's
+    -- immediate neighbour, so geometry identifies it without knowing any tower names, and
+    -- rules out same-named text elsewhere on screen (the player list's "Towers" heading, a
+    -- tower name in a chat line) that a pure text match would happily grab.
+    local function isAdjacentTo(candidate, timerLabel)
+        local cp, cs = candidate.AbsolutePosition, candidate.AbsoluteSize
+        local tp, ts = timerLabel.AbsolutePosition, timerLabel.AbsoluteSize
+        if cs.X <= 0 or cs.Y <= 0 then return false end
+        -- Same horizontal band as the timer.
+        if math.abs((cp.Y + cs.Y / 2) - (tp.Y + ts.Y / 2)) > math.max(ts.Y, cs.Y) then
+            return false
+        end
+        -- And close by horizontally: gap between the two rectangles, 0 if they overlap.
+        local gap = 0
+        if cp.X >= tp.X + ts.X then
+            gap = cp.X - (tp.X + ts.X)
+        elseif tp.X >= cp.X + cs.X then
+            gap = tp.X - (cp.X + cs.X)
+        end
+        return gap <= 260
+    end
+
+    -- Text-bearing self-or-descendant. The tower element isn't always the label itself: in
+    -- one copy of the HUD it's a Frame with the text nested inside, and requiring the child
+    -- ITSELF to be text-bearing skipped it -- leaving the acronym blank and the game's real
+    -- tag unhidden, which is exactly the "acronym on the wrong side" symptom.
+    local function textIn(inst, timerLabel)
+        if inst ~= timerLabel and readText(inst) then return inst end
+        for _, d in ipairs(inst:GetDescendants()) do
+            if d ~= timerLabel and readText(d) then return d end
+        end
+        return nil
+    end
+
+    -- Readouts that share the HUD row but aren't part of the badge. Checked by instance name
+    -- as well as by text, because the FPS counter is a plain number and nothing about its
+    -- text says what it is.
+    local NOISE_NAMES = { "fps", "ping", "memory", "mem", "version", "player" }
+    local function isNoise(inst, text)
+        local n = inst.Name:lower()
+        for _, bad in ipairs(NOISE_NAMES) do
+            if n:find(bad, 1, true) then return true end
+        end
+        -- Pure digits: an FPS or a count, never a tower acronym or a rush progress ("1/11").
+        return text ~= nil and text:match("^%d+$") ~= nil
+    end
+
+    -- Left-to-right on screen, so the mirrored labels sit in the order the game shows them.
+    local function sortByScreenX(list)
+        table.sort(list, function(a, b) return a.AbsolutePosition.X < b.AbsolutePosition.X end)
+        return list
+    end
+
+    -- Every label the game shows beside the timer, not just the tower one. During a tower
+    -- rush the badge carries a rush element as well (the HUD row holds timer/tower/rush), so
+    -- returning the whole set is what makes rushes work without special-casing them -- and
+    -- it means all of them get hidden rather than leaving the rush tag behind.
+    function findTagsFor(timerLabel, pg)
+        local row  = timerLabel.Parent
+        local geom = timerLabel.AbsoluteSize.X > 0
+        if row then
+            local found = {}
+            for _, child in ipairs(row:GetChildren()) do
+                if child ~= timerLabel and not isOurs(child) then
+                    local cand = textIn(child, timerLabel)
+                    -- Sharing a row in the tree is not the same as sharing a place on screen:
+                    -- this row also carries the FPS readout, anchored far off at the top-left.
+                    -- Require visual adjacency so only the badge's own labels come through.
+                    if cand and not isNoise(cand, trim(readText(cand)))
+                        and (not geom or isAdjacentTo(cand, timerLabel)) then
+                        found[#found + 1] = cand
+                    end
+                end
+            end
+            if #found > 0 then return sortByScreenX(found) end
+        end
+        -- The real badge lives in a ScreenGui of its own ("Timer") and the tower name is NOT
+        -- inside it, so a wider search is needed. It deliberately does NOT hinge on the
+        -- acronym list: that covers 305 of the game's ~753 towers, so anything keyed on it
+        -- silently fails for the rest and goes stale as towers are added. Instead take the
+        -- on-screen text sitting right next to the timer, preferring what a name says is the
+        -- tower, with the acronym list only as a tiebreak.
+        local timerOnScreen = geom
+        local adjacent, weak = {}, {}
+        for _, d in ipairs(pg:GetDescendants()) do
+            if d ~= timerLabel and not isOurs(d) then
+                local txt = readText(d)
+                local s   = txt and trim(txt) or nil
+                -- Short, non-empty, not another time readout, not an FPS/ping style counter:
+                -- keeps chat lines and the global "has beaten <tower> in <time>" messages out
+                -- of the running too.
+                if s and s ~= "" and #s <= 12 and not looksLikeTime(s) and not isNoise(d, s)
+                    and wasOnScreen(d) then
+                    if timerOnScreen and isAdjacentTo(d, timerLabel) then
+                        adjacent[#adjacent + 1] = d
+                    elseif not timerOnScreen and nameSuggestsTower(d) and knownTowers[s] then
+                        -- No geometry to judge by (the badge is already hidden, so sizes read
+                        -- as zero) -- require both weaker signals rather than guessing.
+                        weak[#weak + 1] = d
+                    end
+                end
+            end
+        end
+        if #adjacent > 0 then return sortByScreenX(adjacent) end
+        return weak
+    end
+
+    -- Was this on screen BEFORE we started hiding things? Anything we hid ourselves counts
+    -- as visible if that's how we found it, so re-scanning after a hide doesn't decide the
+    -- real badge was never showing and switch to mirroring an off-screen copy.
+    local function visibleAsFound(inst)
+        if inst:IsA("ScreenGui") then
+            if hiddenGuis[inst] ~= nil then return hiddenGuis[inst] end
+            return inst.Enabled
+        end
+        if hiddenOriginals[inst] ~= nil then return hiddenOriginals[inst] end
+        if inst:IsA("GuiObject") then return inst.Visible end
+        return true
+    end
+
+    function wasOnScreen(inst)
+        local node = inst
+        while node and node ~= game do
+            if (node:IsA("GuiObject") or node:IsA("ScreenGui")) and not visibleAsFound(node) then
+                return false
+            end
+            node = node.Parent
+        end
+        return true
+    end
+
+    local function rescanGameLabels()
+        local pg = player:FindFirstChild("PlayerGui")
+        if not pg then return end
+        timerSrc, tagSrcs = nil, {}
+        timerAll, tagAll  = {}, {}
+
+        -- Every descendant of PlayerGui, not just direct ScreenGui children: the HUD can
+        -- sit any number of levels down, and assuming otherwise is why this found nothing.
+        --
+        -- Crucially this collects EVERY match, not the first. The game keeps more than one
+        -- copy of the badge (the first one found lives under a "Spectate" ScreenGui), and
+        -- they all track the same time -- so hiding only the first hid a copy that wasn't
+        -- even on screen while the real badge carried on showing. All of them get hidden;
+        -- the one that was actually on screen is what we mirror.
+        for _, d in ipairs(pg:GetDescendants()) do
+            local txt = readText(d)
+            if txt and looksLikeTime(txt) and not isOurs(d) then
+                timerAll[#timerAll + 1] = d
+                local tags = findTagsFor(d, pg)
+                for _, t in ipairs(tags) do tagAll[#tagAll + 1] = t end
+                if not timerSrc and wasOnScreen(d) then
+                    timerSrc, tagSrcs = d, tags
+                end
+            end
+        end
+        if #timerAll == 0 then
+            warn("[2024 Timer] couldn't find the game's timer label under PlayerGui.")
+            return
+        end
+        -- Nothing looked on screen (every copy hidden, or the check was too strict): mirror
+        -- the first rather than showing nothing.
+        if not timerSrc then
+            timerSrc, tagSrcs = timerAll[1], findTagsFor(timerAll[1], pg)
+        end
+        local names = {}
+        for _, t in ipairs(tagSrcs) do names[#names + 1] = t.Name end
+        warn(("[2024 Timer] %d timer copies | mirroring: %s | tags: %s"):format(
+            #timerAll, timerSrc:GetFullName(),
+            #names > 0 and table.concat(names, ", ") or "none found"))
+    end
+
+    -- The badge is a composite -- dark hexagon, gold border, clock icon, text -- so hiding
+    -- the text's immediate parent can leave the frame and border sitting there. Walk up
+    -- instead and hide the OUTERMOST ancestor that's still badge-sized, stopping before any
+    -- container that spans the screen, since that one is the HUD root and would take the
+    -- health bar and everything else with it.
+    local function badgeAncestor(label)
+        local cam = workspace.CurrentCamera
+        local vp  = (cam and cam.ViewportSize) or Vector2.new(1920, 1080)
+        -- Always take the immediate parent (the badge row), even if it's wide: the hexagon,
+        -- gold border and clock are siblings of the text, so hiding only the label left all
+        -- of that art on screen. Above that, climb only while still badge-sized, so a
+        -- screen-spanning HUD root never gets hidden along with it.
+        local best = (label.Parent and label.Parent:IsA("GuiObject")) and label.Parent or label
+        local node = best.Parent
+        while node and node:IsA("GuiObject") do
+            local s = node.AbsoluteSize
+            if s.X > vp.X * 0.6 or s.Y > vp.Y * 0.35 then break end
+            best = node
+            node = node.Parent
+        end
+        return best
+    end
+
+    -- A ScreenGui that exists solely for this badge can be switched off wholesale. That's
+    -- the only way to remove the hexagon and gold border, which live ABOVE the text's own
+    -- row: EToH's real badge is its own ScreenGui literally named "Timer". Deliberately
+    -- name-gated so a shared HUD like "Spectate" -- which holds health, the player list and
+    -- everything else -- is never switched off.
+    local function hideDedicatedGui(inst)
+        local sg = screenGuiOf(inst)
+        if not sg or isOurs(sg) then return end
+        local n = sg.Name:lower()
+        if n:find("timer", 1, true) or n:find("tower", 1, true) then
+            if hiddenGuis[sg] == nil then hiddenGuis[sg] = sg.Enabled end
+            if sg.Enabled then sg.Enabled = false end
+        end
+    end
+
+    local function hideOriginal(inst)
+        -- The label keeps updating while invisible, which is what we go on reading.
+        hideDedicatedGui(inst)
+        local target = inst and badgeAncestor(inst)
+        if target and target:IsA("GuiObject") then
+            -- Remember the original the first time only, but re-assert every frame: the
+            -- game's own HUD controller sets Visible back to true on its next update, which
+            -- is why hiding it once left the badge on screen.
+            if hiddenOriginals[target] == nil then
+                hiddenOriginals[target] = target.Visible
+            end
+            if target.Visible then target.Visible = false end
+        end
+    end
+
+    -- Re-assert on a Last-priority render step as well as on Heartbeat. The game's HUD
+    -- controller sets Visible back to true during the frame, and re-asserting only on
+    -- Heartbeat meant it could win the race and the badge stayed on screen; a Last-priority
+    -- render step runs after that update, so we're the final writer before it renders.
+    local RENDER_KEY = "PES_RetroTimer_Hide"
+    local function reassertHidden()
+        for inst in pairs(hiddenOriginals) do
+            if inst.Parent and inst.Visible then
+                pcall(function() inst.Visible = false end)
+            end
+        end
+        for sg in pairs(hiddenGuis) do
+            if sg.Parent and sg.Enabled then
+                pcall(function() sg.Enabled = false end)
+            end
+        end
+    end
+
+    local function restoreOriginals()
+        pcall(function() game:GetService("RunService"):UnbindFromRenderStep(RENDER_KEY) end)
+        for sg, wasEnabled in pairs(hiddenGuis) do
+            pcall(function() sg.Enabled = wasEnabled end)
+        end
+        hiddenGuis = {}
+        for inst, wasVisible in pairs(hiddenOriginals) do
+            pcall(function() inst.Visible = wasVisible end)
+        end
+        hiddenOriginals = {}
+    end
+
+    local function buildRetroGui()
+        local pg = player:WaitForChild("PlayerGui")
+        pcall(function()
+            local stale = pg:FindFirstChild(GUI_NAME)
+            if stale then stale:Destroy() end
+        end)
+
+        retroGui = Instance.new("ScreenGui")
+        retroGui.Name           = GUI_NAME
+        retroGui.ResetOnSpawn   = false
+        retroGui.IgnoreGuiInset = true
+        -- Very high: this sits in the same top-centre spot as the game's own badge, so at a
+        -- modest DisplayOrder it renders BEHIND the game HUD and looks like it never
+        -- appeared at all. It must draw above the HUD whether or not hiding the old badge
+        -- succeeded.
+        retroGui.DisplayOrder   = 1000000
+        retroGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+        retroGui.Enabled        = false
+        retroGui.Parent         = pg
+
+        -- Acronym + pill sit in one auto-sized row that stays centred at the top, so the
+        -- group re-centres itself as the tower name and the minutes digit change width.
+        local row = Instance.new("Frame")
+        row.Name                   = "Row"
+        row.AnchorPoint            = Vector2.new(0.5, 0)
+        row.Position               = UDim2.new(0.5, 0, 0, 4)
+        row.BackgroundTransparency = 1
+        row.AutomaticSize          = Enum.AutomaticSize.XY
+        row.Size                   = UDim2.fromOffset(0, 34)
+        row.Parent                 = retroGui
+
+        local rowLayout = Instance.new("UIListLayout")
+        rowLayout.FillDirection      = Enum.FillDirection.Horizontal
+        rowLayout.VerticalAlignment  = Enum.VerticalAlignment.Center
+        rowLayout.SortOrder          = Enum.SortOrder.LayoutOrder
+        rowLayout.Padding            = UDim.new(0, 6)
+        rowLayout.Parent             = row
+
+        -- A small pool rather than one label: a tower rush shows a rush tag as well as the
+        -- tower, and each keeps its own difficulty colour this way instead of being flattened
+        -- into one string. Laid out left of the pill in the order the game shows them.
+        acronymLabels = {}
+        for i = 1, 3 do
+        local acronymLabel = Instance.new("TextLabel")
+        acronymLabel.Name                   = "Acronym" .. i
+        acronymLabel.LayoutOrder            = i
+        acronymLabel.BackgroundTransparency = 1
+        acronymLabel.AutomaticSize          = Enum.AutomaticSize.X
+        acronymLabel.Size                   = UDim2.fromOffset(0, 30)
+        acronymLabel.Font                   = Enum.Font.GothamBold
+        acronymLabel.TextSize               = 24
+        acronymLabel.Text                   = ""
+        acronymLabel.TextColor3             = Color3.fromRGB(40, 90, 240)
+        -- The 2024 acronym had a heavy dark outline, which is what keeps a saturated
+        -- difficulty colour readable against a bright tower.
+        acronymLabel.TextStrokeTransparency = 0
+        acronymLabel.TextStrokeColor3       = Color3.fromRGB(10, 15, 40)
+        acronymLabel.Visible                = false
+        acronymLabel.Parent                 = row
+        acronymLabels[i] = acronymLabel
+        end
+
+        pill = Instance.new("Frame")
+        pill.Name                   = "Pill"
+        -- After the acronym pool, so the pill always sits to their right.
+        pill.LayoutOrder            = 10
+        pill.BackgroundColor3       = Color3.fromRGB(20, 24, 34)
+        pill.BackgroundTransparency = 0.45
+        pill.BorderSizePixel        = 0
+        pill.AutomaticSize          = Enum.AutomaticSize.X
+        pill.Size                   = UDim2.fromOffset(0, 32)
+        pill.Parent                 = row
+
+        local pillCorner = Instance.new("UICorner")
+        pillCorner.CornerRadius = UDim.new(1, 0) -- fully rounded ends
+        pillCorner.Parent       = pill
+
+        local pillPad = Instance.new("UIPadding")
+        pillPad.PaddingLeft  = UDim.new(0, 9)
+        pillPad.PaddingRight = UDim.new(0, 12)
+        pillPad.Parent       = pill
+
+        local pillLayout = Instance.new("UIListLayout")
+        pillLayout.FillDirection     = Enum.FillDirection.Horizontal
+        pillLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+        pillLayout.SortOrder         = Enum.SortOrder.LayoutOrder
+        pillLayout.Padding           = UDim.new(0, 7)
+        pillLayout.Parent            = pill
+
+        -- Clock drawn from primitives rather than an image asset, so it can't break on an
+        -- asset that fails to load: a stroked circle plus two hands rotated about the
+        -- centre (0 = pointing at 12, 120 = at 4), matching the original's outlined look.
+        local clock = Instance.new("Frame")
+        clock.Name                   = "Clock"
+        clock.LayoutOrder            = 1
+        clock.BackgroundTransparency = 1
+        clock.Size                   = UDim2.fromOffset(20, 20)
+        clock.Parent                 = pill
+
+        local dial = Instance.new("Frame")
+        dial.BackgroundTransparency = 1
+        dial.Size                   = UDim2.fromScale(1, 1)
+        dial.Parent                 = clock
+        local dialCorner = Instance.new("UICorner")
+        dialCorner.CornerRadius = UDim.new(1, 0)
+        dialCorner.Parent       = dial
+        local dialStroke = Instance.new("UIStroke")
+        dialStroke.Thickness = 2.2
+        dialStroke.Color     = Color3.fromRGB(255, 255, 255)
+        dialStroke.Parent    = dial
+
+        for _, hand in ipairs({ { 6, 0 }, { 5, 120 } }) do
+            local h = Instance.new("Frame")
+            h.AnchorPoint      = Vector2.new(0.5, 1)
+            h.Position         = UDim2.fromScale(0.5, 0.5)
+            h.Size             = UDim2.fromOffset(2, hand[1])
+            h.Rotation         = hand[2]
+            h.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            h.BorderSizePixel  = 0
+            h.Parent           = dial
+        end
+
+        timeLabel = Instance.new("TextLabel")
+        timeLabel.Name                   = "Time"
+        timeLabel.LayoutOrder            = 2
+        timeLabel.BackgroundTransparency = 1
+        timeLabel.AutomaticSize          = Enum.AutomaticSize.X
+        timeLabel.Size                   = UDim2.fromOffset(0, 26)
+        -- Monospaced so the readout doesn't jitter sideways as the digits tick over.
+        timeLabel.Font                   = Enum.Font.RobotoMono
+        timeLabel.TextSize               = 22
+        timeLabel.TextColor3             = Color3.fromRGB(255, 255, 255)
+        timeLabel.Text                   = "0:00.00"
+        timeLabel.Parent                 = pill
+    end
+
+    HudGroup:AddToggle("RetroTimer", {
+        Text    = "2024 Timer",
+        Default = false,
+        Tooltip = "Replaces the modern timer badge with the 2024 one: tower acronym, then a dark pill with a clock and the time. Reads the real timer, so the time always matches.",
+        Callback = function(state)
+            if retroConn then
+                retroConn:Disconnect()
+                retroConn = nil
+            end
+            if not retroGui then buildRetroGui() end
+            retroGui.Enabled = state
+
+            if not state then
+                restoreOriginals()
+                timerSrc, tagSrcs = nil, {}
+                return
+            end
+
+            rescanGameLabels()
+            lastScan = os.clock()
+            local RunService = game:GetService("RunService")
+            -- Unbind first: re-binding a key that's already bound throws, which would leave
+            -- the toggle working only the first time it's switched on.
+            pcall(function() RunService:UnbindFromRenderStep(RENDER_KEY) end)
+            pcall(function()
+                RunService:BindToRenderStep(RENDER_KEY, Enum.RenderPriority.Last.Value, reassertHidden)
+            end)
+            retroConn = RunService.Heartbeat:Connect(function()
+                -- The game's labels are recreated on respawn/teleport, so re-find them when
+                -- the timer goes missing -- but only once a second, since this walks all of
+                -- PlayerGui and doing that every frame would cost more than it's worth.
+                -- Keyed on the timer, plus a tag we HAD that has since been destroyed (the
+                -- HUD can rebuild it). Deliberately not keyed on the tag merely being nil:
+                -- that's what made the lobby, where the tag exists but is blank, rescan
+                -- every second forever.
+                local needScan = not timerSrc or not timerSrc.Parent
+                if not needScan then
+                    for _, t in ipairs(tagSrcs) do
+                        if not t.Parent then needScan = true break end
+                    end
+                end
+                if needScan and os.clock() - lastScan >= 1 then
+                    rescanGameLabels()
+                    lastScan = os.clock()
+                end
+
+                -- Hide EVERY copy, not just the one being mirrored: the visible badge and
+                -- the copy we read from are different instances.
+                for _, inst in ipairs(timerAll) do
+                    if inst.Parent then hideOriginal(inst) end
+                end
+                for _, inst in ipairs(tagAll) do
+                    if inst.Parent then hideOriginal(inst) end
+                end
+
+                if timerSrc and timerSrc.Parent then
+                    timeLabel.Text = trim(timerSrc.Text)
+                end
+                -- Mirror each tag the game is showing into its own label, keeping its colour.
+                -- A tower rush populates more than one (rush plus tower); a normal climb
+                -- populates one; the lobby populates none, where the 2024 HUD showed just the
+                -- pill. Blank sources are skipped so gaps don't appear between the labels.
+                local slot = 0
+                for _, src in ipairs(tagSrcs) do
+                    local s = src.Parent and trim(src.Text) or ""
+                    if s ~= "" and slot < #acronymLabels then
+                        slot = slot + 1
+                        local lbl = acronymLabels[slot]
+                        lbl.Text       = s
+                        lbl.TextColor3 = src.TextColor3
+                        lbl.Visible    = true
+                    end
+                end
+                for i = slot + 1, #acronymLabels do
+                    acronymLabels[i].Visible = false
+                end
+            end)
+        end,
+    })
+
+    retroTimerCleanup = function()
+        if retroConn then
+            retroConn:Disconnect()
+            retroConn = nil
+        end
+        restoreOriginals()
+        if retroGui then
+            retroGui:Destroy()
+            retroGui = nil
+        end
+    end
+end
+
 local CreditsGroup = Tabs.UISettings:AddRightGroupbox("Credits")
 CreditsGroup:AddLabel('<font color="rgb(90,200,255)">[cslp1]</font>  Owner', true)
-CreditsGroup:AddLabel('<font color="rgb(255,210,70)">[Mr.man]</font>  Co-owner', true)
-CreditsGroup:AddLabel('<font color="rgb(120,230,120)">[eli]</font>  Contributor', true)
 
 local OtherScriptsGroup = Tabs.UISettings:AddRightGroupbox("Other Scripts")
 local function copyLoadstring(name, code)
@@ -4835,7 +4734,7 @@ OtherScriptsGroup:AddButton({
     Text     = "Original Script",
     Tooltip  = "Original script of this project. Click to copy its loadstring.",
     Callback = function()
-        copyLoadstring("Original Script", 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MaybeIsRealZack/Project-EToH-Script/refs/heads/main/Loader.lua"))()')
+        copyLoadstring("Original Script", 'loadstring(game:HttpGet("https://raw.githubusercontent.com/cslp1/Project-EToH-Script/refs/heads/main/Loader.lua"))()')
     end,
 })
 OtherScriptsGroup:AddButton({
