@@ -264,9 +264,26 @@ local currentPlaceId = game.PlaceId
 -- the dropdown shows the towers physically present in the current place even if the
 -- registry's hardcoded category PlaceId no longer matches (e.g. after a game update),
 -- instead of silently filtering everything out and leaving a blank tower list.
+-- Some games keep entry portals in a TOP-LEVEL folder instead of inside the tower:
+--   EToH XL          workspace.TowerPortals.<name>
+--   Pit of Misery XL workspace["Tower Portals"].<name>
+-- In those games workspace.Towers.<name> is only the tower's INTERIOR (TowerStart, WinPad,
+-- the floors), so the portal that actually enters the tower isn't in there at all.
+local PORTAL_FOLDERS = { "TowerPortals", "Tower Portals" }
+local function portalFolder(name)
+    for _, folderName in ipairs(PORTAL_FOLDERS) do
+        local root  = workspace:FindFirstChild(folderName)
+        local entry = root and root:FindFirstChild(name)
+        if entry then return entry end
+    end
+    return nil
+end
+
 local function towerFolderPresent(name)
     local towersFolder = workspace:FindFirstChild("Towers")
-    return towersFolder ~= nil and towersFolder:FindFirstChild(name) ~= nil
+    if towersFolder and towersFolder:FindFirstChild(name) then return true end
+    -- A tower whose interior hasn't streamed in is still reachable if its portal is loaded.
+    return portalFolder(name) ~= nil
 end
 
 local function towerFolder(name)
@@ -301,7 +318,33 @@ local function toBasePart(inst)
     return inst:FindFirstChildWhichIsA("BasePart", true)
 end
 
+-- Known portal names first, then a substring pass, inside whichever container is given.
+local function searchForPortal(container)
+    for _, candidate in ipairs(PORTAL_NAMES) do
+        local part = toBasePart(container:FindFirstChild(candidate, true))
+        if part then return part end
+    end
+    for _, descendant in ipairs(container:GetDescendants()) do
+        if descendant:IsA("BasePart") then
+            local lower = descendant.Name:lower()
+            for _, hint in ipairs(PORTAL_HINTS) do
+                if lower:find(hint, 1, true) then return descendant end
+            end
+        end
+    end
+    return nil
+end
+
 local function resolveTPFrame(name)
+    -- A dedicated portal folder wins over the tower folder. It has to: in EToH XL the tower
+    -- folder holds TowerStart, which is where you SPAWN once inside, so resolving to that
+    -- teleports past the portal instead of entering through it.
+    local pf = portalFolder(name)
+    if pf then
+        local part = searchForPortal(pf) or toBasePart(pf)
+        if part then return part end
+    end
+
     local f = towerFolder(name)
     if not f then return nil end
 
@@ -314,23 +357,7 @@ local function resolveTPFrame(name)
         if part then return part end
     end
 
-    -- Then each known name, recursively, in priority order.
-    for _, candidate in ipairs(PORTAL_NAMES) do
-        local part = toBasePart(f:FindFirstChild(candidate, true))
-        if part then return part end
-    end
-
-    -- Last resort: any part whose name merely looks like a portal.
-    for _, descendant in ipairs(f:GetDescendants()) do
-        if descendant:IsA("BasePart") then
-            local lower = descendant.Name:lower()
-            for _, hint in ipairs(PORTAL_HINTS) do
-                if lower:find(hint, 1, true) then return descendant end
-            end
-        end
-    end
-
-    return nil
+    return searchForPortal(f)
 end
 local function resolveTeleportTo(name)
     local f = towerFolder(name)
@@ -1189,12 +1216,16 @@ local function runVMFlow(towerNames)
             -- EToH XL). Recursive search by name so it works regardless of how the game nests
             -- them.
             local entryParts = {}
-            local tpFramePart   = tower:FindFirstChild("TPFRAME", true)
-            local teleToPart    = tower:FindFirstChild("TeleportTo", true)
+            -- The portal first, and from the top-level portal folder when the game keeps it
+            -- there (EToH XL) -- it isn't inside the tower folder at all in those games.
+            local portalPart     = resolveTPFrame(name)
+            local tpFramePart    = tower:FindFirstChild("TPFRAME", true)
+            local teleToPart     = tower:FindFirstChild("TeleportTo", true)
             local towerStartPart = tower:FindFirstChild("TowerStart", true)
-            if tpFramePart    then entryParts[#entryParts + 1] = tpFramePart end
-            if teleToPart     then entryParts[#entryParts + 1] = teleToPart end
-            if towerStartPart then entryParts[#entryParts + 1] = towerStartPart end
+            if portalPart     then entryParts[#entryParts + 1] = portalPart end
+            if tpFramePart and tpFramePart ~= portalPart then entryParts[#entryParts + 1] = tpFramePart end
+            if teleToPart  and teleToPart  ~= portalPart then entryParts[#entryParts + 1] = teleToPart end
+            if towerStartPart and towerStartPart ~= portalPart then entryParts[#entryParts + 1] = towerStartPart end
             for _, part in ipairs(entryParts) do
                 local t0 = os.clock()
                 repeat
