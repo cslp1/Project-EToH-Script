@@ -2810,6 +2810,11 @@ PlayerBox:AddToggle("Noclip", {
         conns[#conns + 1] = RunService.Stepped:Connect(sweep)
         conns[#conns + 1] = RunService.Heartbeat:Connect(sweep)
     end,
+}):AddKeyPicker("NoclipKeybind", {
+    Text            = "Noclip Keybind",
+    Default         = "V",
+    Mode            = "Toggle",
+    SyncToggleState = true,
 })
 local flyConnection = nil
 local flyInputBeganConn = nil
