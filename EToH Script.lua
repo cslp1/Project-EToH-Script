@@ -2867,12 +2867,13 @@ PlayerBox:AddToggle("AntiAFK", {
 })
 
 -- ===== Auto Reset (attempt farming) =====
--- An attempt is counted when you ENTER a tower, and dying drops you back in the lobby --
--- so farming is a loop of enter -> reset -> enter, not resetting where you stand.
+-- The game's own R reset counts an attempt and leaves you in the tower, so farming is just
+-- pressing it on a loop -- no dying out to the lobby and walking back in.
 -- Own scope so its state isn't yet more main-chunk locals.
 local AutoResetLabel
 do
     local Players = game:GetService("Players")
+    local VIM     = game:GetService("VirtualInputManager")
     local player  = Players.LocalPlayer
 
     local resetToken = nil   -- identity of the running loop; a new toggle stops the old one
@@ -2903,93 +2904,39 @@ do
         return nil
     end
 
-    -- The tower's entry portal, through its registry config where there is one so a
-    -- dropdown display name maps to the right folder, falling back to a direct lookup.
-    local function portalFor(name)
-        local cfg = TowerConfigs[name]
-        if cfg and cfg.tpFrame then
-            local ok, part = pcall(cfg.tpFrame)
-            if ok and part then return part end
-        end
-        local ok2, part2 = pcall(resolveTPFrame, name)
-        return ok2 and part2 or nil
+    local function pressReset()
+        VIM:SendKeyEvent(true,  Enum.KeyCode.R, false, game)
+        task.wait(0.05)
+        VIM:SendKeyEvent(false, Enum.KeyCode.R, false, game)
     end
 
-    -- Stand on the portal until the game teleports us in. Entry is detected by the position
-    -- JUMPING, not by the tower name: the portal itself usually sits inside that tower's own
-    -- folder, so a name check reads as "in the tower" while you're still stood in the lobby.
-    -- The CFrame is only re-applied once a second, leaving room to see the teleport instead
-    -- of instantly dragging ourselves back onto the pad.
-    local function enterTower(name, token)
-        local part = portalFor(name)
-        if not part then return false, "no portal found for " .. name end
-        if not (player.Character and player.Character:FindFirstChild("HumanoidRootPart")) then
-            return false, "no character"
-        end
-
-        local giveUp, nudgeAt = os.clock() + 10, 0
-        repeat
-            local char = player.Character
-            local hrp  = char and char:FindFirstChild("HumanoidRootPart")
-            if hrp then
-                if (hrp.Position - part.Position).Magnitude > 60 then return true end
-                if os.clock() >= nudgeAt then
-                    hrp.CFrame = CFrame.new(part.Position + Vector3.new(0, 3, 0))
-                        * (hrp.CFrame - hrp.CFrame.Position)
-                    nudgeAt = os.clock() + 1
-                end
-            end
-            task.wait(0.15)
-        until resetToken ~= token or os.clock() > giveUp
-        return false, "entry timed out"
-    end
-
-    -- Health = 0 is what registers. The fallbacks are for kits that reject a plain health
-    -- write -- without them the loop would believe it had reset while the character stood there.
-    local function killCharacter(hum, char)
-        hum.Health = 0
-        task.delay(0.35, function()
-            if hum.Parent and hum.Health > 0 then
-                pcall(function() hum:ChangeState(Enum.HumanoidStateType.Dead) end)
-                pcall(function() char:BreakJoints() end)
-            end
-        end)
-    end
-
-    local function startLoop(delaySec, target)
+    local function startLoop(delaySec)
         local token = {}
         resetToken = token
         task.spawn(function()
             while resetToken == token do
-                -- 1. Get into the tower. This is the part that counts an attempt.
-                local entered, why = enterTower(target, token)
-                if resetToken ~= token then break end
-                if not entered then
-                    setLabel(("Stopped: %s"):format(why or "couldn't enter"))
-                    local t = Library.Toggles.AutoReset
-                    if t then t:SetValue(false) end
-                    break
+                -- Only in a tower: R in the lobby does nothing worth counting.
+                local tower = currentTower()
+                if not tower then
+                    setLabel(("Waiting -- not in a tower  ·  %d attempts"):format(attempts))
+                    task.wait(0.5)
+                    continue
                 end
+
+                local before = player.Character
+                pressReset()
                 attempts += 1
-                setLabel(("Attempts: %d  ·  %s"):format(attempts, target))
+                setLabel(("Attempts: %d  ·  %s"):format(attempts, tower))
 
-                task.wait(0.5)   -- let the entry register before dying out of it
-
-                -- 2. Reset back out to the lobby, ready to enter again.
-                local char = player.Character
-                local hum  = char and char:FindFirstChildOfClass("Humanoid")
-                if hum and hum.Health > 0 then
-                    killCharacter(hum, char)
-                    -- Wait for a genuinely NEW character rather than a fixed sleep: respawn
-                    -- time varies, and re-entering on the old one does nothing. Bounded so a
-                    -- respawn that never lands can't wedge the loop.
-                    local waitedFrom = os.clock()
-                    repeat
-                        task.wait(0.2)
-                        local fresh = player.Character
-                        if fresh and fresh ~= char and fresh:FindFirstChildOfClass("Humanoid") then break end
-                    until resetToken ~= token or os.clock() - waitedFrom > 15
-                end
+                -- R may or may not rebuild the character depending on the kit. Wait briefly
+                -- for a new one and carry on if it never comes, rather than assuming either
+                -- way -- pressing again mid-respawn just gets swallowed.
+                local waitedFrom = os.clock()
+                repeat
+                    task.wait(0.1)
+                    local fresh = player.Character
+                    if fresh and fresh ~= before and fresh:FindFirstChild("HumanoidRootPart") then break end
+                until resetToken ~= token or os.clock() - waitedFrom > 1.2
 
                 if resetToken ~= token then break end
                 task.wait(delaySec)
@@ -3000,24 +2947,16 @@ do
     PlayerBox:AddToggle("AutoReset", {
         Text    = "Auto Reset (farm attempts)",
         Default = false,
-        Tooltip = "Farms attempts on one tower: enters it, resets straight back out to the lobby, and enters again. Uses the tower you're standing in, or the one picked in the Towers dropdown. Turn Godmode OFF -- Auto-Heal will keep healing you and nothing ever dies -- and stop Auto Play first, or the two fight over your character.",
+        Tooltip = "Holds down the game's own R reset on a loop, which counts an attempt and leaves you in the tower. Only fires while you're actually in one. Turn Godmode OFF and stop Auto Play first, or they'll fight over your character.",
         Callback = function(state)
             resetToken = nil          -- stop whatever loop is running before starting another
-            if not state then return end
-
-            local target = currentTower()
-                or (Library.Options.TowerSelect and Library.Options.TowerSelect.Value)
-            if not target or target == "" then
-                setLabel("Pick a tower in the Towers dropdown first.")
-                local t = Library.Toggles.AutoReset
-                if t then t:SetValue(false) end
+            if not state then
+                setLabel(("Stopped  ·  %d attempts"):format(attempts))
                 return
             end
-
             local d = tonumber(Library.Options.AutoResetDelay
                 and Library.Options.AutoResetDelay.Value) or 1
-            setLabel(("Farming %s..."):format(target))
-            startLoop(math.clamp(d, 0, 60), target)
+            startLoop(math.clamp(d, 0, 60))
         end,
     })
 
@@ -3026,7 +2965,7 @@ do
         Default     = "1",
         Numeric     = true,
         Placeholder = "1",
-        Tooltip     = "Extra wait after each respawn before re-entering. This is ON TOP of the game's own respawn time, so 0 is as fast as the game allows.",
+        Tooltip     = "Wait between resets. 0 is as fast as the game will take them -- if attempts stop counting, raise it.",
     })
 
     AutoResetLabel = PlayerBox:AddLabel("Attempts: 0")
