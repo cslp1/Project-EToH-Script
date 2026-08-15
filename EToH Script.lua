@@ -2866,6 +2866,134 @@ PlayerBox:AddToggle("AntiAFK", {
     end,
 })
 
+-- ===== Auto Reset (attempt farming) =====
+-- Kills and waits for the respawn, over and over, so a tower racks up attempts without
+-- being played. Own scope so its state isn't yet more main-chunk locals.
+local AutoResetLabel
+do
+    local Players = game:GetService("Players")
+    local player  = Players.LocalPlayer
+
+    local resetToken = nil   -- identity of the running loop; a new toggle stops the old one
+    local resetCount = 0
+
+    local function updateLabel(tower)
+        if AutoResetLabel then
+            AutoResetLabel:SetText(("Resets: %d%s"):format(
+                resetCount, tower and ("  ·  " .. tower) or ""))
+        end
+    end
+
+    -- Health = 0 is what actually registers in this game. The fallbacks are for kits that
+    -- reject a plain health write -- without them the loop would sit there believing it had
+    -- reset while the character carried on standing.
+    local function killCharacter(hum, char)
+        hum.Health = 0
+        task.delay(0.35, function()
+            if hum.Parent and hum.Health > 0 then
+                pcall(function() hum:ChangeState(Enum.HumanoidStateType.Dead) end)
+                pcall(function() char:BreakJoints() end)
+            end
+        end)
+    end
+
+    -- Attempts are counted per TOWER, so a reset in the lobby is wasted. Raycast down and
+    -- walk the hit part up to workspace.Towers to see which tower we're in. Self-contained
+    -- rather than borrowing the Floor Counter's version, so this feature stands alone. The
+    -- ray runs 500 studs, so it still holds while falling mid-tower instead of pausing every
+    -- time your feet leave the ground.
+    local function currentTower()
+        local char = player.Character
+        local hrp  = char and char:FindFirstChild("HumanoidRootPart")
+        local towersFolder = workspace:FindFirstChild("Towers")
+        if not hrp or not towersFolder then return nil end
+
+        local params = RaycastParams.new()
+        params.FilterType = Enum.RaycastFilterType.Exclude
+        params.FilterDescendantsInstances = { char }
+        local hit = workspace:Raycast(hrp.Position, Vector3.new(0, -500, 0), params)
+
+        local node = hit and hit.Instance
+        while node and node ~= workspace do
+            if node.Parent == towersFolder then return node.Name end
+            node = node.Parent
+        end
+        return nil
+    end
+
+    local function startLoop(delaySec)
+        local token = {}
+        resetToken = token
+        task.spawn(function()
+            while resetToken == token do
+                local char = player.Character
+                local hum  = char and char:FindFirstChildOfClass("Humanoid")
+
+                local towerOnly = Library.Toggles.AutoResetInTowerOnly
+                    and Library.Toggles.AutoResetInTowerOnly.Value
+                local tower = towerOnly and currentTower() or nil
+                if towerOnly and not tower then
+                    if AutoResetLabel then
+                        AutoResetLabel:SetText(("Waiting -- not in a tower  ·  %d resets"):format(resetCount))
+                    end
+                    task.wait(0.5)
+                    continue
+                end
+
+                if hum and hum.Health > 0 then
+                    killCharacter(hum, char)
+                    resetCount += 1
+                    updateLabel(tower)
+
+                    -- Wait for a genuinely NEW character rather than a fixed sleep: respawn
+                    -- time varies, and resetting into the old one does nothing. Bounded so a
+                    -- respawn that never comes can't wedge the loop.
+                    local waitedFrom = os.clock()
+                    repeat
+                        task.wait(0.2)
+                        local fresh = player.Character
+                        if fresh and fresh ~= char and fresh:FindFirstChildOfClass("Humanoid") then break end
+                    until resetToken ~= token or os.clock() - waitedFrom > 15
+
+                    if resetToken ~= token then break end
+                    task.wait(delaySec)
+                else
+                    task.wait(0.25)
+                end
+            end
+        end)
+    end
+
+    PlayerBox:AddToggle("AutoReset", {
+        Text    = "Auto Reset (farm attempts)",
+        Default = false,
+        Tooltip = "Repeatedly kills you and waits for the respawn, so a tower's attempts pile up while you're not playing. Only resets while you're inside a tower, since a lobby reset doesn't count. Turn Godmode OFF -- Auto-Heal in particular will keep healing you and nothing will ever die. Also stop Auto Play first, or the two will fight over your character.",
+        Callback = function(state)
+            resetToken = nil          -- stop whatever loop is running before starting another
+            if not state then return end
+            local d = tonumber(Library.Options.AutoResetDelay
+                and Library.Options.AutoResetDelay.Value) or 1
+            startLoop(math.clamp(d, 0, 60))
+        end,
+    })
+
+    PlayerBox:AddToggle("AutoResetInTowerOnly", {
+        Text    = "  Only inside a tower",
+        Default = true,
+        Tooltip = "Holds off resetting until you're actually in a tower, so nothing is wasted in the lobby. Switch it off if the tower isn't being detected and you want it to reset regardless.",
+    })
+
+    PlayerBox:AddInput("AutoResetDelay", {
+        Text        = "Reset Delay (s)",
+        Default     = "1",
+        Numeric     = true,
+        Placeholder = "1",
+        Tooltip     = "Extra wait after each respawn before the next reset. This is ON TOP of the game's own respawn time, so 0 is as fast as the game allows.",
+    })
+
+    AutoResetLabel = PlayerBox:AddLabel("Resets: 0")
+end
+
 
 local godmodeOriginal = nil
 local godmodeV2Connection = nil
