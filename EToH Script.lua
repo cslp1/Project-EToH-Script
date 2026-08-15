@@ -2904,10 +2904,53 @@ do
         return nil
     end
 
+    -- How the reset is actually triggered. The kit exposes no reset remote and R isn't bound
+    -- through ContextActionService, so a synthetic keypress has nothing to land on -- and
+    -- VirtualInputManager is ignored entirely unless the Roblox window has focus. The menu's
+    -- own "Restart Run" button is the real entry point, so fire its click connections
+    -- directly: that works with the menu closed and without focus.
+    local restartBtn = nil
+    local function findRestartButton()
+        if restartBtn and restartBtn.Parent then return restartBtn end
+        restartBtn = nil
+        local pg = player:FindFirstChild("PlayerGui")
+        if not pg then return nil end
+        for _, d in ipairs(pg:GetDescendants()) do
+            if d:IsA("TextButton") or d:IsA("ImageButton") then
+                local hay = ((d:IsA("TextButton") and d.Text or "") .. " " .. d.Name):lower()
+                if hay:find("restart", 1, true) then
+                    restartBtn = d
+                    return d
+                end
+            end
+        end
+        return nil
+    end
+
+    local function fireButton(btn)
+        for _, sig in ipairs({ btn.MouseButton1Click, btn.Activated }) do
+            if type(getconnections) == "function" then
+                local ok, conns = pcall(getconnections, sig)
+                if ok and conns and #conns > 0 then
+                    for _, c in ipairs(conns) do pcall(function() c:Fire() end) end
+                    return true
+                end
+            end
+            if type(firesignal) == "function" and pcall(firesignal, sig) then
+                return true
+            end
+        end
+        return false
+    end
+
+    -- Returns how it fired, so the label can say when it fell back to the keypress.
     local function pressReset()
+        local btn = findRestartButton()
+        if btn and fireButton(btn) then return "Restart Run" end
         VIM:SendKeyEvent(true,  Enum.KeyCode.R, false, game)
         task.wait(0.05)
         VIM:SendKeyEvent(false, Enum.KeyCode.R, false, game)
+        return "R key"
     end
 
     local function startLoop(delaySec)
@@ -2920,9 +2963,10 @@ do
                 -- the lobby costs nothing -- so a failed detection must not stop anything.
                 local tower  = currentTower()
                 local before = player.Character
-                pressReset()
+                local how    = pressReset()
                 attempts += 1
-                setLabel(("Attempts: %d%s"):format(attempts, tower and ("  ·  " .. tower) or ""))
+                setLabel(("Attempts: %d  ·  %s%s"):format(
+                    attempts, how, tower and ("  ·  " .. tower) or ""))
 
                 -- R may or may not rebuild the character depending on the kit. Wait briefly
                 -- for a new one and carry on if it never comes, rather than assuming either
