@@ -2915,18 +2915,14 @@ do
         resetToken = token
         task.spawn(function()
             while resetToken == token do
-                -- Only in a tower: R in the lobby does nothing worth counting.
-                local tower = currentTower()
-                if not tower then
-                    setLabel(("Waiting -- not in a tower  ·  %d attempts"):format(attempts))
-                    task.wait(0.5)
-                    continue
-                end
-
+                -- Detection is for the label only. It used to gate the whole loop, but a
+                -- tower it can't identify then blocks farming entirely -- and pressing R in
+                -- the lobby costs nothing -- so a failed detection must not stop anything.
+                local tower  = currentTower()
                 local before = player.Character
                 pressReset()
                 attempts += 1
-                setLabel(("Attempts: %d  ·  %s"):format(attempts, tower))
+                setLabel(("Attempts: %d%s"):format(attempts, tower and ("  ·  " .. tower) or ""))
 
                 -- R may or may not rebuild the character depending on the kit. Wait briefly
                 -- for a new one and carry on if it never comes, rather than assuming either
