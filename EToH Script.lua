@@ -2293,7 +2293,32 @@ local function _initTowerPortal()
         local bands = {}
         do
             local frame = folder and folder:FindFirstChild("Frame")
+
+            -- Best case: the tower NAMES its floors. ToGF's Frame holds Floor1..Floor10, and
+            -- a number straight from the tower beats anything inferred -- no colour guessing,
+            -- no merging of decoration into spurious floors.
             if frame then
+                local baseOfFloor = {}
+                for _, v in ipairs(frame:GetDescendants()) do
+                    if v:IsA("BasePart") then
+                        local n = tonumber(v.Name:match("^[Ff]loor(%d+)$"))
+                        if n then
+                            local base = v.Position.Y - v.Size.Y / 2
+                            if not baseOfFloor[n] or base < baseOfFloor[n] then
+                                baseOfFloor[n] = base
+                            end
+                        end
+                    end
+                end
+                local nums = {}
+                for n in pairs(baseOfFloor) do nums[#nums + 1] = n end
+                table.sort(nums)
+                for _, n in ipairs(nums) do bands[#bands + 1] = baseOfFloor[n] end
+                table.sort(bands)   -- the lookup below walks bands in ascending height
+            end
+
+            -- Otherwise fall back to the colour banding, for towers with unnamed floors.
+            if frame and #bands == 0 then
                 local lowestOfColour = {}
                 for _, v in ipairs(frame:GetDescendants()) do
                     if v:IsA("BasePart") then
