@@ -2306,6 +2306,28 @@ local function _initTowerPortal()
                 end
                 for _, y in pairs(lowestOfColour) do bands[#bands + 1] = y end
                 table.sort(bands)
+
+                -- Distinct colours don't always mean distinct floors: trim, signs and
+                -- decoration sit at their own heights and each opens a spurious floor a few
+                -- studs above the real one -- ToGF reports six "floors" inside a 36-stud
+                -- span. Merge bands too close together to be separate floors, sizing the
+                -- threshold off this tower's own typical spacing rather than a fixed number,
+                -- since floor heights differ from tower to tower.
+                if #bands > 2 then
+                    local gaps = {}
+                    for i = 2, #bands do gaps[#gaps + 1] = bands[i] - bands[i - 1] end
+                    table.sort(gaps)
+                    local typical = gaps[math.max(1, math.floor(#gaps * 0.75))]
+                    local minGap  = math.max(10, typical * 0.45)
+
+                    local merged = { bands[1] }
+                    for i = 2, #bands do
+                        if bands[i] - merged[#merged] >= minGap then
+                            merged[#merged + 1] = bands[i]
+                        end
+                    end
+                    bands = merged
+                end
             end
         end
 
