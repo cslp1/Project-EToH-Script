@@ -2284,41 +2284,77 @@ local function _initTowerPortal()
             end
         end
         if #parts == 0 then return nil, name .. "'s Obby has no parts." end
-        -- Ascending = climb (lowest part first). Descending = a tower you go DOWN, so the
-        -- highest part is the start and the order flips.
-        if descending then
-            table.sort(parts, function(a, b) return a.Position.Y > b.Position.Y end)
-        else
-            table.sort(parts, function(a, b) return a.Position.Y < b.Position.Y end)
+        -- Floor-aware ordering. The kit kicks for doing a tower "out of order", and it
+        -- tracks that per FLOOR -- so the route has to finish one floor before touching the
+        -- next. Floors are never numbered anywhere, but the Frame is colour-banded per floor
+        -- (the same signal the Floor Counter reads), so the lowest part of each colour marks
+        -- where a floor begins. Sorting on raw height interleaves parts across those
+        -- boundaries, which is precisely what puts the route out of order.
+        local bands = {}
+        do
+            local frame = folder and folder:FindFirstChild("Frame")
+            if frame then
+                local lowestOfColour = {}
+                for _, v in ipairs(frame:GetDescendants()) do
+                    if v:IsA("BasePart") then
+                        local hex  = v.Color:ToHex()
+                        local base = v.Position.Y - v.Size.Y / 2
+                        if not lowestOfColour[hex] or base < lowestOfColour[hex] then
+                            lowestOfColour[hex] = base
+                        end
+                    end
+                end
+                for _, y in pairs(lowestOfColour) do bands[#bands + 1] = y end
+                table.sort(bands)
+            end
         end
 
-        -- Height alone is not a path. Plenty of parts sit at nearly the same height on
-        -- opposite sides of the tower, so a straight height sort sends consecutive
-        -- checkpoints lurching back and forth across the map -- which is what reads as
-        -- skipping and gets the run kicked, and it's why a 3000-part auto route is
-        -- unusable. So keep the height progression, but at each step take the CLOSEST of
-        -- the next few candidates instead of the strictly-next one: every part is still
-        -- visited, in roughly ascending order, with the route actually moving continuously.
-        --
-        -- The window bounds how far it may look ahead. Too small and it can't avoid the
-        -- cross-tower jumps; too large and it wanders off the climb entirely.
+        -- Which floor a part belongs to: the last band starting at or below it. With no
+        -- bands (no Frame, or one colour) everything lands on floor 1 and this reduces to
+        -- the old height ordering rather than failing.
+        local floorOf = {}
+        for _, p in ipairs(parts) do
+            local idx, y = 1, p.Position.Y
+            for i = 1, #bands do
+                if y >= bands[i] - 2 then idx = i else break end
+            end
+            floorOf[p] = idx
+        end
+
+        -- Ascending = climb (lowest floor first). Descending = a tower you go DOWN, so the
+        -- highest floor is the start and the order flips.
+        table.sort(parts, function(a, b)
+            local fa, fb = floorOf[a], floorOf[b]
+            if fa ~= fb then
+                if descending then return fa > fb end
+                return fa < fb
+            end
+            if descending then return a.Position.Y > b.Position.Y end
+            return a.Position.Y < b.Position.Y
+        end)
+
+        -- Within a floor, height still isn't a path: parts at the same height sit on
+        -- opposite sides of the tower, so consecutive checkpoints lurched across the map.
+        -- Take the closest of the next few candidates instead -- but never look past the end
+        -- of the current floor, or the route would start one floor before finishing another.
         local PROXIMITY_WINDOW = 30
         do
-            local n     = #parts
-            local used  = table.create(n, false)
-            local out   = table.create(n)
-            local head  = 1          -- lowest not-yet-used part, so the climb keeps rising
-            local at    = nil        -- where the route currently stands
+            local n    = #parts
+            local used = table.create(n, false)
+            local out  = table.create(n)
+            local head, at = 1, nil
 
             for _ = 1, n do
                 while head <= n and used[head] do head += 1 end
                 if head > n then break end
 
-                local bestIdx = head
+                local floorHere = floorOf[parts[head]]
+                local bestIdx   = head
                 if at then
                     local bestDist, seen, i = math.huge, 0, head
                     while i <= n and seen < PROXIMITY_WINDOW do
                         if not used[i] then
+                            if floorOf[parts[i]] ~= floorHere then break end
                             seen += 1
                             local d = (parts[i].Position - at).Magnitude
                             if d < bestDist then bestDist, bestIdx = d, i end
