@@ -2292,6 +2292,48 @@ local function _initTowerPortal()
             table.sort(parts, function(a, b) return a.Position.Y < b.Position.Y end)
         end
 
+        -- Height alone is not a path. Plenty of parts sit at nearly the same height on
+        -- opposite sides of the tower, so a straight height sort sends consecutive
+        -- checkpoints lurching back and forth across the map -- which is what reads as
+        -- skipping and gets the run kicked, and it's why a 3000-part auto route is
+        -- unusable. So keep the height progression, but at each step take the CLOSEST of
+        -- the next few candidates instead of the strictly-next one: every part is still
+        -- visited, in roughly ascending order, with the route actually moving continuously.
+        --
+        -- The window bounds how far it may look ahead. Too small and it can't avoid the
+        -- cross-tower jumps; too large and it wanders off the climb entirely.
+        local PROXIMITY_WINDOW = 30
+        do
+            local n     = #parts
+            local used  = table.create(n, false)
+            local out   = table.create(n)
+            local head  = 1          -- lowest not-yet-used part, so the climb keeps rising
+            local at    = nil        -- where the route currently stands
+
+            for _ = 1, n do
+                while head <= n and used[head] do head += 1 end
+                if head > n then break end
+
+                local bestIdx = head
+                if at then
+                    local bestDist, seen, i = math.huge, 0, head
+                    while i <= n and seen < PROXIMITY_WINDOW do
+                        if not used[i] then
+                            seen += 1
+                            local d = (parts[i].Position - at).Magnitude
+                            if d < bestDist then bestDist, bestIdx = d, i end
+                        end
+                        i += 1
+                    end
+                end
+
+                used[bestIdx] = true
+                out[#out + 1] = parts[bestIdx]
+                at = parts[bestIdx].Position
+            end
+            parts = out
+        end
+
         local winPad = folder:FindFirstChild("WinPad", true) or folder:FindFirstChild("Winpad", true)
         return { parts = parts, winPad = winPad, obby = obby }
     end
