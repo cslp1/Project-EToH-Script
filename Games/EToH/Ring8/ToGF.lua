@@ -1,3601 +1,2734 @@
 return function()
-    return {
-        workspace.Towers["ToGF"].Obby:GetChildren()[3472],
-        workspace.Towers["ToGF"].Obby:GetChildren()[374],
-        workspace.Towers["ToGF"].Obby:GetChildren()[373],
-        workspace.Towers["ToGF"].Obby:GetChildren()[168],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2245],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2247],
-        workspace.Towers["ToGF"].Obby:GetChildren()[163],
-        workspace.Towers["ToGF"].Obby:GetChildren()[169],
-        workspace.Towers["ToGF"].Obby:GetChildren()[537],
-        workspace.Towers["ToGF"].Obby:GetChildren()[161],
-        workspace.Towers["ToGF"].Obby:GetChildren()[160],
-        workspace.Towers["ToGF"].Obby:GetChildren()[256],
-        workspace.Towers["ToGF"].Obby:GetChildren()[257],
-        workspace.Towers["ToGF"].Obby:GetChildren()[172],
-        workspace.Towers["ToGF"].Obby:GetChildren()[258],
-        workspace.Towers["ToGF"].Obby:GetChildren()[183],
-        workspace.Towers["ToGF"].Obby:GetChildren()[173],
-        workspace.Towers["ToGF"].Obby:GetChildren()[190],
-        workspace.Towers["ToGF"].Obby:GetChildren()[192],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2246],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2244],
-        workspace.Towers["ToGF"].Obby:GetChildren()[285],
-        workspace.Towers["ToGF"].Obby:GetChildren()[197],
-        workspace.Towers["ToGF"].Obby:GetChildren()[188],
-        workspace.Towers["ToGF"].Obby:GetChildren()[187],
-        workspace.Towers["ToGF"].Obby:GetChildren()[225],
-        workspace.Towers["ToGF"].Obby:GetChildren()[170],
-        workspace.Towers["ToGF"].Obby:GetChildren()[262],
-        workspace.Towers["ToGF"].Obby:GetChildren()[260],
-        workspace.Towers["ToGF"].Obby:GetChildren()[305],
-        workspace.Towers["ToGF"].Obby:GetChildren()[259],
-        workspace.Towers["ToGF"].Obby:GetChildren()[202],
-        workspace.Towers["ToGF"].Obby:GetChildren()[178],
-        workspace.Towers["ToGF"].Obby:GetChildren()[182],
-        workspace.Towers["ToGF"].Obby:GetChildren()[180],
-        workspace.Towers["ToGF"].Obby:GetChildren()[176],
-        workspace.Towers["ToGF"].Obby:GetChildren()[179],
-        workspace.Towers["ToGF"].Obby:GetChildren()[175],
-        workspace.Towers["ToGF"].Obby:GetChildren()[181],
-        workspace.Towers["ToGF"].Obby:GetChildren()[177],
-        workspace.Towers["ToGF"].Obby:GetChildren()[174],
-        workspace.Towers["ToGF"].Obby:GetChildren()[228],
-        workspace.Towers["ToGF"].Obby:GetChildren()[267],
-        workspace.Towers["ToGF"].Obby:GetChildren()[268],
-        workspace.Towers["ToGF"].Obby:GetChildren()[193],
-        workspace.Towers["ToGF"].Obby:GetChildren()[269],
-        workspace.Towers["ToGF"].Obby:GetChildren()[191],
-        workspace.Towers["ToGF"].Obby:GetChildren()[304],
-        workspace.Towers["ToGF"].Obby:GetChildren()[207],
-        workspace.Towers["ToGF"].Obby:GetChildren()[302],
-        workspace.Towers["ToGF"].Obby:GetChildren()[303],
-        workspace.Towers["ToGF"].Obby:GetChildren()[199],
-        workspace.Towers["ToGF"].Obby:GetChildren()[306],
-        workspace.Towers["ToGF"].Obby:GetChildren()[286],
-        workspace.Towers["ToGF"].Obby:GetChildren()[275],
-        workspace.Towers["ToGF"].Obby:GetChildren()[276],
-        workspace.Towers["ToGF"].Obby:GetChildren()[277],
-        workspace.Towers["ToGF"].Obby:GetChildren()[281],
-        workspace.Towers["ToGF"].Obby:GetChildren()[210],
-        workspace.Towers["ToGF"].Obby:GetChildren()[278],
-        workspace.Towers["ToGF"].Obby:GetChildren()[283],
-        workspace.Towers["ToGF"].Obby:GetChildren()[201],
-        workspace.Towers["ToGF"].Obby:GetChildren()[203],
-        workspace.Towers["ToGF"].Obby:GetChildren()[313],
-        workspace.Towers["ToGF"].Obby:GetChildren()[219],
-        workspace.Towers["ToGF"].Obby:GetChildren()[213],
-        workspace.Towers["ToGF"].Obby:GetChildren()[220],
-        workspace.Towers["ToGF"].Obby:GetChildren()[214],
-        workspace.Towers["ToGF"].Obby:GetChildren()[320],
-        workspace.Towers["ToGF"].Obby:GetChildren()[319],
-        workspace.Towers["ToGF"].Obby:GetChildren()[329],
-        workspace.Towers["ToGF"].Obby:GetChildren()[205],
-        workspace.Towers["ToGF"].Obby:GetChildren()[206],
-        workspace.Towers["ToGF"].Obby:GetChildren()[227],
-        workspace.Towers["ToGF"].Obby:GetChildren()[287],
-        workspace.Towers["ToGF"].Obby:GetChildren()[298],
-        workspace.Towers["ToGF"].Obby:GetChildren()[284],
-        workspace.Towers["ToGF"].Obby:GetChildren()[261],
-        workspace.Towers["ToGF"].Obby:GetChildren()[263],
-        workspace.Towers["ToGF"].Obby:GetChildren()[251],
-        workspace.Towers["ToGF"].Obby:GetChildren()[361],
-        workspace.Towers["ToGF"].Obby:GetChildren()[254],
-        workspace.Towers["ToGF"].Obby:GetChildren()[384],
-        workspace.Towers["ToGF"].Obby:GetChildren()[186],
-        workspace.Towers["ToGF"].Obby:GetChildren()[204],
-        workspace.Towers["ToGF"].Obby:GetChildren()[211],
-        workspace.Towers["ToGF"].Obby:GetChildren()[289],
-        workspace.Towers["ToGF"].Obby:GetChildren()[288],
-        workspace.Towers["ToGF"].Obby:GetChildren()[294],
-        workspace.Towers["ToGF"].Obby:GetChildren()[292],
-        workspace.Towers["ToGF"].Obby:GetChildren()[296],
-        workspace.Towers["ToGF"].Obby:GetChildren()[295],
-        workspace.Towers["ToGF"].Obby:GetChildren()[293],
-        workspace.Towers["ToGF"].Obby:GetChildren()[265],
-        workspace.Towers["ToGF"].Obby:GetChildren()[266],
-        workspace.Towers["ToGF"].Obby:GetChildren()[379],
-        workspace.Towers["ToGF"].Obby:GetChildren()[307],
-        workspace.Towers["ToGF"].Obby:GetChildren()[512],
-        workspace.Towers["ToGF"].Obby:GetChildren()[208],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1209],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1213],
-        workspace.Towers["ToGF"].Obby:GetChildren()[209],
-        workspace.Towers["ToGF"].Obby:GetChildren()[280],
-        workspace.Towers["ToGF"].Obby:GetChildren()[232],
-        workspace.Towers["ToGF"].Obby:GetChildren()[339],
-        workspace.Towers["ToGF"].Obby:GetChildren()[341],
-        workspace.Towers["ToGF"].Obby:GetChildren()[270],
-        workspace.Towers["ToGF"].Obby:GetChildren()[279],
-        workspace.Towers["ToGF"].Obby:GetChildren()[486],
-        workspace.Towers["ToGF"].Obby:GetChildren()[224],
-        workspace.Towers["ToGF"].Obby:GetChildren()[300],
-        workspace.Towers["ToGF"].Obby:GetChildren()[229],
-        workspace.Towers["ToGF"].Obby:GetChildren()[247],
-        workspace.Towers["ToGF"].Obby:GetChildren()[248],
-        workspace.Towers["ToGF"].Obby:GetChildren()[231],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2737],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2249],
-        workspace.Towers["ToGF"].Obby:GetChildren()[249],
-        workspace.Towers["ToGF"].Obby:GetChildren()[241],
-        workspace.Towers["ToGF"].Obby:GetChildren()[377],
-        workspace.Towers["ToGF"].Obby:GetChildren()[311],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3522],
-        workspace.Towers["ToGF"].Obby:GetChildren()[291],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3477],
-        workspace.Towers["ToGF"].Obby:GetChildren()[297],
-        workspace.Towers["ToGF"].Obby:GetChildren()[349],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2248],
-        workspace.Towers["ToGF"].Obby:GetChildren()[244],
-        workspace.Towers["ToGF"].Obby:GetChildren()[243],
-        workspace.Towers["ToGF"].Obby:GetChildren()[240],
-        workspace.Towers["ToGF"].Obby:GetChildren()[356],
-        workspace.Towers["ToGF"].Obby:GetChildren()[359],
-        workspace.Towers["ToGF"].Obby:GetChildren()[312],
-        workspace.Towers["ToGF"].Obby:GetChildren()[221],
-        workspace.Towers["ToGF"].Obby:GetChildren()[222],
-        workspace.Towers["ToGF"].Obby:GetChildren()[299],
-        workspace.Towers["ToGF"].Obby:GetChildren()[198],
-        workspace.Towers["ToGF"].Obby:GetChildren()[323],
-        workspace.Towers["ToGF"].Obby:GetChildren()[343],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3523],
-        workspace.Towers["ToGF"].Obby:GetChildren()[282],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3525],
-        workspace.Towers["ToGF"].Obby:GetChildren()[264],
-        workspace.Towers["ToGF"].Obby:GetChildren()[345],
-        workspace.Towers["ToGF"].Obby:GetChildren()[353],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1703],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3521],
-        workspace.Towers["ToGF"].Obby:GetChildren()[308],
-        workspace.Towers["ToGF"].Obby:GetChildren()[309],
-        workspace.Towers["ToGF"].Obby:GetChildren()[372],
-        workspace.Towers["ToGF"].Obby:GetChildren()[371],
-        workspace.Towers["ToGF"].Obby:GetChildren()[246],
-        workspace.Towers["ToGF"].Obby:GetChildren()[212],
-        workspace.Towers["ToGF"].Obby:GetChildren()[245],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3476],
-        workspace.Towers["ToGF"].Obby:GetChildren()[335],
-        workspace.Towers["ToGF"].Obby:GetChildren()[350],
-        workspace.Towers["ToGF"].Obby:GetChildren()[351],
-        workspace.Towers["ToGF"].Obby:GetChildren()[218],
-        workspace.Towers["ToGF"].Obby:GetChildren()[352],
-        workspace.Towers["ToGF"].Obby:GetChildren()[318],
-        workspace.Towers["ToGF"].Obby:GetChildren()[315],
-        workspace.Towers["ToGF"].Obby:GetChildren()[316],
-        workspace.Towers["ToGF"].Obby:GetChildren()[317],
-        workspace.Towers["ToGF"].Obby:GetChildren()[364],
-        workspace.Towers["ToGF"].Obby:GetChildren()[338],
-        workspace.Towers["ToGF"].Obby:GetChildren()[336],
-        workspace.Towers["ToGF"].Obby:GetChildren()[337],
-        workspace.Towers["ToGF"].Obby:GetChildren()[314],
-        workspace.Towers["ToGF"].Obby:GetChildren()[389],
-        workspace.Towers["ToGF"].Obby:GetChildren()[252],
-        workspace.Towers["ToGF"].Obby:GetChildren()[330],
-        workspace.Towers["ToGF"].Obby:GetChildren()[253],
-        workspace.Towers["ToGF"].Obby:GetChildren()[363],
-        workspace.Towers["ToGF"].Obby:GetChildren()[255],
-        workspace.Towers["ToGF"].Obby:GetChildren()[331],
-        workspace.Towers["ToGF"].Obby:GetChildren()[362],
-        workspace.Towers["ToGF"].Obby:GetChildren()[360],
-        workspace.Towers["ToGF"].Obby:GetChildren()[217],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2738],
-        workspace.Towers["ToGF"].Obby:GetChildren()[344],
-        workspace.Towers["ToGF"].Obby:GetChildren()[327],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2740],
-        workspace.Towers["ToGF"].Obby:GetChildren()[216],
-        workspace.Towers["ToGF"].Obby:GetChildren()[215],
-        workspace.Towers["ToGF"].Obby:GetChildren()[367],
-        workspace.Towers["ToGF"].Obby:GetChildren()[365],
-        workspace.Towers["ToGF"].Obby:GetChildren()[395],
-        workspace.Towers["ToGF"].Obby:GetChildren()[397],
-        workspace.Towers["ToGF"].Obby:GetChildren()[355],
-        workspace.Towers["ToGF"].Obby:GetChildren()[354],
-        workspace.Towers["ToGF"].Obby:GetChildren()[226],
-        workspace.Towers["ToGF"].Obby:GetChildren()[346],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3539],
-        workspace.Towers["ToGF"].Obby:GetChildren()[328],
-        workspace.Towers["ToGF"].Obby:GetChildren()[325],
-        workspace.Towers["ToGF"].Obby:GetChildren()[324],
-        workspace.Towers["ToGF"].Obby:GetChildren()[370],
-        workspace.Towers["ToGF"].Obby:GetChildren()[369],
-        workspace.Towers["ToGF"].Obby:GetChildren()[333],
-        workspace.Towers["ToGF"].Obby:GetChildren()[332],
-        workspace.Towers["ToGF"].Obby:GetChildren()[334],
-        workspace.Towers["ToGF"].Obby:GetChildren()[542],
-        workspace.Towers["ToGF"].Obby:GetChildren()[381],
-        workspace.Towers["ToGF"].Obby:GetChildren()[380],
-        workspace.Towers["ToGF"].Obby:GetChildren()[376],
-        workspace.Towers["ToGF"].Obby:GetChildren()[393],
-        workspace.Towers["ToGF"].Obby:GetChildren()[368],
-        workspace.Towers["ToGF"].Obby:GetChildren()[382],
-        workspace.Towers["ToGF"].Obby:GetChildren()[390],
-        workspace.Towers["ToGF"].Obby:GetChildren()[347],
-        workspace.Towers["ToGF"].Obby:GetChildren()[348],
-        workspace.Towers["ToGF"].Obby:GetChildren()[391],
-        workspace.Towers["ToGF"].Obby:GetChildren()[357],
-        workspace.Towers["ToGF"].Obby:GetChildren()[358],
-        workspace.Towers["ToGF"].Obby:GetChildren()[392],
-        workspace.Towers["ToGF"].Obby:GetChildren()[230],
-        workspace.Towers["ToGF"].Obby:GetChildren()[387],
-        workspace.Towers["ToGF"].Obby:GetChildren()[410],
-        workspace.Towers["ToGF"].Obby:GetChildren()[405],
-        workspace.Towers["ToGF"].Obby:GetChildren()[383],
-        workspace.Towers["ToGF"].Obby:GetChildren()[396],
-        workspace.Towers["ToGF"].Obby:GetChildren()[446],
-        workspace.Towers["ToGF"].Obby:GetChildren()[411],
-        workspace.Towers["ToGF"].Obby:GetChildren()[406],
-        workspace.Towers["ToGF"].Obby:GetChildren()[398],
-        workspace.Towers["ToGF"].Obby:GetChildren()[469],
-        workspace.Towers["ToGF"].Obby:GetChildren()[467],
-        workspace.Towers["ToGF"].Obby:GetChildren()[409],
-        workspace.Towers["ToGF"].Obby:GetChildren()[408],
-        workspace.Towers["ToGF"].Obby:GetChildren()[403],
-        workspace.Towers["ToGF"].Obby:GetChildren()[404],
-        workspace.Towers["ToGF"].Obby:GetChildren()[400],
-        workspace.Towers["ToGF"].Obby:GetChildren()[399],
-        workspace.Towers["ToGF"].Obby:GetChildren()[401],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2046],
-        workspace.Towers["ToGF"].Obby:GetChildren()[470],
-        workspace.Towers["ToGF"].Obby:GetChildren()[412],
-        workspace.Towers["ToGF"].Obby:GetChildren()[445],
-        workspace.Towers["ToGF"].Obby:GetChildren()[388],
-        workspace.Towers["ToGF"].Obby:GetChildren()[386],
-        workspace.Towers["ToGF"].Obby:GetChildren()[394],
-        workspace.Towers["ToGF"].Obby:GetChildren()[415],
-        workspace.Towers["ToGF"].Obby:GetChildren()[407],
-        workspace.Towers["ToGF"].Obby:GetChildren()[402],
-        workspace.Towers["ToGF"].Obby:GetChildren()[417],
-        workspace.Towers["ToGF"].Obby:GetChildren()[418],
-        workspace.Towers["ToGF"].Obby:GetChildren()[419],
-        workspace.Towers["ToGF"].Obby:GetChildren()[420],
-        workspace.Towers["ToGF"].Obby:GetChildren()[441],
-        workspace.Towers["ToGF"].Obby:GetChildren()[421],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1206],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1208],
-        workspace.Towers["ToGF"].Obby:GetChildren()[416],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2047],
-        workspace.Towers["ToGF"].Obby:GetChildren()[233],
-        workspace.Towers["ToGF"].Obby:GetChildren()[466],
-        workspace.Towers["ToGF"].Obby:GetChildren()[468],
-        workspace.Towers["ToGF"].Obby:GetChildren()[195],
-        workspace.Towers["ToGF"].Obby:GetChildren()[413],
-        workspace.Towers["ToGF"].Obby:GetChildren()[476],
-        workspace.Towers["ToGF"].Obby:GetChildren()[444],
-        workspace.Towers["ToGF"].Obby:GetChildren()[443],
-        workspace.Towers["ToGF"].Obby:GetChildren()[271],
-        workspace.Towers["ToGF"].Obby:GetChildren()[414],
-        workspace.Towers["ToGF"].Obby:GetChildren()[509],
-        workspace.Towers["ToGF"].Obby:GetChildren()[422],
-        workspace.Towers["ToGF"].Obby:GetChildren()[447],
-        workspace.Towers["ToGF"].Obby:GetChildren()[423],
-        workspace.Towers["ToGF"].Obby:GetChildren()[424],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1211],
-        workspace.Towers["ToGF"].Obby:GetChildren()[426],
-        workspace.Towers["ToGF"].Obby:GetChildren()[425],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3517],
-        workspace.Towers["ToGF"].Obby:GetChildren()[519],
-        workspace.Towers["ToGF"].Obby:GetChildren()[577],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3478],
-        workspace.Towers["ToGF"].Obby:GetChildren()[528],
-        workspace.Towers["ToGF"].Obby:GetChildren()[530],
-        workspace.Towers["ToGF"].Obby:GetChildren()[326],
-        workspace.Towers["ToGF"].Obby:GetChildren()[529],
-        workspace.Towers["ToGF"].Obby:GetChildren()[427],
-        workspace.Towers["ToGF"].Obby:GetChildren()[522],
-        workspace.Towers["ToGF"].Obby:GetChildren()[543],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1205],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1218],
-        workspace.Towers["ToGF"].Obby:GetChildren()[511],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1217],
-        workspace.Towers["ToGF"].Obby:GetChildren()[488],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2450],
-        workspace.Towers["ToGF"].Obby:GetChildren()[536],
-        workspace.Towers["ToGF"].Obby:GetChildren()[568],
-        workspace.Towers["ToGF"].Obby:GetChildren()[462],
-        workspace.Towers["ToGF"].Obby:GetChildren()[535],
-        workspace.Towers["ToGF"].Obby:GetChildren()[513],
-        workspace.Towers["ToGF"].Obby:GetChildren()[454],
-        workspace.Towers["ToGF"].Obby:GetChildren()[452],
-        workspace.Towers["ToGF"].Obby:GetChildren()[453],
-        workspace.Towers["ToGF"].Obby:GetChildren()[431],
-        workspace.Towers["ToGF"].Obby:GetChildren()[428],
-        workspace.Towers["ToGF"].Obby:GetChildren()[196],
-        workspace.Towers["ToGF"].Obby:GetChildren()[548],
-        workspace.Towers["ToGF"].Obby:GetChildren()[461],
-        workspace.Towers["ToGF"].Obby:GetChildren()[507],
-        workspace.Towers["ToGF"].Obby:GetChildren()[450],
-        workspace.Towers["ToGF"].Obby:GetChildren()[515],
-        workspace.Towers["ToGF"].Obby:GetChildren()[520],
-        workspace.Towers["ToGF"].Obby:GetChildren()[518],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2739],
-        workspace.Towers["ToGF"].Obby:GetChildren()[485],
-        workspace.Towers["ToGF"].Obby:GetChildren()[479],
-        workspace.Towers["ToGF"].Obby:GetChildren()[523],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2251],
-        workspace.Towers["ToGF"].Obby:GetChildren()[435],
-        workspace.Towers["ToGF"].Obby:GetChildren()[484],
-        workspace.Towers["ToGF"].Obby:GetChildren()[439],
-        workspace.Towers["ToGF"].Obby:GetChildren()[436],
-        workspace.Towers["ToGF"].Obby:GetChildren()[440],
-        workspace.Towers["ToGF"].Obby:GetChildren()[237],
-        workspace.Towers["ToGF"].Obby:GetChildren()[437],
-        workspace.Towers["ToGF"].Obby:GetChildren()[474],
-        workspace.Towers["ToGF"].Obby:GetChildren()[438],
-        workspace.Towers["ToGF"].Obby:GetChildren()[524],
-        workspace.Towers["ToGF"].Obby:GetChildren()[521],
-        workspace.Towers["ToGF"].Obby:GetChildren()[432],
-        workspace.Towers["ToGF"].Obby:GetChildren()[448],
-        workspace.Towers["ToGF"].Obby:GetChildren()[517],
-        workspace.Towers["ToGF"].Obby:GetChildren()[575],
-        workspace.Towers["ToGF"].Obby:GetChildren()[510],
-        workspace.Towers["ToGF"].Obby:GetChildren()[459],
-        workspace.Towers["ToGF"].Obby:GetChildren()[455],
-        workspace.Towers["ToGF"].Obby:GetChildren()[460],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2250],
-        workspace.Towers["ToGF"].Obby:GetChildren()[475],
-        workspace.Towers["ToGF"].Obby:GetChildren()[463],
-        workspace.Towers["ToGF"].Obby:GetChildren()[556],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1215],
-        workspace.Towers["ToGF"].Obby:GetChildren()[482],
-        workspace.Towers["ToGF"].Obby:GetChildren()[553],
-        workspace.Towers["ToGF"].Obby:GetChildren()[464],
-        workspace.Towers["ToGF"].Obby:GetChildren()[433],
-        workspace.Towers["ToGF"].Obby:GetChildren()[531],
-        workspace.Towers["ToGF"].Obby:GetChildren()[526],
-        workspace.Towers["ToGF"].Obby:GetChildren()[533],
-        workspace.Towers["ToGF"].Obby:GetChildren()[481],
-        workspace.Towers["ToGF"].Obby:GetChildren()[429],
-        workspace.Towers["ToGF"].Obby:GetChildren()[555],
-        workspace.Towers["ToGF"].Obby:GetChildren()[483],
-        workspace.Towers["ToGF"].Obby:GetChildren()[449],
-        workspace.Towers["ToGF"].Obby:GetChildren()[495],
-        workspace.Towers["ToGF"].Obby:GetChildren()[494],
-        workspace.Towers["ToGF"].Obby:GetChildren()[560],
-        workspace.Towers["ToGF"].Obby:GetChildren()[505],
-        workspace.Towers["ToGF"].Obby:GetChildren()[547],
-        workspace.Towers["ToGF"].Obby:GetChildren()[456],
-        workspace.Towers["ToGF"].Obby:GetChildren()[471],
-        workspace.Towers["ToGF"].Obby:GetChildren()[559],
-        workspace.Towers["ToGF"].Obby:GetChildren()[458],
-        workspace.Towers["ToGF"].Obby:GetChildren()[272],
-        workspace.Towers["ToGF"].Obby:GetChildren()[496],
-        workspace.Towers["ToGF"].Obby:GetChildren()[564],
-        workspace.Towers["ToGF"].Obby:GetChildren()[571],
-        workspace.Towers["ToGF"].Obby:GetChildren()[572],
-        workspace.Towers["ToGF"].Obby:GetChildren()[508],
-        workspace.Towers["ToGF"].Obby:GetChildren()[430],
-        workspace.Towers["ToGF"].Obby:GetChildren()[576],
-        workspace.Towers["ToGF"].Obby:GetChildren()[578],
-        workspace.Towers["ToGF"].Obby:GetChildren()[544],
-        workspace.Towers["ToGF"].Obby:GetChildren()[504],
-        workspace.Towers["ToGF"].Obby:GetChildren()[457],
-        workspace.Towers["ToGF"].Obby:GetChildren()[491],
-        workspace.Towers["ToGF"].Obby:GetChildren()[787],
-        workspace.Towers["ToGF"].Obby:GetChildren()[640],
-        workspace.Towers["ToGF"].Obby:GetChildren()[600],
-        workspace.Towers["ToGF"].Obby:GetChildren()[597],
-        workspace.Towers["ToGF"].Obby:GetChildren()[506],
-        workspace.Towers["ToGF"].Obby:GetChildren()[641],
-        workspace.Towers["ToGF"].Obby:GetChildren()[478],
-        workspace.Towers["ToGF"].Obby:GetChildren()[561],
-        workspace.Towers["ToGF"].Obby:GetChildren()[502],
-        workspace.Towers["ToGF"].Obby:GetChildren()[503],
-        workspace.Towers["ToGF"].Obby:GetChildren()[642],
-        workspace.Towers["ToGF"].Obby:GetChildren()[567],
-        workspace.Towers["ToGF"].Obby:GetChildren()[579],
-        workspace.Towers["ToGF"].Obby:GetChildren()[573],
-        workspace.Towers["ToGF"].Obby:GetChildren()[574],
-        workspace.Towers["ToGF"].Obby:GetChildren()[554],
-        workspace.Towers["ToGF"].Obby:GetChildren()[552],
-        workspace.Towers["ToGF"].Obby:GetChildren()[582],
-        workspace.Towers["ToGF"].Obby:GetChildren()[569],
-        workspace.Towers["ToGF"].Obby:GetChildren()[539],
-        workspace.Towers["ToGF"].Obby:GetChildren()[541],
-        workspace.Towers["ToGF"].Obby:GetChildren()[550],
-        workspace.Towers["ToGF"].Obby:GetChildren()[549],
-        workspace.Towers["ToGF"].Obby:GetChildren()[551],
-        workspace.Towers["ToGF"].Obby:GetChildren()[562],
-        workspace.Towers["ToGF"].Obby:GetChildren()[581],
-        workspace.Towers["ToGF"].Obby:GetChildren()[540],
-        workspace.Towers["ToGF"].Obby:GetChildren()[599],
-        workspace.Towers["ToGF"].Obby:GetChildren()[451],
-        workspace.Towers["ToGF"].Obby:GetChildren()[596],
-        workspace.Towers["ToGF"].Obby:GetChildren()[557],
-        workspace.Towers["ToGF"].Obby:GetChildren()[638],
-        workspace.Towers["ToGF"].Obby:GetChildren()[639],
-        workspace.Towers["ToGF"].Obby:GetChildren()[501],
-        workspace.Towers["ToGF"].Obby:GetChildren()[498],
-        workspace.Towers["ToGF"].Obby:GetChildren()[580],
-        workspace.Towers["ToGF"].Obby:GetChildren()[492],
-        workspace.Towers["ToGF"].Obby:GetChildren()[493],
-        workspace.Towers["ToGF"].Obby:GetChildren()[527],
-        workspace.Towers["ToGF"].Obby:GetChildren()[532],
-        workspace.Towers["ToGF"].Obby:GetChildren()[534],
-        workspace.Towers["ToGF"].Obby:GetChildren()[525],
-        workspace.Towers["ToGF"].Obby:GetChildren()[545],
-        workspace.Towers["ToGF"].Obby:GetChildren()[490],
-        workspace.Towers["ToGF"].Obby:GetChildren()[489],
-        workspace.Towers["ToGF"].Obby:GetChildren()[273],
-        workspace.Towers["ToGF"].Obby:GetChildren()[274],
-        workspace.Towers["ToGF"].Obby:GetChildren()[586],
-        workspace.Towers["ToGF"].Obby:GetChildren()[588],
-        workspace.Towers["ToGF"].Obby:GetChildren()[563],
-        workspace.Towers["ToGF"].Obby:GetChildren()[587],
-        workspace.Towers["ToGF"].Obby:GetChildren()[585],
-        workspace.Towers["ToGF"].Obby:GetChildren()[570],
-        workspace.Towers["ToGF"].Obby:GetChildren()[500],
-        workspace.Towers["ToGF"].Obby:GetChildren()[477],
-        workspace.Towers["ToGF"].Obby:GetChildren()[499],
-        workspace.Towers["ToGF"].Obby:GetChildren()[633],
-        workspace.Towers["ToGF"].Obby:GetChildren()[634],
-        workspace.Towers["ToGF"].Obby:GetChildren()[609],
-        workspace.Towers["ToGF"].Obby:GetChildren()[655],
-        workspace.Towers["ToGF"].Obby:GetChildren()[593],
-        workspace.Towers["ToGF"].Obby:GetChildren()[624],
-        workspace.Towers["ToGF"].Obby:GetChildren()[628],
-        workspace.Towers["ToGF"].Obby:GetChildren()[659],
-        workspace.Towers["ToGF"].Obby:GetChildren()[623],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1226],
-        workspace.Towers["ToGF"].Obby:GetChildren()[592],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2253],
-        workspace.Towers["ToGF"].Obby:GetChildren()[653],
-        workspace.Towers["ToGF"].Obby:GetChildren()[654],
-        workspace.Towers["ToGF"].Obby:GetChildren()[636],
-        workspace.Towers["ToGF"].Obby:GetChildren()[598],
-        workspace.Towers["ToGF"].Obby:GetChildren()[595],
-        workspace.Towers["ToGF"].Obby:GetChildren()[637],
-        workspace.Towers["ToGF"].Obby:GetChildren()[622],
-        workspace.Towers["ToGF"].Obby:GetChildren()[625],
-        workspace.Towers["ToGF"].Obby:GetChildren()[626],
-        workspace.Towers["ToGF"].Obby:GetChildren()[629],
-        workspace.Towers["ToGF"].Obby:GetChildren()[632],
-        workspace.Towers["ToGF"].Obby:GetChildren()[647],
-        workspace.Towers["ToGF"].Obby:GetChildren()[651],
-        workspace.Towers["ToGF"].Obby:GetChildren()[601],
-        workspace.Towers["ToGF"].Obby:GetChildren()[652],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2741],
-        workspace.Towers["ToGF"].Obby:GetChildren()[662],
-        workspace.Towers["ToGF"].Obby:GetChildren()[661],
-        workspace.Towers["ToGF"].Obby:GetChildren()[660],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2416],
-        workspace.Towers["ToGF"].Obby:GetChildren()[658],
-        workspace.Towers["ToGF"].Obby:GetChildren()[664],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2409],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2419],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2408],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2417],
-        workspace.Towers["ToGF"].Obby:GetChildren()[663],
-        workspace.Towers["ToGF"].Obby:GetChildren()[666],
-        workspace.Towers["ToGF"].Obby:GetChildren()[234],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2252],
-        workspace.Towers["ToGF"].Obby:GetChildren()[665],
-        workspace.Towers["ToGF"].Obby:GetChildren()[238],
-        workspace.Towers["ToGF"].Obby:GetChildren()[607],
-        workspace.Towers["ToGF"].Obby:GetChildren()[668],
-        workspace.Towers["ToGF"].Obby:GetChildren()[667],
-        workspace.Towers["ToGF"].Obby:GetChildren()[645],
-        workspace.Towers["ToGF"].Obby:GetChildren()[670],
-        workspace.Towers["ToGF"].Obby:GetChildren()[669],
-        workspace.Towers["ToGF"].Obby:GetChildren()[672],
-        workspace.Towers["ToGF"].Obby:GetChildren()[671],
-        workspace.Towers["ToGF"].Obby:GetChildren()[678],
-        workspace.Towers["ToGF"].Obby:GetChildren()[589],
-        workspace.Towers["ToGF"].Obby:GetChildren()[657],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2851],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3509],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3507],
-        workspace.Towers["ToGF"].Obby:GetChildren()[605],
-        workspace.Towers["ToGF"].Obby:GetChildren()[635],
-        workspace.Towers["ToGF"].Obby:GetChildren()[594],
-        workspace.Towers["ToGF"].Obby:GetChildren()[239],
-        workspace.Towers["ToGF"].Obby:GetChildren()[236],
-        workspace.Towers["ToGF"].Obby:GetChildren()[681],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1741],
-        workspace.Towers["ToGF"].Obby:GetChildren()[656],
-        workspace.Towers["ToGF"].Obby:GetChildren()[646],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1219],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3511],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3508],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3510],
-        workspace.Towers["ToGF"].Obby:GetChildren()[683],
-        workspace.Towers["ToGF"].Obby:GetChildren()[194],
-        workspace.Towers["ToGF"].Obby:GetChildren()[684],
-        workspace.Towers["ToGF"].Obby:GetChildren()[685],
-        workspace.Towers["ToGF"].Obby:GetChildren()[611],
-        workspace.Towers["ToGF"].Obby:GetChildren()[608],
-        workspace.Towers["ToGF"].Obby:GetChildren()[606],
-        workspace.Towers["ToGF"].Obby:GetChildren()[797],
-        workspace.Towers["ToGF"].Obby:GetChildren()[795],
-        workspace.Towers["ToGF"].Obby:GetChildren()[793],
-        workspace.Towers["ToGF"].Obby:GetChildren()[677],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3514],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3513],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3512],
-        workspace.Towers["ToGF"].Obby:GetChildren()[603],
-        workspace.Towers["ToGF"].Obby:GetChildren()[602],
-        workspace.Towers["ToGF"].Obby:GetChildren()[676],
-        workspace.Towers["ToGF"].Obby:GetChildren()[644],
-        workspace.Towers["ToGF"].Obby:GetChildren()[591],
-        workspace.Towers["ToGF"].Obby:GetChildren()[643],
-        workspace.Towers["ToGF"].Obby:GetChildren()[590],
-        workspace.Towers["ToGF"].Obby:GetChildren()[650],
-        workspace.Towers["ToGF"].Obby:GetChildren()[649],
-        workspace.Towers["ToGF"].Obby:GetChildren()[686],
-        workspace.Towers["ToGF"].Obby:GetChildren()[679],
-        workspace.Towers["ToGF"].Obby:GetChildren()[675],
-        workspace.Towers["ToGF"].Obby:GetChildren()[709],
-        workspace.Towers["ToGF"].Obby:GetChildren()[710],
-        workspace.Towers["ToGF"].Obby:GetChildren()[708],
-        workspace.Towers["ToGF"].Obby:GetChildren()[704],
-        workspace.Towers["ToGF"].Obby:GetChildren()[682],
-        workspace.Towers["ToGF"].Obby:GetChildren()[687],
-        workspace.Towers["ToGF"].Obby:GetChildren()[823],
-        workspace.Towers["ToGF"].Obby:GetChildren()[831],
-        workspace.Towers["ToGF"].Obby:GetChildren()[825],
-        workspace.Towers["ToGF"].Obby:GetChildren()[901],
-        workspace.Towers["ToGF"].Obby:GetChildren()[902],
-        workspace.Towers["ToGF"].Obby:GetChildren()[824],
-        workspace.Towers["ToGF"].Obby:GetChildren()[900],
-        workspace.Towers["ToGF"].Obby:GetChildren()[702],
-        workspace.Towers["ToGF"].Obby:GetChildren()[821],
-        workspace.Towers["ToGF"].Obby:GetChildren()[822],
-        workspace.Towers["ToGF"].Obby:GetChildren()[700],
-        workspace.Towers["ToGF"].Obby:GetChildren()[680],
-        workspace.Towers["ToGF"].Obby:GetChildren()[235],
-        workspace.Towers["ToGF"].Obby:GetChildren()[833],
-        workspace.Towers["ToGF"].Obby:GetChildren()[839],
-        workspace.Towers["ToGF"].Obby:GetChildren()[688],
-        workspace.Towers["ToGF"].Obby:GetChildren()[809],
-        workspace.Towers["ToGF"].Obby:GetChildren()[811],
-        workspace.Towers["ToGF"].Obby:GetChildren()[810],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2945],
-        workspace.Towers["ToGF"].Obby:GetChildren()[840],
-        workspace.Towers["ToGF"].Obby:GetChildren()[904],
-        workspace.Towers["ToGF"].Obby:GetChildren()[905],
-        workspace.Towers["ToGF"].Obby:GetChildren()[838],
-        workspace.Towers["ToGF"].Obby:GetChildren()[837],
-        workspace.Towers["ToGF"].Obby:GetChildren()[834],
-        workspace.Towers["ToGF"].Obby:GetChildren()[835],
-        workspace.Towers["ToGF"].Obby:GetChildren()[689],
-        workspace.Towers["ToGF"].Obby:GetChildren()[932],
-        workspace.Towers["ToGF"].Obby:GetChildren()[472],
-        workspace.Towers["ToGF"].Obby:GetChildren()[910],
-        workspace.Towers["ToGF"].Obby:GetChildren()[858],
-        workspace.Towers["ToGF"].Obby:GetChildren()[859],
-        workspace.Towers["ToGF"].Obby:GetChildren()[785],
-        workspace.Towers["ToGF"].Obby:GetChildren()[909],
-        workspace.Towers["ToGF"].Obby:GetChildren()[784],
-        workspace.Towers["ToGF"].Obby:GetChildren()[949],
-        workspace.Towers["ToGF"].Obby:GetChildren()[783],
-        workspace.Towers["ToGF"].Obby:GetChildren()[918],
-        workspace.Towers["ToGF"].Obby:GetChildren()[695],
-        workspace.Towers["ToGF"].Obby:GetChildren()[693],
-        workspace.Towers["ToGF"].Obby:GetChildren()[907],
-        workspace.Towers["ToGF"].Obby:GetChildren()[906],
-        workspace.Towers["ToGF"].Obby:GetChildren()[917],
-        workspace.Towers["ToGF"].Obby:GetChildren()[826],
-        workspace.Towers["ToGF"].Obby:GetChildren()[919],
-        workspace.Towers["ToGF"].Obby:GetChildren()[843],
-        workspace.Towers["ToGF"].Obby:GetChildren()[703],
-        workspace.Towers["ToGF"].Obby:GetChildren()[929],
-        workspace.Towers["ToGF"].Obby:GetChildren()[931],
-        workspace.Towers["ToGF"].Obby:GetChildren()[925],
-        workspace.Towers["ToGF"].Obby:GetChildren()[922],
-        workspace.Towers["ToGF"].Obby:GetChildren()[924],
-        workspace.Towers["ToGF"].Obby:GetChildren()[921],
-        workspace.Towers["ToGF"].Obby:GetChildren()[928],
-        workspace.Towers["ToGF"].Obby:GetChildren()[927],
-        workspace.Towers["ToGF"].Obby:GetChildren()[812],
-        workspace.Towers["ToGF"].Obby:GetChildren()[691],
-        workspace.Towers["ToGF"].Obby:GetChildren()[791],
-        workspace.Towers["ToGF"].Obby:GetChildren()[792],
-        workspace.Towers["ToGF"].Obby:GetChildren()[930],
-        workspace.Towers["ToGF"].Obby:GetChildren()[860],
-        workspace.Towers["ToGF"].Obby:GetChildren()[807],
-        workspace.Towers["ToGF"].Obby:GetChildren()[820],
-        workspace.Towers["ToGF"].Obby:GetChildren()[805],
-        workspace.Towers["ToGF"].Obby:GetChildren()[806],
-        workspace.Towers["ToGF"].Obby:GetChildren()[819],
-        workspace.Towers["ToGF"].Obby:GetChildren()[817],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3274],
-        workspace.Towers["ToGF"].Obby:GetChildren()[631],
-        workspace.Towers["ToGF"].Obby:GetChildren()[782],
-        workspace.Towers["ToGF"].Obby:GetChildren()[913],
-        workspace.Towers["ToGF"].Obby:GetChildren()[912],
-        workspace.Towers["ToGF"].Obby:GetChildren()[914],
-        workspace.Towers["ToGF"].Obby:GetChildren()[911],
-        workspace.Towers["ToGF"].Obby:GetChildren()[915],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3484],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3485],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3486],
-        workspace.Towers["ToGF"].Obby:GetChildren()[926],
-        workspace.Towers["ToGF"].Obby:GetChildren()[916],
-        workspace.Towers["ToGF"].Obby:GetChildren()[923],
-        workspace.Towers["ToGF"].Obby:GetChildren()[920],
-        workspace.Towers["ToGF"].Obby:GetChildren()[933],
-        workspace.Towers["ToGF"].Obby:GetChildren()[701],
-        workspace.Towers["ToGF"].Obby:GetChildren()[720],
-        workspace.Towers["ToGF"].Obby:GetChildren()[696],
-        workspace.Towers["ToGF"].Obby:GetChildren()[694],
-        workspace.Towers["ToGF"].Obby:GetChildren()[796],
-        workspace.Towers["ToGF"].Obby:GetChildren()[798],
-        workspace.Towers["ToGF"].Obby:GetChildren()[794],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2895],
-        workspace.Towers["ToGF"].Obby:GetChildren()[846],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1434],
-        workspace.Towers["ToGF"].Obby:GetChildren()[908],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1743],
-        workspace.Towers["ToGF"].Obby:GetChildren()[711],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1500],
-        workspace.Towers["ToGF"].Obby:GetChildren()[871],
-        workspace.Towers["ToGF"].Obby:GetChildren()[937],
-        workspace.Towers["ToGF"].Obby:GetChildren()[935],
-        workspace.Towers["ToGF"].Obby:GetChildren()[861],
-        workspace.Towers["ToGF"].Obby:GetChildren()[836],
-        workspace.Towers["ToGF"].Obby:GetChildren()[872],
-        workspace.Towers["ToGF"].Obby:GetChildren()[946],
-        workspace.Towers["ToGF"].Obby:GetChildren()[844],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1502],
-        workspace.Towers["ToGF"].Obby:GetChildren()[934],
-        workspace.Towers["ToGF"].Obby:GetChildren()[841],
-        workspace.Towers["ToGF"].Obby:GetChildren()[690],
-        workspace.Towers["ToGF"].Obby:GetChildren()[851],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3541],
-        workspace.Towers["ToGF"].Obby:GetChildren()[939],
-        workspace.Towers["ToGF"].Obby:GetChildren()[802],
-        workspace.Towers["ToGF"].Obby:GetChildren()[862],
-        workspace.Towers["ToGF"].Obby:GetChildren()[864],
-        workspace.Towers["ToGF"].Obby:GetChildren()[863],
-        workspace.Towers["ToGF"].Obby:GetChildren()[936],
-        workspace.Towers["ToGF"].Obby:GetChildren()[938],
-        workspace.Towers["ToGF"].Obby:GetChildren()[845],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1170],
-        workspace.Towers["ToGF"].Obby:GetChildren()[866],
-        workspace.Towers["ToGF"].Obby:GetChildren()[705],
-        workspace.Towers["ToGF"].Obby:GetChildren()[790],
-        workspace.Towers["ToGF"].Obby:GetChildren()[854],
-        workspace.Towers["ToGF"].Obby:GetChildren()[717],
-        workspace.Towers["ToGF"].Obby:GetChildren()[868],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2049],
-        workspace.Towers["ToGF"].Obby:GetChildren()[848],
-        workspace.Towers["ToGF"].Obby:GetChildren()[945],
-        workspace.Towers["ToGF"].Obby:GetChildren()[729],
-        workspace.Towers["ToGF"].Obby:GetChildren()[776],
-        workspace.Towers["ToGF"].Obby:GetChildren()[728],
-        workspace.Towers["ToGF"].Obby:GetChildren()[716],
-        workspace.Towers["ToGF"].Obby:GetChildren()[727],
-        workspace.Towers["ToGF"].Obby:GetChildren()[775],
-        workspace.Towers["ToGF"].Obby:GetChildren()[706],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2255],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2254],
-        workspace.Towers["ToGF"].Obby:GetChildren()[876],
-        workspace.Towers["ToGF"].Obby:GetChildren()[875],
-        workspace.Towers["ToGF"].Obby:GetChildren()[870],
-        workspace.Towers["ToGF"].Obby:GetChildren()[723],
-        workspace.Towers["ToGF"].Obby:GetChildren()[722],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2893],
-        workspace.Towers["ToGF"].Obby:GetChildren()[719],
-        workspace.Towers["ToGF"].Obby:GetChildren()[724],
-        workspace.Towers["ToGF"].Obby:GetChildren()[721],
-        workspace.Towers["ToGF"].Obby:GetChildren()[867],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3543],
-        workspace.Towers["ToGF"].Obby:GetChildren()[853],
-        workspace.Towers["ToGF"].Obby:GetChildren()[748],
-        workspace.Towers["ToGF"].Obby:GetChildren()[757],
-        workspace.Towers["ToGF"].Obby:GetChildren()[762],
-        workspace.Towers["ToGF"].Obby:GetChildren()[749],
-        workspace.Towers["ToGF"].Obby:GetChildren()[692],
-        workspace.Towers["ToGF"].Obby:GetChildren()[756],
-        workspace.Towers["ToGF"].Obby:GetChildren()[726],
-        workspace.Towers["ToGF"].Obby:GetChildren()[725],
-        workspace.Towers["ToGF"].Obby:GetChildren()[718],
-        workspace.Towers["ToGF"].Obby:GetChildren()[761],
-        workspace.Towers["ToGF"].Obby:GetChildren()[763],
-        workspace.Towers["ToGF"].Obby:GetChildren()[751],
-        workspace.Towers["ToGF"].Obby:GetChildren()[804],
-        workspace.Towers["ToGF"].Obby:GetChildren()[803],
-        workspace.Towers["ToGF"].Obby:GetChildren()[755],
-        workspace.Towers["ToGF"].Obby:GetChildren()[769],
-        workspace.Towers["ToGF"].Obby:GetChildren()[768],
-        workspace.Towers["ToGF"].Obby:GetChildren()[754],
-        workspace.Towers["ToGF"].Obby:GetChildren()[770],
-        workspace.Towers["ToGF"].Obby:GetChildren()[771],
-        workspace.Towers["ToGF"].Obby:GetChildren()[869],
-        workspace.Towers["ToGF"].Obby:GetChildren()[827],
-        workspace.Towers["ToGF"].Obby:GetChildren()[829],
-        workspace.Towers["ToGF"].Obby:GetChildren()[852],
-        workspace.Towers["ToGF"].Obby:GetChildren()[855],
-        workspace.Towers["ToGF"].Obby:GetChildren()[950],
-        workspace.Towers["ToGF"].Obby:GetChildren()[786],
-        workspace.Towers["ToGF"].Obby:GetChildren()[850],
-        workspace.Towers["ToGF"].Obby:GetChildren()[760],
-        workspace.Towers["ToGF"].Obby:GetChildren()[815],
-        workspace.Towers["ToGF"].Obby:GetChildren()[944],
-        workspace.Towers["ToGF"].Obby:GetChildren()[813],
-        workspace.Towers["ToGF"].Obby:GetChildren()[758],
-        workspace.Towers["ToGF"].Obby:GetChildren()[764],
-        workspace.Towers["ToGF"].Obby:GetChildren()[877],
-        workspace.Towers["ToGF"].Obby:GetChildren()[948],
-        workspace.Towers["ToGF"].Obby:GetChildren()[842],
-        workspace.Towers["ToGF"].Obby:GetChildren()[947],
-        workspace.Towers["ToGF"].Obby:GetChildren()[849],
-        workspace.Towers["ToGF"].Obby:GetChildren()[958],
-        workspace.Towers["ToGF"].Obby:GetChildren()[951],
-        workspace.Towers["ToGF"].Obby:GetChildren()[957],
-        workspace.Towers["ToGF"].Obby:GetChildren()[956],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2742],
-        workspace.Towers["ToGF"].Obby:GetChildren()[952],
-        workspace.Towers["ToGF"].Obby:GetChildren()[873],
-        workspace.Towers["ToGF"].Obby:GetChildren()[750],
-        workspace.Towers["ToGF"].Obby:GetChildren()[874],
-        workspace.Towers["ToGF"].Obby:GetChildren()[942],
-        workspace.Towers["ToGF"].Obby:GetChildren()[943],
-        workspace.Towers["ToGF"].Obby:GetChildren()[847],
-        workspace.Towers["ToGF"].Obby:GetChildren()[747],
-        workspace.Towers["ToGF"].Obby:GetChildren()[753],
-        workspace.Towers["ToGF"].Obby:GetChildren()[473],
-        workspace.Towers["ToGF"].Obby:GetChildren()[960],
-        workspace.Towers["ToGF"].Obby:GetChildren()[965],
-        workspace.Towers["ToGF"].Obby:GetChildren()[953],
-        workspace.Towers["ToGF"].Obby:GetChildren()[959],
-        workspace.Towers["ToGF"].Obby:GetChildren()[856],
-        workspace.Towers["ToGF"].Obby:GetChildren()[857],
-        workspace.Towers["ToGF"].Obby:GetChildren()[752],
-        workspace.Towers["ToGF"].Obby:GetChildren()[778],
-        workspace.Towers["ToGF"].Obby:GetChildren()[779],
-        workspace.Towers["ToGF"].Obby:GetChildren()[780],
-        workspace.Towers["ToGF"].Obby:GetChildren()[777],
-        workspace.Towers["ToGF"].Obby:GetChildren()[814],
-        workspace.Towers["ToGF"].Obby:GetChildren()[801],
-        workspace.Towers["ToGF"].Obby:GetChildren()[799],
-        workspace.Towers["ToGF"].Obby:GetChildren()[800],
-        workspace.Towers["ToGF"].Obby:GetChildren()[830],
-        workspace.Towers["ToGF"].Obby:GetChildren()[816],
-        workspace.Towers["ToGF"].Obby:GetChildren()[828],
-        workspace.Towers["ToGF"].Obby:GetChildren()[767],
-        workspace.Towers["ToGF"].Obby:GetChildren()[961],
-        workspace.Towers["ToGF"].Obby:GetChildren()[772],
-        workspace.Towers["ToGF"].Obby:GetChildren()[963],
-        workspace.Towers["ToGF"].Obby:GetChildren()[962],
-        workspace.Towers["ToGF"].Obby:GetChildren()[954],
-        workspace.Towers["ToGF"].Obby:GetChildren()[955],
-        workspace.Towers["ToGF"].Obby:GetChildren()[765],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2743],
-        workspace.Towers["ToGF"].Obby:GetChildren()[999],
-        workspace.Towers["ToGF"].Obby:GetChildren()[992],
-        workspace.Towers["ToGF"].Obby:GetChildren()[986],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1003],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3538],
-        workspace.Towers["ToGF"].Obby:GetChildren()[989],
-        workspace.Towers["ToGF"].Obby:GetChildren()[995],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1001],
-        workspace.Towers["ToGF"].Obby:GetChildren()[997],
-        workspace.Towers["ToGF"].Obby:GetChildren()[982],
-        workspace.Towers["ToGF"].Obby:GetChildren()[968],
-        workspace.Towers["ToGF"].Obby:GetChildren()[969],
-        workspace.Towers["ToGF"].Obby:GetChildren()[976],
-        workspace.Towers["ToGF"].Obby:GetChildren()[973],
-        workspace.Towers["ToGF"].Obby:GetChildren()[977],
-        workspace.Towers["ToGF"].Obby:GetChildren()[971],
-        workspace.Towers["ToGF"].Obby:GetChildren()[980],
-        workspace.Towers["ToGF"].Obby:GetChildren()[979],
-        workspace.Towers["ToGF"].Obby:GetChildren()[983],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1742],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1013],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1010],
-        workspace.Towers["ToGF"].Obby:GetChildren()[759],
-        workspace.Towers["ToGF"].Obby:GetChildren()[972],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1002],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1369],
-        workspace.Towers["ToGF"].Obby:GetChildren()[985],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1377],
-        workspace.Towers["ToGF"].Obby:GetChildren()[967],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1000],
-        workspace.Towers["ToGF"].Obby:GetChildren()[975],
-        workspace.Towers["ToGF"].Obby:GetChildren()[998],
-        workspace.Towers["ToGF"].Obby:GetChildren()[981],
-        workspace.Towers["ToGF"].Obby:GetChildren()[991],
-        workspace.Towers["ToGF"].Obby:GetChildren()[988],
-        workspace.Towers["ToGF"].Obby:GetChildren()[987],
-        workspace.Towers["ToGF"].Obby:GetChildren()[974],
-        workspace.Towers["ToGF"].Obby:GetChildren()[978],
-        workspace.Towers["ToGF"].Obby:GetChildren()[994],
-        workspace.Towers["ToGF"].Obby:GetChildren()[993],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2045],
-        workspace.Towers["ToGF"].Obby:GetChildren()[996],
-        workspace.Towers["ToGF"].Obby:GetChildren()[970],
-        workspace.Towers["ToGF"].Obby:GetChildren()[990],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2108],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1255],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1240],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1242],
-        workspace.Towers["ToGF"].Obby:GetChildren()[964],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2111],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1005],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1004],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1317],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1744],
-        workspace.Towers["ToGF"].Obby:GetChildren()[984],
-        workspace.Towers["ToGF"].Obby:GetChildren()[966],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1062],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1061],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1053],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1026],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1045],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1054],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1025],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1052],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1051],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1041],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1050],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1298],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1254],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1341],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1343],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1342],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1340],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1301],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1314],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1311],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1312],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1302],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1251],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1266],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2257],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1261],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1303],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2259],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1007],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1006],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1260],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1293],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1024],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1259],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1258],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1304],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1297],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1299],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1073],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1319],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1256],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1265],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1318],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1081],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1077],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1287],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1285],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1370],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1284],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1305],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1055],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1047],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1049],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1068],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1048],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1058],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1057],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1082],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1269],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2258],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2256],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1306],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1344],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1313],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1315],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1316],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1307],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1292],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1019],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1018],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1308],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1021],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1017],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1016],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1020],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1740],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1739],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1072],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1264],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1253],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1263],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1309],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1080],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1043],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1039],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3410],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1352],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1276],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1079],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1310],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1076],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1368],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1376],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1069],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1042],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1038],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1071],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1283],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1291],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1300],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1288],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1270],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1271],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1349],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1084],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1737],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1029],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1036],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1028],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1030],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1037],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1275],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3408],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2744],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1008],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1296],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1009],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3020],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2745],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3014],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3215],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3016],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1267],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1268],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1257],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1085],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1074],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1078],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3345],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3294],
-        workspace.Towers["ToGF"].Obby:GetChildren()[707],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2391],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1083],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1346],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1345],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1278],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1277],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1351],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1358],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1031],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1032],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1350],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1033],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1289],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1286],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1035],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1034],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1274],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1056],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1060],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1059],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1067],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1070],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1294],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1272],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1011],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1273],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1390],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1388],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1015],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1353],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1241],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1243],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1246],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1347],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1086],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1385],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1387],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1044],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1040],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1046],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1966],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1479],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1354],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1022],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1066],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1359],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1348],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1409],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1400],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1397],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1406],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1295],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1027],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1367],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1365],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1373],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1362],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1375],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1413],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1361],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1374],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1382],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1366],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1364],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1064],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1398],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1372],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1401],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1063],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1065],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1399],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1389],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1378],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1393],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1386],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1391],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1392],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1104],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1236],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1237],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1419],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1238],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1235],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1234],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1418],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1417],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1101],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1093],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1102],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1098],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1099],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1100],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1103],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1097],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1394],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1096],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1095],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1094],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1233],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1422],
-        workspace.Towers["ToGF"].Obby:GetChildren()[6],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1416],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1239],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1091],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1410],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1405],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2131],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1290],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2116],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2122],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1363],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1371],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2118],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2117],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2119],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1087],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1232],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2123],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1089],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1402],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1577],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1576],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1574],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2124],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1395],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1579],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1578],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2125],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2126],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1092],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3524],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3515],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2113],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2114],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1396],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2115],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2127],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1412],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1407],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1411],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1408],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2128],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2746],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2129],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2130],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1404],
-        workspace.Towers["ToGF"].Obby:GetChildren()[888],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1403],
-        workspace.Towers["ToGF"].Obby:GetChildren()[899],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1355],
-        workspace.Towers["ToGF"].Obby:GetChildren()[893],
-        workspace.Towers["ToGF"].Obby:GetChildren()[897],
-        workspace.Towers["ToGF"].Obby:GetChildren()[885],
-        workspace.Towers["ToGF"].Obby:GetChildren()[895],
-        workspace.Towers["ToGF"].Obby:GetChildren()[892],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1088],
-        workspace.Towers["ToGF"].Obby:GetChildren()[889],
-        workspace.Towers["ToGF"].Obby:GetChildren()[883],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1023],
-        workspace.Towers["ToGF"].Obby:GetChildren()[891],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1415],
-        workspace.Towers["ToGF"].Obby:GetChildren()[898],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1090],
-        workspace.Towers["ToGF"].Obby:GetChildren()[887],
-        workspace.Towers["ToGF"].Obby:GetChildren()[894],
-        workspace.Towers["ToGF"].Obby:GetChildren()[884],
-        workspace.Towers["ToGF"].Obby:GetChildren()[886],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2132],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1504],
-        workspace.Towers["ToGF"].Obby:GetChildren()[896],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2110],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2107],
-        workspace.Towers["ToGF"].Obby:GetChildren()[890],
-        workspace.Towers["ToGF"].Obby:GetChildren()[882],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1444],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1423],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1441],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1437],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1450],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1414],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1420],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1431],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1575],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2121],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1245],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1244],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1012],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1014],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1429],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1528],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1436],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1279],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1281],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1282],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1280],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1247],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1697],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1248],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1440],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1250],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1249],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2748],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1455],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1473],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1456],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1430],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1457],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1458],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1459],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1463],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1461],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1460],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1464],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1462],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1513],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1478],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2747],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1439],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1477],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1466],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1465],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1467],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1619],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1622],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1521],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1468],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1470],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1427],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2468],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1426],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1428],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1449],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1451],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1454],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1452],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1472],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1453],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1469],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1511],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1555],
-        workspace.Towers["ToGF"].Obby:GetChildren()[879],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1520],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1516],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1517],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1519],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1547],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1546],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1548],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1526],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1580],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1527],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1538],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1537],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1535],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1539],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1618],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1613],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1524],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1598],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1605],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1610],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1593],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1679],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1512],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1522],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3487],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1683],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1433],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1685],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1621],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1523],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1666],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1558],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1471],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1670],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1559],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1669],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3534],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1674],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1518],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3499],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1569],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1514],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1573],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1507],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3488],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1509],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1225],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3497],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3490],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3494],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1602],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3489],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1525],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1438],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3500],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1207],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3495],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1476],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1617],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1557],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1561],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1560],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1556],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1545],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1544],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1563],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1540],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1543],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1542],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1562],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1541],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1581],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1571],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1572],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3496],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1534],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1443],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1445],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1591],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3501],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1611],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1606],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1609],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1614],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3506],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1448],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1594],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3498],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1607],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1447],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1616],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1671],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1590],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1664],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1672],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1601],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3491],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3502],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3493],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1596],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1595],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1627],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1696],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1515],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1190],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1475],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1625],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1628],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1216],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1665],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3492],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3471],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1684],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3533],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1682],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2750],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3504],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1620],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1383],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1508],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3505],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1231],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1536],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3503],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1152],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1570],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1564],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1565],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3542],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1624],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1148],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1075],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1531],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1592],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1203],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1529],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1149],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1836],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1510],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1530],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2520],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1673],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1600],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1686],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1687],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1688],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1597],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1626],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1603],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1678],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1623],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1692],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1599],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1693],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1689],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1760],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1768],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1699],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1761],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1767],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1762],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1766],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1763],
-        workspace.Towers["ToGF"].Obby:GetChildren()[818],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1690],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1698],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3535],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1755],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3536],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1754],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3537],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1224],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1781],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1442],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1446],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1676],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2821],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1753],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1733],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1532],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1533],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2134],
-        workspace.Towers["ToGF"].Obby:GetChildren()[865],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1770],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1700],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1735],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1675],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1695],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1701],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1694],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1756],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1706],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1759],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1758],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1764],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1757],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1765],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1702],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1769],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1734],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1711],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1721],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1722],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1732],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1713],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3473],
-        workspace.Towers["ToGF"].Obby:GetChildren()[514],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3474],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1707],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1773],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1705],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1712],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3527],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1709],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1774],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1720],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1719],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1747],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2749],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1714],
-        workspace.Towers["ToGF"].Obby:GetChildren()[52],
-        workspace.Towers["ToGF"].Obby:GetChildren()[16],
-        workspace.Towers["ToGF"].Obby:GetChildren()[70],
-        workspace.Towers["ToGF"].Obby:GetChildren()[34],
-        workspace.Towers["ToGF"].Obby:GetChildren()[124],
-        workspace.Towers["ToGF"].Obby:GetChildren()[142],
-        workspace.Towers["ToGF"].Obby:GetChildren()[106],
-        workspace.Towers["ToGF"].Obby:GetChildren()[88],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2261],
-        workspace.Towers["ToGF"].Obby:GetChildren()[17],
-        workspace.Towers["ToGF"].Obby:GetChildren()[143],
-        workspace.Towers["ToGF"].Obby:GetChildren()[53],
-        workspace.Towers["ToGF"].Obby:GetChildren()[89],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1746],
-        workspace.Towers["ToGF"].Obby:GetChildren()[107],
-        workspace.Towers["ToGF"].Obby:GetChildren()[71],
-        workspace.Towers["ToGF"].Obby:GetChildren()[125],
-        workspace.Towers["ToGF"].Obby:GetChildren()[35],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1776],
-        workspace.Towers["ToGF"].Obby:GetChildren()[90],
-        workspace.Towers["ToGF"].Obby:GetChildren()[54],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1704],
-        workspace.Towers["ToGF"].Obby:GetChildren()[18],
-        workspace.Towers["ToGF"].Obby:GetChildren()[36],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1708],
-        workspace.Towers["ToGF"].Obby:GetChildren()[126],
-        workspace.Towers["ToGF"].Obby:GetChildren()[144],
-        workspace.Towers["ToGF"].Obby:GetChildren()[72],
-        workspace.Towers["ToGF"].Obby:GetChildren()[108],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1731],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1775],
-        workspace.Towers["ToGF"].Obby:GetChildren()[37],
-        workspace.Towers["ToGF"].Obby:GetChildren()[91],
-        workspace.Towers["ToGF"].Obby:GetChildren()[73],
-        workspace.Towers["ToGF"].Obby:GetChildren()[109],
-        workspace.Towers["ToGF"].Obby:GetChildren()[55],
-        workspace.Towers["ToGF"].Obby:GetChildren()[145],
-        workspace.Towers["ToGF"].Obby:GetChildren()[19],
-        workspace.Towers["ToGF"].Obby:GetChildren()[127],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1718],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1777],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2260],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1710],
-        workspace.Towers["ToGF"].Obby:GetChildren()[56],
-        workspace.Towers["ToGF"].Obby:GetChildren()[92],
-        workspace.Towers["ToGF"].Obby:GetChildren()[38],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1715],
-        workspace.Towers["ToGF"].Obby:GetChildren()[74],
-        workspace.Towers["ToGF"].Obby:GetChildren()[20],
-        workspace.Towers["ToGF"].Obby:GetChildren()[128],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1716],
-        workspace.Towers["ToGF"].Obby:GetChildren()[110],
-        workspace.Towers["ToGF"].Obby:GetChildren()[146],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1726],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1725],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1724],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1771],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1723],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2056],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2058],
-        workspace.Towers["ToGF"].Obby:GetChildren()[39],
-        workspace.Towers["ToGF"].Obby:GetChildren()[75],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2057],
-        workspace.Towers["ToGF"].Obby:GetChildren()[111],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1167],
-        workspace.Towers["ToGF"].Obby:GetChildren()[93],
-        workspace.Towers["ToGF"].Obby:GetChildren()[129],
-        workspace.Towers["ToGF"].Obby:GetChildren()[21],
-        workspace.Towers["ToGF"].Obby:GetChildren()[57],
-        workspace.Towers["ToGF"].Obby:GetChildren()[147],
-        workspace.Towers["ToGF"].Obby:GetChildren()[148],
-        workspace.Towers["ToGF"].Obby:GetChildren()[40],
-        workspace.Towers["ToGF"].Obby:GetChildren()[112],
-        workspace.Towers["ToGF"].Obby:GetChildren()[94],
-        workspace.Towers["ToGF"].Obby:GetChildren()[130],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1745],
-        workspace.Towers["ToGF"].Obby:GetChildren()[76],
-        workspace.Towers["ToGF"].Obby:GetChildren()[58],
-        workspace.Towers["ToGF"].Obby:GetChildren()[22],
-        workspace.Towers["ToGF"].Obby:GetChildren()[95],
-        workspace.Towers["ToGF"].Obby:GetChildren()[59],
-        workspace.Towers["ToGF"].Obby:GetChildren()[23],
-        workspace.Towers["ToGF"].Obby:GetChildren()[149],
-        workspace.Towers["ToGF"].Obby:GetChildren()[113],
-        workspace.Towers["ToGF"].Obby:GetChildren()[131],
-        workspace.Towers["ToGF"].Obby:GetChildren()[41],
-        workspace.Towers["ToGF"].Obby:GetChildren()[77],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1717],
-        workspace.Towers["ToGF"].Obby:GetChildren()[150],
-        workspace.Towers["ToGF"].Obby:GetChildren()[78],
-        workspace.Towers["ToGF"].Obby:GetChildren()[42],
-        workspace.Towers["ToGF"].Obby:GetChildren()[132],
-        workspace.Towers["ToGF"].Obby:GetChildren()[114],
-        workspace.Towers["ToGF"].Obby:GetChildren()[60],
-        workspace.Towers["ToGF"].Obby:GetChildren()[24],
-        workspace.Towers["ToGF"].Obby:GetChildren()[96],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1799],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1792],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1785],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1801],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1802],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1783],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1784],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1791],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1798],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1787],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1795],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1794],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1793],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1786],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1796],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1789],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1790],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1797],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1788],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1782],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1800],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1748],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1772],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2133],
-        workspace.Towers["ToGF"].Obby:GetChildren()[33],
-        workspace.Towers["ToGF"].Obby:GetChildren()[43],
-        workspace.Towers["ToGF"].Obby:GetChildren()[61],
-        workspace.Towers["ToGF"].Obby:GetChildren()[115],
-        workspace.Towers["ToGF"].Obby:GetChildren()[79],
-        workspace.Towers["ToGF"].Obby:GetChildren()[151],
-        workspace.Towers["ToGF"].Obby:GetChildren()[97],
-        workspace.Towers["ToGF"].Obby:GetChildren()[133],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1778],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1837],
-        workspace.Towers["ToGF"].Obby:GetChildren()[98],
-        workspace.Towers["ToGF"].Obby:GetChildren()[62],
-        workspace.Towers["ToGF"].Obby:GetChildren()[152],
-        workspace.Towers["ToGF"].Obby:GetChildren()[80],
-        workspace.Towers["ToGF"].Obby:GetChildren()[116],
-        workspace.Towers["ToGF"].Obby:GetChildren()[26],
-        workspace.Towers["ToGF"].Obby:GetChildren()[44],
-        workspace.Towers["ToGF"].Obby:GetChildren()[134],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2766],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2452],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2462],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1432],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2135],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2453],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2210],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1779],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1780],
-        workspace.Towers["ToGF"].Obby:GetChildren()[153],
-        workspace.Towers["ToGF"].Obby:GetChildren()[117],
-        workspace.Towers["ToGF"].Obby:GetChildren()[81],
-        workspace.Towers["ToGF"].Obby:GetChildren()[135],
-        workspace.Towers["ToGF"].Obby:GetChildren()[27],
-        workspace.Towers["ToGF"].Obby:GetChildren()[99],
-        workspace.Towers["ToGF"].Obby:GetChildren()[45],
-        workspace.Towers["ToGF"].Obby:GetChildren()[63],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1806],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3012],
-        workspace.Towers["ToGF"].Obby:GetChildren()[136],
-        workspace.Towers["ToGF"].Obby:GetChildren()[100],
-        workspace.Towers["ToGF"].Obby:GetChildren()[64],
-        workspace.Towers["ToGF"].Obby:GetChildren()[82],
-        workspace.Towers["ToGF"].Obby:GetChildren()[154],
-        workspace.Towers["ToGF"].Obby:GetChildren()[46],
-        workspace.Towers["ToGF"].Obby:GetChildren()[118],
-        workspace.Towers["ToGF"].Obby:GetChildren()[28],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2270],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2274],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2280],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1729],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1730],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1728],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1856],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1857],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1883],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1727],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3559],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3558],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3561],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3560],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2109],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1818],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1861],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1885],
-        workspace.Towers["ToGF"].Obby:GetChildren()[47],
-        workspace.Towers["ToGF"].Obby:GetChildren()[155],
-        workspace.Towers["ToGF"].Obby:GetChildren()[29],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1854],
-        workspace.Towers["ToGF"].Obby:GetChildren()[83],
-        workspace.Towers["ToGF"].Obby:GetChildren()[65],
-        workspace.Towers["ToGF"].Obby:GetChildren()[119],
-        workspace.Towers["ToGF"].Obby:GetChildren()[137],
-        workspace.Towers["ToGF"].Obby:GetChildren()[101],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1866],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2269],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1827],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2266],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1826],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1824],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1825],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1819],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2267],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1817],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2209],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1860],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2277],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2272],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1871],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2136],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1863],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1869],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2279],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2295],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2286],
-        workspace.Towers["ToGF"].Obby:GetChildren()[808],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2287],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2290],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2285],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2288],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2281],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2284],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2282],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2283],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1853],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1881],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1864],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1868],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3557],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1870],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1872],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1884],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1816],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2422],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1859],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1865],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1855],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2206],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1862],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2751],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1835],
-        workspace.Towers["ToGF"].Obby:GetChildren()[102],
-        workspace.Towers["ToGF"].Obby:GetChildren()[138],
-        workspace.Towers["ToGF"].Obby:GetChildren()[25],
-        workspace.Towers["ToGF"].Obby:GetChildren()[120],
-        workspace.Towers["ToGF"].Obby:GetChildren()[156],
-        workspace.Towers["ToGF"].Obby:GetChildren()[84],
-        workspace.Towers["ToGF"].Obby:GetChildren()[66],
-        workspace.Towers["ToGF"].Obby:GetChildren()[48],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2198],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2235],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2241],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1851],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1879],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1845],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2213],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1886],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1846],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2238],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2271],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2273],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2275],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2268],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2278],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2276],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2229],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2200],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2227],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2220],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2204],
-        workspace.Towers["ToGF"].Obby:GetChildren()[30],
-        workspace.Towers["ToGF"].Obby:GetChildren()[67],
-        workspace.Towers["ToGF"].Obby:GetChildren()[157],
-        workspace.Towers["ToGF"].Obby:GetChildren()[49],
-        workspace.Towers["ToGF"].Obby:GetChildren()[139],
-        workspace.Towers["ToGF"].Obby:GetChildren()[103],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2225],
-        workspace.Towers["ToGF"].Obby:GetChildren()[85],
-        workspace.Towers["ToGF"].Obby:GetChildren()[121],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2228],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2226],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2289],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2291],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2233],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2236],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2234],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2237],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2218],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2242],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1887],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2292],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2239],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2243],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2215],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2224],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2222],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2221],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2223],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2216],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2203],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1888],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2199],
-        workspace.Towers["ToGF"].Obby:GetChildren()[31],
-        workspace.Towers["ToGF"].Obby:GetChildren()[158],
-        workspace.Towers["ToGF"].Obby:GetChildren()[50],
-        workspace.Towers["ToGF"].Obby:GetChildren()[122],
-        workspace.Towers["ToGF"].Obby:GetChildren()[104],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1811],
-        workspace.Towers["ToGF"].Obby:GetChildren()[86],
-        workspace.Towers["ToGF"].Obby:GetChildren()[68],
-        workspace.Towers["ToGF"].Obby:GetChildren()[140],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1941],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2212],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2230],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2205],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2207],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2208],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1940],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2219],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2202],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2211],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2265],
-        workspace.Towers["ToGF"].Obby:GetChildren()[32],
-        workspace.Towers["ToGF"].Obby:GetChildren()[159],
-        workspace.Towers["ToGF"].Obby:GetChildren()[141],
-        workspace.Towers["ToGF"].Obby:GetChildren()[87],
-        workspace.Towers["ToGF"].Obby:GetChildren()[69],
-        workspace.Towers["ToGF"].Obby:GetChildren()[105],
-        workspace.Towers["ToGF"].Obby:GetChildren()[123],
-        workspace.Towers["ToGF"].Obby:GetChildren()[51],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2231],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1829],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1901],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1877],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2240],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2293],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2232],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2294],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2217],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1943],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1939],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1838],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1822],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1848],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2201],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1878],
-        workspace.Towers["ToGF"].Obby:GetChildren()[627],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2264],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1938],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1823],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1821],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1820],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2262],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1942],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1873],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1937],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1858],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1867],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1847],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1913],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2189],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1933],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1874],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2188],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1935],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2190],
-        workspace.Towers["ToGF"].Obby:GetChildren()[789],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1900],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1927],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2048],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1484],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1498],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1828],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1920],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1876],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1424],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2197],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2434],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2120],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1880],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2052],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2008],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2005],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2009],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2051],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2011],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2003],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2007],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2053],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1944],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1852],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1910],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3010],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2148],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1875],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2186],
-        workspace.Towers["ToGF"].Obby:GetChildren()[788],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2180],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2187],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2149],
-        workspace.Towers["ToGF"].Obby:GetChildren()[630],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2031],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1982],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1947],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2000],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1998],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1994],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1980],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1989],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1979],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2753],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2060],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2150],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1986],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2001],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1997],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2038],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2039],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1992],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1995],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1996],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1990],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2002],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1988],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1978],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1999],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1991],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1993],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1981],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1987],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2147],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1977],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1983],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2019],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2021],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2030],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2028],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2020],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2025],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2027],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2026],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2024],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2022],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2023],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2087],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2077],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2143],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2069],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1749],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2075],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2065],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2066],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2067],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2068],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1946],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2165],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2164],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2167],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2166],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2092],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2163],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2070],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2183],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2174],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2054],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2059],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2305],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2173],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2176],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2179],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2170],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1919],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1168],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2018],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2012],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2041],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2297],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1499],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2298],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2172],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2071],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2185],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2184],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2072],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1882],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3006],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2074],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3556],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2089],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2160],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2029],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1945],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2063],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1421],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2086],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2171],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2040],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2073],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1985],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1984],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2015],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2312],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2353],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2301],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2308],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2310],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2431],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2088],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2146],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2145],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2144],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2306],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3432],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2314],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2153],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2154],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2155],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2162],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2152],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2061],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2181],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2313],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1738],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2352],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2091],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2182],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2169],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2076],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2263],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2300],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2428],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2317],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2158],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2156],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2157],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2309],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2042],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2299],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2307],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3564],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3563],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3565],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3562],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2302],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2006],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2004],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2013],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3278],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2014],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2016],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2350],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1752],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2316],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2354],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2341],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2318],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2177],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2319],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2178],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2315],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2159],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2304],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2329],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2161],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2322],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2303],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2342],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2320],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2754],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2335],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2337],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2333],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3008],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2321],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2328],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2340],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2010],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2351],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2343],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2755],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2334],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2331],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2339],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2338],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2330],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2345],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2325],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2168],
-        workspace.Towers["ToGF"].Obby:GetChildren()[480],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1425],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2327],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2357],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2017],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2344],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2349],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2358],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2346],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2348],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2380],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2359],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2374],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2371],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2368],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2347],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1969],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1970],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1971],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1972],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1976],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1974],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1975],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1973],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2379],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2377],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2365],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2382],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2332],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2373],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2426],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2362],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2370],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2376],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2381],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2364],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2367],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2356],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2361],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2372],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2378],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2369],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2363],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2375],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2366],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2055],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2175],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2942],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2360],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2383],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2633],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2896],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2444],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2651],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1133],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1132],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3550],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2650],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2384],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1130],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2649],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2394],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2439],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3144],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3145],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2693],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2405],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2418],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2421],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2429],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2413],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2401],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2407],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2397],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2435],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2427],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2445],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2461],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2443],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2467],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2459],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2451],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2454],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2393],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2386],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2392],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2647],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2469],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2385],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3551],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2698],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2654],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2652],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2515],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2692],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2656],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2390],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3552],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3553],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3593],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3587],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3584],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3599],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3581],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3596],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2894],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2697],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2700],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2388],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2387],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2389],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2660],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2659],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2691],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2470],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2703],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2702],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2935],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2690],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2897],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2899],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3554],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3592],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3582],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3548],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3594],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3591],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3588],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3555],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3547],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3546],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3549],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3598],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3589],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3586],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3585],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3595],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3597],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3583],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2913],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2911],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2934],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2903],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2933],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3590],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2471],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2684],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2922],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2689],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1131],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2415],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2410],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2449],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2433],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2402],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2425],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2463],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2457],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2423],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2430],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2412],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2399],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2455],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2420],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2465],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2447],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3094],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2932],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2658],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2688],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2653],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2655],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2657],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2456],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2414],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2464],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2432],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2448],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2411],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2424],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2400],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3580],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2929],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2517],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2687],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2699],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2921],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2696],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2437],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2441],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2902],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2901],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2904],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2686],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2721],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2905],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2900],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2704],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2716],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2906],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2914],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2920],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2907],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2917],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2928],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2518],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2916],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2931],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2915],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2912],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2909],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2910],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2683],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2728],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2631],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2632],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2630],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2629],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2648],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3570],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3572],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3013],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3011],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2534],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3571],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2535],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2536],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2709],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2710],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2711],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2646],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2936],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2937],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3540],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2898],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2519],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1134],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2722],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2930],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2717],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2645],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2724],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2516],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2927],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2926],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2440],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2706],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2727],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2725],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3009],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2644],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2918],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2701],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2694],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2723],
-        workspace.Towers["ToGF"].Obby:GetChildren()[613],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2719],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2643],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2923],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2919],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2714],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2472],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2759],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2771],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2768],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2767],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2765],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2769],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2642],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2770],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2760],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2718],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2705],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2764],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2763],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2761],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2938],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2713],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2715],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2712],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2726],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2925],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3098],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2924],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2641],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2708],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2685],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2707],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2720],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3578],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3577],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3579],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2734],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3018],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2908],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2939],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2640],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3019],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2695],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2498],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3099],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2639],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3101],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3097],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2497],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2502],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2496],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2506],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2736],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2735],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2500],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2501],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1105],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2504],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2505],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2638],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1114],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3106],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3105],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3103],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2634],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3104],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2637],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3017],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2777],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2775],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2776],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2774],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3569],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2476],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3015],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2635],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2778],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2733],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2607],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2636],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1106],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2499],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2503],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2495],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2784],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2785],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2944],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2779],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2811],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3095],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3100],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1137],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2628],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2475],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2474],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2477],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3114],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2666],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2664],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2667],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2665],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2669],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2668],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2610],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2790],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2800],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1108],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2796],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2618],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2609],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2491],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2541],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2537],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1110],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2511],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2494],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3107],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3153],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2485],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2478],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2490],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2488],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2482],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2947],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3567],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2948],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2959],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2961],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2943],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2850],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2863],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2856],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2608],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2852],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2789],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2849],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2858],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2791],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2612],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2820],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2860],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2674],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2492],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2615],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2613],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2614],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3109],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3159],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3178],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3177],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3171],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2841],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2487],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2671],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2670],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2672],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2663],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2878],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2611],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2862],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2729],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2473],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2481],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2868],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2872],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2871],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3174],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2864],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2874],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2869],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3175],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2806],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3096],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2828],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2832],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2782],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1109],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3216],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1107],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2538],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2542],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2627],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1136],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3102],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2480],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1138],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2786],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2879],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3176],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2804],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3173],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3170],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2731],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2679],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2946],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2675],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2783],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3162],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3005],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2621],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3573],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3576],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3108],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2566],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3110],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2507],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2543],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3544],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3545],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2787],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3033],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2793],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3034],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2489],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2483],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2486],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2619],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2616],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2574],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2575],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2510],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2578],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2580],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2570],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3172],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2889],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2807],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3118],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2493],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1115],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2792],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3160],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2810],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2801],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2673],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2808],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3119],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3125],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3021],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2816],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2892],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2795],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2799],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2484],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3115],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2561],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2842],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1113],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2592],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2544],
-        workspace.Towers["ToGF"].Obby:GetChildren()[781],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2479],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2662],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2626],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2661],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2622],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2623],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2625],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2624],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2813],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2732],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2809],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2531],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2606],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2604],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1957],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1965],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2812],
-        workspace.Towers["ToGF"].Obby:GetChildren()[697],
-        workspace.Towers["ToGF"].Obby:GetChildren()[743],
-        workspace.Towers["ToGF"].Obby:GetChildren()[712],
-        workspace.Towers["ToGF"].Obby:GetChildren()[713],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3568],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2873],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2730],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2870],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3161],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2585],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2512],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2509],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2571],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2508],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2845],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2844],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1111],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1112],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2846],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2843],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3163],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2757],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2605],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2817],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2814],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2847],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2577],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3574],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3235],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3367],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3234],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3230],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3236],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3368],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3369],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3237],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3238],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3232],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3370],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3372],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3374],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3231],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3233],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3240],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3241],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3371],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3376],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3373],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3375],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3242],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3239],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3007],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2949],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2617],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2620],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3186],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2840],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1116],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2805],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3130],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3126],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2865],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2877],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3001],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1139],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3023],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3024],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3120],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3116],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2549],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3004],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2773],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2822],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3002],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3165],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3117],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1147],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2885],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2601],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2525],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3036],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3037],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3229],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2563],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3085],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3003],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2514],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2532],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2513],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2545],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2548],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1117],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2859],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2876],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2855],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2866],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2857],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2853],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3032],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2883],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2854],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2861],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3031],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2780],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3128],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3030],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2678],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2677],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2824],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3087],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2826],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2676],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2572],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2522],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2573],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3053],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3195],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2569],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3029],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2884],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2880],
-        workspace.Towers["ToGF"].Obby:GetChildren()[674],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2546],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2562],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2593],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3067],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3167],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3169],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3168],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2835],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2547],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2567],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2594],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3028],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2867],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3123],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3122],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2603],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3121],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2602],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3129],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3124],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3135],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3134],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2581],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3093],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3084],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2999],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3083],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3081],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3181],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3164],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3111],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3154],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3158],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3157],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2830],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3156],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3227],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3228],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2526],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3136],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2956],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3078],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3199],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3203],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3205],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3206],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2881],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2984],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2940],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2951],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2974],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2979],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2528],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2781],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2969],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2803],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3052],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2788],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2941],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3025],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2553],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2524],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2540],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3131],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2794],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2966],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2957],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3192],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2529],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2681],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2682],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2875],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2797],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2680],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2819],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2539],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1135],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2798],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2887],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2988],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2886],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2995],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2888],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2882],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2993],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3208],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2836],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3198],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2839],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2550],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3055],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3079],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2802],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2530],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3069],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2848],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3166],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2564],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2818],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2815],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2050],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2527],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3132],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3133],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2967],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2982],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2963],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2990],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2980],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2975],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2977],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2972],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2994],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2985],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2989],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3189],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3190],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2533],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2965],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2953],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2891],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2890],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2997],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2756],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2521],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3041],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3207],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2554],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3202],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2823],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3201],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2825],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2827],
-        workspace.Towers["ToGF"].Obby:GetChildren()[584],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2597],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3182],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3180],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2583],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3127],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2582],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3035],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3026],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3209],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2599],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2838],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2559],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2831],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2829],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2833],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3184],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2970],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3091],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3193],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3139],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2584],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3143],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2523],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3072],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3062],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1123],
-        workspace.Towers["ToGF"].Obby:GetChildren()[604],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3142],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3141],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3039],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3183],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3185],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2576],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3137],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3575],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3044],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3043],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3027],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3046],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3038],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2834],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3047],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2837],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2552],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3059],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3191],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3188],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2952],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1120],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2950],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3089],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2600],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3040],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3146],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3086],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3138],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1122],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2560],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3151],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3149],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3048],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3197],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3196],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1140],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2595],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2557],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3064],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3056],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3061],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3058],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3057],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3194],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3204],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3200],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2596],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3259],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2558],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3150],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3071],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3073],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3152],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3148],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3140],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3147],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2565],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3179],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3112],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2568],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2996],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2998],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3210],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3049],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1119],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1118],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3045],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3042],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3082],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3077],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3187],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3063],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2772],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3076],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3075],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2556],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3070],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3060],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3000],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2396],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3212],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3213],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3211],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3155],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3323],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3340],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3224],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2598],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3225],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3325],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1144],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2991],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2992],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2987],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2986],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2964],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2954],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2968],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2973],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2971],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2960],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2983],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2976],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2981],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2978],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2962],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2955],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2958],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3326],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1121],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3226],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3214],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3113],
-        workspace.Towers["ToGF"].Obby:GetChildren()[648],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2551],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3088],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3080],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3074],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3092],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3066],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3054],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3068],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1128],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3065],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3051],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3050],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1681],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1127],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1141],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3332],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2446],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3351],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1142],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1143],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1145],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3327],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3316],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3355],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1126],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1125],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3292],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1210],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3301],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3283],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3308],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3305],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3306],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3357],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3289],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3281],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3330],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3331],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3312],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3269],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3272],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3313],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3275],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3335],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3268],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3251],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1129],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1124],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3324],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3334],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3333],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3261],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3260],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3245],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3244],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3247],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3273],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3346],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1150],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3480],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3482],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3329],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3328],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2043],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3352],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1153],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3249],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3219],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3221],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3217],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3315],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3336],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3277],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1160],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3263],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1162],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3262],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3353],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3483],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3314],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1146],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3479],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3349],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3348],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3350],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3347],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3481],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3304],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3290],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3303],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3309],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3291],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3302],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3310],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3270],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3307],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3246],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3284],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3248],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3280],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3271],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3279],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3266],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3267],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3288],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3286],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3287],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3258],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1154],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1157],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3243],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3337],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3354],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1161],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1164],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1163],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3321],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1169],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3338],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3339],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3322],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1155],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1156],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1165],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3320],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3255],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3359],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1166],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3256],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2151],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3254],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3342],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3341],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3344],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3317],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3362],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3253],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3250],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3356],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3318],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1158],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3360],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3264],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3358],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3441],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3443],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3252],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3343],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3361],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3363],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1159],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3257],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3311],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3282],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3442],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3265],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3319],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3218],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3220],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3222],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3276],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3285],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2044],
-        workspace.Towers["ToGF"].Obby:GetChildren()[583],
-        workspace.Towers["ToGF"].Obby:GetChildren()[566],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3364],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3365],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3392],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3395],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3397],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3396],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3399],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3398],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3444],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3419],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3366],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3393],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3394],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3434],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3435],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3445],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3401],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3448],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3516],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3415],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3405],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3409],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3407],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3400],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3416],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3449],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3402],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3433],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3418],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3417],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3436],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3526],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3412],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3431],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3403],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3459],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3469],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3468],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3467],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3520],
-        workspace.Towers["ToGF"].Obby:GetChildren()[200],
-        workspace.Towers["ToGF"].Obby:GetChildren()[223],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3422],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3423],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3420],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2458],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2460],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3450],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3461],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3451],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3462],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3460],
-        workspace.Towers["ToGF"].Obby:GetChildren()[189],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3411],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3414],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3404],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2762],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2758],
-        workspace.Towers["ToGF"].Obby:GetChildren()[185],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3447],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2112],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3446],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1551],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1505],
-        workspace.Towers["ToGF"].Obby:GetChildren()[184],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1182],
-        workspace.Towers["ToGF"].Obby:GetChildren()[242],
-        workspace.Towers["ToGF"].Obby:GetChildren()[366],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3413],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1178],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3456],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3458],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3457],
-        workspace.Towers["ToGF"].Obby:GetChildren()[378],
-        workspace.Towers["ToGF"].Obby:GetChildren()[465],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1171],
-        workspace.Towers["ToGF"].Obby:GetChildren()[310],
-        workspace.Towers["ToGF"].Obby:GetChildren()[538],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3424],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3425],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1967],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3426],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3427],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3428],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2436],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1181],
-        workspace.Towers["ToGF"].Obby:GetChildren()[385],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3438],
-        workspace.Towers["ToGF"].Obby:GetChildren()[516],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2036],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1173],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2034],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3406],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3429],
-        workspace.Towers["ToGF"].Obby:GetChildren()[546],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1637],
-        workspace.Towers["ToGF"].Obby:GetChildren()[164],
-        workspace.Towers["ToGF"].Obby:GetChildren()[165],
-        workspace.Towers["ToGF"].Obby:GetChildren()[321],
-        workspace.Towers["ToGF"].Obby:GetChildren()[565],
-        workspace.Towers["ToGF"].Obby:GetChildren()[322],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1194],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2035],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1960],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1810],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3430],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1903],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1955],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1804],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3437],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1953],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2140],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2032],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1812],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2442],
-        workspace.Towers["ToGF"].Obby:GetChildren()[7],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1928],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1932],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1834],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1929],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1904],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1831],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1184],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1185],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1815],
-        workspace.Towers["ToGF"].Obby:GetChildren()[166],
-        workspace.Towers["ToGF"].Obby:GetChildren()[162],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2395],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1604],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3439],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1172],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1911],
-        workspace.Towers["ToGF"].Obby:GetChildren()[301],
-        workspace.Towers["ToGF"].Obby:GetChildren()[434],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1179],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1840],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2403],
-        workspace.Towers["ToGF"].Obby:GetChildren()[442],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1176],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1175],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3453],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2033],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1196],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1915],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3455],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3465],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3464],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3466],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3454],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1843],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3463],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1839],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1180],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1964],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1809],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1963],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1808],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1805],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1807],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1803],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1813],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1814],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1961],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1930],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1931],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1849],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1949],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2296],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1842],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1959],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1841],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1952],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2404],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1174],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1914],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3440],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2406],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2398],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1177],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3452],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1912],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1195],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1962],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1183],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1844],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2438],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1197],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2466],
-        workspace.Towers["ToGF"].Obby:GetChildren()[250],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1905],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3470],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1956],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1750],
-        workspace.Towers["ToGF"].Obby:GetChildren()[342],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2090],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1968],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1214],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3519],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1186],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1188],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1908],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1906],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1950],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1958],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1360],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1948],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2080],
-        workspace.Towers["ToGF"].Obby:GetChildren()[340],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1894],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1379],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1909],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3518],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2102],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2103],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2588],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2096],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2589],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2095],
-        workspace.Towers["ToGF"].Obby:GetChildren()[167],
-        workspace.Towers["ToGF"].Obby:GetChildren()[171],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1954],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1832],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2098],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2099],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1833],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1830],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2586],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1384],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2105],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1751],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2097],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2587],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1668],
-        workspace.Towers["ToGF"].Obby:GetChildren()[558],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2590],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1189],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1187],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1951],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2094],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1198],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2104],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1917],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2100],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2591],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2093],
-        workspace.Towers["ToGF"].Obby:GetChildren()[487],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2101],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1380],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2106],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1916],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1922],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1897],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1923],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1921],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1918],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3295],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2326],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3298],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1554],
-        workspace.Towers["ToGF"].Obby:GetChildren()[745],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3299],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2752],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1193],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1331],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1339],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1333],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1337],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1896],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1895],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3297],
-        workspace.Towers["ToGF"].Obby:GetChildren()[15],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1926],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3296],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1925],
-        workspace.Towers["ToGF"].Obby:GetChildren()[742],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1549],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2139],
-        workspace.Towers["ToGF"].Obby:GetChildren()[5],
-        workspace.Towers["ToGF"].Obby:GetChildren()[614],
-        workspace.Towers["ToGF"].Obby:GetChildren()[621],
-        workspace.Towers["ToGF"].Obby:GetChildren()[618],
-        workspace.Towers["ToGF"].Obby:GetChildren()[617],
-        workspace.Towers["ToGF"].Obby:GetChildren()[881],
-        workspace.Towers["ToGF"].Obby:GetChildren()[741],
-        workspace.Towers["ToGF"].Obby:GetChildren()[616],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1200],
-        workspace.Towers["ToGF"].Obby:GetChildren()[4],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1332],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1899],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1892],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1891],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2081],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2084],
-        workspace.Towers["ToGF"].Obby:GetChildren()[740],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2085],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2137],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2579],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1199],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1335],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1907],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1338],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3421],
-        workspace.Towers["ToGF"].Obby:GetChildren()[739],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1326],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2555],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1329],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1191],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1588],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1586],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1487],
-        workspace.Towers["ToGF"].Obby:GetChildren()[612],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1327],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1584],
-        workspace.Towers["ToGF"].Obby:GetChildren()[620],
-        workspace.Towers["ToGF"].Obby:GetChildren()[737],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1583],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1192],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1491],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3293],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1492],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2082],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1893],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2078],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1890],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2141],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1320],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1898],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1582],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3022],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3090],
-        workspace.Towers["ToGF"].Obby:GetChildren()[732],
-        workspace.Towers["ToGF"].Obby:GetChildren()[734],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1489],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1483],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1202],
-        workspace.Towers["ToGF"].Obby:GetChildren()[733],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1325],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2355],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2323],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2311],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2194],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2192],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2062],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2064],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1936],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1330],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1490],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1201],
-        workspace.Towers["ToGF"].Obby:GetChildren()[731],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2324],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2142],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2083],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2336],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2079],
-        workspace.Towers["ToGF"].Obby:GetChildren()[619],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1667],
-        workspace.Towers["ToGF"].Obby:GetChildren()[880],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1691],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1328],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1322],
-        workspace.Towers["ToGF"].Obby:GetChildren()[615],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1334],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1323],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2195],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2191],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2196],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1850],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1587],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1324],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1615],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2037],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1481],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2138],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2214],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1585],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1677],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1924],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1934],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1902],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1480],
-        workspace.Towers["ToGF"].Obby:GetChildren()[715],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1497],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1488],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1321],
-        workspace.Towers["ToGF"].Obby:GetChildren()[746],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1589],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1485],
-        workspace.Towers["ToGF"].Obby:GetChildren()[735],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1381],
-        workspace.Towers["ToGF"].Obby:GetChildren()[698],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1482],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1493],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1496],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1486],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1568],
-        workspace.Towers["ToGF"].Obby:GetChildren()[941],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1495],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1494],
-        workspace.Towers["ToGF"].Obby:GetChildren()[699],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2193],
-        workspace.Towers["ToGF"].Obby:GetChildren()[673],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1506],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1650],
-        workspace.Towers["ToGF"].Obby:GetChildren()[14],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1608],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1647],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1638],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1262],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1639],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1632],
-        workspace.Towers["ToGF"].Obby:GetChildren()[13],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1635],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1641],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1357],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1643],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1629],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1633],
-        workspace.Towers["ToGF"].Obby:GetChildren()[738],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1658],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1640],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3384],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1662],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1630],
-        workspace.Towers["ToGF"].Obby:GetChildren()[12],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1636],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1501],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1889],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1651],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1656],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1634],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3391],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1474],
-        workspace.Towers["ToGF"].Obby:GetChildren()[736],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1646],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1659],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1663],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3390],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1631],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1657],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1642],
-        workspace.Towers["ToGF"].Obby:GetChildren()[714],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1252],
-        workspace.Towers["ToGF"].Obby:GetChildren()[766],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1567],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1612],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1736],
-        workspace.Towers["ToGF"].Obby:GetChildren()[878],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1356],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1503],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1435],
-        workspace.Towers["ToGF"].Obby:GetChildren()[774],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1566],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1223],
-        workspace.Towers["ToGF"].Obby:GetChildren()[940],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3300],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1680],
-        workspace.Towers["ToGF"].Obby:GetChildren()[903],
-        workspace.Towers["ToGF"].Obby:GetChildren()[832],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1222],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1661],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1654],
-        workspace.Towers["ToGF"].Obby:GetChildren()[11],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3387],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3377],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1550],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3385],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3386],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3382],
-        workspace.Towers["ToGF"].Obby:GetChildren()[497],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1229],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3380],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1644],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3388],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1649],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1648],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1645],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1653],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1652],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1655],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3566],
-        workspace.Towers["ToGF"].Obby:GetChildren()[10],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3379],
-        workspace.Towers["ToGF"].Obby:GetChildren()[744],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3378],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1151],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3383],
-        workspace.Towers["ToGF"].Obby:GetChildren()[290],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3381],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1220],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1221],
-        workspace.Towers["ToGF"].Obby:GetChildren()[610],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3389],
-        workspace.Towers["ToGF"].Obby:GetChildren()[9],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1336],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1552],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1660],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1212],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1230],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1227],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1228],
-        workspace.Towers["ToGF"].Obby:GetChildren()[2],
-        workspace.Towers["ToGF"].Obby:GetChildren()[1553],
-        workspace.Towers["ToGF"].Obby:GetChildren()[8],
-        workspace.Towers["ToGF"].Obby:GetChildren()[773],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3223],
-        workspace.Towers["ToGF"].Obby:GetChildren()[730],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3532],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3531],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3530],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3529],
-        workspace.Towers["ToGF"].Obby:GetChildren()[3528],
-        workspace.Towers.ToGF.WinPad,
-    }
+    local route = {}
+    local function makeWaypoint(x, y, z)
+        local part = Instance.new("Part")
+        part.Anchored, part.CanCollide, part.Transparency = true, false, 1
+        part.Size = Vector3.new(1, 1, 1)
+        part.Position = Vector3.new(x, y, z)
+        part.Parent = workspace
+        return part
+    end
+
+    route[#route + 1] = workspace.PClientParts:GetChildren()[7]:GetChildren()[6]
+    route[#route + 1] = workspace.Towers["ToGF"].Obby:GetChildren()[3475]:GetChildren()[271]
+    route[#route + 1] = workspace.Towers["ToGF"].Obby:GetChildren()[3475]:GetChildren()[267]
+    route[#route + 1] = makeWaypoint(-1645.205, 823.734, 2375.985)
+    route[#route + 1] = makeWaypoint(-1644.547, 825.049, 2377.097)
+    route[#route + 1] = makeWaypoint(-1642.071, 823.605, 2379.015)
+    route[#route + 1] = makeWaypoint(-1633.452, 829.194, 2378.809)
+    route[#route + 1] = makeWaypoint(-1630.915, 828.000, 2378.574)
+    route[#route + 1] = makeWaypoint(-1627.565, 827.843, 2379.868)
+    route[#route + 1] = makeWaypoint(-1623.095, 833.355, 2381.242)
+    route[#route + 1] = makeWaypoint(-1617.956, 833.405, 2381.564)
+    route[#route + 1] = makeWaypoint(-1613.121, 834.073, 2381.648)
+    route[#route + 1] = makeWaypoint(-1608.144, 835.162, 2379.202)
+    route[#route + 1] = makeWaypoint(-1607.469, 832.595, 2376.199)
+    route[#route + 1] = makeWaypoint(-1604.111, 832.997, 2375.690)
+    route[#route + 1] = makeWaypoint(-1594.487, 834.901, 2376.627)
+    route[#route + 1] = makeWaypoint(-1593.705, 841.918, 2374.556)
+    route[#route + 1] = makeWaypoint(-1589.613, 848.833, 2368.672)
+    route[#route + 1] = makeWaypoint(-1586.365, 853.460, 2363.883)
+    route[#route + 1] = makeWaypoint(-1581.267, 849.997, 2367.904)
+    route[#route + 1] = makeWaypoint(-1577.900, 853.275, 2369.688)
+    route[#route + 1] = makeWaypoint(-1574.321, 852.873, 2374.162)
+    route[#route + 1] = makeWaypoint(-1573.074, 860.771, 2379.898)
+    route[#route + 1] = makeWaypoint(-1574.487, 853.000, 2383.431)
+    route[#route + 1] = makeWaypoint(-1582.830, 857.997, 2389.654)
+    route[#route + 1] = makeWaypoint(-1587.021, 859.868, 2388.784)
+    route[#route + 1] = makeWaypoint(-1591.444, 863.871, 2385.945)
+    route[#route + 1] = makeWaypoint(-1592.643, 861.000, 2384.472)
+    route[#route + 1] = makeWaypoint(-1596.295, 867.430, 2378.492)
+    route[#route + 1] = makeWaypoint(-1594.006, 864.999, 2375.847)
+    route[#route + 1] = makeWaypoint(-1593.776, 872.997, 2375.174)
+    route[#route + 1] = makeWaypoint(-1590.318, 873.000, 2368.886)
+    route[#route + 1] = makeWaypoint(-1584.890, 871.000, 2366.632)
+    route[#route + 1] = makeWaypoint(-1584.693, 878.000, 2360.534)
+    route[#route + 1] = makeWaypoint(-1583.590, 867.419, 2355.316)
+    route[#route + 1] = makeWaypoint(-1582.551, 872.000, 2353.526)
+    route[#route + 1] = makeWaypoint(-1582.401, 872.000, 2351.734)
+    route[#route + 1] = makeWaypoint(-1582.401, 872.000, 2351.734)
+    route[#route + 1] = makeWaypoint(-1590.922, 876.966, 2347.158)
+    route[#route + 1] = makeWaypoint(-1592.094, 838.390, 2339.491)
+    route[#route + 1] = makeWaypoint(-1591.489, 843.000, 2337.488)
+    route[#route + 1] = makeWaypoint(-1586.371, 843.000, 2331.857)
+    route[#route + 1] = makeWaypoint(-1579.159, 850.999, 2332.911)
+    route[#route + 1] = makeWaypoint(-1579.901, 863.901, 2328.228)
+    route[#route + 1] = makeWaypoint(-1579.942, 863.919, 2321.950)
+    route[#route + 1] = makeWaypoint(-1574.589, 861.583, 2318.362)
+    route[#route + 1] = makeWaypoint(-1577.868, 862.794, 2316.418)
+    route[#route + 1] = makeWaypoint(-1585.643, 870.343, 2310.827)
+    route[#route + 1] = makeWaypoint(-1591.289, 863.814, 2306.449)
+    route[#route + 1] = makeWaypoint(-1594.108, 862.579, 2305.516)
+    route[#route + 1] = makeWaypoint(-1599.320, 868.756, 2302.055)
+    route[#route + 1] = makeWaypoint(-1606.573, 836.796, 2300.746)
+    route[#route + 1] = makeWaypoint(-1608.316, 828.000, 2304.228)
+    route[#route + 1] = makeWaypoint(-1609.934, 828.000, 2306.871)
+    route[#route + 1] = makeWaypoint(-1611.769, 827.998, 2306.477)
+    route[#route + 1] = makeWaypoint(-1617.234, 835.111, 2304.310)
+    route[#route + 1] = makeWaypoint(-1620.033, 830.000, 2306.445)
+    route[#route + 1] = makeWaypoint(-1623.861, 836.354, 2302.648)
+    route[#route + 1] = makeWaypoint(-1627.375, 828.673, 2305.765)
+    route[#route + 1] = makeWaypoint(-1629.184, 833.049, 2303.690)
+    route[#route + 1] = makeWaypoint(-1633.246, 836.554, 2303.662)
+    route[#route + 1] = makeWaypoint(-1636.622, 833.963, 2307.226)
+    route[#route + 1] = makeWaypoint(-1638.209, 832.940, 2309.760)
+    route[#route + 1] = makeWaypoint(-1639.280, 834.627, 2317.719)
+    route[#route + 1] = makeWaypoint(-1637.835, 833.695, 2317.669)
+    route[#route + 1] = makeWaypoint(-1636.102, 836.720, 2323.651)
+    route[#route + 1] = makeWaypoint(-1638.023, 835.393, 2329.601)
+    route[#route + 1] = makeWaypoint(-1641.291, 834.976, 2332.705)
+    route[#route + 1] = makeWaypoint(-1640.857, 842.140, 2332.678)
+    route[#route + 1] = makeWaypoint(-1644.509, 846.908, 2334.238)
+    route[#route + 1] = makeWaypoint(-1644.816, 846.959, 2338.623)
+    route[#route + 1] = makeWaypoint(-1651.321, 854.263, 2343.414)
+    route[#route + 1] = makeWaypoint(-1650.669, 855.054, 2346.720)
+    route[#route + 1] = makeWaypoint(-1651.295, 853.933, 2351.572)
+    route[#route + 1] = makeWaypoint(-1651.271, 850.152, 2363.042)
+    route[#route + 1] = makeWaypoint(-1651.286, 856.753, 2366.560)
+    route[#route + 1] = makeWaypoint(-1642.500, 858.998, 2371.992)
+    route[#route + 1] = makeWaypoint(-1637.689, 854.743, 2376.929)
+    route[#route + 1] = makeWaypoint(-1630.915, 864.335, 2380.078)
+    route[#route + 1] = makeWaypoint(-1630.820, 866.741, 2380.071)
+    route[#route + 1] = makeWaypoint(-1628.493, 867.157, 2384.106)
+    route[#route + 1] = makeWaypoint(-1627.761, 866.464, 2380.050)
+    route[#route + 1] = makeWaypoint(-1627.880, 866.511, 2379.615)
+    route[#route + 1] = makeWaypoint(-1616.473, 864.078, 2376.080)
+    route[#route + 1] = makeWaypoint(-1616.185, 867.720, 2376.075)
+    route[#route + 1] = makeWaypoint(-1613.971, 873.988, 2375.200)
+    route[#route + 1] = makeWaypoint(-1613.702, 878.618, 2369.028)
+    route[#route + 1] = makeWaypoint(-1615.085, 872.000, 2364.676)
+    route[#route + 1] = makeWaypoint(-1614.084, 878.737, 2356.759)
+    route[#route + 1] = makeWaypoint(-1614.157, 877.000, 2356.182)
+    route[#route + 1] = makeWaypoint(-1610.520, 881.894, 2348.588)
+    route[#route + 1] = makeWaypoint(-1608.871, 881.709, 2347.127)
+    route[#route + 1] = makeWaypoint(-1610.380, 881.506, 2345.571)
+    route[#route + 1] = makeWaypoint(-1619.090, 879.911, 2345.172)
+    route[#route + 1] = makeWaypoint(-1626.068, 881.671, 2345.061)
+    route[#route + 1] = makeWaypoint(-1627.815, 881.707, 2346.750)
+    route[#route + 1] = makeWaypoint(-1634.726, 883.858, 2346.485)
+    route[#route + 1] = makeWaypoint(-1638.965, 877.338, 2346.206)
+    route[#route + 1] = makeWaypoint(-1640.247, 880.516, 2345.100)
+    route[#route + 1] = makeWaypoint(-1641.480, 887.327, 2340.246)
+    route[#route + 1] = makeWaypoint(-1643.034, 884.245, 2335.406)
+    route[#route + 1] = makeWaypoint(-1641.980, 883.867, 2332.170)
+    route[#route + 1] = makeWaypoint(-1636.851, 884.706, 2328.613)
+    route[#route + 1] = makeWaypoint(-1636.392, 889.046, 2322.707)
+    route[#route + 1] = makeWaypoint(-1639.301, 891.268, 2316.951)
+    route[#route + 1] = makeWaypoint(-1643.817, 893.957, 2315.123)
+    route[#route + 1] = makeWaypoint(-1642.529, 893.580, 2307.225)
+    route[#route + 1] = makeWaypoint(-1632.077, 889.595, 2307.873)
+    route[#route + 1] = makeWaypoint(-1625.078, 896.743, 2311.709)
+    route[#route + 1] = makeWaypoint(-1621.392, 889.732, 2308.852)
+    route[#route + 1] = makeWaypoint(-1616.054, 890.000, 2308.208)
+    route[#route + 1] = makeWaypoint(-1606.389, 893.099, 2312.717)
+    route[#route + 1] = makeWaypoint(-1602.831, 888.569, 2308.552)
+    route[#route + 1] = makeWaypoint(-1593.245, 892.067, 2308.380)
+    route[#route + 1] = makeWaypoint(-1588.281, 890.721, 2308.569)
+    route[#route + 1] = makeWaypoint(-1583.247, 889.302, 2310.315)
+    route[#route + 1] = makeWaypoint(-1582.714, 894.997, 2318.848)
+    route[#route + 1] = makeWaypoint(-1584.465, 890.828, 2331.331)
+    route[#route + 1] = makeWaypoint(-1592.202, 890.737, 2337.665)
+    route[#route + 1] = makeWaypoint(-1587.910, 889.457, 2347.111)
+    route[#route + 1] = makeWaypoint(-1587.441, 892.980, 2357.619)
+    route[#route + 1] = makeWaypoint(-1592.742, 894.000, 2359.898)
+    route[#route + 1] = makeWaypoint(-1605.172, 892.015, 2358.189)
+    route[#route + 1] = makeWaypoint(-1610.394, 898.733, 2356.684)
+    route[#route + 1] = makeWaypoint(-1609.224, 900.458, 2347.722)
+    route[#route + 1] = makeWaypoint(-1616.602, 897.545, 2346.314)
+    route[#route + 1] = makeWaypoint(-1612.784, 899.127, 2335.555)
+    route[#route + 1] = makeWaypoint(-1605.292, 908.855, 2332.977)
+    route[#route + 1] = makeWaypoint(-1595.917, 915.542, 2333.128)
+    route[#route + 1] = makeWaypoint(-1591.022, 907.494, 2335.178)
+    route[#route + 1] = makeWaypoint(-1595.267, 915.076, 2339.386)
+    route[#route + 1] = makeWaypoint(-1590.463, 907.370, 2344.013)
+    route[#route + 1] = makeWaypoint(-1585.619, 908.000, 2347.357)
+    route[#route + 1] = makeWaypoint(-1587.239, 910.403, 2357.296)
+    route[#route + 1] = makeWaypoint(-1585.966, 914.818, 2366.475)
+    route[#route + 1] = makeWaypoint(-1589.508, 908.554, 2369.645)
+    route[#route + 1] = makeWaypoint(-1595.164, 909.848, 2374.409)
+    route[#route + 1] = makeWaypoint(-1596.123, 904.098, 2376.989)
+    route[#route + 1] = makeWaypoint(-1597.906, 907.969, 2377.631)
+    route[#route + 1] = makeWaypoint(-1608.634, 910.999, 2378.629)
+    route[#route + 1] = makeWaypoint(-1615.702, 914.968, 2374.027)
+    route[#route + 1] = makeWaypoint(-1620.442, 915.352, 2379.147)
+    route[#route + 1] = makeWaypoint(-1623.735, 921.229, 2375.929)
+    route[#route + 1] = makeWaypoint(-1625.679, 915.670, 2378.788)
+    route[#route + 1] = makeWaypoint(-1629.026, 914.163, 2378.334)
+    route[#route + 1] = makeWaypoint(-1631.809, 918.847, 2376.675)
+    route[#route + 1] = makeWaypoint(-1633.290, 915.177, 2379.162)
+    route[#route + 1] = makeWaypoint(-1642.631, 916.287, 2382.587)
+    route[#route + 1] = makeWaypoint(-1647.897, 921.072, 2384.699)
+    route[#route + 1] = makeWaypoint(-1655.909, 924.358, 2383.392)
+    route[#route + 1] = makeWaypoint(-1661.556, 925.774, 2381.123)
+    route[#route + 1] = makeWaypoint(-1663.988, 927.000, 2381.739)
+    route[#route + 1] = makeWaypoint(-1668.899, 932.228, 2386.408)
+    route[#route + 1] = makeWaypoint(-1664.139, 938.106, 2390.758)
+    route[#route + 1] = makeWaypoint(-1664.357, 937.119, 2398.491)
+    route[#route + 1] = makeWaypoint(-1672.595, 941.837, 2399.506)
+    route[#route + 1] = makeWaypoint(-1676.940, 945.963, 2394.687)
+    route[#route + 1] = makeWaypoint(-1678.577, 945.032, 2393.156)
+    route[#route + 1] = makeWaypoint(-1670.593, 947.247, 2386.414)
+    route[#route + 1] = makeWaypoint(-1670.282, 947.964, 2386.151)
+    route[#route + 1] = makeWaypoint(-1662.972, 948.000, 2386.005)
+    route[#route + 1] = makeWaypoint(-1661.564, 953.090, 2394.668)
+    route[#route + 1] = makeWaypoint(-1663.106, 957.920, 2402.804)
+    route[#route + 1] = makeWaypoint(-1663.364, 967.898, 2410.837)
+    route[#route + 1] = makeWaypoint(-1657.442, 968.000, 2410.293)
+    route[#route + 1] = makeWaypoint(-1652.577, 967.285, 2408.526)
+    route[#route + 1] = makeWaypoint(-1647.734, 967.999, 2402.287)
+    route[#route + 1] = makeWaypoint(-1645.199, 968.000, 2397.834)
+    route[#route + 1] = makeWaypoint(-1643.876, 972.196, 2389.187)
+    route[#route + 1] = makeWaypoint(-1644.576, 968.000, 2387.804)
+    route[#route + 1] = makeWaypoint(-1646.077, 968.000, 2382.372)
+    route[#route + 1] = makeWaypoint(-1648.504, 967.899, 2378.082)
+    route[#route + 1] = makeWaypoint(-1647.620, 966.868, 2374.019)
+    route[#route + 1] = makeWaypoint(-1645.685, 967.000, 2369.697)
+    route[#route + 1] = makeWaypoint(-1645.448, 970.512, 2365.032)
+    route[#route + 1] = makeWaypoint(-1645.678, 973.690, 2360.366)
+    route[#route + 1] = makeWaypoint(-1645.876, 963.131, 2356.367)
+    route[#route + 1] = makeWaypoint(-1646.051, 943.603, 2352.835)
+    route[#route + 1] = makeWaypoint(-1646.235, 924.104, 2349.107)
+    route[#route + 1] = makeWaypoint(-1643.118, 928.041, 2343.526)
+    route[#route + 1] = makeWaypoint(-1641.725, 931.757, 2337.082)
+    route[#route + 1] = makeWaypoint(-1641.755, 928.718, 2333.295)
+    route[#route + 1] = makeWaypoint(-1641.819, 930.585, 2329.666)
+    route[#route + 1] = makeWaypoint(-1641.902, 932.482, 2326.381)
+    route[#route + 1] = makeWaypoint(-1643.756, 940.138, 2320.044)
+    route[#route + 1] = makeWaypoint(-1643.348, 937.296, 2321.770)
+    route[#route + 1] = makeWaypoint(-1645.915, 935.406, 2322.131)
+    route[#route + 1] = makeWaypoint(-1646.952, 932.520, 2326.873)
+    route[#route + 1] = makeWaypoint(-1649.768, 940.999, 2331.559)
+    route[#route + 1] = makeWaypoint(-1639.224, 940.471, 2332.468)
+    route[#route + 1] = makeWaypoint(-1640.372, 943.000, 2333.771)
+    route[#route + 1] = makeWaypoint(-1643.800, 950.100, 2339.535)
+    route[#route + 1] = makeWaypoint(-1647.896, 944.666, 2340.081)
+    route[#route + 1] = makeWaypoint(-1654.726, 944.707, 2331.919)
+    route[#route + 1] = makeWaypoint(-1653.991, 949.017, 2326.922)
+    route[#route + 1] = makeWaypoint(-1656.470, 948.933, 2323.414)
+    route[#route + 1] = makeWaypoint(-1657.972, 949.000, 2322.789)
+    route[#route + 1] = makeWaypoint(-1651.120, 952.926, 2316.069)
+    route[#route + 1] = makeWaypoint(-1646.716, 959.664, 2311.803)
+    route[#route + 1] = makeWaypoint(-1644.639, 959.411, 2308.718)
+    route[#route + 1] = makeWaypoint(-1639.297, 959.279, 2311.404)
+    route[#route + 1] = makeWaypoint(-1631.782, 964.246, 2314.491)
+    route[#route + 1] = makeWaypoint(-1628.119, 959.377, 2319.005)
+    route[#route + 1] = makeWaypoint(-1630.667, 963.159, 2327.960)
+    route[#route + 1] = makeWaypoint(-1629.855, 966.372, 2335.740)
+    route[#route + 1] = makeWaypoint(-1632.871, 962.000, 2342.215)
+    route[#route + 1] = makeWaypoint(-1628.462, 964.847, 2353.257)
+    route[#route + 1] = makeWaypoint(-1631.101, 969.181, 2360.054)
+    route[#route + 1] = makeWaypoint(-1627.822, 965.000, 2360.661)
+    route[#route + 1] = makeWaypoint(-1624.123, 969.782, 2368.418)
+    route[#route + 1] = makeWaypoint(-1620.228, 962.000, 2370.865)
+    route[#route + 1] = makeWaypoint(-1617.788, 962.000, 2371.738)
+    route[#route + 1] = makeWaypoint(-1612.842, 968.599, 2371.760)
+    route[#route + 1] = makeWaypoint(-1607.927, 963.034, 2373.105)
+    route[#route + 1] = makeWaypoint(-1605.108, 962.000, 2374.783)
+    route[#route + 1] = makeWaypoint(-1598.993, 968.628, 2373.912)
+    route[#route + 1] = makeWaypoint(-1593.773, 960.135, 2374.582)
+    route[#route + 1] = makeWaypoint(-1591.676, 962.178, 2372.239)
+    route[#route + 1] = makeWaypoint(-1589.801, 965.841, 2368.399)
+    route[#route + 1] = makeWaypoint(-1587.588, 960.889, 2369.468)
+    route[#route + 1] = makeWaypoint(-1586.180, 970.562, 2368.863)
+    route[#route + 1] = makeWaypoint(-1583.510, 968.988, 2369.008)
+    route[#route + 1] = makeWaypoint(-1590.198, 976.219, 2369.790)
+    route[#route + 1] = makeWaypoint(-1592.578, 978.263, 2373.348)
+    route[#route + 1] = makeWaypoint(-1595.608, 977.733, 2378.737)
+    route[#route + 1] = makeWaypoint(-1597.797, 977.783, 2380.462)
+    route[#route + 1] = makeWaypoint(-1603.854, 978.797, 2385.414)
+    route[#route + 1] = makeWaypoint(-1610.930, 978.994, 2389.135)
+    route[#route + 1] = makeWaypoint(-1615.374, 979.000, 2387.709)
+    route[#route + 1] = makeWaypoint(-1618.022, 979.000, 2384.931)
+    route[#route + 1] = makeWaypoint(-1620.785, 980.351, 2375.689)
+    route[#route + 1] = makeWaypoint(-1621.400, 978.054, 2372.145)
+    route[#route + 1] = makeWaypoint(-1625.900, 983.975, 2378.026)
+    route[#route + 1] = makeWaypoint(-1628.238, 989.169, 2374.626)
+    route[#route + 1] = makeWaypoint(-1619.279, 991.810, 2378.844)
+    route[#route + 1] = makeWaypoint(-1617.312, 991.990, 2375.587)
+    route[#route + 1] = makeWaypoint(-1612.410, 997.719, 2369.804)
+    route[#route + 1] = makeWaypoint(-1610.117, 991.928, 2372.768)
+    route[#route + 1] = makeWaypoint(-1608.085, 991.999, 2373.269)
+    route[#route + 1] = makeWaypoint(-1604.022, 991.999, 2375.897)
+    route[#route + 1] = makeWaypoint(-1598.384, 997.848, 2376.098)
+    route[#route + 1] = makeWaypoint(-1593.006, 991.719, 2375.451)
+    route[#route + 1] = makeWaypoint(-1590.901, 992.000, 2372.247)
+    route[#route + 1] = makeWaypoint(-1584.973, 998.090, 2368.167)
+    route[#route + 1] = makeWaypoint(-1584.438, 991.440, 2367.811)
+    route[#route + 1] = makeWaypoint(-1583.584, 994.498, 2361.339)
+    route[#route + 1] = makeWaypoint(-1583.112, 989.000, 2357.356)
+    route[#route + 1] = makeWaypoint(-1583.898, 994.934, 2350.813)
+    route[#route + 1] = makeWaypoint(-1584.684, 989.550, 2345.057)
+    route[#route + 1] = makeWaypoint(-1585.424, 960.874, 2339.632)
+    route[#route + 1] = makeWaypoint(-1585.835, 947.198, 2339.125)
+    route[#route + 1] = makeWaypoint(-1584.283, 947.250, 2339.740)
+    route[#route + 1] = makeWaypoint(-1581.946, 952.517, 2330.685)
+    route[#route + 1] = makeWaypoint(-1579.518, 949.568, 2328.770)
+    route[#route + 1] = makeWaypoint(-1579.123, 953.477, 2328.810)
+    route[#route + 1] = makeWaypoint(-1578.605, 953.253, 2328.622)
+    route[#route + 1] = makeWaypoint(-1576.840, 953.386, 2329.124)
+    route[#route + 1] = makeWaypoint(-1576.815, 953.083, 2330.384)
+    route[#route + 1] = makeWaypoint(-1572.284, 959.011, 2332.728)
+    route[#route + 1] = makeWaypoint(-1566.176, 950.340, 2332.271)
+    route[#route + 1] = makeWaypoint(-1564.563, 953.190, 2331.060)
+    route[#route + 1] = makeWaypoint(-1564.837, 953.250, 2328.723)
+    route[#route + 1] = makeWaypoint(-1567.768, 959.675, 2322.024)
+    route[#route + 1] = makeWaypoint(-1571.353, 956.440, 2318.728)
+    route[#route + 1] = makeWaypoint(-1571.675, 958.449, 2316.069)
+    route[#route + 1] = makeWaypoint(-1569.409, 958.210, 2312.505)
+    route[#route + 1] = makeWaypoint(-1570.285, 965.486, 2309.427)
+    route[#route + 1] = makeWaypoint(-1570.405, 965.486, 2305.040)
+    route[#route + 1] = makeWaypoint(-1573.718, 971.722, 2298.795)
+    route[#route + 1] = makeWaypoint(-1570.313, 971.457, 2302.100)
+    route[#route + 1] = makeWaypoint(-1569.685, 976.359, 2298.406)
+    route[#route + 1] = makeWaypoint(-1573.296, 976.526, 2296.983)
+    route[#route + 1] = makeWaypoint(-1574.050, 976.453, 2299.090)
+    route[#route + 1] = makeWaypoint(-1582.260, 979.852, 2296.162)
+    route[#route + 1] = makeWaypoint(-1588.105, 985.722, 2298.654)
+    route[#route + 1] = makeWaypoint(-1588.945, 980.441, 2300.544)
+    route[#route + 1] = makeWaypoint(-1589.914, 987.914, 2298.001)
+    route[#route + 1] = makeWaypoint(-1585.691, 995.216, 2302.594)
+    route[#route + 1] = makeWaypoint(-1584.635, 1001.474, 2308.338)
+    route[#route + 1] = makeWaypoint(-1578.895, 1000.062, 2311.785)
+    route[#route + 1] = makeWaypoint(-1571.681, 1000.013, 2319.199)
+    route[#route + 1] = makeWaypoint(-1573.585, 1006.149, 2321.738)
+    route[#route + 1] = makeWaypoint(-1581.835, 1007.335, 2324.487)
+    route[#route + 1] = makeWaypoint(-1590.483, 1008.630, 2326.491)
+    route[#route + 1] = makeWaypoint(-1595.528, 1004.874, 2330.341)
+    route[#route + 1] = makeWaypoint(-1602.138, 1010.030, 2323.813)
+    route[#route + 1] = makeWaypoint(-1604.727, 998.794, 2319.762)
+    route[#route + 1] = makeWaypoint(-1605.606, 1000.436, 2314.105)
+    route[#route + 1] = makeWaypoint(-1605.238, 998.998, 2306.617)
+    route[#route + 1] = makeWaypoint(-1619.588, 1005.391, 2306.601)
+    route[#route + 1] = makeWaypoint(-1625.637, 988.291, 2307.070)
+    route[#route + 1] = makeWaypoint(-1629.570, 973.977, 2309.366)
+    route[#route + 1] = makeWaypoint(-1635.114, 977.822, 2314.547)
+    route[#route + 1] = makeWaypoint(-1641.361, 983.453, 2313.677)
+    route[#route + 1] = makeWaypoint(-1644.544, 982.999, 2313.999)
+    route[#route + 1] = makeWaypoint(-1648.721, 982.758, 2314.429)
+    route[#route + 1] = makeWaypoint(-1654.684, 988.723, 2315.431)
+    route[#route + 1] = makeWaypoint(-1656.238, 983.981, 2318.629)
+    route[#route + 1] = makeWaypoint(-1656.153, 986.359, 2322.327)
+    route[#route + 1] = makeWaypoint(-1654.596, 983.979, 2324.644)
+    route[#route + 1] = makeWaypoint(-1654.487, 989.663, 2328.376)
+    route[#route + 1] = makeWaypoint(-1654.389, 988.913, 2332.352)
+    route[#route + 1] = makeWaypoint(-1654.183, 985.998, 2336.348)
+    route[#route + 1] = makeWaypoint(-1652.552, 988.646, 2339.722)
+    route[#route + 1] = makeWaypoint(-1648.757, 986.373, 2345.545)
+    route[#route + 1] = makeWaypoint(-1647.429, 994.138, 2351.089)
+    route[#route + 1] = makeWaypoint(-1640.562, 984.608, 2353.902)
+    route[#route + 1] = makeWaypoint(-1634.747, 991.803, 2353.416)
+    route[#route + 1] = makeWaypoint(-1631.706, 987.205, 2358.268)
+    route[#route + 1] = makeWaypoint(-1629.526, 987.535, 2361.765)
+    route[#route + 1] = makeWaypoint(-1623.686, 985.956, 2358.143)
+    route[#route + 1] = makeWaypoint(-1623.150, 991.424, 2361.276)
+    route[#route + 1] = makeWaypoint(-1622.945, 996.337, 2357.432)
+    route[#route + 1] = makeWaypoint(-1626.742, 1002.977, 2356.694)
+    route[#route + 1] = makeWaypoint(-1630.218, 1002.844, 2358.345)
+    route[#route + 1] = makeWaypoint(-1634.929, 1004.572, 2363.067)
+    route[#route + 1] = makeWaypoint(-1633.116, 1002.468, 2367.938)
+    route[#route + 1] = makeWaypoint(-1629.097, 1005.151, 2372.347)
+    route[#route + 1] = makeWaypoint(-1628.023, 1005.986, 2373.780)
+    route[#route + 1] = makeWaypoint(-1617.042, 1008.401, 2375.143)
+    route[#route + 1] = makeWaypoint(-1613.056, 1010.625, 2373.044)
+    route[#route + 1] = makeWaypoint(-1611.847, 1010.000, 2371.713)
+    route[#route + 1] = makeWaypoint(-1610.848, 1015.352, 2367.453)
+    route[#route + 1] = makeWaypoint(-1608.852, 1009.816, 2371.786)
+    route[#route + 1] = makeWaypoint(-1608.379, 1016.215, 2380.299)
+    route[#route + 1] = makeWaypoint(-1607.948, 1013.220, 2385.658)
+    route[#route + 1] = makeWaypoint(-1597.858, 1014.000, 2385.351)
+    route[#route + 1] = makeWaypoint(-1588.124, 1015.753, 2389.197)
+    route[#route + 1] = makeWaypoint(-1585.221, 1013.185, 2390.344)
+    route[#route + 1] = makeWaypoint(-1582.410, 1009.000, 2388.329)
+    route[#route + 1] = makeWaypoint(-1580.840, 1008.996, 2389.201)
+    route[#route + 1] = makeWaypoint(-1579.433, 1008.987, 2391.768)
+    route[#route + 1] = makeWaypoint(-1578.044, 1008.861, 2391.815)
+    route[#route + 1] = makeWaypoint(-1568.980, 1009.000, 2386.764)
+    route[#route + 1] = makeWaypoint(-1568.943, 1006.416, 2384.439)
+    route[#route + 1] = makeWaypoint(-1569.253, 1006.966, 2379.096)
+    route[#route + 1] = makeWaypoint(-1566.496, 1015.378, 2375.894)
+    route[#route + 1] = makeWaypoint(-1570.701, 1009.000, 2371.089)
+    route[#route + 1] = makeWaypoint(-1570.292, 1008.945, 2366.621)
+    route[#route + 1] = makeWaypoint(-1575.850, 1009.000, 2366.303)
+    route[#route + 1] = makeWaypoint(-1582.863, 1009.000, 2366.969)
+    route[#route + 1] = makeWaypoint(-1588.324, 1016.036, 2366.220)
+    route[#route + 1] = makeWaypoint(-1591.256, 1009.242, 2366.033)
+    route[#route + 1] = makeWaypoint(-1591.691, 1009.200, 2364.747)
+    route[#route + 1] = makeWaypoint(-1595.405, 1012.406, 2364.947)
+    route[#route + 1] = makeWaypoint(-1599.734, 1014.619, 2363.879)
+    route[#route + 1] = makeWaypoint(-1599.212, 1014.502, 2355.130)
+    route[#route + 1] = makeWaypoint(-1594.298, 1020.751, 2351.172)
+    route[#route + 1] = makeWaypoint(-1588.067, 1010.479, 2346.636)
+    route[#route + 1] = makeWaypoint(-1585.055, 1011.426, 2343.909)
+    route[#route + 1] = makeWaypoint(-1580.149, 1014.849, 2343.586)
+    route[#route + 1] = makeWaypoint(-1574.617, 1013.994, 2341.333)
+    route[#route + 1] = makeWaypoint(-1570.625, 1009.000, 2339.433)
+    route[#route + 1] = makeWaypoint(-1564.030, 1017.964, 2336.298)
+    route[#route + 1] = makeWaypoint(-1564.293, 1019.473, 2335.404)
+    route[#route + 1] = makeWaypoint(-1571.353, 1020.736, 2332.223)
+    route[#route + 1] = makeWaypoint(-1577.141, 1028.194, 2332.492)
+    route[#route + 1] = makeWaypoint(-1581.122, 1026.913, 2329.312)
+    route[#route + 1] = makeWaypoint(-1585.690, 1032.648, 2326.476)
+    route[#route + 1] = makeWaypoint(-1583.050, 1027.156, 2323.538)
+    route[#route + 1] = makeWaypoint(-1579.885, 1026.979, 2321.245)
+    route[#route + 1] = makeWaypoint(-1576.297, 1032.682, 2317.062)
+    route[#route + 1] = makeWaypoint(-1577.926, 1026.562, 2312.127)
+    route[#route + 1] = makeWaypoint(-1576.877, 1024.993, 2308.124)
+    route[#route + 1] = makeWaypoint(-1576.432, 1029.447, 2301.961)
+    route[#route + 1] = makeWaypoint(-1580.097, 1029.457, 2301.681)
+    route[#route + 1] = makeWaypoint(-1580.552, 1033.117, 2303.404)
+    route[#route + 1] = makeWaypoint(-1578.783, 1034.812, 2298.889)
+    route[#route + 1] = makeWaypoint(-1580.442, 1029.462, 2302.317)
+    route[#route + 1] = makeWaypoint(-1586.446, 1029.265, 2308.540)
+    route[#route + 1] = makeWaypoint(-1583.576, 1025.498, 2312.636)
+    route[#route + 1] = makeWaypoint(-1583.866, 1025.589, 2321.892)
+    route[#route + 1] = makeWaypoint(-1583.126, 1029.283, 2326.183)
+    route[#route + 1] = makeWaypoint(-1586.463, 1026.341, 2325.402)
+    route[#route + 1] = makeWaypoint(-1589.367, 1027.635, 2331.223)
+    route[#route + 1] = makeWaypoint(-1583.116, 1028.138, 2334.692)
+    route[#route + 1] = makeWaypoint(-1581.594, 1026.681, 2339.135)
+    route[#route + 1] = makeWaypoint(-1581.767, 1030.893, 2343.230)
+    route[#route + 1] = makeWaypoint(-1582.227, 1026.998, 2349.738)
+    route[#route + 1] = makeWaypoint(-1584.043, 1026.500, 2355.949)
+    route[#route + 1] = makeWaypoint(-1587.659, 1033.280, 2361.538)
+    route[#route + 1] = makeWaypoint(-1582.263, 1038.627, 2365.646)
+    route[#route + 1] = makeWaypoint(-1575.786, 1042.851, 2365.633)
+    route[#route + 1] = makeWaypoint(-1572.733, 1049.987, 2365.582)
+    route[#route + 1] = makeWaypoint(-1570.680, 1057.176, 2359.183)
+    route[#route + 1] = makeWaypoint(-1566.899, 1056.000, 2357.529)
+    route[#route + 1] = makeWaypoint(-1570.316, 1063.906, 2365.638)
+    route[#route + 1] = makeWaypoint(-1570.767, 1064.000, 2368.085)
+    route[#route + 1] = makeWaypoint(-1572.666, 1070.768, 2375.415)
+    route[#route + 1] = makeWaypoint(-1574.174, 1065.999, 2379.336)
+    route[#route + 1] = makeWaypoint(-1574.210, 1068.865, 2382.829)
+    route[#route + 1] = makeWaypoint(-1575.733, 1070.677, 2388.081)
+    route[#route + 1] = makeWaypoint(-1579.976, 1065.980, 2389.030)
+    route[#route + 1] = makeWaypoint(-1582.064, 1065.999, 2388.120)
+    route[#route + 1] = makeWaypoint(-1588.421, 1073.032, 2387.457)
+    route[#route + 1] = makeWaypoint(-1592.445, 1062.091, 2383.105)
+    route[#route + 1] = makeWaypoint(-1595.887, 1064.000, 2382.031)
+    route[#route + 1] = makeWaypoint(-1597.187, 1064.000, 2382.552)
+    route[#route + 1] = makeWaypoint(-1601.880, 1070.454, 2385.825)
+    route[#route + 1] = makeWaypoint(-1608.215, 1057.701, 2383.751)
+    route[#route + 1] = makeWaypoint(-1614.901, 1065.277, 2375.483)
+    route[#route + 1] = makeWaypoint(-1613.831, 1066.902, 2368.930)
+    route[#route + 1] = makeWaypoint(-1613.990, 1068.719, 2362.247)
+    route[#route + 1] = makeWaypoint(-1615.423, 1070.342, 2356.083)
+    route[#route + 1] = makeWaypoint(-1617.329, 1072.233, 2349.086)
+    route[#route + 1] = makeWaypoint(-1623.504, 1073.955, 2342.933)
+    route[#route + 1] = makeWaypoint(-1625.486, 1081.961, 2346.410)
+    route[#route + 1] = makeWaypoint(-1619.741, 1088.431, 2347.990)
+    route[#route + 1] = makeWaypoint(-1621.147, 1088.997, 2352.563)
+    route[#route + 1] = makeWaypoint(-1621.172, 1090.654, 2354.638)
+    route[#route + 1] = makeWaypoint(-1620.690, 1095.288, 2364.292)
+    route[#route + 1] = makeWaypoint(-1621.290, 1097.973, 2370.050)
+    route[#route + 1] = makeWaypoint(-1623.518, 1096.658, 2374.549)
+    route[#route + 1] = makeWaypoint(-1625.611, 1095.000, 2374.161)
+    route[#route + 1] = makeWaypoint(-1625.964, 1101.788, 2379.877)
+    route[#route + 1] = makeWaypoint(-1631.643, 1095.048, 2384.708)
+    route[#route + 1] = makeWaypoint(-1636.927, 1101.806, 2383.989)
+    route[#route + 1] = makeWaypoint(-1636.955, 1094.776, 2380.069)
+    route[#route + 1] = makeWaypoint(-1639.451, 1098.319, 2376.454)
+    route[#route + 1] = makeWaypoint(-1647.476, 1095.000, 2373.945)
+    route[#route + 1] = makeWaypoint(-1651.103, 1098.418, 2370.964)
+    route[#route + 1] = makeWaypoint(-1654.405, 1094.810, 2365.181)
+    route[#route + 1] = makeWaypoint(-1652.370, 1094.281, 2363.125)
+    route[#route + 1] = makeWaypoint(-1651.067, 1097.841, 2357.424)
+    route[#route + 1] = makeWaypoint(-1654.024, 1095.000, 2355.768)
+    route[#route + 1] = makeWaypoint(-1653.670, 1095.000, 2354.144)
+    route[#route + 1] = makeWaypoint(-1649.738, 1101.468, 2347.130)
+    route[#route + 1] = makeWaypoint(-1644.228, 1094.995, 2346.014)
+    route[#route + 1] = makeWaypoint(-1638.535, 1102.036, 2346.165)
+    route[#route + 1] = makeWaypoint(-1638.830, 1103.000, 2350.683)
+    route[#route + 1] = makeWaypoint(-1635.784, 1102.994, 2356.646)
+    route[#route + 1] = makeWaypoint(-1635.352, 1044.930, 2358.656)
+    route[#route + 1] = makeWaypoint(-1634.505, 1045.000, 2369.560)
+    route[#route + 1] = makeWaypoint(-1634.563, 1045.000, 2379.718)
+    route[#route + 1] = makeWaypoint(-1632.241, 1050.772, 2383.876)
+    route[#route + 1] = makeWaypoint(-1636.945, 1041.235, 2387.472)
+    route[#route + 1] = makeWaypoint(-1638.185, 1030.000, 2384.375)
+    route[#route + 1] = makeWaypoint(-1642.491, 1035.016, 2382.227)
+    route[#route + 1] = makeWaypoint(-1644.755, 1034.964, 2376.946)
+    route[#route + 1] = makeWaypoint(-1645.002, 1034.999, 2376.736)
+    route[#route + 1] = makeWaypoint(-1648.184, 1039.427, 2376.258)
+    route[#route + 1] = makeWaypoint(-1646.300, 1028.784, 2372.093)
+    route[#route + 1] = makeWaypoint(-1646.329, 1028.997, 2369.293)
+    route[#route + 1] = makeWaypoint(-1644.978, 1031.558, 2361.752)
+    route[#route + 1] = makeWaypoint(-1644.363, 1029.000, 2359.774)
+    route[#route + 1] = makeWaypoint(-1642.356, 1029.790, 2354.050)
+    route[#route + 1] = makeWaypoint(-1642.403, 1029.498, 2349.349)
+    route[#route + 1] = makeWaypoint(-1641.172, 1034.590, 2344.888)
+    route[#route + 1] = makeWaypoint(-1635.072, 1031.957, 2346.595)
+    route[#route + 1] = makeWaypoint(-1632.047, 1032.845, 2346.075)
+    route[#route + 1] = makeWaypoint(-1625.490, 1031.610, 2348.154)
+    route[#route + 1] = makeWaypoint(-1624.057, 1031.588, 2346.543)
+    route[#route + 1] = makeWaypoint(-1620.582, 1037.047, 2348.536)
+    route[#route + 1] = makeWaypoint(-1621.797, 1038.541, 2352.229)
+    route[#route + 1] = makeWaypoint(-1615.596, 1045.697, 2353.099)
+    route[#route + 1] = makeWaypoint(-1606.634, 1046.000, 2351.169)
+    route[#route + 1] = makeWaypoint(-1603.207, 1048.248, 2347.098)
+    route[#route + 1] = makeWaypoint(-1598.174, 1048.006, 2342.167)
+    route[#route + 1] = makeWaypoint(-1596.208, 1046.000, 2332.018)
+    route[#route + 1] = makeWaypoint(-1591.707, 1051.934, 2325.872)
+    route[#route + 1] = makeWaypoint(-1585.731, 1042.996, 2326.689)
+    route[#route + 1] = makeWaypoint(-1576.875, 1045.815, 2324.511)
+    route[#route + 1] = makeWaypoint(-1572.161, 1053.197, 2322.708)
+    route[#route + 1] = makeWaypoint(-1573.484, 1049.357, 2317.188)
+    route[#route + 1] = makeWaypoint(-1576.671, 1054.171, 2310.376)
+    route[#route + 1] = makeWaypoint(-1580.175, 1051.000, 2309.303)
+    route[#route + 1] = makeWaypoint(-1581.054, 1064.215, 2316.265)
+    route[#route + 1] = makeWaypoint(-1587.506, 1069.263, 2321.378)
+    route[#route + 1] = makeWaypoint(-1592.832, 1059.899, 2324.612)
+    route[#route + 1] = makeWaypoint(-1599.008, 1060.000, 2322.687)
+    route[#route + 1] = makeWaypoint(-1602.062, 1066.606, 2315.758)
+    route[#route + 1] = makeWaypoint(-1606.015, 1060.999, 2318.238)
+    route[#route + 1] = makeWaypoint(-1607.604, 1061.000, 2319.861)
+    route[#route + 1] = makeWaypoint(-1613.738, 1067.519, 2316.672)
+    route[#route + 1] = makeWaypoint(-1617.245, 1049.247, 2311.084)
+    route[#route + 1] = makeWaypoint(-1615.449, 1047.000, 2309.357)
+    route[#route + 1] = makeWaypoint(-1612.880, 1047.000, 2306.815)
+    route[#route + 1] = makeWaypoint(-1620.608, 1046.890, 2300.901)
+    route[#route + 1] = makeWaypoint(-1630.471, 1042.709, 2304.055)
+    route[#route + 1] = makeWaypoint(-1633.813, 1044.000, 2308.054)
+    route[#route + 1] = makeWaypoint(-1640.330, 1044.000, 2308.729)
+    route[#route + 1] = makeWaypoint(-1649.255, 1050.090, 2307.535)
+    route[#route + 1] = makeWaypoint(-1654.254, 1044.000, 2307.125)
+    route[#route + 1] = makeWaypoint(-1659.044, 1044.000, 2295.654)
+    route[#route + 1] = makeWaypoint(-1662.768, 1044.000, 2293.973)
+    route[#route + 1] = makeWaypoint(-1665.170, 1044.000, 2294.278)
+    route[#route + 1] = makeWaypoint(-1668.875, 1044.000, 2299.531)
+    route[#route + 1] = makeWaypoint(-1673.738, 1051.262, 2303.916)
+    route[#route + 1] = makeWaypoint(-1682.397, 1050.493, 2304.403)
+    route[#route + 1] = makeWaypoint(-1688.140, 1050.419, 2304.459)
+    route[#route + 1] = makeWaypoint(-1691.637, 1049.750, 2303.149)
+    route[#route + 1] = makeWaypoint(-1695.598, 1063.993, 2300.927)
+    route[#route + 1] = makeWaypoint(-1695.362, 1061.344, 2302.963)
+    route[#route + 1] = makeWaypoint(-1686.648, 1068.238, 2301.237)
+    route[#route + 1] = makeWaypoint(-1683.436, 1070.500, 2299.927)
+    route[#route + 1] = makeWaypoint(-1678.593, 1073.886, 2298.251)
+    route[#route + 1] = makeWaypoint(-1672.492, 1071.131, 2295.757)
+    route[#route + 1] = makeWaypoint(-1668.433, 1070.765, 2294.167)
+    route[#route + 1] = makeWaypoint(-1666.942, 1077.485, 2287.818)
+    route[#route + 1] = makeWaypoint(-1662.208, 1071.999, 2290.619)
+    route[#route + 1] = makeWaypoint(-1658.045, 1075.701, 2290.984)
+    route[#route + 1] = makeWaypoint(-1657.385, 1075.999, 2290.017)
+    route[#route + 1] = makeWaypoint(-1644.115, 1070.991, 2290.915)
+    route[#route + 1] = makeWaypoint(-1641.971, 1071.000, 2288.357)
+    route[#route + 1] = makeWaypoint(-1634.787, 1077.425, 2283.901)
+    route[#route + 1] = makeWaypoint(-1630.789, 1068.692, 2281.322)
+    route[#route + 1] = makeWaypoint(-1625.003, 1070.858, 2282.452)
+    route[#route + 1] = makeWaypoint(-1619.977, 1077.924, 2283.204)
+    route[#route + 1] = makeWaypoint(-1618.308, 1076.306, 2280.655)
+    route[#route + 1] = makeWaypoint(-1616.429, 1076.510, 2281.298)
+    route[#route + 1] = makeWaypoint(-1611.651, 1082.537, 2280.747)
+    route[#route + 1] = makeWaypoint(-1602.664, 1068.566, 2280.476)
+    route[#route + 1] = makeWaypoint(-1602.127, 1069.734, 2278.744)
+    route[#route + 1] = makeWaypoint(-1598.167, 1078.327, 2274.757)
+    route[#route + 1] = makeWaypoint(-1594.505, 1069.268, 2278.779)
+    route[#route + 1] = makeWaypoint(-1591.366, 1070.857, 2282.650)
+    route[#route + 1] = makeWaypoint(-1592.820, 1067.448, 2287.358)
+    route[#route + 1] = makeWaypoint(-1593.700, 1067.809, 2290.879)
+    route[#route + 1] = makeWaypoint(-1585.790, 1069.958, 2290.718)
+    route[#route + 1] = makeWaypoint(-1583.267, 1038.885, 2289.967)
+    route[#route + 1] = makeWaypoint(-1578.499, 1045.932, 2287.985)
+    route[#route + 1] = makeWaypoint(-1576.042, 1039.000, 2290.658)
+    route[#route + 1] = makeWaypoint(-1578.336, 1045.993, 2291.021)
+    route[#route + 1] = makeWaypoint(-1579.234, 1053.000, 2289.352)
+    route[#route + 1] = makeWaypoint(-1568.500, 1054.984, 2290.228)
+    route[#route + 1] = makeWaypoint(-1563.499, 1057.339, 2287.592)
+    route[#route + 1] = makeWaypoint(-1557.243, 1055.735, 2287.684)
+    route[#route + 1] = makeWaypoint(-1557.637, 1045.000, 2291.652)
+    route[#route + 1] = makeWaypoint(-1552.403, 1045.000, 2292.493)
+    route[#route + 1] = makeWaypoint(-1546.176, 1051.269, 2296.947)
+    route[#route + 1] = makeWaypoint(-1541.126, 1053.484, 2310.254)
+    route[#route + 1] = makeWaypoint(-1540.777, 1053.500, 2309.825)
+    route[#route + 1] = makeWaypoint(-1534.428, 1057.303, 2311.814)
+    route[#route + 1] = makeWaypoint(-1533.992, 1056.646, 2316.529)
+    route[#route + 1] = makeWaypoint(-1535.099, 1062.816, 2320.763)
+    route[#route + 1] = makeWaypoint(-1537.911, 1056.000, 2326.796)
+    route[#route + 1] = makeWaypoint(-1534.288, 1056.000, 2329.293)
+    route[#route + 1] = makeWaypoint(-1535.190, 1056.129, 2333.300)
+    route[#route + 1] = makeWaypoint(-1538.083, 1062.618, 2335.782)
+    route[#route + 1] = makeWaypoint(-1540.089, 1059.548, 2340.650)
+    route[#route + 1] = makeWaypoint(-1539.890, 1060.239, 2347.418)
+    route[#route + 1] = makeWaypoint(-1536.655, 1066.294, 2350.231)
+    route[#route + 1] = makeWaypoint(-1529.658, 1060.016, 2349.342)
+    route[#route + 1] = makeWaypoint(-1519.927, 1058.942, 2349.711)
+    route[#route + 1] = makeWaypoint(-1520.044, 1065.569, 2356.985)
+    route[#route + 1] = makeWaypoint(-1520.023, 1059.991, 2362.714)
+    route[#route + 1] = makeWaypoint(-1525.884, 1067.074, 2367.375)
+    route[#route + 1] = makeWaypoint(-1530.476, 1070.947, 2369.870)
+    route[#route + 1] = makeWaypoint(-1533.049, 1070.704, 2374.649)
+    route[#route + 1] = makeWaypoint(-1535.161, 1076.000, 2375.935)
+    route[#route + 1] = makeWaypoint(-1537.420, 1076.000, 2376.051)
+    route[#route + 1] = makeWaypoint(-1538.540, 1076.000, 2379.284)
+    route[#route + 1] = makeWaypoint(-1541.597, 1076.000, 2378.505)
+    route[#route + 1] = makeWaypoint(-1544.474, 1076.000, 2376.071)
+    route[#route + 1] = makeWaypoint(-1546.599, 1076.000, 2373.595)
+    route[#route + 1] = makeWaypoint(-1549.374, 1076.000, 2371.107)
+    route[#route + 1] = makeWaypoint(-1552.185, 1076.000, 2368.765)
+    route[#route + 1] = makeWaypoint(-1550.545, 1083.087, 2370.950)
+    route[#route + 1] = makeWaypoint(-1551.724, 1082.000, 2369.682)
+    route[#route + 1] = makeWaypoint(-1559.308, 1082.000, 2368.318)
+    route[#route + 1] = makeWaypoint(-1559.815, 1082.000, 2359.729)
+    route[#route + 1] = makeWaypoint(-1564.802, 1081.120, 2357.565)
+    route[#route + 1] = makeWaypoint(-1566.875, 1081.761, 2357.159)
+    route[#route + 1] = makeWaypoint(-1567.198, 1092.594, 2357.356)
+    route[#route + 1] = makeWaypoint(-1570.959, 1092.008, 2356.996)
+    route[#route + 1] = makeWaypoint(-1576.587, 1099.285, 2354.913)
+    route[#route + 1] = makeWaypoint(-1581.652, 1086.930, 2351.683)
+    route[#route + 1] = makeWaypoint(-1592.408, 1087.999, 2338.802)
+    route[#route + 1] = makeWaypoint(-1594.319, 1091.434, 2334.590)
+    route[#route + 1] = makeWaypoint(-1596.289, 1083.127, 2327.015)
+    route[#route + 1] = makeWaypoint(-1594.857, 1078.000, 2324.559)
+    route[#route + 1] = makeWaypoint(-1592.057, 1080.111, 2326.888)
+    route[#route + 1] = makeWaypoint(-1585.676, 1081.860, 2327.808)
+    route[#route + 1] = makeWaypoint(-1587.523, 1088.067, 2326.888)
+    route[#route + 1] = makeWaypoint(-1589.021, 1099.737, 2323.801)
+    route[#route + 1] = makeWaypoint(-1588.105, 1090.769, 2317.490)
+    route[#route + 1] = makeWaypoint(-1586.295, 1088.975, 2313.926)
+    route[#route + 1] = makeWaypoint(-1581.345, 1095.631, 2314.069)
+    route[#route + 1] = makeWaypoint(-1582.751, 1089.363, 2309.417)
+    route[#route + 1] = makeWaypoint(-1577.171, 1089.882, 2301.558)
+    route[#route + 1] = makeWaypoint(-1571.520, 1095.295, 2300.104)
+    route[#route + 1] = makeWaypoint(-1567.697, 1096.000, 2304.997)
+    route[#route + 1] = makeWaypoint(-1569.028, 1098.655, 2308.186)
+    route[#route + 1] = makeWaypoint(-1566.953, 1103.000, 2313.780)
+    route[#route + 1] = makeWaypoint(-1565.761, 1103.000, 2323.199)
+    route[#route + 1] = makeWaypoint(-1564.140, 1108.435, 2328.122)
+    route[#route + 1] = makeWaypoint(-1561.990, 1109.000, 2327.557)
+    route[#route + 1] = makeWaypoint(-1561.221, 1109.000, 2324.863)
+    route[#route + 1] = makeWaypoint(-1561.553, 1108.999, 2321.478)
+    route[#route + 1] = makeWaypoint(-1560.438, 1108.139, 2318.746)
+    route[#route + 1] = makeWaypoint(-1558.342, 1108.993, 2317.883)
+    route[#route + 1] = makeWaypoint(-1552.207, 1109.000, 2317.647)
+    route[#route + 1] = makeWaypoint(-1550.561, 1109.000, 2317.538)
+    route[#route + 1] = makeWaypoint(-1549.420, 1109.000, 2312.761)
+    route[#route + 1] = makeWaypoint(-1550.540, 1108.996, 2308.384)
+    route[#route + 1] = makeWaypoint(-1550.678, 1109.000, 2304.072)
+    route[#route + 1] = makeWaypoint(-1554.525, 1108.996, 2303.989)
+    route[#route + 1] = makeWaypoint(-1561.619, 1108.797, 2303.538)
+    route[#route + 1] = makeWaypoint(-1561.239, 1108.995, 2299.101)
+    route[#route + 1] = makeWaypoint(-1561.255, 1108.633, 2293.333)
+    route[#route + 1] = makeWaypoint(-1558.816, 1108.999, 2291.451)
+    route[#route + 1] = makeWaypoint(-1549.410, 1109.000, 2291.924)
+    route[#route + 1] = makeWaypoint(-1546.296, 1109.000, 2293.488)
+    route[#route + 1] = makeWaypoint(-1545.359, 1108.971, 2297.565)
+    route[#route + 1] = makeWaypoint(-1544.226, 1109.000, 2301.069)
+    route[#route + 1] = makeWaypoint(-1542.249, 1108.924, 2304.664)
+    route[#route + 1] = makeWaypoint(-1542.137, 1109.000, 2306.191)
+    route[#route + 1] = makeWaypoint(-1542.194, 1107.031, 2306.266)
+    route[#route + 1] = makeWaypoint(-1541.737, 1109.000, 2315.217)
+    route[#route + 1] = makeWaypoint(-1539.877, 1108.990, 2320.908)
+    route[#route + 1] = makeWaypoint(-1541.052, 1109.000, 2321.747)
+    route[#route + 1] = makeWaypoint(-1539.859, 1109.000, 2321.827)
+    route[#route + 1] = makeWaypoint(-1539.052, 1108.992, 2325.564)
+    route[#route + 1] = makeWaypoint(-1537.930, 1108.997, 2329.421)
+    route[#route + 1] = makeWaypoint(-1536.638, 1109.000, 2331.995)
+    route[#route + 1] = makeWaypoint(-1538.517, 1109.000, 2335.191)
+    route[#route + 1] = makeWaypoint(-1543.695, 1109.000, 2336.192)
+    route[#route + 1] = makeWaypoint(-1548.524, 1116.175, 2336.584)
+    route[#route + 1] = makeWaypoint(-1556.065, 1109.000, 2335.257)
+    route[#route + 1] = makeWaypoint(-1557.112, 1112.255, 2338.355)
+    route[#route + 1] = makeWaypoint(-1561.283, 1117.036, 2336.708)
+    route[#route + 1] = makeWaypoint(-1561.306, 1126.726, 2345.487)
+    route[#route + 1] = makeWaypoint(-1563.018, 1127.000, 2346.108)
+    route[#route + 1] = makeWaypoint(-1565.865, 1130.976, 2344.371)
+    route[#route + 1] = makeWaypoint(-1568.253, 1137.223, 2346.616)
+    route[#route + 1] = makeWaypoint(-1571.226, 1137.872, 2351.730)
+    route[#route + 1] = makeWaypoint(-1575.802, 1143.867, 2355.876)
+    route[#route + 1] = makeWaypoint(-1572.492, 1136.999, 2358.729)
+    route[#route + 1] = makeWaypoint(-1574.037, 1141.830, 2366.673)
+    route[#route + 1] = makeWaypoint(-1574.537, 1143.588, 2372.469)
+    route[#route + 1] = makeWaypoint(-1571.365, 1137.762, 2375.823)
+    route[#route + 1] = makeWaypoint(-1576.900, 1136.436, 2378.092)
+    route[#route + 1] = makeWaypoint(-1582.488, 1136.209, 2378.008)
+    route[#route + 1] = makeWaypoint(-1587.747, 1137.730, 2380.152)
+    route[#route + 1] = makeWaypoint(-1589.297, 1142.923, 2376.907)
+    route[#route + 1] = makeWaypoint(-1594.249, 1137.279, 2379.514)
+    route[#route + 1] = makeWaypoint(-1590.356, 1142.425, 2386.020)
+    route[#route + 1] = makeWaypoint(-1587.247, 1137.699, 2383.088)
+    route[#route + 1] = makeWaypoint(-1584.321, 1138.999, 2384.409)
+    route[#route + 1] = makeWaypoint(-1576.782, 1139.000, 2384.706)
+    route[#route + 1] = makeWaypoint(-1570.337, 1145.475, 2385.280)
+    route[#route + 1] = makeWaypoint(-1572.366, 1136.955, 2375.243)
+    route[#route + 1] = makeWaypoint(-1573.082, 1136.560, 2370.361)
+    route[#route + 1] = makeWaypoint(-1574.847, 1143.606, 2365.567)
+    route[#route + 1] = makeWaypoint(-1572.081, 1137.170, 2360.085)
+    route[#route + 1] = makeWaypoint(-1575.812, 1143.111, 2354.730)
+    route[#route + 1] = makeWaypoint(-1572.277, 1136.812, 2351.857)
+    route[#route + 1] = makeWaypoint(-1573.015, 1138.199, 2347.220)
+    route[#route + 1] = makeWaypoint(-1579.655, 1138.500, 2345.858)
+    route[#route + 1] = makeWaypoint(-1584.800, 1141.967, 2339.099)
+    route[#route + 1] = makeWaypoint(-1584.106, 1140.123, 2335.340)
+    route[#route + 1] = makeWaypoint(-1581.305, 1141.975, 2329.183)
+    route[#route + 1] = makeWaypoint(-1578.777, 1138.000, 2328.509)
+    route[#route + 1] = makeWaypoint(-1574.976, 1144.565, 2325.931)
+    route[#route + 1] = makeWaypoint(-1569.588, 1138.188, 2326.674)
+    route[#route + 1] = makeWaypoint(-1574.659, 1144.931, 2327.745)
+    route[#route + 1] = makeWaypoint(-1578.843, 1137.978, 2327.539)
+    route[#route + 1] = makeWaypoint(-1582.536, 1141.622, 2330.885)
+    route[#route + 1] = makeWaypoint(-1584.957, 1138.304, 2337.779)
+    route[#route + 1] = makeWaypoint(-1584.235, 1142.349, 2341.495)
+    route[#route + 1] = makeWaypoint(-1579.899, 1139.070, 2346.716)
+    route[#route + 1] = makeWaypoint(-1577.149, 1144.842, 2348.794)
+    route[#route + 1] = makeWaypoint(-1572.925, 1136.138, 2353.511)
+    route[#route + 1] = makeWaypoint(-1577.958, 1142.580, 2355.597)
+    route[#route + 1] = makeWaypoint(-1573.030, 1136.624, 2358.700)
+    route[#route + 1] = makeWaypoint(-1573.333, 1136.601, 2362.063)
+    route[#route + 1] = makeWaypoint(-1575.335, 1136.536, 2366.494)
+    route[#route + 1] = makeWaypoint(-1571.943, 1137.250, 2372.373)
+    route[#route + 1] = makeWaypoint(-1575.614, 1137.040, 2377.113)
+    route[#route + 1] = makeWaypoint(-1584.417, 1138.734, 2377.666)
+    route[#route + 1] = makeWaypoint(-1587.922, 1137.384, 2379.528)
+    route[#route + 1] = makeWaypoint(-1588.851, 1142.643, 2375.928)
+    route[#route + 1] = makeWaypoint(-1591.888, 1137.010, 2378.840)
+    route[#route + 1] = makeWaypoint(-1599.615, 1137.028, 2379.303)
+    route[#route + 1] = makeWaypoint(-1603.647, 1134.013, 2378.105)
+    route[#route + 1] = makeWaypoint(-1609.176, 1137.814, 2382.060)
+    route[#route + 1] = makeWaypoint(-1621.683, 1136.262, 2383.298)
+    route[#route + 1] = makeWaypoint(-1626.634, 1143.135, 2384.357)
+    route[#route + 1] = makeWaypoint(-1631.465, 1140.500, 2382.535)
+    route[#route + 1] = makeWaypoint(-1638.781, 1146.966, 2384.266)
+    route[#route + 1] = makeWaypoint(-1645.394, 1140.500, 2381.660)
+    route[#route + 1] = makeWaypoint(-1651.134, 1146.625, 2380.935)
+    route[#route + 1] = makeWaypoint(-1656.884, 1141.811, 2381.174)
+    route[#route + 1] = makeWaypoint(-1658.054, 1147.902, 2376.710)
+    route[#route + 1] = makeWaypoint(-1658.861, 1141.309, 2371.385)
+    route[#route + 1] = makeWaypoint(-1656.927, 1148.062, 2365.154)
+    route[#route + 1] = makeWaypoint(-1659.017, 1142.000, 2359.509)
+    route[#route + 1] = makeWaypoint(-1659.198, 1142.000, 2355.853)
+    route[#route + 1] = makeWaypoint(-1656.917, 1145.679, 2349.385)
+    route[#route + 1] = makeWaypoint(-1656.099, 1141.778, 2340.520)
+    route[#route + 1] = makeWaypoint(-1647.887, 1147.506, 2337.790)
+    route[#route + 1] = makeWaypoint(-1640.519, 1140.529, 2336.468)
+    route[#route + 1] = makeWaypoint(-1633.518, 1146.242, 2334.000)
+    route[#route + 1] = makeWaypoint(-1629.805, 1140.297, 2335.383)
+    route[#route + 1] = makeWaypoint(-1625.733, 1146.963, 2336.188)
+    route[#route + 1] = makeWaypoint(-1620.582, 1142.107, 2339.967)
+    route[#route + 1] = makeWaypoint(-1615.386, 1146.651, 2340.251)
+    route[#route + 1] = makeWaypoint(-1612.178, 1141.930, 2345.078)
+    route[#route + 1] = makeWaypoint(-1612.025, 1149.266, 2347.476)
+    route[#route + 1] = makeWaypoint(-1612.624, 1154.695, 2352.346)
+    route[#route + 1] = makeWaypoint(-1611.389, 1162.219, 2358.956)
+    route[#route + 1] = makeWaypoint(-1608.086, 1164.211, 2362.319)
+    route[#route + 1] = makeWaypoint(-1609.912, 1172.106, 2361.798)
+    route[#route + 1] = makeWaypoint(-1605.877, 1172.000, 2357.770)
+    route[#route + 1] = makeWaypoint(-1598.868, 1178.634, 2353.805)
+    route[#route + 1] = makeWaypoint(-1603.675, 1171.755, 2351.751)
+    route[#route + 1] = makeWaypoint(-1600.538, 1170.980, 2347.309)
+    route[#route + 1] = makeWaypoint(-1600.273, 1173.153, 2344.954)
+    route[#route + 1] = makeWaypoint(-1603.299, 1172.000, 2340.370)
+    route[#route + 1] = makeWaypoint(-1606.577, 1172.000, 2337.391)
+    route[#route + 1] = makeWaypoint(-1614.656, 1172.000, 2334.790)
+    route[#route + 1] = makeWaypoint(-1622.333, 1172.000, 2332.800)
+    route[#route + 1] = makeWaypoint(-1628.496, 1171.997, 2329.046)
+    route[#route + 1] = makeWaypoint(-1634.828, 1179.239, 2327.056)
+    route[#route + 1] = makeWaypoint(-1638.838, 1172.000, 2329.312)
+    route[#route + 1] = makeWaypoint(-1646.021, 1172.000, 2332.458)
+    route[#route + 1] = makeWaypoint(-1655.407, 1172.000, 2332.350)
+    route[#route + 1] = makeWaypoint(-1659.962, 1172.000, 2329.180)
+    route[#route + 1] = makeWaypoint(-1660.049, 1178.241, 2321.262)
+    route[#route + 1] = makeWaypoint(-1660.124, 1158.183, 2314.397)
+    route[#route + 1] = makeWaypoint(-1660.163, 1127.966, 2308.985)
+    route[#route + 1] = makeWaypoint(-1653.578, 1128.000, 2309.430)
+    route[#route + 1] = makeWaypoint(-1649.823, 1132.738, 2312.908)
+    route[#route + 1] = makeWaypoint(-1644.007, 1128.929, 2316.585)
+    route[#route + 1] = makeWaypoint(-1642.992, 1129.000, 2314.977)
+    route[#route + 1] = makeWaypoint(-1641.209, 1135.170, 2310.130)
+    route[#route + 1] = makeWaypoint(-1637.578, 1129.671, 2309.675)
+    route[#route + 1] = makeWaypoint(-1635.541, 1129.000, 2311.208)
+    route[#route + 1] = makeWaypoint(-1631.358, 1134.297, 2310.138)
+    route[#route + 1] = makeWaypoint(-1625.906, 1133.420, 2308.882)
+    route[#route + 1] = makeWaypoint(-1616.839, 1138.314, 2308.843)
+    route[#route + 1] = makeWaypoint(-1614.729, 1146.105, 2308.804)
+    route[#route + 1] = makeWaypoint(-1608.854, 1148.680, 2309.579)
+    route[#route + 1] = makeWaypoint(-1609.133, 1155.979, 2309.641)
+    route[#route + 1] = makeWaypoint(-1603.356, 1162.059, 2309.740)
+    route[#route + 1] = makeWaypoint(-1596.673, 1155.109, 2308.720)
+    route[#route + 1] = makeWaypoint(-1591.013, 1158.884, 2309.766)
+    route[#route + 1] = makeWaypoint(-1584.694, 1159.750, 2309.187)
+    route[#route + 1] = makeWaypoint(-1578.104, 1156.889, 2306.302)
+    route[#route + 1] = makeWaypoint(-1572.896, 1161.943, 2306.022)
+    route[#route + 1] = makeWaypoint(-1565.435, 1161.000, 2307.122)
+    route[#route + 1] = makeWaypoint(-1563.272, 1165.529, 2306.808)
+    route[#route + 1] = makeWaypoint(-1558.245, 1157.668, 2306.490)
+    route[#route + 1] = makeWaypoint(-1556.188, 1150.212, 2307.749)
+    route[#route + 1] = makeWaypoint(-1552.595, 1157.443, 2310.969)
+    route[#route + 1] = makeWaypoint(-1551.987, 1160.162, 2313.598)
+    route[#route + 1] = makeWaypoint(-1552.229, 1161.924, 2320.602)
+    route[#route + 1] = makeWaypoint(-1555.041, 1165.227, 2323.755)
+    route[#route + 1] = makeWaypoint(-1561.237, 1165.070, 2327.000)
+    route[#route + 1] = makeWaypoint(-1561.303, 1165.093, 2331.860)
+    route[#route + 1] = makeWaypoint(-1561.168, 1172.616, 2337.522)
+    route[#route + 1] = makeWaypoint(-1561.228, 1153.649, 2344.654)
+    route[#route + 1] = makeWaypoint(-1563.884, 1154.000, 2350.137)
+    route[#route + 1] = makeWaypoint(-1568.752, 1160.251, 2352.157)
+    route[#route + 1] = makeWaypoint(-1574.689, 1152.952, 2354.160)
+    route[#route + 1] = makeWaypoint(-1574.404, 1160.053, 2359.683)
+    route[#route + 1] = makeWaypoint(-1571.415, 1155.366, 2364.241)
+    route[#route + 1] = makeWaypoint(-1570.762, 1160.999, 2373.733)
+    route[#route + 1] = makeWaypoint(-1573.575, 1156.000, 2377.598)
+    route[#route + 1] = makeWaypoint(-1570.508, 1162.815, 2381.505)
+    route[#route + 1] = makeWaypoint(-1572.963, 1155.926, 2386.417)
+    route[#route + 1] = makeWaypoint(-1579.684, 1156.000, 2384.622)
+    route[#route + 1] = makeWaypoint(-1583.295, 1160.237, 2384.451)
+    route[#route + 1] = makeWaypoint(-1589.930, 1165.933, 2384.879)
+    route[#route + 1] = makeWaypoint(-1588.853, 1172.058, 2382.570)
+    route[#route + 1] = makeWaypoint(-1585.001, 1177.815, 2378.006)
+    route[#route + 1] = makeWaypoint(-1582.126, 1170.959, 2374.042)
+    route[#route + 1] = makeWaypoint(-1584.828, 1176.189, 2368.770)
+    route[#route + 1] = makeWaypoint(-1584.024, 1170.420, 2362.470)
+    route[#route + 1] = makeWaypoint(-1582.573, 1171.000, 2353.076)
+    route[#route + 1] = makeWaypoint(-1586.513, 1177.742, 2349.250)
+    route[#route + 1] = makeWaypoint(-1582.724, 1170.886, 2344.863)
+    route[#route + 1] = makeWaypoint(-1581.713, 1171.000, 2339.586)
+    route[#route + 1] = makeWaypoint(-1581.520, 1171.000, 2334.734)
+    route[#route + 1] = makeWaypoint(-1581.337, 1177.766, 2328.417)
+    route[#route + 1] = makeWaypoint(-1576.237, 1172.000, 2330.646)
+    route[#route + 1] = makeWaypoint(-1574.732, 1185.045, 2328.757)
+    route[#route + 1] = makeWaypoint(-1572.663, 1189.927, 2328.246)
+    route[#route + 1] = makeWaypoint(-1567.911, 1179.633, 2328.489)
+    route[#route + 1] = makeWaypoint(-1562.599, 1187.368, 2328.596)
+    route[#route + 1] = makeWaypoint(-1558.846, 1180.000, 2329.160)
+    route[#route + 1] = makeWaypoint(-1556.849, 1186.753, 2330.494)
+    route[#route + 1] = makeWaypoint(-1548.946, 1180.987, 2330.295)
+    route[#route + 1] = makeWaypoint(-1544.833, 1184.288, 2333.410)
+    route[#route + 1] = makeWaypoint(-1539.020, 1178.920, 2329.857)
+    route[#route + 1] = makeWaypoint(-1536.512, 1180.582, 2326.802)
+    route[#route + 1] = makeWaypoint(-1535.408, 1176.685, 2319.192)
+    route[#route + 1] = makeWaypoint(-1534.736, 1174.000, 2315.452)
+    route[#route + 1] = makeWaypoint(-1531.193, 1181.121, 2311.870)
+    route[#route + 1] = makeWaypoint(-1533.822, 1174.000, 2305.703)
+    route[#route + 1] = makeWaypoint(-1538.769, 1173.000, 2303.924)
+    route[#route + 1] = makeWaypoint(-1540.916, 1179.264, 2298.878)
+    route[#route + 1] = makeWaypoint(-1546.376, 1172.828, 2301.604)
+    route[#route + 1] = makeWaypoint(-1549.707, 1179.154, 2297.202)
+    route[#route + 1] = makeWaypoint(-1554.487, 1173.940, 2299.022)
+    route[#route + 1] = makeWaypoint(-1559.212, 1180.482, 2298.551)
+    route[#route + 1] = makeWaypoint(-1565.220, 1186.578, 2298.019)
+    route[#route + 1] = makeWaypoint(-1570.858, 1187.829, 2298.981)
+    route[#route + 1] = makeWaypoint(-1576.444, 1188.297, 2299.214)
+    route[#route + 1] = makeWaypoint(-1580.596, 1189.196, 2308.392)
+    route[#route + 1] = makeWaypoint(-1584.172, 1191.809, 2310.302)
+    route[#route + 1] = makeWaypoint(-1588.990, 1195.715, 2311.972)
+    route[#route + 1] = makeWaypoint(-1591.970, 1187.379, 2309.243)
+    route[#route + 1] = makeWaypoint(-1599.694, 1189.338, 2297.963)
+    route[#route + 1] = makeWaypoint(-1606.848, 1195.736, 2296.233)
+    route[#route + 1] = makeWaypoint(-1613.665, 1182.999, 2300.342)
+    route[#route + 1] = makeWaypoint(-1621.741, 1183.000, 2305.068)
+    route[#route + 1] = makeWaypoint(-1627.680, 1188.702, 2307.727)
+    route[#route + 1] = makeWaypoint(-1631.791, 1172.039, 2307.381)
+    route[#route + 1] = makeWaypoint(-1638.151, 1175.000, 2308.458)
+    route[#route + 1] = makeWaypoint(-1644.344, 1177.360, 2306.941)
+    route[#route + 1] = makeWaypoint(-1645.849, 1186.675, 2306.502)
+    route[#route + 1] = makeWaypoint(-1652.791, 1187.432, 2306.612)
+    route[#route + 1] = makeWaypoint(-1658.094, 1187.705, 2312.812)
+    route[#route + 1] = makeWaypoint(-1658.084, 1194.493, 2314.188)
+    route[#route + 1] = makeWaypoint(-1658.996, 1198.467, 2317.571)
+    route[#route + 1] = makeWaypoint(-1659.728, 1198.323, 2322.964)
+    route[#route + 1] = makeWaypoint(-1659.035, 1198.478, 2329.917)
+    route[#route + 1] = makeWaypoint(-1657.568, 1195.184, 2341.008)
+    route[#route + 1] = makeWaypoint(-1653.508, 1195.296, 2346.965)
+    route[#route + 1] = makeWaypoint(-1649.359, 1197.974, 2351.577)
+    route[#route + 1] = makeWaypoint(-1642.243, 1201.821, 2353.822)
+    route[#route + 1] = makeWaypoint(-1638.550, 1208.955, 2360.095)
+    route[#route + 1] = makeWaypoint(-1628.779, 1208.993, 2362.874)
+    route[#route + 1] = makeWaypoint(-1626.564, 1211.867, 2366.710)
+    route[#route + 1] = makeWaypoint(-1622.022, 1211.906, 2363.514)
+    route[#route + 1] = makeWaypoint(-1619.310, 1212.000, 2362.271)
+    route[#route + 1] = makeWaypoint(-1616.088, 1217.594, 2367.166)
+    route[#route + 1] = makeWaypoint(-1611.901, 1211.955, 2362.629)
+    route[#route + 1] = makeWaypoint(-1608.681, 1215.829, 2366.044)
+    route[#route + 1] = makeWaypoint(-1606.152, 1215.629, 2371.333)
+    route[#route + 1] = makeWaypoint(-1598.383, 1216.648, 2374.947)
+    route[#route + 1] = makeWaypoint(-1592.868, 1214.718, 2375.892)
+    route[#route + 1] = makeWaypoint(-1591.328, 1214.000, 2381.887)
+    route[#route + 1] = makeWaypoint(-1585.845, 1213.456, 2382.518)
+    route[#route + 1] = makeWaypoint(-1578.639, 1213.245, 2383.051)
+    route[#route + 1] = makeWaypoint(-1571.772, 1212.994, 2383.358)
+    route[#route + 1] = makeWaypoint(-1564.357, 1213.002, 2382.294)
+    route[#route + 1] = makeWaypoint(-1564.756, 1212.000, 2379.341)
+    route[#route + 1] = makeWaypoint(-1564.841, 1212.000, 2378.534)
+    route[#route + 1] = makeWaypoint(-1566.955, 1211.997, 2373.923)
+    route[#route + 1] = makeWaypoint(-1570.752, 1212.000, 2374.223)
+    route[#route + 1] = makeWaypoint(-1568.631, 1221.044, 2365.483)
+    route[#route + 1] = makeWaypoint(-1567.367, 1222.360, 2361.856)
+    route[#route + 1] = makeWaypoint(-1567.666, 1221.794, 2358.728)
+    route[#route + 1] = makeWaypoint(-1568.997, 1224.128, 2350.446)
+    route[#route + 1] = makeWaypoint(-1567.503, 1222.185, 2347.226)
+    route[#route + 1] = makeWaypoint(-1566.261, 1229.797, 2337.513)
+    route[#route + 1] = makeWaypoint(-1567.473, 1227.593, 2331.237)
+    route[#route + 1] = makeWaypoint(-1569.607, 1231.580, 2328.355)
+    route[#route + 1] = makeWaypoint(-1568.126, 1229.542, 2327.438)
+    route[#route + 1] = makeWaypoint(-1565.008, 1232.000, 2320.656)
+    route[#route + 1] = makeWaypoint(-1568.870, 1238.576, 2313.461)
+    route[#route + 1] = makeWaypoint(-1579.238, 1238.064, 2308.945)
+    route[#route + 1] = makeWaypoint(-1588.185, 1243.142, 2307.680)
+    route[#route + 1] = makeWaypoint(-1588.457, 1233.894, 2302.281)
+    route[#route + 1] = makeWaypoint(-1593.956, 1240.119, 2303.921)
+    route[#route + 1] = makeWaypoint(-1600.367, 1229.824, 2305.985)
+    route[#route + 1] = makeWaypoint(-1605.843, 1230.000, 2313.422)
+    route[#route + 1] = makeWaypoint(-1610.726, 1236.684, 2316.520)
+    route[#route + 1] = makeWaypoint(-1614.012, 1229.730, 2311.981)
+    route[#route + 1] = makeWaypoint(-1616.611, 1230.000, 2303.107)
+    route[#route + 1] = makeWaypoint(-1621.020, 1236.117, 2297.912)
+    route[#route + 1] = makeWaypoint(-1625.422, 1229.798, 2301.355)
+    route[#route + 1] = makeWaypoint(-1634.007, 1230.000, 2310.904)
+    route[#route + 1] = makeWaypoint(-1637.816, 1232.699, 2315.078)
+    route[#route + 1] = makeWaypoint(-1644.142, 1232.297, 2316.585)
+    route[#route + 1] = makeWaypoint(-1645.792, 1231.000, 2312.481)
+    route[#route + 1] = makeWaypoint(-1642.017, 1237.522, 2307.833)
+    route[#route + 1] = makeWaypoint(-1643.836, 1230.833, 2303.679)
+    route[#route + 1] = makeWaypoint(-1650.302, 1233.781, 2297.960)
+    route[#route + 1] = makeWaypoint(-1655.884, 1235.872, 2295.818)
+    route[#route + 1] = makeWaypoint(-1662.290, 1236.000, 2297.617)
+    route[#route + 1] = makeWaypoint(-1662.698, 1236.220, 2303.311)
+    route[#route + 1] = makeWaypoint(-1662.423, 1236.000, 2307.425)
+    route[#route + 1] = makeWaypoint(-1659.951, 1242.517, 2316.402)
+    route[#route + 1] = makeWaypoint(-1658.311, 1240.691, 2321.246)
+    route[#route + 1] = makeWaypoint(-1658.166, 1241.690, 2323.171)
+    route[#route + 1] = makeWaypoint(-1656.160, 1243.708, 2324.993)
+    route[#route + 1] = makeWaypoint(-1656.085, 1243.503, 2329.529)
+    route[#route + 1] = makeWaypoint(-1659.289, 1237.000, 2329.936)
+    route[#route + 1] = makeWaypoint(-1657.402, 1237.000, 2334.437)
+    route[#route + 1] = makeWaypoint(-1650.768, 1243.957, 2334.691)
+    route[#route + 1] = makeWaypoint(-1648.559, 1234.218, 2338.517)
+    route[#route + 1] = makeWaypoint(-1647.842, 1237.000, 2340.318)
+    route[#route + 1] = makeWaypoint(-1650.247, 1237.000, 2345.499)
+    route[#route + 1] = makeWaypoint(-1654.174, 1243.401, 2349.523)
+    route[#route + 1] = makeWaypoint(-1660.523, 1235.211, 2353.339)
+    route[#route + 1] = makeWaypoint(-1659.249, 1235.000, 2350.502)
+    route[#route + 1] = makeWaypoint(-1653.274, 1241.629, 2348.068)
+    route[#route + 1] = makeWaypoint(-1649.235, 1237.000, 2344.605)
+    route[#route + 1] = makeWaypoint(-1645.813, 1237.000, 2340.405)
+    route[#route + 1] = makeWaypoint(-1643.357, 1243.909, 2334.445)
+    route[#route + 1] = makeWaypoint(-1640.394, 1236.733, 2329.331)
+    route[#route + 1] = makeWaypoint(-1634.811, 1237.000, 2333.906)
+    route[#route + 1] = makeWaypoint(-1629.902, 1242.369, 2336.644)
+    route[#route + 1] = makeWaypoint(-1625.357, 1236.710, 2333.938)
+    route[#route + 1] = makeWaypoint(-1620.927, 1237.000, 2332.926)
+    route[#route + 1] = makeWaypoint(-1619.362, 1242.508, 2338.401)
+    route[#route + 1] = makeWaypoint(-1616.192, 1233.302, 2337.998)
+    route[#route + 1] = makeWaypoint(-1614.261, 1234.000, 2334.272)
+    route[#route + 1] = makeWaypoint(-1609.366, 1238.995, 2334.938)
+    route[#route + 1] = makeWaypoint(-1603.501, 1233.482, 2332.386)
+    route[#route + 1] = makeWaypoint(-1597.903, 1236.089, 2330.399)
+    route[#route + 1] = makeWaypoint(-1592.665, 1239.068, 2332.387)
+    route[#route + 1] = makeWaypoint(-1591.188, 1238.932, 2336.659)
+    route[#route + 1] = makeWaypoint(-1589.553, 1240.803, 2336.196)
+    route[#route + 1] = makeWaypoint(-1590.088, 1241.591, 2331.751)
+    route[#route + 1] = makeWaypoint(-1581.236, 1249.006, 2326.044)
+    route[#route + 1] = makeWaypoint(-1568.153, 1249.000, 2326.409)
+    route[#route + 1] = makeWaypoint(-1565.098, 1253.646, 2320.243)
+    route[#route + 1] = makeWaypoint(-1565.052, 1254.190, 2320.224)
+    route[#route + 1] = makeWaypoint(-1568.891, 1249.000, 2330.269)
+    route[#route + 1] = makeWaypoint(-1566.935, 1249.000, 2330.625)
+    route[#route + 1] = makeWaypoint(-1567.105, 1255.840, 2337.201)
+    route[#route + 1] = makeWaypoint(-1567.006, 1242.902, 2344.089)
+    route[#route + 1] = makeWaypoint(-1570.779, 1248.344, 2346.284)
+    route[#route + 1] = makeWaypoint(-1567.119, 1242.742, 2347.693)
+    route[#route + 1] = makeWaypoint(-1567.455, 1243.000, 2354.530)
+    route[#route + 1] = makeWaypoint(-1569.997, 1249.028, 2358.053)
+    route[#route + 1] = makeWaypoint(-1565.834, 1243.155, 2357.634)
+    route[#route + 1] = makeWaypoint(-1568.080, 1247.073, 2361.319)
+    route[#route + 1] = makeWaypoint(-1568.779, 1242.757, 2368.171)
+    route[#route + 1] = makeWaypoint(-1570.876, 1242.985, 2376.033)
+    route[#route + 1] = makeWaypoint(-1575.261, 1247.807, 2375.910)
+    route[#route + 1] = makeWaypoint(-1582.326, 1242.670, 2375.806)
+    route[#route + 1] = makeWaypoint(-1591.979, 1241.999, 2377.827)
+    route[#route + 1] = makeWaypoint(-1591.456, 1242.000, 2386.042)
+    route[#route + 1] = makeWaypoint(-1591.448, 1241.990, 2392.107)
+    route[#route + 1] = makeWaypoint(-1591.508, 1242.000, 2387.247)
+    route[#route + 1] = makeWaypoint(-1591.553, 1242.000, 2376.516)
+    route[#route + 1] = makeWaypoint(-1593.875, 1242.000, 2376.234)
+    route[#route + 1] = makeWaypoint(-1597.861, 1246.160, 2374.961)
+    route[#route + 1] = makeWaypoint(-1604.345, 1241.286, 2376.355)
+    route[#route + 1] = makeWaypoint(-1607.864, 1228.159, 2380.377)
+    route[#route + 1] = makeWaypoint(-1611.977, 1231.865, 2382.323)
+    route[#route + 1] = makeWaypoint(-1618.937, 1232.000, 2380.183)
+    route[#route + 1] = makeWaypoint(-1621.038, 1232.000, 2374.949)
+    route[#route + 1] = makeWaypoint(-1622.873, 1231.994, 2369.609)
+    route[#route + 1] = makeWaypoint(-1628.481, 1231.994, 2367.806)
+    route[#route + 1] = makeWaypoint(-1631.157, 1235.604, 2364.770)
+    route[#route + 1] = makeWaypoint(-1635.844, 1234.077, 2366.905)
+    route[#route + 1] = makeWaypoint(-1640.468, 1231.995, 2369.986)
+    route[#route + 1] = makeWaypoint(-1645.878, 1237.315, 2369.316)
+    route[#route + 1] = makeWaypoint(-1651.319, 1231.506, 2369.573)
+    route[#route + 1] = makeWaypoint(-1653.014, 1236.396, 2371.561)
+    route[#route + 1] = makeWaypoint(-1646.339, 1247.136, 2370.843)
+    route[#route + 1] = makeWaypoint(-1643.953, 1252.118, 2372.063)
+    route[#route + 1] = makeWaypoint(-1655.821, 1253.000, 2371.392)
+    route[#route + 1] = makeWaypoint(-1656.124, 1253.984, 2363.981)
+    route[#route + 1] = makeWaypoint(-1654.147, 1257.666, 2359.448)
+    route[#route + 1] = makeWaypoint(-1656.141, 1253.000, 2358.899)
+    route[#route + 1] = makeWaypoint(-1650.470, 1256.235, 2354.465)
+    route[#route + 1] = makeWaypoint(-1642.608, 1253.000, 2354.483)
+    route[#route + 1] = makeWaypoint(-1636.141, 1250.733, 2353.375)
+    route[#route + 1] = makeWaypoint(-1632.257, 1252.023, 2354.141)
+    route[#route + 1] = makeWaypoint(-1625.251, 1243.500, 2353.442)
+    route[#route + 1] = makeWaypoint(-1624.654, 1243.500, 2356.463)
+    route[#route + 1] = makeWaypoint(-1619.136, 1249.854, 2356.308)
+    route[#route + 1] = makeWaypoint(-1613.666, 1243.959, 2358.377)
+    route[#route + 1] = makeWaypoint(-1611.309, 1244.618, 2357.360)
+    route[#route + 1] = makeWaypoint(-1605.234, 1247.365, 2353.692)
+    route[#route + 1] = makeWaypoint(-1600.044, 1245.310, 2352.994)
+    route[#route + 1] = makeWaypoint(-1593.474, 1244.640, 2351.006)
+    route[#route + 1] = makeWaypoint(-1592.859, 1251.150, 2349.466)
+    route[#route + 1] = makeWaypoint(-1586.062, 1254.234, 2352.826)
+    route[#route + 1] = makeWaypoint(-1587.412, 1259.000, 2357.945)
+    route[#route + 1] = makeWaypoint(-1584.002, 1259.000, 2365.677)
+    route[#route + 1] = makeWaypoint(-1586.575, 1265.812, 2374.222)
+    route[#route + 1] = makeWaypoint(-1591.509, 1259.989, 2377.429)
+    route[#route + 1] = makeWaypoint(-1601.856, 1258.858, 2381.419)
+    route[#route + 1] = makeWaypoint(-1591.330, 1260.000, 2378.792)
+    route[#route + 1] = makeWaypoint(-1587.199, 1267.026, 2371.967)
+    route[#route + 1] = makeWaypoint(-1583.200, 1258.996, 2368.833)
+    route[#route + 1] = makeWaypoint(-1578.499, 1259.000, 2371.514)
+    route[#route + 1] = makeWaypoint(-1574.744, 1265.100, 2369.669)
+    route[#route + 1] = makeWaypoint(-1568.718, 1258.543, 2366.993)
+    route[#route + 1] = makeWaypoint(-1567.506, 1259.000, 2366.582)
+    route[#route + 1] = makeWaypoint(-1567.304, 1262.470, 2363.139)
+    route[#route + 1] = makeWaypoint(-1567.182, 1260.879, 2356.474)
+    route[#route + 1] = makeWaypoint(-1569.419, 1264.995, 2351.548)
+    route[#route + 1] = makeWaypoint(-1567.810, 1258.708, 2345.715)
+    route[#route + 1] = makeWaypoint(-1566.354, 1259.000, 2343.013)
+    route[#route + 1] = makeWaypoint(-1567.216, 1265.682, 2337.056)
+    route[#route + 1] = makeWaypoint(-1565.708, 1265.000, 2331.484)
+    route[#route + 1] = makeWaypoint(-1566.435, 1272.151, 2324.480)
+    route[#route + 1] = makeWaypoint(-1568.617, 1263.991, 2321.573)
+    route[#route + 1] = makeWaypoint(-1571.350, 1270.439, 2315.923)
+    route[#route + 1] = makeWaypoint(-1572.687, 1270.000, 2311.327)
+    route[#route + 1] = makeWaypoint(-1572.513, 1270.000, 2303.914)
+    route[#route + 1] = makeWaypoint(-1571.586, 1270.000, 2297.376)
+    route[#route + 1] = makeWaypoint(-1575.438, 1273.168, 2297.366)
+    route[#route + 1] = makeWaypoint(-1580.979, 1278.551, 2297.134)
+    route[#route + 1] = makeWaypoint(-1580.979, 1283.354, 2297.134)
+    route[#route + 1] = makeWaypoint(-1582.326, 1283.664, 2296.123)
+    route[#route + 1] = makeWaypoint(-1583.860, 1283.538, 2297.804)
+    route[#route + 1] = makeWaypoint(-1588.806, 1291.350, 2299.936)
+    route[#route + 1] = makeWaypoint(-1586.688, 1283.088, 2306.679)
+    route[#route + 1] = makeWaypoint(-1589.376, 1287.938, 2308.929)
+    route[#route + 1] = makeWaypoint(-1590.061, 1285.150, 2315.090)
+    route[#route + 1] = makeWaypoint(-1592.696, 1290.892, 2314.308)
+    route[#route + 1] = makeWaypoint(-1599.304, 1288.976, 2313.002)
+    route[#route + 1] = makeWaypoint(-1599.849, 1288.999, 2316.615)
+    route[#route + 1] = makeWaypoint(-1600.059, 1294.231, 2315.878)
+    route[#route + 1] = makeWaypoint(-1599.908, 1289.000, 2315.923)
+    route[#route + 1] = makeWaypoint(-1601.761, 1295.192, 2320.615)
+    route[#route + 1] = makeWaypoint(-1602.779, 1289.000, 2315.797)
+    route[#route + 1] = makeWaypoint(-1611.818, 1284.770, 2315.031)
+    route[#route + 1] = makeWaypoint(-1615.346, 1286.687, 2315.988)
+    route[#route + 1] = makeWaypoint(-1619.081, 1284.987, 2317.402)
+    route[#route + 1] = makeWaypoint(-1621.253, 1284.964, 2317.179)
+    route[#route + 1] = makeWaypoint(-1624.293, 1284.970, 2316.021)
+    route[#route + 1] = makeWaypoint(-1626.395, 1284.984, 2313.483)
+    route[#route + 1] = makeWaypoint(-1625.350, 1285.000, 2313.113)
+    route[#route + 1] = makeWaypoint(-1619.431, 1285.000, 2315.065)
+    route[#route + 1] = makeWaypoint(-1615.255, 1286.760, 2315.915)
+    route[#route + 1] = makeWaypoint(-1615.279, 1285.793, 2314.305)
+    route[#route + 1] = makeWaypoint(-1614.344, 1284.977, 2311.808)
+    route[#route + 1] = makeWaypoint(-1613.441, 1284.979, 2309.219)
+    route[#route + 1] = makeWaypoint(-1614.449, 1285.994, 2304.442)
+    route[#route + 1] = makeWaypoint(-1618.910, 1284.880, 2301.396)
+    route[#route + 1] = makeWaypoint(-1625.100, 1285.000, 2316.156)
+    route[#route + 1] = makeWaypoint(-1633.203, 1285.000, 2317.595)
+    route[#route + 1] = makeWaypoint(-1640.504, 1284.988, 2316.483)
+    route[#route + 1] = makeWaypoint(-1645.161, 1284.315, 2316.417)
+    route[#route + 1] = makeWaypoint(-1652.048, 1286.000, 2316.382)
+    route[#route + 1] = makeWaypoint(-1653.994, 1286.000, 2320.655)
+    route[#route + 1] = makeWaypoint(-1655.310, 1287.993, 2327.272)
+    route[#route + 1] = makeWaypoint(-1651.107, 1295.089, 2331.843)
+    route[#route + 1] = makeWaypoint(-1651.689, 1288.000, 2338.013)
+    route[#route + 1] = makeWaypoint(-1656.471, 1288.000, 2345.362)
+    route[#route + 1] = makeWaypoint(-1656.711, 1292.923, 2352.889)
+    route[#route + 1] = makeWaypoint(-1655.522, 1293.000, 2355.608)
+    route[#route + 1] = makeWaypoint(-1651.594, 1299.829, 2359.783)
+    route[#route + 1] = makeWaypoint(-1655.029, 1277.694, 2366.333)
+    route[#route + 1] = makeWaypoint(-1656.430, 1273.659, 2373.774)
+    route[#route + 1] = makeWaypoint(-1659.365, 1269.510, 2382.052)
+    route[#route + 1] = makeWaypoint(-1661.760, 1277.359, 2382.245)
+    route[#route + 1] = makeWaypoint(-1658.053, 1269.510, 2384.477)
+    route[#route + 1] = makeWaypoint(-1652.157, 1269.510, 2382.464)
+    route[#route + 1] = makeWaypoint(-1658.860, 1269.513, 2384.428)
+    route[#route + 1] = makeWaypoint(-1661.763, 1269.623, 2374.850)
+    route[#route + 1] = makeWaypoint(-1655.633, 1269.510, 2376.178)
+    route[#route + 1] = makeWaypoint(-1646.057, 1269.510, 2375.378)
+    route[#route + 1] = makeWaypoint(-1644.575, 1269.510, 2378.385)
+    route[#route + 1] = makeWaypoint(-1648.079, 1276.361, 2388.950)
+    route[#route + 1] = makeWaypoint(-1648.161, 1269.510, 2389.804)
+    route[#route + 1] = makeWaypoint(-1638.283, 1269.510, 2390.259)
+    route[#route + 1] = makeWaypoint(-1642.621, 1269.510, 2387.940)
+    route[#route + 1] = makeWaypoint(-1637.543, 1269.517, 2389.411)
+    route[#route + 1] = makeWaypoint(-1634.884, 1269.510, 2385.657)
+    route[#route + 1] = makeWaypoint(-1637.886, 1269.509, 2387.048)
+    route[#route + 1] = makeWaypoint(-1631.799, 1269.511, 2390.404)
+    route[#route + 1] = makeWaypoint(-1629.130, 1269.510, 2389.288)
+    route[#route + 1] = makeWaypoint(-1629.137, 1269.513, 2385.266)
+    route[#route + 1] = makeWaypoint(-1625.204, 1276.977, 2383.402)
+    route[#route + 1] = makeWaypoint(-1626.007, 1269.510, 2381.286)
+    route[#route + 1] = makeWaypoint(-1628.052, 1269.495, 2381.297)
+    route[#route + 1] = makeWaypoint(-1635.402, 1269.497, 2381.239)
+    route[#route + 1] = makeWaypoint(-1635.928, 1269.509, 2381.333)
+    route[#route + 1] = makeWaypoint(-1637.450, 1269.511, 2384.587)
+    route[#route + 1] = makeWaypoint(-1637.984, 1269.514, 2378.098)
+    route[#route + 1] = makeWaypoint(-1638.065, 1269.510, 2374.940)
+    route[#route + 1] = makeWaypoint(-1630.133, 1269.520, 2376.557)
+    route[#route + 1] = makeWaypoint(-1627.259, 1273.991, 2379.533)
+    route[#route + 1] = makeWaypoint(-1619.763, 1272.159, 2379.988)
+    route[#route + 1] = makeWaypoint(-1612.936, 1276.068, 2380.944)
+    route[#route + 1] = makeWaypoint(-1606.672, 1279.682, 2381.630)
+    route[#route + 1] = makeWaypoint(-1600.037, 1283.511, 2381.658)
+    route[#route + 1] = makeWaypoint(-1593.124, 1290.932, 2381.496)
+    route[#route + 1] = makeWaypoint(-1586.659, 1287.903, 2381.660)
+    route[#route + 1] = makeWaypoint(-1578.909, 1286.000, 2378.537)
+    route[#route + 1] = makeWaypoint(-1577.152, 1286.693, 2373.630)
+    route[#route + 1] = makeWaypoint(-1580.093, 1293.298, 2373.069)
+    route[#route + 1] = makeWaypoint(-1577.892, 1293.327, 2369.158)
+    route[#route + 1] = makeWaypoint(-1574.079, 1294.861, 2361.332)
+    route[#route + 1] = makeWaypoint(-1574.345, 1298.328, 2354.015)
+    route[#route + 1] = makeWaypoint(-1584.637, 1300.652, 2350.308)
+    route[#route + 1] = makeWaypoint(-1589.399, 1310.299, 2350.132)
+    route[#route + 1] = makeWaypoint(-1592.758, 1309.000, 2352.703)
+    route[#route + 1] = makeWaypoint(-1599.806, 1309.000, 2356.750)
+    route[#route + 1] = makeWaypoint(-1603.836, 1316.264, 2351.632)
+    route[#route + 1] = makeWaypoint(-1606.755, 1315.766, 2348.167)
+    route[#route + 1] = makeWaypoint(-1611.179, 1320.018, 2345.063)
+    route[#route + 1] = makeWaypoint(-1616.661, 1320.812, 2346.453)
+    route[#route + 1] = makeWaypoint(-1616.848, 1321.000, 2349.379)
+    route[#route + 1] = makeWaypoint(-1620.165, 1321.000, 2354.981)
+    route[#route + 1] = makeWaypoint(-1622.487, 1323.425, 2357.164)
+    route[#route + 1] = makeWaypoint(-1627.738, 1325.722, 2358.278)
+    route[#route + 1] = makeWaypoint(-1630.007, 1320.007, 2355.561)
+    route[#route + 1] = makeWaypoint(-1632.912, 1321.889, 2347.656)
+    route[#route + 1] = makeWaypoint(-1635.521, 1326.138, 2346.714)
+    route[#route + 1] = makeWaypoint(-1636.792, 1322.844, 2341.322)
+    route[#route + 1] = makeWaypoint(-1633.553, 1320.220, 2339.046)
+    route[#route + 1] = makeWaypoint(-1630.224, 1324.889, 2335.244)
+    route[#route + 1] = makeWaypoint(-1626.877, 1330.898, 2332.540)
+    route[#route + 1] = makeWaypoint(-1628.637, 1320.968, 2326.425)
+    route[#route + 1] = makeWaypoint(-1631.211, 1322.349, 2323.282)
+    route[#route + 1] = makeWaypoint(-1628.401, 1322.225, 2321.757)
+    route[#route + 1] = makeWaypoint(-1624.321, 1329.998, 2321.932)
+    route[#route + 1] = makeWaypoint(-1617.520, 1322.000, 2320.499)
+    route[#route + 1] = makeWaypoint(-1611.597, 1322.000, 2317.457)
+    route[#route + 1] = makeWaypoint(-1611.311, 1320.174, 2319.126)
+    route[#route + 1] = makeWaypoint(-1602.066, 1321.126, 2319.380)
+    route[#route + 1] = makeWaypoint(-1600.218, 1322.343, 2320.701)
+    route[#route + 1] = makeWaypoint(-1597.002, 1328.389, 2323.595)
+    route[#route + 1] = makeWaypoint(-1592.984, 1327.928, 2326.587)
+    route[#route + 1] = makeWaypoint(-1594.201, 1334.610, 2336.417)
+    route[#route + 1] = makeWaypoint(-1593.766, 1329.394, 2340.816)
+    route[#route + 1] = makeWaypoint(-1597.318, 1334.336, 2345.234)
+    route[#route + 1] = makeWaypoint(-1595.231, 1334.000, 2348.981)
+    route[#route + 1] = makeWaypoint(-1589.520, 1333.928, 2352.884)
+    route[#route + 1] = makeWaypoint(-1586.335, 1339.922, 2358.427)
+    route[#route + 1] = makeWaypoint(-1583.238, 1333.000, 2364.407)
+    route[#route + 1] = makeWaypoint(-1583.624, 1338.147, 2368.976)
+    route[#route + 1] = makeWaypoint(-1584.171, 1331.889, 2376.086)
+    route[#route + 1] = makeWaypoint(-1584.391, 1331.000, 2378.756)
+    route[#route + 1] = makeWaypoint(-1589.876, 1331.000, 2382.379)
+    route[#route + 1] = makeWaypoint(-1596.856, 1331.000, 2381.885)
+    route[#route + 1] = makeWaypoint(-1602.843, 1331.000, 2380.067)
+    route[#route + 1] = makeWaypoint(-1610.238, 1337.233, 2377.572)
+    route[#route + 1] = makeWaypoint(-1613.543, 1331.001, 2373.305)
+    route[#route + 1] = makeWaypoint(-1614.193, 1331.000, 2368.264)
+    route[#route + 1] = makeWaypoint(-1615.207, 1337.697, 2363.114)
+    route[#route + 1] = makeWaypoint(-1616.049, 1333.890, 2356.637)
+    route[#route + 1] = makeWaypoint(-1622.413, 1337.922, 2352.458)
+    route[#route + 1] = makeWaypoint(-1627.994, 1338.997, 2349.322)
+    route[#route + 1] = makeWaypoint(-1633.848, 1339.000, 2344.324)
+    route[#route + 1] = makeWaypoint(-1635.475, 1339.000, 2355.649)
+    route[#route + 1] = makeWaypoint(-1637.270, 1345.588, 2361.292)
+    route[#route + 1] = makeWaypoint(-1634.924, 1342.000, 2367.559)
+    route[#route + 1] = makeWaypoint(-1628.330, 1342.000, 2369.611)
+    route[#route + 1] = makeWaypoint(-1631.644, 1348.948, 2378.993)
+    route[#route + 1] = makeWaypoint(-1635.708, 1346.000, 2384.071)
+    route[#route + 1] = makeWaypoint(-1638.837, 1346.000, 2385.871)
+    route[#route + 1] = makeWaypoint(-1645.069, 1353.070, 2384.147)
+    route[#route + 1] = makeWaypoint(-1650.043, 1346.000, 2379.871)
+    route[#route + 1] = makeWaypoint(-1653.058, 1346.000, 2375.659)
+    route[#route + 1] = makeWaypoint(-1654.924, 1352.693, 2370.114)
+    route[#route + 1] = makeWaypoint(-1659.218, 1346.000, 2364.013)
+    route[#route + 1] = makeWaypoint(-1657.532, 1346.000, 2361.512)
+    route[#route + 1] = makeWaypoint(-1653.054, 1348.753, 2356.170)
+    route[#route + 1] = makeWaypoint(-1655.055, 1345.986, 2351.128)
+    route[#route + 1] = makeWaypoint(-1651.517, 1346.000, 2343.923)
+    route[#route + 1] = makeWaypoint(-1650.596, 1349.808, 2340.164)
+    route[#route + 1] = makeWaypoint(-1655.170, 1345.755, 2335.702)
+    route[#route + 1] = makeWaypoint(-1660.958, 1346.000, 2332.325)
+    route[#route + 1] = makeWaypoint(-1660.700, 1345.998, 2328.713)
+    route[#route + 1] = makeWaypoint(-1657.989, 1350.844, 2324.307)
+    route[#route + 1] = makeWaypoint(-1654.569, 1346.493, 2318.822)
+    route[#route + 1] = makeWaypoint(-1650.987, 1344.000, 2318.349)
+    route[#route + 1] = makeWaypoint(-1641.551, 1346.848, 2318.288)
+    route[#route + 1] = makeWaypoint(-1637.463, 1344.165, 2316.829)
+    route[#route + 1] = makeWaypoint(-1636.291, 1342.179, 2321.343)
+    route[#route + 1] = makeWaypoint(-1632.232, 1345.475, 2319.372)
+    route[#route + 1] = makeWaypoint(-1627.454, 1343.870, 2316.206)
+    route[#route + 1] = makeWaypoint(-1625.426, 1346.593, 2315.893)
+    route[#route + 1] = makeWaypoint(-1624.788, 1351.044, 2315.663)
+    route[#route + 1] = makeWaypoint(-1619.132, 1349.208, 2315.590)
+    route[#route + 1] = makeWaypoint(-1615.117, 1347.278, 2311.528)
+    route[#route + 1] = makeWaypoint(-1611.418, 1343.823, 2308.201)
+    route[#route + 1] = makeWaypoint(-1608.271, 1344.000, 2308.312)
+    route[#route + 1] = makeWaypoint(-1606.749, 1348.902, 2302.770)
+    route[#route + 1] = makeWaypoint(-1603.131, 1340.247, 2307.191)
+    route[#route + 1] = makeWaypoint(-1601.942, 1344.000, 2309.098)
+    route[#route + 1] = makeWaypoint(-1597.698, 1344.000, 2309.368)
+    route[#route + 1] = makeWaypoint(-1592.670, 1343.997, 2309.580)
+    route[#route + 1] = makeWaypoint(-1591.039, 1347.357, 2313.507)
+    route[#route + 1] = makeWaypoint(-1588.915, 1344.015, 2320.310)
+    route[#route + 1] = makeWaypoint(-1586.335, 1347.698, 2325.061)
+    route[#route + 1] = makeWaypoint(-1580.655, 1348.933, 2326.524)
+    route[#route + 1] = makeWaypoint(-1579.316, 1349.000, 2330.496)
+    route[#route + 1] = makeWaypoint(-1571.803, 1352.560, 2327.408)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[36]:GetChildren()[1]
+    route[#route + 1] = workspace.ClientParts:GetChildren()[36]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1563.019, 1349.000, 2375.937)
+    route[#route + 1] = makeWaypoint(-1562.533, 1354.116, 2381.839)
+    route[#route + 1] = makeWaypoint(-1565.068, 1351.584, 2386.362)
+    route[#route + 1] = makeWaypoint(-1567.069, 1349.000, 2383.231)
+    route[#route + 1] = makeWaypoint(-1565.410, 1353.654, 2387.622)
+    route[#route + 1] = makeWaypoint(-1564.980, 1347.733, 2393.917)
+    route[#route + 1] = makeWaypoint(-1568.514, 1347.000, 2391.948)
+    route[#route + 1] = makeWaypoint(-1569.992, 1352.143, 2395.716)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[49]:GetChildren()[1]
+    route[#route + 1] = makeWaypoint(-1579.764, 1349.000, 2337.209)
+    route[#route + 1] = makeWaypoint(-1579.304, 1349.000, 2341.799)
+    route[#route + 1] = makeWaypoint(-1576.824, 1353.565, 2345.495)
+    route[#route + 1] = makeWaypoint(-1578.650, 1349.000, 2349.780)
+    route[#route + 1] = makeWaypoint(-1578.941, 1349.000, 2350.816)
+    route[#route + 1] = makeWaypoint(-1580.051, 1349.000, 2352.221)
+    route[#route + 1] = makeWaypoint(-1580.056, 1349.000, 2358.373)
+    route[#route + 1] = makeWaypoint(-1580.049, 1349.000, 2361.340)
+    route[#route + 1] = makeWaypoint(-1579.978, 1349.000, 2371.180)
+    route[#route + 1] = makeWaypoint(-1584.281, 1353.664, 2370.468)
+    route[#route + 1] = makeWaypoint(-1590.166, 1350.000, 2372.143)
+    route[#route + 1] = makeWaypoint(-1585.550, 1355.752, 2374.564)
+    route[#route + 1] = makeWaypoint(-1579.941, 1348.996, 2376.459)
+    route[#route + 1] = makeWaypoint(-1584.356, 1355.628, 2379.389)
+    route[#route + 1] = makeWaypoint(-1588.300, 1350.000, 2384.234)
+    route[#route + 1] = makeWaypoint(-1590.156, 1357.140, 2378.262)
+    route[#route + 1] = makeWaypoint(-1593.676, 1350.000, 2379.406)
+    route[#route + 1] = makeWaypoint(-1594.065, 1355.900, 2373.546)
+    route[#route + 1] = makeWaypoint(-1597.663, 1349.995, 2377.014)
+    route[#route + 1] = makeWaypoint(-1598.788, 1350.000, 2380.403)
+    route[#route + 1] = makeWaypoint(-1598.273, 1350.000, 2383.564)
+    route[#route + 1] = makeWaypoint(-1591.413, 1355.142, 2386.842)
+    route[#route + 1] = makeWaypoint(-1590.577, 1350.000, 2387.676)
+    route[#route + 1] = makeWaypoint(-1590.192, 1350.000, 2387.660)
+    route[#route + 1] = makeWaypoint(-1585.570, 1353.434, 2387.579)
+    route[#route + 1] = makeWaypoint(-1576.938, 1350.000, 2389.806)
+    route[#route + 1] = makeWaypoint(-1581.465, 1354.634, 2392.465)
+    route[#route + 1] = makeWaypoint(-1585.878, 1353.235, 2395.860)
+    route[#route + 1] = makeWaypoint(-1586.528, 1350.000, 2398.452)
+    route[#route + 1] = makeWaypoint(-1586.528, 1350.000, 2398.452)
+    route[#route + 1] = makeWaypoint(-1592.555, 1349.999, 2398.499)
+    route[#route + 1] = makeWaypoint(-1597.477, 1350.000, 2395.047)
+    route[#route + 1] = makeWaypoint(-1601.246, 1350.000, 2387.923)
+    route[#route + 1] = makeWaypoint(-1602.287, 1353.717, 2392.093)
+    route[#route + 1] = makeWaypoint(-1604.076, 1330.825, 2393.362)
+    route[#route + 1] = makeWaypoint(-1599.699, 1330.046, 2391.502)
+    route[#route + 1] = makeWaypoint(-1594.860, 1329.955, 2392.288)
+    route[#route + 1] = makeWaypoint(-1592.724, 1330.562, 2394.866)
+    route[#route + 1] = makeWaypoint(-1593.250, 1330.307, 2394.603)
+    route[#route + 1] = makeWaypoint(-1592.985, 1330.248, 2394.774)
+    route[#route + 1] = makeWaypoint(-1593.744, 1320.950, 2398.485)
+    route[#route + 1] = makeWaypoint(-1593.717, 1313.853, 2398.508)
+    route[#route + 1] = makeWaypoint(-1597.203, 1315.000, 2401.887)
+    route[#route + 1] = makeWaypoint(-1595.382, 1321.919, 2402.519)
+    route[#route + 1] = makeWaypoint(-1594.390, 1325.000, 2401.105)
+    route[#route + 1] = makeWaypoint(-1587.523, 1326.542, 2402.804)
+    route[#route + 1] = makeWaypoint(-1582.535, 1328.190, 2404.194)
+    route[#route + 1] = makeWaypoint(-1582.993, 1322.000, 2403.171)
+    route[#route + 1] = makeWaypoint(-1581.187, 1321.992, 2396.416)
+    route[#route + 1] = makeWaypoint(-1577.076, 1319.999, 2386.146)
+    route[#route + 1] = makeWaypoint(-1581.532, 1320.000, 2385.632)
+    route[#route + 1] = makeWaypoint(-1587.624, 1320.000, 2383.272)
+    route[#route + 1] = makeWaypoint(-1589.862, 1320.183, 2380.230)
+    route[#route + 1] = makeWaypoint(-1591.247, 1323.010, 2379.889)
+    route[#route + 1] = makeWaypoint(-1592.083, 1323.068, 2379.969)
+    route[#route + 1] = makeWaypoint(-1592.396, 1323.013, 2380.318)
+    route[#route + 1] = makeWaypoint(-1593.945, 1323.008, 2381.441)
+    route[#route + 1] = makeWaypoint(-1594.827, 1323.000, 2381.769)
+    route[#route + 1] = makeWaypoint(-1594.826, 1323.007, 2382.194)
+    route[#route + 1] = makeWaypoint(-1594.848, 1322.979, 2382.508)
+    route[#route + 1] = makeWaypoint(-1594.852, 1323.013, 2383.568)
+    route[#route + 1] = makeWaypoint(-1594.896, 1323.011, 2386.573)
+    route[#route + 1] = makeWaypoint(-1594.895, 1323.015, 2390.595)
+    route[#route + 1] = makeWaypoint(-1595.437, 1323.086, 2391.068)
+    route[#route + 1] = makeWaypoint(-1595.717, 1322.997, 2391.093)
+    route[#route + 1] = makeWaypoint(-1596.444, 1322.967, 2391.094)
+    route[#route + 1] = makeWaypoint(-1599.601, 1322.994, 2391.148)
+    route[#route + 1] = makeWaypoint(-1600.840, 1323.013, 2390.482)
+    route[#route + 1] = makeWaypoint(-1600.856, 1323.011, 2389.739)
+    route[#route + 1] = makeWaypoint(-1600.862, 1322.918, 2389.281)
+    route[#route + 1] = makeWaypoint(-1600.809, 1322.896, 2385.976)
+    route[#route + 1] = makeWaypoint(-1600.926, 1323.041, 2382.615)
+    route[#route + 1] = makeWaypoint(-1600.854, 1323.011, 2382.595)
+    route[#route + 1] = makeWaypoint(-1601.349, 1323.081, 2382.143)
+    route[#route + 1] = makeWaypoint(-1602.038, 1323.010, 2382.093)
+    route[#route + 1] = makeWaypoint(-1601.681, 1322.984, 2382.354)
+    route[#route + 1] = makeWaypoint(-1604.773, 1323.043, 2382.095)
+    route[#route + 1] = makeWaypoint(-1610.875, 1320.000, 2383.837)
+    route[#route + 1] = makeWaypoint(-1614.546, 1320.000, 2384.449)
+    route[#route + 1] = makeWaypoint(-1611.828, 1319.083, 2388.296)
+    route[#route + 1] = makeWaypoint(-1617.300, 1320.000, 2385.729)
+    route[#route + 1] = makeWaypoint(-1626.361, 1320.000, 2387.907)
+    route[#route + 1] = makeWaypoint(-1626.864, 1320.000, 2384.934)
+    route[#route + 1] = makeWaypoint(-1618.782, 1320.000, 2385.747)
+    route[#route + 1] = makeWaypoint(-1625.777, 1320.000, 2388.346)
+    route[#route + 1] = makeWaypoint(-1623.553, 1320.000, 2383.614)
+    route[#route + 1] = makeWaypoint(-1627.136, 1320.000, 2379.243)
+    route[#route + 1] = makeWaypoint(-1648.649, 1319.990, 2378.624)
+    route[#route + 1] = makeWaypoint(-1661.257, 1320.000, 2378.176)
+    route[#route + 1] = makeWaypoint(-1659.361, 1323.003, 2373.945)
+    route[#route + 1] = makeWaypoint(-1655.028, 1322.818, 2373.991)
+    route[#route + 1] = makeWaypoint(-1654.870, 1323.001, 2373.178)
+    route[#route + 1] = makeWaypoint(-1655.000, 1322.798, 2371.219)
+    route[#route + 1] = makeWaypoint(-1661.277, 1321.286, 2371.277)
+    route[#route + 1] = makeWaypoint(-1661.838, 1323.005, 2369.672)
+    route[#route + 1] = makeWaypoint(-1661.847, 1322.999, 2369.592)
+    route[#route + 1] = makeWaypoint(-1661.835, 1323.024, 2369.601)
+    route[#route + 1] = makeWaypoint(-1661.829, 1323.018, 2369.557)
+    route[#route + 1] = makeWaypoint(-1660.539, 1320.000, 2365.374)
+    route[#route + 1] = makeWaypoint(-1658.367, 1320.000, 2356.425)
+    route[#route + 1] = makeWaypoint(-1658.714, 1320.000, 2348.875)
+    route[#route + 1] = makeWaypoint(-1657.778, 1320.000, 2348.157)
+    route[#route + 1] = makeWaypoint(-1657.963, 1322.893, 2346.906)
+    route[#route + 1] = makeWaypoint(-1656.569, 1319.998, 2338.637)
+    route[#route + 1] = makeWaypoint(-1653.122, 1320.000, 2333.632)
+    route[#route + 1] = makeWaypoint(-1652.964, 1322.938, 2331.854)
+    route[#route + 1] = makeWaypoint(-1653.214, 1321.833, 2327.269)
+    route[#route + 1] = makeWaypoint(-1658.465, 1320.000, 2322.745)
+    route[#route + 1] = makeWaypoint(-1661.592, 1323.000, 2318.045)
+    route[#route + 1] = makeWaypoint(-1661.360, 1322.982, 2314.836)
+    route[#route + 1] = makeWaypoint(-1659.934, 1321.532, 2310.447)
+    route[#route + 1] = makeWaypoint(-1656.235, 1320.000, 2304.888)
+    route[#route + 1] = makeWaypoint(-1653.192, 1320.000, 2297.861)
+    route[#route + 1] = makeWaypoint(-1648.608, 1320.000, 2294.107)
+    route[#route + 1] = makeWaypoint(-1642.121, 1320.000, 2296.764)
+    route[#route + 1] = makeWaypoint(-1640.604, 1320.000, 2299.842)
+    route[#route + 1] = makeWaypoint(-1638.203, 1320.000, 2306.101)
+    route[#route + 1] = makeWaypoint(-1637.089, 1320.000, 2308.755)
+    route[#route + 1] = makeWaypoint(-1634.471, 1323.204, 2311.101)
+    route[#route + 1] = makeWaypoint(-1628.314, 1322.503, 2310.379)
+    route[#route + 1] = makeWaypoint(-1626.847, 1320.999, 2311.592)
+    route[#route + 1] = makeWaypoint(-1626.920, 1320.999, 2311.635)
+    route[#route + 1] = makeWaypoint(-1625.416, 1326.565, 2315.453)
+    route[#route + 1] = makeWaypoint(-1622.044, 1318.017, 2313.590)
+    route[#route + 1] = makeWaypoint(-1620.960, 1320.000, 2308.258)
+    route[#route + 1] = makeWaypoint(-1612.892, 1319.988, 2299.978)
+    route[#route + 1] = makeWaypoint(-1607.355, 1320.000, 2299.998)
+    route[#route + 1] = makeWaypoint(-1602.392, 1318.415, 2302.104)
+    route[#route + 1] = makeWaypoint(-1598.667, 1320.000, 2303.004)
+    route[#route + 1] = makeWaypoint(-1598.353, 1318.616, 2299.900)
+    route[#route + 1] = makeWaypoint(-1597.267, 1320.000, 2296.795)
+    route[#route + 1] = makeWaypoint(-1589.346, 1318.564, 2302.971)
+    route[#route + 1] = makeWaypoint(-1587.908, 1320.000, 2304.183)
+    route[#route + 1] = makeWaypoint(-1584.415, 1320.000, 2300.100)
+    route[#route + 1] = makeWaypoint(-1584.995, 1319.995, 2294.633)
+    route[#route + 1] = makeWaypoint(-1580.055, 1320.000, 2295.872)
+    route[#route + 1] = makeWaypoint(-1570.049, 1319.994, 2299.178)
+    route[#route + 1] = makeWaypoint(-1569.908, 1319.961, 2306.744)
+    route[#route + 1] = makeWaypoint(-1569.921, 1320.000, 2317.667)
+    route[#route + 1] = makeWaypoint(-1567.378, 1320.000, 2321.006)
+    route[#route + 1] = makeWaypoint(-1567.447, 1320.000, 2328.250)
+    route[#route + 1] = makeWaypoint(-1574.866, 1320.000, 2328.819)
+    route[#route + 1] = makeWaypoint(-1576.068, 1319.825, 2334.408)
+    route[#route + 1] = makeWaypoint(-1576.303, 1320.000, 2339.536)
+    route[#route + 1] = makeWaypoint(-1575.853, 1320.000, 2348.083)
+    route[#route + 1] = makeWaypoint(-1574.643, 1320.000, 2350.809)
+    route[#route + 1] = makeWaypoint(-1572.425, 1319.871, 2351.103)
+    route[#route + 1] = makeWaypoint(-1572.284, 1320.000, 2355.819)
+    route[#route + 1] = makeWaypoint(-1569.129, 1320.000, 2366.523)
+    route[#route + 1] = makeWaypoint(-1571.593, 1320.000, 2378.193)
+    route[#route + 1] = makeWaypoint(-1608.963, 1353.852, 2346.844)
+    route[#route + 1] = makeWaypoint(-1611.204, 1358.630, 2341.828)
+    route[#route + 1] = makeWaypoint(-1608.317, 1357.060, 2328.898)
+    route[#route + 1] = makeWaypoint(-1612.542, 1360.338, 2327.939)
+    route[#route + 1] = makeWaypoint(-1611.520, 1356.191, 2324.913)
+    route[#route + 1] = makeWaypoint(-1607.939, 1354.444, 2323.984)
+    route[#route + 1] = makeWaypoint(-1608.168, 1360.703, 2319.536)
+    route[#route + 1] = makeWaypoint(-1608.602, 1358.523, 2314.214)
+    route[#route + 1] = makeWaypoint(-1608.683, 1365.934, 2310.298)
+    route[#route + 1] = makeWaypoint(-1606.927, 1360.000, 2305.911)
+    route[#route + 1] = makeWaypoint(-1606.778, 1360.000, 2308.167)
+    route[#route + 1] = makeWaypoint(-1601.831, 1366.336, 2310.653)
+    route[#route + 1] = makeWaypoint(-1601.933, 1358.826, 2316.164)
+    route[#route + 1] = makeWaypoint(-1600.766, 1359.000, 2316.028)
+    route[#route + 1] = makeWaypoint(-1594.757, 1365.451, 2315.881)
+    route[#route + 1] = makeWaypoint(-1592.633, 1360.000, 2320.422)
+    route[#route + 1] = makeWaypoint(-1589.939, 1360.000, 2322.374)
+    route[#route + 1] = makeWaypoint(-1582.543, 1366.976, 2317.999)
+    route[#route + 1] = makeWaypoint(-1580.710, 1365.000, 2318.660)
+    route[#route + 1] = makeWaypoint(-1579.426, 1371.178, 2322.398)
+    route[#route + 1] = makeWaypoint(-1590.569, 1365.000, 2326.942)
+    route[#route + 1] = makeWaypoint(-1592.776, 1371.697, 2331.913)
+    route[#route + 1] = makeWaypoint(-1598.426, 1367.001, 2334.052)
+    route[#route + 1] = makeWaypoint(-1597.737, 1369.000, 2335.043)
+    route[#route + 1] = makeWaypoint(-1597.834, 1375.612, 2341.561)
+    route[#route + 1] = makeWaypoint(-1597.947, 1374.000, 2345.840)
+    route[#route + 1] = makeWaypoint(-1597.165, 1373.999, 2349.032)
+    route[#route + 1] = makeWaypoint(-1593.563, 1379.372, 2356.526)
+    route[#route + 1] = makeWaypoint(-1593.313, 1380.470, 2360.665)
+    route[#route + 1] = makeWaypoint(-1594.011, 1379.064, 2367.224)
+    route[#route + 1] = makeWaypoint(-1597.227, 1381.989, 2369.050)
+    route[#route + 1] = makeWaypoint(-1600.635, 1385.143, 2373.186)
+    route[#route + 1] = makeWaypoint(-1599.634, 1381.800, 2378.886)
+    route[#route + 1] = makeWaypoint(-1597.700, 1380.000, 2380.628)
+    route[#route + 1] = makeWaypoint(-1594.132, 1384.427, 2382.694)
+    route[#route + 1] = makeWaypoint(-1587.602, 1383.995, 2382.808)
+    route[#route + 1] = makeWaypoint(-1582.157, 1391.266, 2381.053)
+    route[#route + 1] = makeWaypoint(-1577.366, 1383.999, 2382.497)
+    route[#route + 1] = makeWaypoint(-1578.659, 1391.015, 2388.707)
+    route[#route + 1] = makeWaypoint(-1582.592, 1374.000, 2394.578)
+    route[#route + 1] = makeWaypoint(-1589.784, 1374.000, 2397.713)
+    route[#route + 1] = makeWaypoint(-1592.661, 1381.425, 2394.876)
+    route[#route + 1] = makeWaypoint(-1599.925, 1382.958, 2395.189)
+    route[#route + 1] = makeWaypoint(-1600.242, 1387.000, 2391.162)
+    route[#route + 1] = makeWaypoint(-1606.530, 1392.002, 2395.447)
+    route[#route + 1] = makeWaypoint(-1610.063, 1387.000, 2394.501)
+    route[#route + 1] = makeWaypoint(-1611.242, 1387.000, 2394.208)
+    route[#route + 1] = makeWaypoint(-1618.525, 1390.620, 2388.803)
+    route[#route + 1] = makeWaypoint(-1620.595, 1384.161, 2381.921)
+    route[#route + 1] = makeWaypoint(-1625.246, 1387.111, 2373.337)
+    route[#route + 1] = makeWaypoint(-1634.401, 1384.000, 2366.176)
+    route[#route + 1] = makeWaypoint(-1644.496, 1387.042, 2362.740)
+    route[#route + 1] = makeWaypoint(-1651.271, 1386.851, 2364.435)
+    route[#route + 1] = makeWaypoint(-1654.553, 1391.731, 2361.713)
+    route[#route + 1] = makeWaypoint(-1656.807, 1387.011, 2364.703)
+    route[#route + 1] = makeWaypoint(-1661.492, 1392.446, 2361.639)
+    route[#route + 1] = makeWaypoint(-1667.231, 1384.988, 2358.406)
+    route[#route + 1] = makeWaypoint(-1666.625, 1385.000, 2354.244)
+    route[#route + 1] = makeWaypoint(-1663.826, 1384.639, 2349.757)
+    route[#route + 1] = makeWaypoint(-1658.776, 1385.729, 2343.080)
+    route[#route + 1] = makeWaypoint(-1653.417, 1385.995, 2344.002)
+    route[#route + 1] = makeWaypoint(-1649.022, 1391.276, 2343.282)
+    route[#route + 1] = makeWaypoint(-1651.802, 1385.919, 2339.630)
+    route[#route + 1] = makeWaypoint(-1649.574, 1386.891, 2337.441)
+    route[#route + 1] = makeWaypoint(-1646.685, 1386.000, 2331.824)
+    route[#route + 1] = makeWaypoint(-1646.701, 1392.290, 2331.850)
+    route[#route + 1] = makeWaypoint(-1643.868, 1388.072, 2333.762)
+    route[#route + 1] = makeWaypoint(-1635.993, 1385.837, 2331.121)
+    route[#route + 1] = makeWaypoint(-1635.219, 1385.690, 2333.239)
+    route[#route + 1] = makeWaypoint(-1630.109, 1385.800, 2339.593)
+    route[#route + 1] = makeWaypoint(-1624.451, 1377.606, 2338.969)
+    route[#route + 1] = makeWaypoint(-1623.756, 1377.473, 2343.298)
+    route[#route + 1] = makeWaypoint(-1624.378, 1382.124, 2346.651)
+    route[#route + 1] = makeWaypoint(-1619.011, 1377.085, 2349.440)
+    route[#route + 1] = makeWaypoint(-1612.190, 1378.407, 2346.051)
+    route[#route + 1] = makeWaypoint(-1607.147, 1385.055, 2338.823)
+    route[#route + 1] = makeWaypoint(-1606.577, 1380.994, 2331.848)
+    route[#route + 1] = makeWaypoint(-1599.775, 1388.029, 2329.414)
+    route[#route + 1] = makeWaypoint(-1593.659, 1381.000, 2329.354)
+    route[#route + 1] = makeWaypoint(-1587.037, 1387.793, 2332.017)
+    route[#route + 1] = makeWaypoint(-1575.635, 1382.000, 2334.087)
+    route[#route + 1] = makeWaypoint(-1576.647, 1382.502, 2336.642)
+    route[#route + 1] = makeWaypoint(-1579.362, 1385.853, 2342.914)
+    route[#route + 1] = makeWaypoint(-1579.916, 1391.102, 2346.492)
+    route[#route + 1] = makeWaypoint(-1577.023, 1398.477, 2346.925)
+    route[#route + 1] = makeWaypoint(-1574.885, 1398.982, 2338.961)
+    route[#route + 1] = makeWaypoint(-1583.750, 1402.288, 2333.470)
+    route[#route + 1] = makeWaypoint(-1588.853, 1402.336, 2330.135)
+    route[#route + 1] = makeWaypoint(-1589.839, 1405.973, 2324.701)
+    route[#route + 1] = makeWaypoint(-1583.867, 1411.000, 2317.753)
+    route[#route + 1] = makeWaypoint(-1586.802, 1411.000, 2311.335)
+    route[#route + 1] = workspace.Towers["ToGF"].Obby:GetChildren()[3596]
+    route[#route + 1] = workspace.ClientParts:GetChildren()[55]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1658.189, 1444.999, 2251.945)
+    route[#route + 1] = makeWaypoint(-1672.532, 1444.998, 2254.717)
+    route[#route + 1] = makeWaypoint(-1676.780, 1448.844, 2254.190)
+    route[#route + 1] = makeWaypoint(-1672.615, 1444.999, 2258.616)
+    route[#route + 1] = makeWaypoint(-1667.369, 1451.719, 2262.455)
+    route[#route + 1] = makeWaypoint(-1662.195, 1458.534, 2264.580)
+    route[#route + 1] = makeWaypoint(-1660.984, 1458.417, 2266.189)
+    route[#route + 1] = makeWaypoint(-1666.218, 1464.725, 2264.843)
+    route[#route + 1] = makeWaypoint(-1668.796, 1464.533, 2264.110)
+    route[#route + 1] = makeWaypoint(-1675.388, 1471.298, 2262.658)
+    route[#route + 1] = makeWaypoint(-1680.917, 1458.999, 2259.358)
+    route[#route + 1] = makeWaypoint(-1685.391, 1465.908, 2257.151)
+    route[#route + 1] = makeWaypoint(-1683.335, 1458.768, 2253.072)
+    route[#route + 1] = makeWaypoint(-1683.884, 1458.999, 2249.054)
+    route[#route + 1] = makeWaypoint(-1684.394, 1457.345, 2246.120)
+    route[#route + 1] = makeWaypoint(-1680.859, 1458.999, 2240.301)
+    route[#route + 1] = makeWaypoint(-1675.004, 1465.445, 2238.377)
+    route[#route + 1] = makeWaypoint(-1672.639, 1458.999, 2242.273)
+    route[#route + 1] = makeWaypoint(-1669.373, 1462.017, 2241.929)
+    route[#route + 1] = makeWaypoint(-1663.798, 1460.999, 2244.831)
+    route[#route + 1] = makeWaypoint(-1657.213, 1468.390, 2243.993)
+    route[#route + 1] = makeWaypoint(-1651.485, 1457.999, 2246.868)
+    route[#route + 1] = makeWaypoint(-1649.649, 1457.999, 2249.339)
+    route[#route + 1] = makeWaypoint(-1649.973, 1457.999, 2251.083)
+    route[#route + 1] = makeWaypoint(-1652.407, 1465.378, 2254.612)
+    route[#route + 1] = makeWaypoint(-1651.490, 1467.999, 2254.953)
+    route[#route + 1] = makeWaypoint(-1652.400, 1474.934, 2256.040)
+    route[#route + 1] = makeWaypoint(-1656.005, 1478.999, 2264.323)
+    route[#route + 1] = makeWaypoint(-1666.973, 1483.989, 2263.393)
+    route[#route + 1] = makeWaypoint(-1669.235, 1484.464, 2264.872)
+    route[#route + 1] = makeWaypoint(-1675.614, 1489.268, 2263.173)
+    route[#route + 1] = makeWaypoint(-1679.613, 1489.812, 2259.404)
+    route[#route + 1] = makeWaypoint(-1682.743, 1491.153, 2252.584)
+    route[#route + 1] = makeWaypoint(-1683.014, 1489.999, 2250.214)
+    route[#route + 1] = makeWaypoint(-1685.171, 1497.112, 2244.623)
+    route[#route + 1] = makeWaypoint(-1680.228, 1491.999, 2242.265)
+    route[#route + 1] = makeWaypoint(-1673.646, 1497.701, 2238.974)
+    route[#route + 1] = makeWaypoint(-1664.407, 1493.999, 2239.337)
+    route[#route + 1] = makeWaypoint(-1664.671, 1493.999, 2244.621)
+    route[#route + 1] = makeWaypoint(-1660.390, 1499.999, 2250.016)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[85]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1590.440, 1411.000, 2308.360)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[71]:GetChildren()[1]
+    route[#route + 1] = workspace.ClientParts:GetChildren()[71]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1650.683, 1459.050, 2403.912)
+    route[#route + 1] = makeWaypoint(-1646.004, 1472.130, 2401.035)
+    route[#route + 1] = makeWaypoint(-1637.118, 1475.333, 2398.220)
+    route[#route + 1] = makeWaypoint(-1617.079, 1475.106, 2390.819)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[54]:GetChildren()[2]
+    route[#route + 1] = workspace.ClientParts:GetChildren()[64]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1629.307, 1464.486, 2403.458)
+    route[#route + 1] = makeWaypoint(-1609.888, 1452.000, 2388.202)
+    route[#route + 1] = makeWaypoint(-1595.021, 1482.766, 2380.885)
+    route[#route + 1] = makeWaypoint(-1584.005, 1487.928, 2389.626)
+    route[#route + 1] = makeWaypoint(-1576.147, 1476.598, 2387.453)
+    route[#route + 1] = makeWaypoint(-1573.722, 1451.615, 2381.096)
+    route[#route + 1] = makeWaypoint(-1568.827, 1452.000, 2386.949)
+    route[#route + 1] = makeWaypoint(-1588.840, 1452.000, 2397.751)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[65]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1585.021, 1452.000, 2405.984)
+    route[#route + 1] = makeWaypoint(-1581.326, 1447.996, 2413.251)
+    route[#route + 1] = makeWaypoint(-1579.182, 1437.000, 2413.212)
+    route[#route + 1] = makeWaypoint(-1578.245, 1437.000, 2411.466)
+    route[#route + 1] = makeWaypoint(-1570.803, 1409.993, 2404.285)
+    route[#route + 1] = makeWaypoint(-1567.724, 1419.000, 2396.686)
+    route[#route + 1] = makeWaypoint(-1567.505, 1419.000, 2389.154)
+    route[#route + 1] = makeWaypoint(-1569.542, 1419.096, 2385.938)
+    route[#route + 1] = makeWaypoint(-1574.252, 1423.997, 2380.696)
+    route[#route + 1] = makeWaypoint(-1575.358, 1426.216, 2383.754)
+    route[#route + 1] = makeWaypoint(-1575.259, 1427.728, 2390.389)
+    route[#route + 1] = makeWaypoint(-1575.613, 1428.000, 2392.788)
+    route[#route + 1] = makeWaypoint(-1579.488, 1432.201, 2393.365)
+    route[#route + 1] = makeWaypoint(-1585.842, 1429.832, 2393.896)
+    route[#route + 1] = makeWaypoint(-1588.697, 1432.252, 2387.384)
+    route[#route + 1] = makeWaypoint(-1591.933, 1428.935, 2382.001)
+    route[#route + 1] = makeWaypoint(-1602.465, 1426.998, 2380.186)
+    route[#route + 1] = makeWaypoint(-1610.546, 1426.998, 2381.626)
+    route[#route + 1] = makeWaypoint(-1610.863, 1426.997, 2389.537)
+    route[#route + 1] = makeWaypoint(-1607.062, 1426.995, 2397.096)
+    route[#route + 1] = makeWaypoint(-1602.708, 1426.991, 2391.806)
+    route[#route + 1] = makeWaypoint(-1601.207, 1426.992, 2392.269)
+    route[#route + 1] = makeWaypoint(-1602.842, 1426.999, 2396.586)
+    route[#route + 1] = makeWaypoint(-1610.201, 1427.000, 2397.529)
+    route[#route + 1] = makeWaypoint(-1610.850, 1427.000, 2393.611)
+    route[#route + 1] = makeWaypoint(-1610.095, 1427.000, 2380.630)
+    route[#route + 1] = makeWaypoint(-1598.671, 1426.999, 2380.586)
+    route[#route + 1] = makeWaypoint(-1592.537, 1426.999, 2380.765)
+    route[#route + 1] = makeWaypoint(-1583.054, 1425.275, 2388.091)
+    route[#route + 1] = makeWaypoint(-1579.828, 1410.000, 2398.047)
+    route[#route + 1] = makeWaypoint(-1578.242, 1417.010, 2408.201)
+    route[#route + 1] = makeWaypoint(-1578.267, 1423.031, 2410.196)
+    route[#route + 1] = makeWaypoint(-1578.356, 1429.924, 2411.120)
+    route[#route + 1] = makeWaypoint(-1578.472, 1437.000, 2413.048)
+    route[#route + 1] = makeWaypoint(-1576.222, 1444.877, 2413.058)
+    route[#route + 1] = makeWaypoint(-1576.821, 1452.134, 2411.367)
+    route[#route + 1] = makeWaypoint(-1585.333, 1452.000, 2403.274)
+    route[#route + 1] = makeWaypoint(-1594.487, 1452.000, 2402.768)
+    route[#route + 1] = makeWaypoint(-1605.920, 1452.000, 2403.975)
+    route[#route + 1] = makeWaypoint(-1622.738, 1452.000, 2410.299)
+    route[#route + 1] = makeWaypoint(-1615.915, 1451.510, 2396.199)
+    route[#route + 1] = makeWaypoint(-1615.624, 1422.876, 2397.237)
+    route[#route + 1] = makeWaypoint(-1621.515, 1423.000, 2391.022)
+    route[#route + 1] = makeWaypoint(-1625.771, 1429.446, 2387.622)
+    route[#route + 1] = makeWaypoint(-1630.969, 1422.263, 2384.512)
+    route[#route + 1] = makeWaypoint(-1631.559, 1424.000, 2384.173)
+    route[#route + 1] = makeWaypoint(-1634.604, 1431.080, 2390.498)
+    route[#route + 1] = makeWaypoint(-1638.721, 1424.000, 2389.623)
+    route[#route + 1] = makeWaypoint(-1639.160, 1424.000, 2390.105)
+    route[#route + 1] = makeWaypoint(-1641.892, 1427.093, 2393.536)
+    route[#route + 1] = makeWaypoint(-1646.330, 1425.439, 2398.173)
+    route[#route + 1] = makeWaypoint(-1647.249, 1426.000, 2401.417)
+    route[#route + 1] = makeWaypoint(-1650.320, 1426.860, 2398.286)
+    route[#route + 1] = makeWaypoint(-1653.892, 1427.474, 2391.726)
+    route[#route + 1] = makeWaypoint(-1652.356, 1428.000, 2389.515)
+    route[#route + 1] = makeWaypoint(-1654.204, 1433.189, 2385.682)
+    route[#route + 1] = makeWaypoint(-1651.637, 1428.066, 2381.526)
+    route[#route + 1] = makeWaypoint(-1650.108, 1428.000, 2383.904)
+    route[#route + 1] = makeWaypoint(-1655.344, 1434.064, 2384.205)
+    route[#route + 1] = makeWaypoint(-1654.761, 1409.993, 2395.700)
+    route[#route + 1] = makeWaypoint(-1647.330, 1410.000, 2405.353)
+    route[#route + 1] = makeWaypoint(-1631.055, 1410.000, 2404.105)
+    route[#route + 1] = makeWaypoint(-1624.584, 1416.996, 2399.220)
+    route[#route + 1] = makeWaypoint(-1618.247, 1423.000, 2395.352)
+    route[#route + 1] = makeWaypoint(-1614.697, 1432.114, 2396.659)
+    route[#route + 1] = makeWaypoint(-1614.697, 1438.363, 2396.659)
+    route[#route + 1] = makeWaypoint(-1614.907, 1445.199, 2397.618)
+    route[#route + 1] = makeWaypoint(-1609.246, 1451.997, 2398.206)
+    route[#route + 1] = makeWaypoint(-1609.060, 1452.000, 2403.474)
+    route[#route + 1] = makeWaypoint(-1615.226, 1452.000, 2406.426)
+    route[#route + 1] = makeWaypoint(-1622.421, 1452.000, 2408.160)
+    route[#route + 1] = makeWaypoint(-1629.815, 1451.997, 2409.120)
+    route[#route + 1] = makeWaypoint(-1649.775, 1452.000, 2408.270)
+    route[#route + 1] = makeWaypoint(-1655.489, 1453.991, 2408.436)
+    route[#route + 1] = makeWaypoint(-1655.489, 1442.565, 2408.436)
+    route[#route + 1] = makeWaypoint(-1655.489, 1443.000, 2408.436)
+    route[#route + 1] = makeWaypoint(-1655.489, 1443.000, 2408.436)
+    route[#route + 1] = makeWaypoint(-1655.489, 1443.000, 2408.436)
+    route[#route + 1] = makeWaypoint(-1591.176, 1411.000, 2306.568)
+    route[#route + 1] = makeWaypoint(-1601.218, 1411.000, 2305.886)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[61]:GetChildren()[1]
+    route[#route + 1] = workspace.ClientParts:GetChildren()[61]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1690.723, 1453.999, 2306.537)
+    route[#route + 1] = makeWaypoint(-1681.532, 1459.993, 2306.932)
+    route[#route + 1] = makeWaypoint(-1682.924, 1466.999, 2306.530)
+    route[#route + 1] = makeWaypoint(-1685.810, 1469.125, 2306.885)
+    route[#route + 1] = makeWaypoint(-1689.171, 1471.391, 2312.480)
+    route[#route + 1] = makeWaypoint(-1688.922, 1472.012, 2310.450)
+    route[#route + 1] = makeWaypoint(-1683.668, 1476.426, 2308.723)
+    route[#route + 1] = makeWaypoint(-1683.233, 1478.999, 2311.006)
+    route[#route + 1] = makeWaypoint(-1681.815, 1478.999, 2313.136)
+    route[#route + 1] = makeWaypoint(-1682.299, 1482.939, 2316.296)
+    route[#route + 1] = makeWaypoint(-1687.583, 1481.844, 2320.319)
+    route[#route + 1] = makeWaypoint(-1691.883, 1481.999, 2320.353)
+    route[#route + 1] = makeWaypoint(-1693.267, 1481.999, 2318.907)
+    route[#route + 1] = makeWaypoint(-1696.761, 1485.380, 2318.322)
+    route[#route + 1] = makeWaypoint(-1692.519, 1487.999, 2314.872)
+    route[#route + 1] = makeWaypoint(-1691.807, 1487.999, 2313.684)
+    route[#route + 1] = makeWaypoint(-1689.055, 1490.734, 2309.964)
+    route[#route + 1] = makeWaypoint(-1684.148, 1490.838, 2306.777)
+    route[#route + 1] = makeWaypoint(-1679.535, 1491.000, 2305.018)
+    route[#route + 1] = makeWaypoint(-1676.055, 1490.998, 2309.107)
+    route[#route + 1] = makeWaypoint(-1673.947, 1490.859, 2311.655)
+    route[#route + 1] = makeWaypoint(-1672.725, 1496.090, 2317.088)
+    route[#route + 1] = makeWaypoint(-1676.495, 1492.999, 2318.400)
+    route[#route + 1] = makeWaypoint(-1675.301, 1495.305, 2322.416)
+    route[#route + 1] = makeWaypoint(-1676.249, 1495.935, 2328.565)
+    route[#route + 1] = makeWaypoint(-1681.177, 1491.908, 2331.250)
+    route[#route + 1] = makeWaypoint(-1684.557, 1499.698, 2335.098)
+    route[#route + 1] = makeWaypoint(-1691.578, 1490.997, 2336.567)
+    route[#route + 1] = makeWaypoint(-1695.630, 1490.920, 2338.704)
+    route[#route + 1] = makeWaypoint(-1704.144, 1489.346, 2339.358)
+    route[#route + 1] = makeWaypoint(-1705.492, 1488.987, 2343.230)
+    route[#route + 1] = makeWaypoint(-1704.194, 1488.998, 2344.841)
+    route[#route + 1] = makeWaypoint(-1701.650, 1491.484, 2347.669)
+    route[#route + 1] = makeWaypoint(-1695.054, 1490.723, 2346.986)
+    route[#route + 1] = makeWaypoint(-1692.421, 1477.987, 2344.604)
+    route[#route + 1] = makeWaypoint(-1692.407, 1484.726, 2350.455)
+    route[#route + 1] = makeWaypoint(-1691.865, 1480.999, 2352.300)
+    route[#route + 1] = makeWaypoint(-1695.175, 1483.969, 2355.306)
+    route[#route + 1] = makeWaypoint(-1696.639, 1484.652, 2360.300)
+    route[#route + 1] = makeWaypoint(-1695.220, 1480.999, 2363.531)
+    route[#route + 1] = makeWaypoint(-1688.819, 1480.999, 2363.981)
+    route[#route + 1] = makeWaypoint(-1685.091, 1485.405, 2365.848)
+    route[#route + 1] = makeWaypoint(-1679.272, 1480.999, 2367.691)
+    route[#route + 1] = makeWaypoint(-1676.736, 1483.826, 2364.811)
+    route[#route + 1] = makeWaypoint(-1676.642, 1480.940, 2358.305)
+    route[#route + 1] = makeWaypoint(-1677.587, 1480.999, 2354.709)
+    route[#route + 1] = makeWaypoint(-1680.365, 1480.855, 2347.198)
+    route[#route + 1] = makeWaypoint(-1678.799, 1490.171, 2347.197)
+    route[#route + 1] = makeWaypoint(-1684.771, 1492.999, 2348.229)
+    route[#route + 1] = makeWaypoint(-1689.672, 1495.653, 2349.543)
+    route[#route + 1] = makeWaypoint(-1691.476, 1492.978, 2355.931)
+    route[#route + 1] = makeWaypoint(-1695.832, 1495.740, 2355.785)
+    route[#route + 1] = makeWaypoint(-1692.847, 1493.887, 2358.368)
+    route[#route + 1] = makeWaypoint(-1691.061, 1492.999, 2358.702)
+    route[#route + 1] = makeWaypoint(-1688.669, 1499.601, 2364.504)
+    route[#route + 1] = makeWaypoint(-1683.721, 1493.999, 2363.594)
+    route[#route + 1] = makeWaypoint(-1681.151, 1494.999, 2367.858)
+    route[#route + 1] = makeWaypoint(-1678.154, 1502.109, 2372.039)
+    route[#route + 1] = makeWaypoint(-1679.014, 1492.997, 2374.399)
+    route[#route + 1] = makeWaypoint(-1677.676, 1488.997, 2380.230)
+    route[#route + 1] = makeWaypoint(-1676.642, 1488.999, 2380.735)
+    route[#route + 1] = makeWaypoint(-1673.561, 1494.037, 2383.759)
+    route[#route + 1] = makeWaypoint(-1677.507, 1491.320, 2386.607)
+    route[#route + 1] = makeWaypoint(-1681.816, 1488.999, 2384.438)
+    route[#route + 1] = makeWaypoint(-1689.020, 1492.868, 2386.648)
+    route[#route + 1] = makeWaypoint(-1692.092, 1491.801, 2385.154)
+    route[#route + 1] = makeWaypoint(-1695.108, 1491.773, 2385.097)
+    route[#route + 1] = makeWaypoint(-1698.699, 1491.806, 2385.207)
+    route[#route + 1] = makeWaypoint(-1703.842, 1491.802, 2385.204)
+    route[#route + 1] = makeWaypoint(-1705.333, 1491.692, 2386.108)
+    route[#route + 1] = makeWaypoint(-1706.270, 1488.145, 2389.173)
+    route[#route + 1] = makeWaypoint(-1706.707, 1489.561, 2389.946)
+    route[#route + 1] = makeWaypoint(-1710.194, 1495.984, 2397.076)
+    route[#route + 1] = makeWaypoint(-1705.240, 1495.765, 2401.059)
+    route[#route + 1] = makeWaypoint(-1700.691, 1495.316, 2399.168)
+    route[#route + 1] = makeWaypoint(-1689.110, 1489.996, 2406.688)
+    route[#route + 1] = makeWaypoint(-1692.209, 1488.100, 2413.914)
+    route[#route + 1] = makeWaypoint(-1687.479, 1489.999, 2411.905)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[72]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1589.366, 1410.990, 2308.562)
+    route[#route + 1] = makeWaypoint(-1605.355, 1411.000, 2304.174)
+    route[#route + 1] = makeWaypoint(-1614.502, 1411.000, 2302.681)
+    route[#route + 1] = workspace.Towers["ToGF"].Obby:GetChildren()[3553]
+    route[#route + 1] = workspace.ClientParts:GetChildren()[74]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1576.222, 1443.000, 2319.588)
+    route[#route + 1] = makeWaypoint(-1579.959, 1451.198, 2321.336)
+    route[#route + 1] = makeWaypoint(-1579.838, 1455.468, 2321.374)
+    route[#route + 1] = makeWaypoint(-1579.991, 1463.786, 2314.510)
+    route[#route + 1] = makeWaypoint(-1579.842, 1465.527, 2313.251)
+    route[#route + 1] = makeWaypoint(-1572.029, 1467.929, 2311.420)
+    route[#route + 1] = makeWaypoint(-1571.436, 1466.529, 2311.852)
+    route[#route + 1] = makeWaypoint(-1571.882, 1473.230, 2306.677)
+    route[#route + 1] = makeWaypoint(-1575.750, 1468.568, 2305.081)
+    route[#route + 1] = makeWaypoint(-1576.895, 1475.523, 2300.626)
+    route[#route + 1] = makeWaypoint(-1580.812, 1469.498, 2297.007)
+    route[#route + 1] = makeWaypoint(-1582.139, 1469.925, 2296.117)
+    route[#route + 1] = makeWaypoint(-1585.612, 1475.751, 2294.578)
+    route[#route + 1] = makeWaypoint(-1589.285, 1468.479, 2295.146)
+    route[#route + 1] = makeWaypoint(-1593.787, 1469.363, 2294.583)
+    route[#route + 1] = makeWaypoint(-1594.665, 1475.902, 2296.474)
+    route[#route + 1] = makeWaypoint(-1596.933, 1469.511, 2296.170)
+    route[#route + 1] = makeWaypoint(-1599.345, 1477.488, 2294.978)
+    route[#route + 1] = makeWaypoint(-1598.829, 1469.516, 2294.519)
+    route[#route + 1] = makeWaypoint(-1600.936, 1471.140, 2295.052)
+    route[#route + 1] = makeWaypoint(-1607.264, 1469.019, 2298.059)
+    route[#route + 1] = makeWaypoint(-1608.866, 1467.572, 2298.119)
+    route[#route + 1] = makeWaypoint(-1616.148, 1472.851, 2298.198)
+    route[#route + 1] = makeWaypoint(-1616.609, 1462.925, 2300.621)
+    route[#route + 1] = makeWaypoint(-1621.609, 1468.214, 2302.020)
+    route[#route + 1] = makeWaypoint(-1625.074, 1469.341, 2302.263)
+    route[#route + 1] = makeWaypoint(-1625.276, 1470.033, 2303.645)
+    route[#route + 1] = makeWaypoint(-1621.968, 1476.767, 2306.758)
+    route[#route + 1] = makeWaypoint(-1620.243, 1470.380, 2307.211)
+    route[#route + 1] = makeWaypoint(-1615.003, 1463.533, 2309.128)
+    route[#route + 1] = makeWaypoint(-1608.566, 1468.408, 2310.177)
+    route[#route + 1] = makeWaypoint(-1607.074, 1466.952, 2310.182)
+    route[#route + 1] = makeWaypoint(-1607.074, 1468.398, 2310.182)
+    route[#route + 1] = makeWaypoint(-1606.374, 1468.067, 2319.904)
+    route[#route + 1] = makeWaypoint(-1606.370, 1473.862, 2320.364)
+    route[#route + 1] = makeWaypoint(-1607.829, 1473.745, 2321.800)
+    route[#route + 1] = makeWaypoint(-1607.239, 1473.594, 2324.336)
+    route[#route + 1] = makeWaypoint(-1604.661, 1473.850, 2324.109)
+    route[#route + 1] = makeWaypoint(-1600.434, 1478.599, 2325.257)
+    route[#route + 1] = makeWaypoint(-1593.799, 1474.864, 2323.958)
+    route[#route + 1] = makeWaypoint(-1584.479, 1474.543, 2324.110)
+    route[#route + 1] = makeWaypoint(-1582.852, 1479.986, 2327.109)
+    route[#route + 1] = makeWaypoint(-1578.156, 1477.530, 2325.624)
+    route[#route + 1] = makeWaypoint(-1574.931, 1484.852, 2327.931)
+    route[#route + 1] = makeWaypoint(-1575.147, 1477.503, 2325.205)
+    route[#route + 1] = makeWaypoint(-1572.206, 1485.232, 2322.201)
+    route[#route + 1] = makeWaypoint(-1575.620, 1477.470, 2322.525)
+    route[#route + 1] = makeWaypoint(-1571.640, 1483.488, 2320.071)
+    route[#route + 1] = makeWaypoint(-1568.101, 1479.752, 2315.553)
+    route[#route + 1] = makeWaypoint(-1567.727, 1487.204, 2310.385)
+    route[#route + 1] = makeWaypoint(-1565.903, 1479.701, 2306.419)
+    route[#route + 1] = makeWaypoint(-1565.823, 1479.553, 2302.137)
+    route[#route + 1] = makeWaypoint(-1568.858, 1485.338, 2301.965)
+    route[#route + 1] = makeWaypoint(-1571.765, 1482.502, 2299.067)
+    route[#route + 1] = makeWaypoint(-1574.897, 1482.494, 2296.296)
+    route[#route + 1] = makeWaypoint(-1585.287, 1482.505, 2296.104)
+    route[#route + 1] = makeWaypoint(-1593.766, 1486.455, 2294.078)
+    route[#route + 1] = makeWaypoint(-1601.160, 1486.654, 2296.135)
+    route[#route + 1] = makeWaypoint(-1612.414, 1486.521, 2296.066)
+    route[#route + 1] = makeWaypoint(-1621.981, 1480.439, 2298.051)
+    route[#route + 1] = makeWaypoint(-1631.612, 1474.946, 2298.043)
+    route[#route + 1] = makeWaypoint(-1639.193, 1470.522, 2298.116)
+    route[#route + 1] = makeWaypoint(-1648.751, 1473.614, 2298.131)
+    route[#route + 1] = makeWaypoint(-1655.390, 1473.535, 2298.102)
+    route[#route + 1] = makeWaypoint(-1656.886, 1473.475, 2301.250)
+    route[#route + 1] = makeWaypoint(-1643.662, 1474.000, 2312.589)
+    route[#route + 1] = makeWaypoint(-1637.337, 1474.000, 2314.263)
+    route[#route + 1] = makeWaypoint(-1632.736, 1478.768, 2316.350)
+    route[#route + 1] = makeWaypoint(-1625.646, 1473.720, 2317.153)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[57]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1590.099, 1411.000, 2307.754)
+    route[#route + 1] = makeWaypoint(-1602.678, 1411.000, 2304.952)
+    route[#route + 1] = makeWaypoint(-1613.690, 1411.000, 2302.866)
+    route[#route + 1] = workspace.Towers["ToGF"].Obby:GetChildren()[3599]
+    route[#route + 1] = workspace.ClientParts:GetChildren()[76]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1564.386, 1467.000, 2341.577)
+    route[#route + 1] = makeWaypoint(-1558.940, 1467.980, 2331.525)
+    route[#route + 1] = makeWaypoint(-1555.124, 1469.881, 2328.210)
+    route[#route + 1] = makeWaypoint(-1552.003, 1467.634, 2321.978)
+    route[#route + 1] = makeWaypoint(-1549.748, 1472.409, 2316.379)
+    route[#route + 1] = makeWaypoint(-1553.021, 1467.930, 2310.293)
+    route[#route + 1] = makeWaypoint(-1549.884, 1471.025, 2307.591)
+    route[#route + 1] = makeWaypoint(-1543.500, 1470.457, 2305.737)
+    route[#route + 1] = makeWaypoint(-1537.462, 1468.464, 2310.898)
+    route[#route + 1] = makeWaypoint(-1533.574, 1470.749, 2317.515)
+    route[#route + 1] = makeWaypoint(-1536.162, 1467.767, 2320.969)
+    route[#route + 1] = makeWaypoint(-1540.200, 1475.000, 2321.405)
+    route[#route + 1] = makeWaypoint(-1540.081, 1475.000, 2324.087)
+    route[#route + 1] = makeWaypoint(-1537.788, 1480.952, 2328.336)
+    route[#route + 1] = makeWaypoint(-1531.752, 1475.129, 2330.667)
+    route[#route + 1] = makeWaypoint(-1530.957, 1478.731, 2334.368)
+    route[#route + 1] = makeWaypoint(-1532.235, 1479.361, 2340.977)
+    route[#route + 1] = makeWaypoint(-1529.895, 1479.951, 2347.558)
+    route[#route + 1] = makeWaypoint(-1530.640, 1475.738, 2354.495)
+    route[#route + 1] = makeWaypoint(-1531.757, 1476.000, 2357.917)
+    route[#route + 1] = makeWaypoint(-1530.749, 1481.994, 2363.444)
+    route[#route + 1] = makeWaypoint(-1532.984, 1476.000, 2370.389)
+    route[#route + 1] = makeWaypoint(-1532.790, 1482.528, 2376.907)
+    route[#route + 1] = makeWaypoint(-1537.291, 1473.997, 2383.106)
+    route[#route + 1] = makeWaypoint(-1542.535, 1480.702, 2378.248)
+    route[#route + 1] = makeWaypoint(-1545.348, 1473.989, 2381.992)
+    route[#route + 1] = makeWaypoint(-1553.257, 1479.973, 2384.013)
+    route[#route + 1] = makeWaypoint(-1549.097, 1482.216, 2382.569)
+    route[#route + 1] = makeWaypoint(-1542.548, 1486.735, 2381.796)
+    route[#route + 1] = makeWaypoint(-1545.105, 1492.211, 2378.277)
+    route[#route + 1] = makeWaypoint(-1552.911, 1486.711, 2376.506)
+    route[#route + 1] = makeWaypoint(-1560.659, 1486.990, 2374.073)
+    route[#route + 1] = makeWaypoint(-1563.024, 1487.000, 2369.366)
+    route[#route + 1] = makeWaypoint(-1565.378, 1490.428, 2366.576)
+    route[#route + 1] = makeWaypoint(-1567.764, 1490.223, 2361.181)
+    route[#route + 1] = makeWaypoint(-1569.413, 1490.000, 2353.718)
+    route[#route + 1] = makeWaypoint(-1568.420, 1490.000, 2346.948)
+    route[#route + 1] = makeWaypoint(-1562.900, 1490.000, 2342.583)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[75]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1589.629, 1411.000, 2307.319)
+    route[#route + 1] = makeWaypoint(-1598.054, 1411.000, 2305.013)
+    route[#route + 1] = makeWaypoint(-1605.448, 1411.000, 2304.057)
+    route[#route + 1] = makeWaypoint(-1618.323, 1411.000, 2301.548)
+    route[#route + 1] = makeWaypoint(-1626.699, 1411.000, 2299.867)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[79]:GetChildren()[1]
+    route[#route + 1] = makeWaypoint(-1545.119, 1433.000, 2387.630)
+    route[#route + 1] = makeWaypoint(-1544.620, 1433.874, 2380.408)
+    route[#route + 1] = makeWaypoint(-1540.303, 1435.677, 2376.668)
+    route[#route + 1] = makeWaypoint(-1537.491, 1436.384, 2374.720)
+    route[#route + 1] = makeWaypoint(-1538.480, 1434.823, 2371.240)
+    route[#route + 1] = makeWaypoint(-1544.695, 1438.761, 2369.953)
+    route[#route + 1] = makeWaypoint(-1540.825, 1433.000, 2365.439)
+    route[#route + 1] = makeWaypoint(-1536.619, 1435.434, 2364.306)
+    route[#route + 1] = makeWaypoint(-1532.678, 1433.000, 2365.601)
+    route[#route + 1] = makeWaypoint(-1526.195, 1433.000, 2363.651)
+    route[#route + 1] = makeWaypoint(-1527.715, 1438.985, 2359.763)
+    route[#route + 1] = makeWaypoint(-1534.893, 1434.463, 2359.813)
+    route[#route + 1] = makeWaypoint(-1539.037, 1433.000, 2359.378)
+    route[#route + 1] = makeWaypoint(-1540.166, 1434.524, 2357.132)
+    route[#route + 1] = makeWaypoint(-1544.273, 1432.999, 2354.440)
+    route[#route + 1] = makeWaypoint(-1549.485, 1434.935, 2356.097)
+    route[#route + 1] = makeWaypoint(-1551.765, 1431.283, 2357.319)
+    route[#route + 1] = makeWaypoint(-1555.107, 1431.808, 2355.703)
+    route[#route + 1] = makeWaypoint(-1556.328, 1432.430, 2359.135)
+    route[#route + 1] = makeWaypoint(-1557.455, 1435.941, 2359.190)
+    route[#route + 1] = makeWaypoint(-1561.250, 1439.453, 2354.271)
+    route[#route + 1] = makeWaypoint(-1561.196, 1438.065, 2350.034)
+    route[#route + 1] = makeWaypoint(-1557.802, 1435.000, 2343.982)
+    route[#route + 1] = makeWaypoint(-1555.801, 1435.000, 2340.448)
+    route[#route + 1] = makeWaypoint(-1551.557, 1437.304, 2339.410)
+    route[#route + 1] = makeWaypoint(-1547.049, 1435.000, 2341.242)
+    route[#route + 1] = makeWaypoint(-1545.749, 1436.778, 2337.967)
+    route[#route + 1] = makeWaypoint(-1543.093, 1434.991, 2340.899)
+    route[#route + 1] = makeWaypoint(-1538.980, 1434.999, 2340.547)
+    route[#route + 1] = makeWaypoint(-1531.511, 1434.992, 2340.505)
+    route[#route + 1] = makeWaypoint(-1533.107, 1435.994, 2333.008)
+    route[#route + 1] = makeWaypoint(-1533.633, 1436.000, 2326.100)
+    route[#route + 1] = makeWaypoint(-1532.729, 1435.991, 2319.438)
+    route[#route + 1] = makeWaypoint(-1529.851, 1437.026, 2314.733)
+    route[#route + 1] = makeWaypoint(-1532.335, 1433.000, 2311.402)
+    route[#route + 1] = makeWaypoint(-1533.486, 1433.000, 2303.146)
+    route[#route + 1] = makeWaypoint(-1538.652, 1433.000, 2300.664)
+    route[#route + 1] = makeWaypoint(-1545.850, 1435.356, 2301.739)
+    route[#route + 1] = makeWaypoint(-1551.578, 1435.322, 2303.118)
+    route[#route + 1] = makeWaypoint(-1552.237, 1433.000, 2310.393)
+    route[#route + 1] = makeWaypoint(-1551.775, 1432.999, 2324.171)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[78]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1589.362, 1411.000, 2308.560)
+    route[#route + 1] = makeWaypoint(-1608.520, 1411.000, 2303.645)
+    route[#route + 1] = makeWaypoint(-1622.388, 1411.000, 2301.748)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[83]:GetChildren()[1]
+    route[#route + 1] = makeWaypoint(-1589.737, 1478.000, 2437.185)
+    route[#route + 1] = makeWaypoint(-1586.223, 1483.951, 2439.475)
+    route[#route + 1] = makeWaypoint(-1588.099, 1483.999, 2445.675)
+    route[#route + 1] = makeWaypoint(-1585.813, 1484.000, 2438.051)
+    route[#route + 1] = makeWaypoint(-1583.454, 1484.000, 2429.764)
+    route[#route + 1] = makeWaypoint(-1585.056, 1490.032, 2425.218)
+    route[#route + 1] = makeWaypoint(-1582.864, 1494.676, 2427.203)
+    route[#route + 1] = makeWaypoint(-1584.930, 1496.445, 2435.240)
+    route[#route + 1] = makeWaypoint(-1588.330, 1500.012, 2445.119)
+    route[#route + 1] = makeWaypoint(-1588.533, 1496.000, 2448.105)
+    route[#route + 1] = makeWaypoint(-1586.670, 1495.998, 2450.891)
+    route[#route + 1] = makeWaypoint(-1581.878, 1501.839, 2451.146)
+    route[#route + 1] = makeWaypoint(-1579.727, 1501.000, 2447.014)
+    route[#route + 1] = makeWaypoint(-1577.204, 1504.036, 2444.234)
+    route[#route + 1] = makeWaypoint(-1576.307, 1500.656, 2436.646)
+    route[#route + 1] = makeWaypoint(-1574.674, 1501.000, 2429.112)
+    route[#route + 1] = makeWaypoint(-1571.507, 1505.343, 2429.458)
+    route[#route + 1] = makeWaypoint(-1569.951, 1500.999, 2433.962)
+    route[#route + 1] = makeWaypoint(-1571.635, 1501.000, 2441.120)
+    route[#route + 1] = makeWaypoint(-1568.615, 1507.341, 2444.550)
+    route[#route + 1] = makeWaypoint(-1564.723, 1501.000, 2447.880)
+    route[#route + 1] = makeWaypoint(-1563.218, 1501.000, 2448.964)
+    route[#route + 1] = makeWaypoint(-1557.685, 1508.128, 2449.602)
+    route[#route + 1] = makeWaypoint(-1553.352, 1496.990, 2447.881)
+    route[#route + 1] = makeWaypoint(-1545.298, 1498.354, 2444.393)
+    route[#route + 1] = makeWaypoint(-1536.153, 1497.000, 2443.840)
+    route[#route + 1] = makeWaypoint(-1534.016, 1497.000, 2444.456)
+    route[#route + 1] = makeWaypoint(-1530.134, 1501.695, 2444.507)
+    route[#route + 1] = makeWaypoint(-1534.346, 1493.977, 2441.007)
+    route[#route + 1] = makeWaypoint(-1536.334, 1494.000, 2438.853)
+    route[#route + 1] = makeWaypoint(-1538.777, 1497.736, 2436.282)
+    route[#route + 1] = makeWaypoint(-1545.354, 1496.959, 2436.149)
+    route[#route + 1] = makeWaypoint(-1548.853, 1502.981, 2436.152)
+    route[#route + 1] = makeWaypoint(-1554.496, 1503.000, 2431.538)
+    route[#route + 1] = makeWaypoint(-1555.447, 1509.455, 2427.561)
+    route[#route + 1] = makeWaypoint(-1550.086, 1502.995, 2421.128)
+    route[#route + 1] = makeWaypoint(-1548.660, 1503.000, 2416.541)
+    route[#route + 1] = makeWaypoint(-1545.033, 1503.000, 2415.673)
+    route[#route + 1] = makeWaypoint(-1543.151, 1502.996, 2412.322)
+    route[#route + 1] = makeWaypoint(-1542.753, 1502.999, 2412.824)
+    route[#route + 1] = makeWaypoint(-1538.263, 1508.763, 2415.264)
+    route[#route + 1] = makeWaypoint(-1531.812, 1498.771, 2418.753)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[81]:GetChildren()[1]
+    route[#route + 1] = makeWaypoint(-1517.478, 1467.000, 2258.169)
+    route[#route + 1] = makeWaypoint(-1523.580, 1473.585, 2275.009)
+    route[#route + 1] = makeWaypoint(-1523.828, 1477.988, 2277.117)
+    route[#route + 1] = makeWaypoint(-1534.556, 1478.000, 2277.612)
+    route[#route + 1] = makeWaypoint(-1533.281, 1478.000, 2274.395)
+    route[#route + 1] = makeWaypoint(-1532.905, 1480.388, 2269.628)
+    route[#route + 1] = makeWaypoint(-1528.888, 1485.000, 2268.819)
+    route[#route + 1] = makeWaypoint(-1528.272, 1484.992, 2269.750)
+    route[#route + 1] = makeWaypoint(-1528.522, 1485.000, 2278.094)
+    route[#route + 1] = makeWaypoint(-1528.890, 1484.955, 2287.480)
+    route[#route + 1] = makeWaypoint(-1530.541, 1485.000, 2288.531)
+    route[#route + 1] = makeWaypoint(-1525.841, 1490.767, 2288.297)
+    route[#route + 1] = makeWaypoint(-1525.643, 1494.095, 2284.155)
+    route[#route + 1] = makeWaypoint(-1519.980, 1498.002, 2279.415)
+    route[#route + 1] = makeWaypoint(-1517.325, 1498.012, 2279.145)
+    route[#route + 1] = makeWaypoint(-1516.144, 1499.000, 2278.984)
+    route[#route + 1] = makeWaypoint(-1516.614, 1506.193, 2279.028)
+    route[#route + 1] = makeWaypoint(-1521.112, 1504.000, 2272.626)
+    route[#route + 1] = makeWaypoint(-1522.881, 1510.815, 2265.817)
+    route[#route + 1] = makeWaypoint(-1525.709, 1501.949, 2259.080)
+    route[#route + 1] = makeWaypoint(-1530.369, 1501.813, 2255.770)
+    route[#route + 1] = makeWaypoint(-1538.162, 1504.177, 2254.994)
+    route[#route + 1] = makeWaypoint(-1541.041, 1493.000, 2259.972)
+    route[#route + 1] = makeWaypoint(-1540.468, 1499.863, 2267.325)
+    route[#route + 1] = makeWaypoint(-1538.340, 1498.000, 2271.371)
+    route[#route + 1] = makeWaypoint(-1540.981, 1501.212, 2274.535)
+    route[#route + 1] = makeWaypoint(-1539.213, 1498.339, 2281.431)
+    route[#route + 1] = makeWaypoint(-1537.287, 1495.000, 2282.451)
+    route[#route + 1] = makeWaypoint(-1541.065, 1499.962, 2283.604)
+    route[#route + 1] = makeWaypoint(-1547.604, 1497.894, 2284.627)
+    route[#route + 1] = makeWaypoint(-1549.501, 1498.000, 2283.349)
+    route[#route + 1] = makeWaypoint(-1551.663, 1500.598, 2280.030)
+    route[#route + 1] = makeWaypoint(-1550.751, 1494.103, 2272.844)
+    route[#route + 1] = makeWaypoint(-1551.129, 1494.000, 2272.096)
+    route[#route + 1] = makeWaypoint(-1551.603, 1501.533, 2263.819)
+    route[#route + 1] = makeWaypoint(-1551.839, 1503.017, 2261.738)
+    route[#route + 1] = makeWaypoint(-1553.587, 1504.906, 2261.333)
+    route[#route + 1] = makeWaypoint(-1561.106, 1509.083, 2259.591)
+    route[#route + 1] = makeWaypoint(-1564.203, 1498.999, 2258.499)
+    route[#route + 1] = makeWaypoint(-1569.367, 1503.878, 2260.583)
+    route[#route + 1] = makeWaypoint(-1568.680, 1497.498, 2266.826)
+    route[#route + 1] = makeWaypoint(-1566.926, 1497.000, 2271.397)
+    route[#route + 1] = makeWaypoint(-1568.462, 1489.000, 2274.435)
+    route[#route + 1] = makeWaypoint(-1570.571, 1491.997, 2282.917)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[59]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1589.945, 1411.000, 2308.062)
+    route[#route + 1] = makeWaypoint(-1595.947, 1411.000, 2305.928)
+    route[#route + 1] = makeWaypoint(-1608.209, 1411.000, 2303.351)
+    route[#route + 1] = makeWaypoint(-1618.737, 1411.000, 2301.593)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[87]:GetChildren()[1]
+    route[#route + 1] = makeWaypoint(-1599.096, 1439.999, 2278.736)
+    route[#route + 1] = makeWaypoint(-1601.752, 1441.599, 2282.551)
+    route[#route + 1] = makeWaypoint(-1603.470, 1451.967, 2282.344)
+    route[#route + 1] = makeWaypoint(-1600.531, 1451.281, 2279.557)
+    route[#route + 1] = makeWaypoint(-1600.934, 1451.206, 2271.791)
+    route[#route + 1] = makeWaypoint(-1602.120, 1450.999, 2267.989)
+    route[#route + 1] = makeWaypoint(-1599.193, 1453.150, 2264.155)
+    route[#route + 1] = makeWaypoint(-1604.546, 1451.999, 2261.754)
+    route[#route + 1] = makeWaypoint(-1607.232, 1454.197, 2260.150)
+    route[#route + 1] = makeWaypoint(-1615.138, 1456.504, 2260.295)
+    route[#route + 1] = makeWaypoint(-1624.432, 1456.508, 2259.478)
+    route[#route + 1] = makeWaypoint(-1627.363, 1463.485, 2261.042)
+    route[#route + 1] = makeWaypoint(-1625.372, 1456.497, 2263.392)
+    route[#route + 1] = makeWaypoint(-1626.597, 1460.972, 2271.621)
+    route[#route + 1] = makeWaypoint(-1626.705, 1460.999, 2272.948)
+    route[#route + 1] = makeWaypoint(-1624.356, 1470.998, 2273.119)
+    route[#route + 1] = makeWaypoint(-1621.322, 1470.999, 2261.497)
+    route[#route + 1] = makeWaypoint(-1617.814, 1473.712, 2258.158)
+    route[#route + 1] = makeWaypoint(-1611.479, 1471.550, 2254.283)
+    route[#route + 1] = makeWaypoint(-1606.607, 1470.690, 2252.991)
+    route[#route + 1] = makeWaypoint(-1597.758, 1471.886, 2253.226)
+    route[#route + 1] = makeWaypoint(-1593.223, 1469.852, 2252.637)
+    route[#route + 1] = makeWaypoint(-1586.600, 1469.956, 2256.281)
+    route[#route + 1] = makeWaypoint(-1582.460, 1469.999, 2258.311)
+    route[#route + 1] = makeWaypoint(-1582.679, 1475.993, 2266.053)
+    route[#route + 1] = makeWaypoint(-1583.486, 1469.999, 2269.642)
+    route[#route + 1] = makeWaypoint(-1588.725, 1477.264, 2274.154)
+    route[#route + 1] = makeWaypoint(-1588.850, 1475.999, 2276.848)
+    route[#route + 1] = makeWaypoint(-1586.402, 1479.119, 2279.374)
+    route[#route + 1] = makeWaypoint(-1591.474, 1479.104, 2280.422)
+    route[#route + 1] = makeWaypoint(-1595.098, 1479.999, 2279.199)
+    route[#route + 1] = makeWaypoint(-1600.983, 1486.052, 2283.242)
+    route[#route + 1] = makeWaypoint(-1602.855, 1492.999, 2284.917)
+    route[#route + 1] = makeWaypoint(-1609.428, 1492.999, 2284.487)
+    route[#route + 1] = makeWaypoint(-1614.735, 1493.146, 2277.677)
+    route[#route + 1] = makeWaypoint(-1620.437, 1495.815, 2272.187)
+    route[#route + 1] = makeWaypoint(-1619.132, 1494.833, 2265.206)
+    route[#route + 1] = makeWaypoint(-1611.471, 1494.999, 2262.623)
+    route[#route + 1] = makeWaypoint(-1610.875, 1500.901, 2257.873)
+    route[#route + 1] = makeWaypoint(-1609.842, 1499.999, 2246.362)
+    route[#route + 1] = makeWaypoint(-1607.929, 1493.889, 2236.980)
+    route[#route + 1] = makeWaypoint(-1607.705, 1493.502, 2233.594)
+    route[#route + 1] = makeWaypoint(-1604.733, 1497.665, 2228.564)
+    route[#route + 1] = makeWaypoint(-1599.394, 1493.536, 2229.553)
+    route[#route + 1] = makeWaypoint(-1593.425, 1498.943, 2229.482)
+    route[#route + 1] = makeWaypoint(-1588.757, 1506.199, 2227.759)
+    route[#route + 1] = makeWaypoint(-1585.331, 1498.963, 2230.155)
+    route[#route + 1] = makeWaypoint(-1582.782, 1506.220, 2233.482)
+    route[#route + 1] = makeWaypoint(-1585.917, 1498.990, 2238.722)
+    route[#route + 1] = makeWaypoint(-1584.013, 1503.498, 2241.648)
+    route[#route + 1] = makeWaypoint(-1586.329, 1502.991, 2243.591)
+    route[#route + 1] = makeWaypoint(-1583.747, 1508.697, 2247.936)
+    route[#route + 1] = makeWaypoint(-1586.791, 1502.999, 2253.576)
+    route[#route + 1] = makeWaypoint(-1584.261, 1506.608, 2256.118)
+    route[#route + 1] = makeWaypoint(-1579.859, 1493.863, 2262.909)
+    route[#route + 1] = makeWaypoint(-1581.293, 1494.778, 2266.092)
+    route[#route + 1] = makeWaypoint(-1579.914, 1500.999, 2273.766)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[82]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1589.370, 1410.987, 2308.537)
+    route[#route + 1] = workspace.Towers["ToGF"].Obby:GetChildren()[3590]
+    route[#route + 1] = workspace.ClientParts:GetChildren()[89]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1646.811, 1465.264, 2353.372)
+    route[#route + 1] = makeWaypoint(-1647.187, 1469.284, 2357.521)
+    route[#route + 1] = makeWaypoint(-1642.992, 1473.587, 2357.751)
+    route[#route + 1] = makeWaypoint(-1637.151, 1480.917, 2354.220)
+    route[#route + 1] = makeWaypoint(-1634.543, 1473.830, 2349.740)
+    route[#route + 1] = makeWaypoint(-1631.880, 1479.743, 2341.165)
+    route[#route + 1] = makeWaypoint(-1631.859, 1485.985, 2344.730)
+    route[#route + 1] = makeWaypoint(-1632.250, 1488.830, 2340.258)
+    route[#route + 1] = makeWaypoint(-1640.309, 1491.783, 2340.411)
+    route[#route + 1] = makeWaypoint(-1642.996, 1490.843, 2340.308)
+    route[#route + 1] = makeWaypoint(-1647.417, 1490.832, 2339.535)
+    route[#route + 1] = makeWaypoint(-1654.095, 1490.783, 2339.490)
+    route[#route + 1] = makeWaypoint(-1656.319, 1490.820, 2340.173)
+    route[#route + 1] = makeWaypoint(-1658.281, 1490.816, 2342.432)
+    route[#route + 1] = makeWaypoint(-1657.920, 1492.733, 2350.061)
+    route[#route + 1] = makeWaypoint(-1654.046, 1495.423, 2350.185)
+    route[#route + 1] = makeWaypoint(-1654.861, 1494.989, 2355.194)
+    route[#route + 1] = makeWaypoint(-1658.567, 1497.377, 2355.681)
+    route[#route + 1] = makeWaypoint(-1658.783, 1493.851, 2359.362)
+    route[#route + 1] = makeWaypoint(-1656.089, 1491.830, 2365.620)
+    route[#route + 1] = makeWaypoint(-1650.232, 1489.752, 2365.286)
+    route[#route + 1] = makeWaypoint(-1646.580, 1495.410, 2363.700)
+    route[#route + 1] = makeWaypoint(-1639.028, 1489.830, 2362.303)
+    route[#route + 1] = makeWaypoint(-1634.930, 1493.472, 2362.135)
+    route[#route + 1] = makeWaypoint(-1627.914, 1488.764, 2364.309)
+    route[#route + 1] = makeWaypoint(-1621.981, 1490.902, 2364.052)
+    route[#route + 1] = makeWaypoint(-1622.013, 1500.339, 2362.533)
+    route[#route + 1] = makeWaypoint(-1614.723, 1500.830, 2364.992)
+    route[#route + 1] = makeWaypoint(-1611.451, 1500.830, 2366.924)
+    route[#route + 1] = makeWaypoint(-1605.499, 1492.385, 2366.882)
+    route[#route + 1] = makeWaypoint(-1603.062, 1492.416, 2363.231)
+    route[#route + 1] = makeWaypoint(-1600.013, 1492.365, 2362.502)
+    route[#route + 1] = makeWaypoint(-1595.593, 1499.073, 2357.924)
+    route[#route + 1] = makeWaypoint(-1595.693, 1492.573, 2355.882)
+    route[#route + 1] = makeWaypoint(-1597.062, 1492.361, 2355.260)
+    route[#route + 1] = makeWaypoint(-1598.604, 1494.250, 2353.213)
+    route[#route + 1] = makeWaypoint(-1598.113, 1492.328, 2352.550)
+    route[#route + 1] = makeWaypoint(-1590.793, 1492.830, 2344.203)
+    route[#route + 1] = makeWaypoint(-1593.799, 1495.529, 2341.306)
+    route[#route + 1] = makeWaypoint(-1601.490, 1491.619, 2337.805)
+    route[#route + 1] = makeWaypoint(-1605.683, 1496.511, 2336.637)
+    route[#route + 1] = makeWaypoint(-1613.474, 1491.830, 2339.345)
+    route[#route + 1] = makeWaypoint(-1613.919, 1501.698, 2342.281)
+    route[#route + 1] = makeWaypoint(-1612.478, 1508.000, 2341.273)
+    route[#route + 1] = makeWaypoint(-1613.224, 1514.744, 2341.206)
+    route[#route + 1] = makeWaypoint(-1616.496, 1514.830, 2343.758)
+    route[#route + 1] = makeWaypoint(-1620.645, 1510.138, 2349.271)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[32]:GetChildren()[3]:GetChildren()[2]
+    route[#route + 1] = workspace.ClientParts:GetChildren()[32]:GetChildren()[3]:GetChildren()[5]
+    route[#route + 1] = workspace.ClientParts:GetChildren()[32]:GetChildren()[3]:GetChildren()[6]
+    route[#route + 1] = workspace.ClientParts:GetChildren()[32]:GetChildren()[3]:GetChildren()[9]
+    route[#route + 1] = makeWaypoint(-1655.280, 1527.000, 2356.907)
+    route[#route + 1] = makeWaypoint(-1636.778, 1537.000, 2363.987)
+    route[#route + 1] = makeWaypoint(-1640.361, 1540.717, 2364.366)
+    route[#route + 1] = makeWaypoint(-1634.712, 1545.176, 2366.293)
+    route[#route + 1] = makeWaypoint(-1634.490, 1539.022, 2361.458)
+    route[#route + 1] = makeWaypoint(-1634.186, 1543.231, 2362.765)
+    route[#route + 1] = makeWaypoint(-1637.286, 1537.690, 2365.142)
+    route[#route + 1] = makeWaypoint(-1634.245, 1536.972, 2361.116)
+    route[#route + 1] = makeWaypoint(-1636.258, 1540.291, 2362.564)
+    route[#route + 1] = makeWaypoint(-1641.724, 1537.139, 2367.273)
+    route[#route + 1] = makeWaypoint(-1642.836, 1537.425, 2367.666)
+    route[#route + 1] = makeWaypoint(-1649.219, 1534.903, 2365.308)
+    route[#route + 1] = makeWaypoint(-1642.485, 1539.351, 2363.598)
+    route[#route + 1] = makeWaypoint(-1656.070, 1546.000, 2359.349)
+    route[#route + 1] = makeWaypoint(-1653.178, 1550.000, 2361.215)
+    route[#route + 1] = makeWaypoint(-1652.766, 1557.960, 2355.637)
+    route[#route + 1] = makeWaypoint(-1654.562, 1558.000, 2354.528)
+    route[#route + 1] = makeWaypoint(-1642.915, 1568.998, 2364.448)
+    route[#route + 1] = makeWaypoint(-1640.957, 1573.202, 2368.824)
+    route[#route + 1] = makeWaypoint(-1629.996, 1569.004, 2347.988)
+    route[#route + 1] = makeWaypoint(-1628.519, 1569.003, 2349.589)
+    route[#route + 1] = makeWaypoint(-1628.138, 1575.001, 2347.608)
+    route[#route + 1] = makeWaypoint(-1630.794, 1569.781, 2353.204)
+    route[#route + 1] = makeWaypoint(-1630.103, 1569.000, 2356.310)
+    route[#route + 1] = makeWaypoint(-1630.438, 1573.895, 2358.401)
+    route[#route + 1] = makeWaypoint(-1631.268, 1571.994, 2357.772)
+    route[#route + 1] = makeWaypoint(-1637.574, 1571.690, 2364.164)
+    route[#route + 1] = makeWaypoint(-1642.592, 1578.452, 2364.267)
+    route[#route + 1] = makeWaypoint(-1648.818, 1568.999, 2362.622)
+    route[#route + 1] = makeWaypoint(-1634.969, 1569.000, 2358.307)
+    route[#route + 1] = makeWaypoint(-1618.650, 1570.000, 2350.866)
+    route[#route + 1] = makeWaypoint(-1610.226, 1572.945, 2356.436)
+    route[#route + 1] = makeWaypoint(-1604.743, 1579.308, 2360.754)
+    route[#route + 1] = makeWaypoint(-1597.523, 1573.000, 2361.995)
+    route[#route + 1] = makeWaypoint(-1593.880, 1572.580, 2360.376)
+    route[#route + 1] = makeWaypoint(-1591.423, 1578.592, 2355.725)
+    route[#route + 1] = makeWaypoint(-1592.549, 1573.000, 2350.433)
+    route[#route + 1] = makeWaypoint(-1592.712, 1572.966, 2344.724)
+    route[#route + 1] = makeWaypoint(-1592.663, 1577.865, 2337.392)
+    route[#route + 1] = makeWaypoint(-1592.830, 1565.992, 2332.784)
+    route[#route + 1] = makeWaypoint(-1595.808, 1566.000, 2326.403)
+    route[#route + 1] = makeWaypoint(-1593.578, 1572.693, 2324.643)
+    route[#route + 1] = makeWaypoint(-1595.189, 1576.000, 2326.857)
+    route[#route + 1] = makeWaypoint(-1599.677, 1582.086, 2324.328)
+    route[#route + 1] = makeWaypoint(-1601.840, 1581.759, 2324.592)
+    route[#route + 1] = makeWaypoint(-1607.687, 1576.000, 2324.473)
+    route[#route + 1] = makeWaypoint(-1614.911, 1575.161, 2321.398)
+    route[#route + 1] = makeWaypoint(-1615.648, 1579.661, 2321.193)
+    route[#route + 1] = makeWaypoint(-1620.167, 1573.822, 2318.414)
+    route[#route + 1] = makeWaypoint(-1620.555, 1574.405, 2324.910)
+    route[#route + 1] = makeWaypoint(-1620.695, 1569.726, 2324.861)
+    route[#route + 1] = makeWaypoint(-1627.600, 1568.843, 2326.827)
+    route[#route + 1] = makeWaypoint(-1628.387, 1569.439, 2321.504)
+    route[#route + 1] = makeWaypoint(-1628.376, 1571.672, 2321.755)
+    route[#route + 1] = makeWaypoint(-1628.971, 1570.130, 2321.728)
+    route[#route + 1] = makeWaypoint(-1629.588, 1566.884, 2321.250)
+    route[#route + 1] = makeWaypoint(-1635.154, 1566.993, 2321.188)
+    route[#route + 1] = makeWaypoint(-1636.522, 1575.277, 2316.309)
+    route[#route + 1] = makeWaypoint(-1636.522, 1573.806, 2316.309)
+    route[#route + 1] = makeWaypoint(-1636.522, 1564.617, 2316.309)
+    route[#route + 1] = makeWaypoint(-1638.476, 1572.997, 2314.930)
+    route[#route + 1] = makeWaypoint(-1643.852, 1582.696, 2314.605)
+    route[#route + 1] = makeWaypoint(-1647.109, 1567.673, 2318.747)
+    route[#route + 1] = makeWaypoint(-1646.442, 1565.312, 2322.542)
+    route[#route + 1] = makeWaypoint(-1647.218, 1569.918, 2323.478)
+    route[#route + 1] = makeWaypoint(-1648.478, 1568.083, 2326.738)
+    route[#route + 1] = makeWaypoint(-1651.309, 1577.192, 2325.059)
+    route[#route + 1] = makeWaypoint(-1651.363, 1568.091, 2319.622)
+    route[#route + 1] = makeWaypoint(-1653.801, 1579.573, 2319.006)
+    route[#route + 1] = makeWaypoint(-1654.688, 1579.713, 2321.159)
+    route[#route + 1] = makeWaypoint(-1655.739, 1578.481, 2324.515)
+    route[#route + 1] = makeWaypoint(-1660.392, 1558.000, 2323.906)
+    route[#route + 1] = makeWaypoint(-1661.190, 1558.000, 2317.064)
+    route[#route + 1] = makeWaypoint(-1661.827, 1562.454, 2313.235)
+    route[#route + 1] = makeWaypoint(-1660.258, 1558.956, 2306.825)
+    route[#route + 1] = makeWaypoint(-1657.937, 1557.353, 2302.617)
+    route[#route + 1] = makeWaypoint(-1655.821, 1554.000, 2297.848)
+    route[#route + 1] = makeWaypoint(-1651.981, 1558.341, 2298.144)
+    route[#route + 1] = makeWaypoint(-1646.636, 1555.565, 2300.838)
+    route[#route + 1] = makeWaypoint(-1645.941, 1559.899, 2300.512)
+    route[#route + 1] = makeWaypoint(-1644.944, 1564.756, 2299.401)
+    route[#route + 1] = makeWaypoint(-1640.096, 1583.764, 2295.849)
+    route[#route + 1] = makeWaypoint(-1634.295, 1574.820, 2295.663)
+    route[#route + 1] = makeWaypoint(-1634.605, 1566.609, 2300.676)
+    route[#route + 1] = makeWaypoint(-1634.277, 1565.835, 2300.556)
+    route[#route + 1] = makeWaypoint(-1633.777, 1559.574, 2300.308)
+    route[#route + 1] = makeWaypoint(-1628.587, 1567.991, 2300.226)
+    route[#route + 1] = makeWaypoint(-1625.143, 1556.869, 2302.838)
+    route[#route + 1] = makeWaypoint(-1625.263, 1557.000, 2301.551)
+    route[#route + 1] = makeWaypoint(-1623.130, 1557.000, 2297.326)
+    route[#route + 1] = makeWaypoint(-1621.857, 1558.402, 2293.588)
+    route[#route + 1] = makeWaypoint(-1617.406, 1561.514, 2294.870)
+    route[#route + 1] = makeWaypoint(-1615.680, 1557.000, 2299.911)
+    route[#route + 1] = makeWaypoint(-1609.262, 1564.180, 2302.147)
+    route[#route + 1] = makeWaypoint(-1601.504, 1564.179, 2297.722)
+    route[#route + 1] = makeWaypoint(-1593.833, 1564.179, 2301.156)
+    route[#route + 1] = makeWaypoint(-1586.580, 1564.179, 2298.095)
+    route[#route + 1] = makeWaypoint(-1573.686, 1562.983, 2300.167)
+    route[#route + 1] = makeWaypoint(-1566.753, 1560.000, 2308.009)
+    route[#route + 1] = makeWaypoint(-1567.655, 1566.257, 2312.192)
+    route[#route + 1] = makeWaypoint(-1570.759, 1559.991, 2319.155)
+    route[#route + 1] = makeWaypoint(-1577.544, 1560.000, 2319.062)
+    route[#route + 1] = makeWaypoint(-1580.965, 1563.205, 2322.229)
+    route[#route + 1] = makeWaypoint(-1576.338, 1555.250, 2328.225)
+    route[#route + 1] = makeWaypoint(-1574.588, 1553.990, 2334.642)
+    route[#route + 1] = makeWaypoint(-1573.826, 1551.000, 2343.815)
+    route[#route + 1] = makeWaypoint(-1574.283, 1551.000, 2352.669)
+    route[#route + 1] = makeWaypoint(-1569.533, 1551.000, 2361.345)
+    route[#route + 1] = makeWaypoint(-1564.540, 1550.715, 2366.688)
+    route[#route + 1] = makeWaypoint(-1571.941, 1522.000, 2359.207)
+    route[#route + 1] = makeWaypoint(-1574.644, 1509.000, 2357.077)
+    route[#route + 1] = makeWaypoint(-1572.880, 1509.000, 2366.996)
+    route[#route + 1] = makeWaypoint(-1572.326, 1509.000, 2379.702)
+    route[#route + 1] = makeWaypoint(-1579.861, 1509.000, 2385.629)
+    route[#route + 1] = makeWaypoint(-1579.360, 1509.000, 2380.451)
+    route[#route + 1] = makeWaypoint(-1574.024, 1515.996, 2378.122)
+    route[#route + 1] = makeWaypoint(-1580.465, 1519.620, 2378.676)
+    route[#route + 1] = makeWaypoint(-1581.378, 1519.000, 2378.709)
+    route[#route + 1] = makeWaypoint(-1579.991, 1522.933, 2381.957)
+    route[#route + 1] = makeWaypoint(-1580.852, 1527.000, 2384.494)
+    route[#route + 1] = makeWaypoint(-1571.007, 1528.949, 2383.575)
+    route[#route + 1] = makeWaypoint(-1570.063, 1529.000, 2384.742)
+    route[#route + 1] = makeWaypoint(-1572.821, 1536.999, 2388.577)
+    route[#route + 1] = makeWaypoint(-1575.254, 1540.990, 2388.172)
+    route[#route + 1] = makeWaypoint(-1580.760, 1547.988, 2384.261)
+    route[#route + 1] = makeWaypoint(-1580.285, 1548.000, 2382.923)
+    route[#route + 1] = makeWaypoint(-1578.294, 1554.254, 2383.112)
+    route[#route + 1] = makeWaypoint(-1581.564, 1559.000, 2380.695)
+    route[#route + 1] = makeWaypoint(-1582.596, 1568.000, 2384.093)
+    route[#route + 1] = makeWaypoint(-1595.609, 1525.070, 2382.545)
+    route[#route + 1] = makeWaypoint(-1593.900, 1562.208, 2382.996)
+    route[#route + 1] = makeWaypoint(-1598.657, 1575.994, 2384.196)
+    route[#route + 1] = makeWaypoint(-1605.842, 1576.000, 2384.630)
+    route[#route + 1] = makeWaypoint(-1611.086, 1580.879, 2384.960)
+    route[#route + 1] = makeWaypoint(-1616.636, 1575.362, 2383.207)
+    route[#route + 1] = makeWaypoint(-1623.215, 1536.376, 2384.217)
+    route[#route + 1] = makeWaypoint(-1622.318, 1540.332, 2383.052)
+    route[#route + 1] = makeWaypoint(-1624.068, 1549.942, 2380.018)
+    route[#route + 1] = makeWaypoint(-1624.189, 1557.151, 2383.968)
+    route[#route + 1] = makeWaypoint(-1629.743, 1563.347, 2387.493)
+    route[#route + 1] = makeWaypoint(-1632.327, 1555.000, 2386.095)
+    route[#route + 1] = makeWaypoint(-1633.851, 1554.999, 2384.821)
+    route[#route + 1] = makeWaypoint(-1637.536, 1558.497, 2384.313)
+    route[#route + 1] = makeWaypoint(-1642.603, 1557.985, 2385.136)
+    route[#route + 1] = makeWaypoint(-1643.867, 1560.000, 2384.105)
+    route[#route + 1] = makeWaypoint(-1650.213, 1560.000, 2387.322)
+    route[#route + 1] = makeWaypoint(-1652.320, 1567.027, 2388.721)
+    route[#route + 1] = makeWaypoint(-1650.916, 1566.000, 2386.285)
+    route[#route + 1] = makeWaypoint(-1651.546, 1566.000, 2384.859)
+    route[#route + 1] = makeWaypoint(-1646.788, 1574.000, 2380.292)
+    route[#route + 1] = makeWaypoint(-1649.058, 1582.834, 2383.174)
+    route[#route + 1] = makeWaypoint(-1647.295, 1590.993, 2384.808)
+    route[#route + 1] = makeWaypoint(-1649.253, 1597.147, 2377.937)
+    route[#route + 1] = makeWaypoint(-1657.761, 1591.000, 2374.473)
+    route[#route + 1] = makeWaypoint(-1663.402, 1598.588, 2367.372)
+    route[#route + 1] = makeWaypoint(-1663.875, 1599.000, 2360.844)
+    route[#route + 1] = makeWaypoint(-1661.059, 1603.277, 2356.562)
+    route[#route + 1] = makeWaypoint(-1664.118, 1605.996, 2352.854)
+    route[#route + 1] = makeWaypoint(-1664.205, 1613.221, 2347.303)
+    route[#route + 1] = makeWaypoint(-1672.391, 1606.000, 2346.163)
+    route[#route + 1] = makeWaypoint(-1680.334, 1606.000, 2345.267)
+    route[#route + 1] = makeWaypoint(-1678.562, 1612.698, 2341.966)
+    route[#route + 1] = makeWaypoint(-1680.025, 1605.816, 2339.603)
+    route[#route + 1] = makeWaypoint(-1679.820, 1607.999, 2335.574)
+    route[#route + 1] = makeWaypoint(-1679.671, 1610.297, 2329.442)
+    route[#route + 1] = makeWaypoint(-1680.542, 1606.000, 2322.006)
+    route[#route + 1] = makeWaypoint(-1685.414, 1606.000, 2321.343)
+    route[#route + 1] = makeWaypoint(-1691.810, 1613.113, 2321.586)
+    route[#route + 1] = makeWaypoint(-1695.963, 1604.800, 2321.750)
+    route[#route + 1] = makeWaypoint(-1698.436, 1611.366, 2319.035)
+    route[#route + 1] = makeWaypoint(-1704.623, 1606.024, 2320.176)
+    route[#route + 1] = makeWaypoint(-1709.706, 1605.996, 2318.342)
+    route[#route + 1] = makeWaypoint(-1715.773, 1612.661, 2316.307)
+    route[#route + 1] = makeWaypoint(-1720.028, 1604.377, 2314.790)
+    route[#route + 1] = makeWaypoint(-1722.284, 1608.798, 2311.612)
+    route[#route + 1] = makeWaypoint(-1725.647, 1614.979, 2310.223)
+    route[#route + 1] = makeWaypoint(-1729.039, 1620.900, 2309.767)
+    route[#route + 1] = makeWaypoint(-1731.224, 1624.172, 2311.333)
+    route[#route + 1] = makeWaypoint(-1732.880, 1626.339, 2312.554)
+    route[#route + 1] = makeWaypoint(-1737.349, 1628.943, 2319.251)
+    route[#route + 1] = makeWaypoint(-1740.212, 1632.336, 2319.209)
+    route[#route + 1] = makeWaypoint(-1745.928, 1632.433, 2319.474)
+    route[#route + 1] = makeWaypoint(-1752.574, 1622.516, 2319.113)
+    route[#route + 1] = makeWaypoint(-1754.752, 1621.856, 2320.190)
+    route[#route + 1] = makeWaypoint(-1755.632, 1628.930, 2326.291)
+    route[#route + 1] = makeWaypoint(-1755.911, 1623.085, 2331.012)
+    route[#route + 1] = makeWaypoint(-1756.358, 1630.264, 2339.110)
+    route[#route + 1] = makeWaypoint(-1755.421, 1619.957, 2336.933)
+    route[#route + 1] = makeWaypoint(-1754.938, 1617.924, 2342.856)
+    route[#route + 1] = makeWaypoint(-1755.137, 1614.356, 2346.972)
+    route[#route + 1] = makeWaypoint(-1757.394, 1623.000, 2348.506)
+    route[#route + 1] = makeWaypoint(-1758.552, 1625.040, 2352.028)
+    route[#route + 1] = makeWaypoint(-1758.663, 1629.110, 2356.750)
+    route[#route + 1] = makeWaypoint(-1757.808, 1623.473, 2360.509)
+    route[#route + 1] = makeWaypoint(-1759.175, 1631.262, 2365.282)
+    route[#route + 1] = makeWaypoint(-1757.596, 1623.000, 2371.461)
+    route[#route + 1] = makeWaypoint(-1755.177, 1626.884, 2377.473)
+    route[#route + 1] = makeWaypoint(-1755.474, 1626.827, 2378.208)
+    route[#route + 1] = makeWaypoint(-1755.628, 1622.811, 2378.826)
+    route[#route + 1] = makeWaypoint(-1778.230, 1621.108, 2372.672)
+    route[#route + 1] = makeWaypoint(-1781.523, 1642.000, 2370.789)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[100]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1776.876, 1642.000, 2366.165)
+    route[#route + 1] = makeWaypoint(-1774.477, 1641.965, 2356.495)
+    route[#route + 1] = makeWaypoint(-1772.661, 1642.000, 2352.285)
+    route[#route + 1] = makeWaypoint(-1772.731, 1640.534, 2345.741)
+    route[#route + 1] = makeWaypoint(-1764.317, 1639.593, 2340.398)
+    route[#route + 1] = makeWaypoint(-1752.258, 1637.999, 2331.395)
+    route[#route + 1] = makeWaypoint(-1750.729, 1637.594, 2325.745)
+    route[#route + 1] = makeWaypoint(-1754.281, 1637.554, 2321.329)
+    route[#route + 1] = makeWaypoint(-1758.469, 1640.449, 2310.603)
+    route[#route + 1] = makeWaypoint(-1767.605, 1640.278, 2308.078)
+    route[#route + 1] = makeWaypoint(-1772.931, 1640.235, 2306.122)
+    route[#route + 1] = makeWaypoint(-1777.474, 1642.896, 2310.302)
+    route[#route + 1] = makeWaypoint(-1778.450, 1656.000, 2311.710)
+    route[#route + 1] = makeWaypoint(-1780.686, 1657.000, 2321.811)
+    route[#route + 1] = makeWaypoint(-1790.302, 1664.305, 2323.518)
+    route[#route + 1] = makeWaypoint(-1789.881, 1651.544, 2323.511)
+    route[#route + 1] = makeWaypoint(-1797.083, 1642.000, 2326.757)
+    route[#route + 1] = makeWaypoint(-1799.801, 1646.491, 2326.099)
+    route[#route + 1] = makeWaypoint(-1800.457, 1656.000, 2323.990)
+    route[#route + 1] = makeWaypoint(-1808.389, 1657.000, 2324.944)
+    route[#route + 1] = makeWaypoint(-1811.657, 1657.000, 2330.648)
+    route[#route + 1] = makeWaypoint(-1811.410, 1663.844, 2337.770)
+    route[#route + 1] = makeWaypoint(-1811.597, 1656.995, 2345.341)
+    route[#route + 1] = makeWaypoint(-1815.859, 1658.255, 2344.564)
+    route[#route + 1] = makeWaypoint(-1816.952, 1656.779, 2349.264)
+    route[#route + 1] = makeWaypoint(-1816.602, 1659.000, 2353.833)
+    route[#route + 1] = makeWaypoint(-1817.631, 1661.559, 2357.339)
+    route[#route + 1] = makeWaypoint(-1815.866, 1664.750, 2361.062)
+    route[#route + 1] = makeWaypoint(-1810.706, 1656.937, 2361.546)
+    route[#route + 1] = makeWaypoint(-1809.699, 1657.000, 2362.408)
+    route[#route + 1] = makeWaypoint(-1809.459, 1663.845, 2371.018)
+    route[#route + 1] = makeWaypoint(-1806.254, 1663.845, 2373.508)
+    route[#route + 1] = makeWaypoint(-1802.922, 1663.845, 2371.715)
+    route[#route + 1] = makeWaypoint(-1799.884, 1663.845, 2372.098)
+    route[#route + 1] = makeWaypoint(-1797.844, 1663.845, 2372.113)
+    route[#route + 1] = makeWaypoint(-1795.305, 1663.845, 2372.113)
+    route[#route + 1] = makeWaypoint(-1792.890, 1663.845, 2373.206)
+    route[#route + 1] = makeWaypoint(-1790.268, 1663.845, 2377.173)
+    route[#route + 1] = makeWaypoint(-1787.770, 1663.845, 2381.164)
+    route[#route + 1] = makeWaypoint(-1785.316, 1663.845, 2384.531)
+    route[#route + 1] = makeWaypoint(-1782.734, 1663.845, 2384.175)
+    route[#route + 1] = makeWaypoint(-1780.236, 1663.845, 2384.130)
+    route[#route + 1] = makeWaypoint(-1777.364, 1663.845, 2381.754)
+    route[#route + 1] = makeWaypoint(-1774.283, 1663.845, 2378.168)
+    route[#route + 1] = makeWaypoint(-1771.245, 1663.845, 2378.008)
+    route[#route + 1] = makeWaypoint(-1768.649, 1663.844, 2378.595)
+    route[#route + 1] = makeWaypoint(-1765.442, 1663.844, 2377.160)
+    route[#route + 1] = makeWaypoint(-1760.697, 1663.844, 2378.461)
+    route[#route + 1] = makeWaypoint(-1757.492, 1663.844, 2378.463)
+    route[#route + 1] = makeWaypoint(-1754.786, 1663.844, 2381.744)
+    route[#route + 1] = makeWaypoint(-1751.454, 1663.844, 2384.315)
+    route[#route + 1] = makeWaypoint(-1748.415, 1663.844, 2384.287)
+    route[#route + 1] = makeWaypoint(-1745.501, 1663.844, 2382.126)
+    route[#route + 1] = makeWaypoint(-1741.547, 1663.844, 2378.807)
+    route[#route + 1] = makeWaypoint(-1738.425, 1663.844, 2377.876)
+    route[#route + 1] = makeWaypoint(-1735.969, 1663.844, 2377.864)
+    route[#route + 1] = makeWaypoint(-1732.639, 1663.844, 2377.864)
+    route[#route + 1] = makeWaypoint(-1729.350, 1663.844, 2377.566)
+    route[#route + 1] = makeWaypoint(-1726.603, 1663.844, 2377.546)
+    route[#route + 1] = makeWaypoint(-1723.980, 1663.844, 2377.546)
+    route[#route + 1] = makeWaypoint(-1719.193, 1663.844, 2377.546)
+    route[#route + 1] = makeWaypoint(-1714.698, 1663.844, 2377.546)
+    route[#route + 1] = makeWaypoint(-1712.159, 1663.844, 2377.546)
+    route[#route + 1] = makeWaypoint(-1707.871, 1663.844, 2377.546)
+    route[#route + 1] = makeWaypoint(-1706.341, 1663.827, 2377.809)
+    route[#route + 1] = makeWaypoint(-1705.879, 1663.830, 2378.638)
+    route[#route + 1] = makeWaypoint(-1705.850, 1663.827, 2381.178)
+    route[#route + 1] = makeWaypoint(-1705.828, 1663.828, 2382.579)
+    route[#route + 1] = makeWaypoint(-1705.474, 1663.809, 2384.568)
+    route[#route + 1] = makeWaypoint(-1702.690, 1663.811, 2384.594)
+    route[#route + 1] = makeWaypoint(-1699.191, 1663.811, 2384.594)
+    route[#route + 1] = makeWaypoint(-1695.975, 1663.811, 2383.867)
+    route[#route + 1] = makeWaypoint(-1693.270, 1663.811, 2380.181)
+    route[#route + 1] = makeWaypoint(-1690.314, 1663.811, 2375.466)
+    route[#route + 1] = makeWaypoint(-1687.234, 1663.811, 2373.148)
+    route[#route + 1] = makeWaypoint(-1683.862, 1663.811, 2374.956)
+    route[#route + 1] = makeWaypoint(-1680.782, 1663.811, 2378.603)
+    route[#route + 1] = makeWaypoint(-1677.369, 1663.811, 2379.427)
+    route[#route + 1] = makeWaypoint(-1674.580, 1663.811, 2379.623)
+    route[#route + 1] = makeWaypoint(-1668.021, 1657.782, 2379.991)
+    route[#route + 1] = makeWaypoint(-1667.603, 1622.902, 2380.010)
+    route[#route + 1] = makeWaypoint(-1660.617, 1629.000, 2386.495)
+    route[#route + 1] = makeWaypoint(-1655.798, 1629.000, 2387.093)
+    route[#route + 1] = makeWaypoint(-1651.202, 1624.000, 2385.667)
+    route[#route + 1] = makeWaypoint(-1653.821, 1629.000, 2380.988)
+    route[#route + 1] = makeWaypoint(-1656.545, 1631.287, 2378.158)
+    route[#route + 1] = makeWaypoint(-1654.916, 1628.760, 2374.979)
+    route[#route + 1] = makeWaypoint(-1652.000, 1631.200, 2374.831)
+    route[#route + 1] = makeWaypoint(-1647.385, 1634.992, 2373.528)
+    route[#route + 1] = makeWaypoint(-1647.429, 1635.000, 2378.712)
+    route[#route + 1] = makeWaypoint(-1649.694, 1639.849, 2382.297)
+    route[#route + 1] = makeWaypoint(-1655.011, 1642.000, 2382.927)
+    route[#route + 1] = makeWaypoint(-1659.932, 1646.682, 2387.083)
+    route[#route + 1] = makeWaypoint(-1662.341, 1646.591, 2387.114)
+    route[#route + 1] = makeWaypoint(-1657.152, 1646.590, 2387.079)
+    route[#route + 1] = makeWaypoint(-1650.734, 1646.535, 2387.103)
+    route[#route + 1] = makeWaypoint(-1652.723, 1654.000, 2378.688)
+    route[#route + 1] = makeWaypoint(-1657.496, 1654.000, 2375.861)
+    route[#route + 1] = makeWaypoint(-1659.607, 1655.439, 2373.750)
+    route[#route + 1] = makeWaypoint(-1659.105, 1659.358, 2369.768)
+    route[#route + 1] = makeWaypoint(-1656.067, 1654.000, 2367.974)
+    route[#route + 1] = makeWaypoint(-1655.725, 1656.693, 2365.213)
+    route[#route + 1] = makeWaypoint(-1655.924, 1660.987, 2367.112)
+    route[#route + 1] = makeWaypoint(-1657.129, 1661.308, 2367.028)
+    route[#route + 1] = makeWaypoint(-1659.742, 1671.000, 2368.188)
+    route[#route + 1] = makeWaypoint(-1660.046, 1673.655, 2371.623)
+    route[#route + 1] = makeWaypoint(-1657.832, 1676.039, 2376.485)
+    route[#route + 1] = makeWaypoint(-1651.962, 1668.000, 2379.583)
+    route[#route + 1] = makeWaypoint(-1653.518, 1668.780, 2382.595)
+    route[#route + 1] = makeWaypoint(-1656.613, 1674.502, 2386.144)
+    route[#route + 1] = makeWaypoint(-1661.206, 1668.000, 2389.465)
+    route[#route + 1] = makeWaypoint(-1662.580, 1668.862, 2386.343)
+    route[#route + 1] = makeWaypoint(-1661.551, 1671.254, 2380.720)
+    route[#route + 1] = makeWaypoint(-1659.391, 1672.000, 2380.282)
+    route[#route + 1] = makeWaypoint(-1659.397, 1682.000, 2381.701)
+    route[#route + 1] = makeWaypoint(-1658.777, 1682.000, 2379.105)
+    route[#route + 1] = makeWaypoint(-1652.295, 1686.000, 2373.169)
+    route[#route + 1] = makeWaypoint(-1646.786, 1687.991, 2380.722)
+    route[#route + 1] = makeWaypoint(-1643.546, 1692.489, 2384.560)
+    route[#route + 1] = makeWaypoint(-1639.242, 1682.346, 2388.015)
+    route[#route + 1] = makeWaypoint(-1637.560, 1675.000, 2386.914)
+    route[#route + 1] = makeWaypoint(-1629.250, 1680.022, 2388.042)
+    route[#route + 1] = makeWaypoint(-1624.084, 1675.000, 2382.657)
+    route[#route + 1] = makeWaypoint(-1620.793, 1679.531, 2378.765)
+    route[#route + 1] = makeWaypoint(-1617.515, 1673.405, 2373.289)
+    route[#route + 1] = makeWaypoint(-1621.629, 1654.999, 2371.163)
+    route[#route + 1] = makeWaypoint(-1623.442, 1655.000, 2368.680)
+    route[#route + 1] = makeWaypoint(-1621.623, 1656.177, 2366.570)
+    route[#route + 1] = makeWaypoint(-1618.507, 1661.616, 2363.368)
+    route[#route + 1] = makeWaypoint(-1618.967, 1659.945, 2360.357)
+    route[#route + 1] = makeWaypoint(-1623.171, 1660.000, 2355.987)
+    route[#route + 1] = makeWaypoint(-1620.198, 1664.962, 2353.142)
+    route[#route + 1] = makeWaypoint(-1617.836, 1665.629, 2349.363)
+    route[#route + 1] = makeWaypoint(-1618.959, 1667.000, 2347.628)
+    route[#route + 1] = makeWaypoint(-1625.685, 1680.080, 2351.426)
+    route[#route + 1] = makeWaypoint(-1626.225, 1674.973, 2357.753)
+    route[#route + 1] = makeWaypoint(-1625.612, 1675.000, 2365.680)
+    route[#route + 1] = makeWaypoint(-1623.623, 1682.957, 2368.533)
+    route[#route + 1] = makeWaypoint(-1620.920, 1682.998, 2371.105)
+    route[#route + 1] = makeWaypoint(-1614.573, 1690.028, 2370.373)
+    route[#route + 1] = makeWaypoint(-1609.461, 1680.979, 2373.595)
+    route[#route + 1] = makeWaypoint(-1609.264, 1686.235, 2363.865)
+    route[#route + 1] = makeWaypoint(-1609.264, 1679.000, 2348.441)
+    route[#route + 1] = makeWaypoint(-1613.354, 1679.000, 2350.984)
+    route[#route + 1] = makeWaypoint(-1612.529, 1683.453, 2350.984)
+    route[#route + 1] = makeWaypoint(-1588.888, 1678.984, 2351.911)
+    route[#route + 1] = makeWaypoint(-1588.696, 1679.000, 2355.998)
+    route[#route + 1] = makeWaypoint(-1586.025, 1679.000, 2351.021)
+    route[#route + 1] = makeWaypoint(-1581.229, 1679.000, 2350.280)
+    route[#route + 1] = makeWaypoint(-1581.253, 1684.900, 2350.316)
+    route[#route + 1] = makeWaypoint(-1589.527, 1681.788, 2367.241)
+    route[#route + 1] = makeWaypoint(-1592.880, 1680.530, 2373.389)
+    route[#route + 1] = makeWaypoint(-1600.305, 1678.874, 2386.313)
+    route[#route + 1] = makeWaypoint(-1596.915, 1679.000, 2387.112)
+    route[#route + 1] = makeWaypoint(-1593.749, 1681.960, 2388.476)
+    route[#route + 1] = makeWaypoint(-1589.214, 1684.900, 2389.517)
+    route[#route + 1] = makeWaypoint(-1584.212, 1678.989, 2388.600)
+    route[#route + 1] = makeWaypoint(-1574.346, 1679.000, 2382.638)
+    route[#route + 1] = makeWaypoint(-1571.286, 1679.258, 2383.998)
+    route[#route + 1] = makeWaypoint(-1568.549, 1686.306, 2382.037)
+    route[#route + 1] = makeWaypoint(-1570.647, 1680.038, 2378.961)
+    route[#route + 1] = makeWaypoint(-1572.876, 1679.000, 2371.162)
+    route[#route + 1] = makeWaypoint(-1571.964, 1678.139, 2367.379)
+    route[#route + 1] = makeWaypoint(-1569.976, 1685.876, 2364.075)
+    route[#route + 1] = makeWaypoint(-1568.808, 1682.038, 2360.812)
+    route[#route + 1] = makeWaypoint(-1568.186, 1679.000, 2354.070)
+    route[#route + 1] = makeWaypoint(-1567.100, 1683.348, 2349.911)
+    route[#route + 1] = makeWaypoint(-1566.097, 1682.360, 2344.808)
+    route[#route + 1] = makeWaypoint(-1565.867, 1685.000, 2343.159)
+    route[#route + 1] = makeWaypoint(-1567.117, 1690.833, 2336.556)
+    route[#route + 1] = makeWaypoint(-1569.892, 1685.830, 2336.932)
+    route[#route + 1] = makeWaypoint(-1571.385, 1685.524, 2335.119)
+    route[#route + 1] = makeWaypoint(-1572.749, 1691.820, 2331.324)
+    route[#route + 1] = makeWaypoint(-1577.586, 1685.706, 2331.118)
+    route[#route + 1] = makeWaypoint(-1577.634, 1684.523, 2333.463)
+    route[#route + 1] = makeWaypoint(-1577.636, 1694.446, 2333.398)
+    route[#route + 1] = makeWaypoint(-1576.135, 1697.975, 2328.354)
+    route[#route + 1] = makeWaypoint(-1573.901, 1696.000, 2321.989)
+    route[#route + 1] = makeWaypoint(-1574.154, 1702.994, 2318.375)
+    route[#route + 1] = makeWaypoint(-1576.515, 1703.000, 2314.800)
+    route[#route + 1] = makeWaypoint(-1577.706, 1693.288, 2308.580)
+    route[#route + 1] = makeWaypoint(-1579.944, 1685.000, 2305.527)
+    route[#route + 1] = makeWaypoint(-1579.959, 1685.000, 2301.451)
+    route[#route + 1] = makeWaypoint(-1586.023, 1685.000, 2301.172)
+    route[#route + 1] = makeWaypoint(-1594.911, 1685.002, 2301.712)
+    route[#route + 1] = makeWaypoint(-1601.418, 1684.969, 2301.850)
+    route[#route + 1] = makeWaypoint(-1600.842, 1685.000, 2305.463)
+    route[#route + 1] = makeWaypoint(-1600.532, 1685.000, 2312.448)
+    route[#route + 1] = makeWaypoint(-1603.625, 1685.004, 2312.415)
+    route[#route + 1] = makeWaypoint(-1604.685, 1685.000, 2307.949)
+    route[#route + 1] = makeWaypoint(-1604.726, 1685.012, 2301.909)
+    route[#route + 1] = makeWaypoint(-1606.850, 1696.562, 2301.373)
+    route[#route + 1] = makeWaypoint(-1612.156, 1690.077, 2301.345)
+    route[#route + 1] = makeWaypoint(-1614.090, 1685.000, 2301.129)
+    route[#route + 1] = makeWaypoint(-1616.875, 1685.000, 2301.892)
+    route[#route + 1] = makeWaypoint(-1624.360, 1685.000, 2301.328)
+    route[#route + 1] = makeWaypoint(-1629.483, 1685.000, 2301.328)
+    route[#route + 1] = makeWaypoint(-1632.432, 1684.999, 2301.325)
+    route[#route + 1] = makeWaypoint(-1635.754, 1684.999, 2301.325)
+    route[#route + 1] = makeWaypoint(-1635.342, 1685.001, 2304.991)
+    route[#route + 1] = makeWaypoint(-1635.457, 1685.001, 2310.557)
+    route[#route + 1] = makeWaypoint(-1636.844, 1685.001, 2312.425)
+    route[#route + 1] = makeWaypoint(-1639.436, 1685.010, 2312.459)
+    route[#route + 1] = makeWaypoint(-1642.992, 1692.060, 2311.266)
+    route[#route + 1] = makeWaypoint(-1652.335, 1684.000, 2311.744)
+    route[#route + 1] = makeWaypoint(-1656.172, 1683.643, 2312.019)
+    route[#route + 1] = makeWaypoint(-1657.698, 1691.236, 2314.906)
+    route[#route + 1] = makeWaypoint(-1653.294, 1683.932, 2316.855)
+    route[#route + 1] = makeWaypoint(-1644.505, 1684.000, 2319.475)
+    route[#route + 1] = makeWaypoint(-1637.502, 1684.000, 2321.330)
+    route[#route + 1] = makeWaypoint(-1635.420, 1685.371, 2324.817)
+    route[#route + 1] = makeWaypoint(-1632.913, 1690.244, 2328.518)
+    route[#route + 1] = makeWaypoint(-1628.343, 1686.337, 2328.858)
+    route[#route + 1] = makeWaypoint(-1621.469, 1684.000, 2329.565)
+    route[#route + 1] = makeWaypoint(-1614.945, 1683.734, 2332.641)
+    route[#route + 1] = makeWaypoint(-1612.756, 1683.993, 2329.326)
+    route[#route + 1] = makeWaypoint(-1609.615, 1683.767, 2328.803)
+    route[#route + 1] = makeWaypoint(-1608.204, 1688.094, 2323.754)
+    route[#route + 1] = makeWaypoint(-1608.651, 1684.000, 2319.266)
+    route[#route + 1] = makeWaypoint(-1608.346, 1683.999, 2316.779)
+    route[#route + 1] = makeWaypoint(-1605.360, 1688.580, 2314.919)
+    route[#route + 1] = makeWaypoint(-1600.970, 1688.732, 2316.235)
+    route[#route + 1] = makeWaypoint(-1602.361, 1683.997, 2319.809)
+    route[#route + 1] = makeWaypoint(-1599.658, 1686.645, 2324.668)
+    route[#route + 1] = makeWaypoint(-1593.188, 1685.469, 2327.052)
+    route[#route + 1] = workspace.ClientParts:GetChildren()[46]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1593.118, 1683.997, 2327.514)
+    route[#route + 1] = makeWaypoint(-1600.718, 1690.902, 2325.191)
+    route[#route + 1] = makeWaypoint(-1602.794, 1684.000, 2319.623)
+    route[#route + 1] = makeWaypoint(-1603.316, 1685.542, 2315.092)
+    route[#route + 1] = makeWaypoint(-1607.809, 1686.375, 2318.835)
+    route[#route + 1] = makeWaypoint(-1608.669, 1684.000, 2322.030)
+    route[#route + 1] = makeWaypoint(-1608.505, 1685.287, 2324.881)
+    route[#route + 1] = makeWaypoint(-1611.518, 1688.265, 2329.761)
+    route[#route + 1] = makeWaypoint(-1612.522, 1684.000, 2330.767)
+    route[#route + 1] = makeWaypoint(-1613.577, 1688.495, 2334.306)
+    route[#route + 1] = makeWaypoint(-1615.850, 1683.834, 2330.727)
+    route[#route + 1] = makeWaypoint(-1619.291, 1684.000, 2328.703)
+    route[#route + 1] = makeWaypoint(-1626.622, 1684.000, 2329.319)
+    route[#route + 1] = makeWaypoint(-1629.682, 1684.000, 2327.838)
+    route[#route + 1] = makeWaypoint(-1633.225, 1687.475, 2327.703)
+    route[#route + 1] = makeWaypoint(-1639.147, 1684.754, 2327.497)
+    route[#route + 1] = makeWaypoint(-1638.598, 1684.000, 2320.283)
+    route[#route + 1] = makeWaypoint(-1643.242, 1684.000, 2320.917)
+    route[#route + 1] = makeWaypoint(-1648.158, 1684.000, 2326.198)
+    route[#route + 1] = makeWaypoint(-1648.748, 1684.000, 2335.566)
+    route[#route + 1] = makeWaypoint(-1657.296, 1684.000, 2337.610)
+    route[#route + 1] = makeWaypoint(-1661.185, 1685.000, 2343.666)
+    route[#route + 1] = makeWaypoint(-1660.904, 1685.000, 2343.554)
+    route[#route + 1] = makeWaypoint(-1660.142, 1691.952, 2351.018)
+    route[#route + 1] = makeWaypoint(-1656.847, 1692.000, 2350.433)
+    route[#route + 1] = makeWaypoint(-1648.045, 1701.000, 2351.267)
+    route[#route + 1] = makeWaypoint(-1647.450, 1708.144, 2349.190)
+    route[#route + 1] = makeWaypoint(-1647.526, 1709.000, 2351.925)
+    route[#route + 1] = makeWaypoint(-1640.586, 1709.000, 2354.755)
+    route[#route + 1] = makeWaypoint(-1637.675, 1709.000, 2361.654)
+    route[#route + 1] = makeWaypoint(-1637.292, 1709.000, 2369.839)
+    route[#route + 1] = makeWaypoint(-1634.124, 1712.365, 2370.345)
+    route[#route + 1] = makeWaypoint(-1629.489, 1717.999, 2372.615)
+    route[#route + 1] = makeWaypoint(-1624.081, 1717.999, 2368.106)
+    route[#route + 1] = makeWaypoint(-1621.596, 1717.995, 2370.549)
+    route[#route + 1] = makeWaypoint(-1624.355, 1718.000, 2368.280)
+    route[#route + 1] = makeWaypoint(-1625.017, 1723.690, 2359.664)
+    route[#route + 1] = makeWaypoint(-1628.337, 1725.000, 2357.823)
+    route[#route + 1] = makeWaypoint(-1629.828, 1726.406, 2360.250)
+    route[#route + 1] = makeWaypoint(-1634.471, 1731.204, 2360.583)
+    route[#route + 1] = makeWaypoint(-1637.287, 1717.080, 2358.892)
+    route[#route + 1] = makeWaypoint(-1640.768, 1725.000, 2356.920)
+    route[#route + 1] = makeWaypoint(-1647.765, 1725.000, 2354.619)
+    route[#route + 1] = makeWaypoint(-1651.215, 1724.592, 2354.645)
+    route[#route + 1] = makeWaypoint(-1658.456, 1724.383, 2353.441)
+    route[#route + 1] = makeWaypoint(-1660.514, 1724.545, 2352.057)
+    route[#route + 1] = makeWaypoint(-1661.255, 1729.989, 2355.498)
+    route[#route + 1] = makeWaypoint(-1660.984, 1725.764, 2361.579)
+    route[#route + 1] = makeWaypoint(-1657.063, 1726.000, 2365.328)
+    route[#route + 1] = makeWaypoint(-1657.198, 1729.999, 2369.304)
+    route[#route + 1] = makeWaypoint(-1656.814, 1726.198, 2376.573)
+    route[#route + 1] = makeWaypoint(-1655.490, 1727.000, 2378.861)
+    route[#route + 1] = makeWaypoint(-1652.503, 1732.452, 2380.702)
+    route[#route + 1] = makeWaypoint(-1648.708, 1727.113, 2380.096)
+    route[#route + 1] = makeWaypoint(-1648.285, 1727.000, 2377.152)
+    route[#route + 1] = makeWaypoint(-1645.097, 1729.529, 2376.196)
+    route[#route + 1] = makeWaypoint(-1639.110, 1731.163, 2376.657)
+    route[#route + 1] = makeWaypoint(-1637.771, 1732.000, 2382.524)
+    route[#route + 1] = makeWaypoint(-1636.088, 1735.250, 2385.086)
+    route[#route + 1] = makeWaypoint(-1640.654, 1735.686, 2388.736)
+    route[#route + 1] = makeWaypoint(-1645.720, 1736.046, 2385.468)
+    route[#route + 1] = makeWaypoint(-1650.484, 1732.807, 2387.715)
+    route[#route + 1] = makeWaypoint(-1653.724, 1733.830, 2390.459)
+    route[#route + 1] = makeWaypoint(-1657.624, 1733.472, 2390.680)
+    route[#route + 1] = makeWaypoint(-1661.860, 1732.000, 2390.446)
+    route[#route + 1] = makeWaypoint(-1660.259, 1741.907, 2390.576)
+    route[#route + 1] = makeWaypoint(-1656.493, 1748.176, 2389.386)
+    route[#route + 1] = makeWaypoint(-1652.694, 1745.000, 2387.207)
+    route[#route + 1] = makeWaypoint(-1649.529, 1744.983, 2387.943)
+    route[#route + 1] = makeWaypoint(-1646.771, 1745.000, 2388.496)
+    route[#route + 1] = makeWaypoint(-1644.564, 1745.000, 2387.146)
+    route[#route + 1] = makeWaypoint(-1640.861, 1747.888, 2386.361)
+    route[#route + 1] = makeWaypoint(-1637.015, 1743.437, 2382.174)
+    route[#route + 1] = makeWaypoint(-1641.015, 1746.999, 2383.077)
+    route[#route + 1] = makeWaypoint(-1645.751, 1752.995, 2382.322)
+    route[#route + 1] = makeWaypoint(-1651.895, 1743.000, 2379.916)
+    route[#route + 1] = makeWaypoint(-1652.341, 1747.835, 2376.769)
+    route[#route + 1] = makeWaypoint(-1653.195, 1743.125, 2370.285)
+    route[#route + 1] = makeWaypoint(-1654.495, 1747.346, 2367.268)
+    route[#route + 1] = makeWaypoint(-1657.311, 1742.849, 2361.781)
+    route[#route + 1] = makeWaypoint(-1658.302, 1743.000, 2360.269)
+    route[#route + 1] = makeWaypoint(-1657.811, 1747.242, 2351.195)
+    route[#route + 1] = makeWaypoint(-1654.038, 1743.000, 2351.304)
+    route[#route + 1] = makeWaypoint(-1648.746, 1749.846, 2353.626)
+    route[#route + 1] = makeWaypoint(-1643.376, 1745.815, 2352.887)
+    route[#route + 1] = makeWaypoint(-1640.919, 1743.000, 2350.426)
+    route[#route + 1] = makeWaypoint(-1633.805, 1743.000, 2350.127)
+    route[#route + 1] = makeWaypoint(-1633.016, 1743.000, 2356.032)
+    route[#route + 1] = makeWaypoint(-1632.270, 1748.857, 2360.302)
+    route[#route + 1] = makeWaypoint(-1630.268, 1743.000, 2354.679)
+    route[#route + 1] = makeWaypoint(-1625.375, 1748.916, 2355.278)
+    route[#route + 1] = makeWaypoint(-1620.338, 1743.000, 2351.733)
+    route[#route + 1] = makeWaypoint(-1615.416, 1743.000, 2356.536)
+    route[#route + 1] = makeWaypoint(-1618.826, 1745.813, 2358.681)
+    route[#route + 1] = makeWaypoint(-1616.492, 1744.923, 2364.062)
+    route[#route + 1] = makeWaypoint(-1615.113, 1743.000, 2367.050)
+    route[#route + 1] = makeWaypoint(-1616.058, 1749.295, 2371.741)
+    route[#route + 1] = makeWaypoint(-1619.983, 1743.999, 2377.432)
+    route[#route + 1] = makeWaypoint(-1619.394, 1752.703, 2377.969)
+    route[#route + 1] = makeWaypoint(-1622.619, 1754.000, 2380.736)
+    route[#route + 1] = makeWaypoint(-1627.006, 1759.470, 2382.382)
+    route[#route + 1] = makeWaypoint(-1628.167, 1758.061, 2382.991)
+    route[#route + 1] = makeWaypoint(-1632.166, 1763.359, 2380.133)
+    route[#route + 1] = makeWaypoint(-1630.568, 1758.999, 2377.317)
+    route[#route + 1] = makeWaypoint(-1633.763, 1763.406, 2379.466)
+    route[#route + 1] = makeWaypoint(-1638.565, 1764.000, 2383.031)
+    route[#route + 1] = makeWaypoint(-1644.380, 1770.367, 2380.322)
+    route[#route + 1] = makeWaypoint(-1649.608, 1764.996, 2378.697)
+    route[#route + 1] = makeWaypoint(-1652.509, 1771.088, 2380.490)
+    route[#route + 1] = makeWaypoint(-1651.022, 1766.998, 2384.103)
+    route[#route + 1] = makeWaypoint(-1654.494, 1763.779, 2386.992)
+    route[#route + 1] = makeWaypoint(-1653.763, 1764.341, 2391.081)
+    route[#route + 1] = makeWaypoint(-1650.460, 1766.999, 2390.143)
+    route[#route + 1] = makeWaypoint(-1647.431, 1767.000, 2390.227)
+    route[#route + 1] = makeWaypoint(-1642.977, 1772.680, 2389.011)
+    route[#route + 1] = makeWaypoint(-1640.611, 1772.999, 2385.428)
+    route[#route + 1] = makeWaypoint(-1639.695, 1773.000, 2385.650)
+    route[#route + 1] = makeWaypoint(-1638.974, 1776.215, 2388.644)
+    route[#route + 1] = makeWaypoint(-1636.626, 1778.998, 2387.653)
+    route[#route + 1] = makeWaypoint(-1630.489, 1785.557, 2384.177)
+    route[#route + 1] = makeWaypoint(-1624.485, 1774.915, 2381.814)
+    route[#route + 1] = makeWaypoint(-1620.375, 1780.770, 2380.528)
+    route[#route + 1] = makeWaypoint(-1617.536, 1773.094, 2374.973)
+    route[#route + 1] = makeWaypoint(-1617.814, 1773.012, 2371.401)
+    route[#route + 1] = makeWaypoint(-1616.293, 1771.830, 2363.095)
+    route[#route + 1] = makeWaypoint(-1618.629, 1770.070, 2361.665)
+    route[#route + 1] = makeWaypoint(-1615.437, 1768.920, 2358.937)
+    route[#route + 1] = makeWaypoint(-1623.880, 1775.776, 2356.219)
+    route[#route + 1] = makeWaypoint(-1629.615, 1759.881, 2352.861)
+    route[#route + 1] = makeWaypoint(-1632.120, 1760.000, 2348.130)
+    route[#route + 1] = makeWaypoint(-1639.553, 1766.611, 2346.153)
+    route[#route + 1] = makeWaypoint(-1644.883, 1759.992, 2345.456)
+    route[#route + 1] = makeWaypoint(-1651.374, 1760.000, 2349.950)
+    route[#route + 1] = makeWaypoint(-1655.657, 1766.622, 2352.674)
+    route[#route + 1] = makeWaypoint(-1655.335, 1764.991, 2357.537)
+    route[#route + 1] = makeWaypoint(-1659.729, 1768.434, 2358.186)
+    route[#route + 1] = makeWaypoint(-1656.189, 1764.676, 2361.372)
+    route[#route + 1] = makeWaypoint(-1659.556, 1771.070, 2365.482)
+    route[#route + 1] = makeWaypoint(-1656.564, 1765.052, 2370.658)
+    route[#route + 1] = makeWaypoint(-1652.105, 1772.087, 2371.223)
+    route[#route + 1] = makeWaypoint(-1649.464, 1765.000, 2372.090)
+    route[#route + 1] = makeWaypoint(-1644.558, 1770.828, 2371.749)
+    route[#route + 1] = makeWaypoint(-1638.123, 1764.596, 2371.697)
+    route[#route + 1] = makeWaypoint(-1636.149, 1765.000, 2373.313)
+    route[#route + 1] = makeWaypoint(-1633.552, 1771.471, 2369.198)
+    route[#route + 1] = makeWaypoint(-1636.909, 1771.847, 2366.563)
+    route[#route + 1] = makeWaypoint(-1637.194, 1779.697, 2367.410)
+    route[#route + 1] = makeWaypoint(-1641.161, 1784.453, 2368.257)
+    route[#route + 1] = workspace.Towers["ToGF"].Obby:GetChildren()[3566]
+    route[#route + 1] = workspace.ClientParts:GetChildren()[58]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1634.748, 1709.000, 2319.649)
+    route[#route + 1] = makeWaypoint(-1630.162, 1709.000, 2320.141)
+    route[#route + 1] = makeWaypoint(-1628.349, 1718.000, 2320.415)
+    route[#route + 1] = makeWaypoint(-1629.989, 1722.768, 2324.691)
+    route[#route + 1] = makeWaypoint(-1628.938, 1719.659, 2328.732)
+    route[#route + 1] = makeWaypoint(-1626.753, 1725.000, 2331.217)
+    route[#route + 1] = makeWaypoint(-1631.794, 1730.330, 2331.950)
+    route[#route + 1] = makeWaypoint(-1637.258, 1733.997, 2331.016)
+    route[#route + 1] = makeWaypoint(-1641.931, 1734.000, 2332.610)
+    route[#route + 1] = makeWaypoint(-1646.831, 1740.519, 2337.062)
+    route[#route + 1] = makeWaypoint(-1651.227, 1729.058, 2334.466)
+    route[#route + 1] = makeWaypoint(-1655.529, 1734.000, 2332.236)
+    route[#route + 1] = makeWaypoint(-1658.266, 1740.976, 2323.777)
+    route[#route + 1] = makeWaypoint(-1658.406, 1734.820, 2318.023)
+    route[#route + 1] = makeWaypoint(-1649.827, 1735.000, 2313.832)
+    route[#route + 1] = makeWaypoint(-1646.057, 1735.000, 2312.815)
+    route[#route + 1] = makeWaypoint(-1640.593, 1741.645, 2311.029)
+    route[#route + 1] = makeWaypoint(-1638.106, 1734.996, 2308.189)
+    route[#route + 1] = makeWaypoint(-1636.099, 1737.183, 2309.559)
+    route[#route + 1] = makeWaypoint(-1632.188, 1734.977, 2303.989)
+    route[#route + 1] = makeWaypoint(-1629.675, 1740.355, 2301.636)
+    route[#route + 1] = makeWaypoint(-1630.266, 1744.512, 2301.832)
+    route[#route + 1] = makeWaypoint(-1629.223, 1752.278, 2302.330)
+    route[#route + 1] = makeWaypoint(-1626.717, 1758.864, 2307.743)
+    route[#route + 1] = makeWaypoint(-1625.016, 1755.984, 2312.133)
+    route[#route + 1] = makeWaypoint(-1622.846, 1762.941, 2318.371)
+    route[#route + 1] = makeWaypoint(-1622.655, 1759.999, 2325.170)
+    route[#route + 1] = makeWaypoint(-1626.188, 1765.978, 2332.738)
+    route[#route + 1] = makeWaypoint(-1630.467, 1770.341, 2329.406)
+    route[#route + 1] = makeWaypoint(-1634.971, 1768.534, 2332.460)
+    route[#route + 1] = makeWaypoint(-1643.335, 1773.349, 2334.605)
+    route[#route + 1] = makeWaypoint(-1647.959, 1776.065, 2333.322)
+    route[#route + 1] = makeWaypoint(-1651.181, 1781.517, 2330.925)
+    route[#route + 1] = makeWaypoint(-1656.192, 1779.997, 2327.457)
+    route[#route + 1] = makeWaypoint(-1651.001, 1782.572, 2323.996)
+    route[#route + 1] = makeWaypoint(-1653.212, 1777.412, 2318.673)
+    route[#route + 1] = makeWaypoint(-1655.820, 1780.000, 2317.421)
+    route[#route + 1] = makeWaypoint(-1651.864, 1784.312, 2314.068)
+    route[#route + 1] = makeWaypoint(-1653.697, 1778.961, 2307.714)
+    route[#route + 1] = makeWaypoint(-1651.444, 1783.545, 2306.248)
+    route[#route + 1] = makeWaypoint(-1645.029, 1783.629, 2304.109)
+    route[#route + 1] = makeWaypoint(-1637.290, 1792.757, 2308.536)
+    route[#route + 1] = makeWaypoint(-1632.804, 1784.791, 2303.659)
+    route[#route + 1] = makeWaypoint(-1625.169, 1791.877, 2307.310)
+    route[#route + 1] = makeWaypoint(-1622.462, 1790.000, 2313.687)
+    route[#route + 1] = makeWaypoint(-1622.550, 1790.000, 2323.218)
+    route[#route + 1] = makeWaypoint(-1627.340, 1795.772, 2327.010)
+    route[#route + 1] = makeWaypoint(-1631.839, 1790.968, 2330.057)
+    route[#route + 1] = workspace.Towers["ToGF"].Obby:GetChildren()[1212]
+    route[#route + 1] = workspace.ClientParts:GetChildren()[3]:GetChildren()[2]
+    route[#route + 1] = makeWaypoint(-1581.281, 1709.000, 2326.343)
+    route[#route + 1] = makeWaypoint(-1577.304, 1708.995, 2329.678)
+    route[#route + 1] = makeWaypoint(-1576.066, 1720.919, 2330.311)
+    route[#route + 1] = makeWaypoint(-1581.331, 1726.911, 2328.166)
+    route[#route + 1] = makeWaypoint(-1583.998, 1724.693, 2330.061)
+    route[#route + 1] = makeWaypoint(-1587.777, 1730.871, 2326.911)
+    route[#route + 1] = makeWaypoint(-1590.240, 1722.982, 2321.894)
+    route[#route + 1] = makeWaypoint(-1589.796, 1728.993, 2317.799)
+    route[#route + 1] = makeWaypoint(-1590.087, 1732.331, 2311.908)
+    route[#route + 1] = makeWaypoint(-1594.694, 1734.978, 2308.493)
+    route[#route + 1] = makeWaypoint(-1600.059, 1739.899, 2306.285)
+    route[#route + 1] = makeWaypoint(-1604.149, 1741.999, 2308.486)
+    route[#route + 1] = makeWaypoint(-1609.567, 1749.037, 2311.966)
+    route[#route + 1] = makeWaypoint(-1611.051, 1750.165, 2317.611)
+    route[#route + 1] = makeWaypoint(-1610.284, 1746.817, 2325.373)
+    route[#route + 1] = makeWaypoint(-1603.920, 1751.439, 2329.594)
+    route[#route + 1] = makeWaypoint(-1598.859, 1749.950, 2329.153)
+    route[#route + 1] = makeWaypoint(-1593.552, 1755.143, 2327.354)
+    route[#route + 1] = makeWaypoint(-1589.731, 1750.932, 2321.692)
+    route[#route + 1] = makeWaypoint(-1589.245, 1757.907, 2316.414)
+    route[#route + 1] = makeWaypoint(-1591.836, 1750.913, 2310.364)
+    route[#route + 1] = makeWaypoint(-1589.844, 1756.408, 2305.516)
+    route[#route + 1] = makeWaypoint(-1586.531, 1755.995, 2301.339)
+    route[#route + 1] = makeWaypoint(-1579.908, 1754.301, 2302.383)
+    route[#route + 1] = makeWaypoint(-1576.385, 1756.001, 2301.721)
+    route[#route + 1] = makeWaypoint(-1570.983, 1756.000, 2301.347)
+    route[#route + 1] = makeWaypoint(-1569.487, 1762.951, 2307.369)
+    route[#route + 1] = makeWaypoint(-1571.103, 1762.604, 2313.547)
+    route[#route + 1] = makeWaypoint(-1573.500, 1761.970, 2319.214)
+    route[#route + 1] = makeWaypoint(-1579.317, 1770.948, 2327.572)
+    route[#route + 1] = makeWaypoint(-1583.327, 1762.744, 2331.666)
+    route[#route + 1] = makeWaypoint(-1589.725, 1763.000, 2331.960)
+    route[#route + 1] = makeWaypoint(-1594.647, 1773.995, 2328.273)
+    route[#route + 1] = makeWaypoint(-1589.290, 1781.748, 2323.021)
+    route[#route + 1] = makeWaypoint(-1589.737, 1772.985, 2317.630)
+    route[#route + 1] = makeWaypoint(-1592.395, 1778.321, 2311.113)
+    route[#route + 1] = makeWaypoint(-1590.024, 1783.354, 2313.307)
+    route[#route + 1] = makeWaypoint(-1591.498, 1786.772, 2311.984)
+    route[#route + 1] = workspace.Towers["ToGF"].Obby:GetChildren()[1151]
+    route[#route + 1] = makeWaypoint(-1573.355, 1710.000, 2347.579)
+    route[#route + 1] = makeWaypoint(-1571.876, 1719.000, 2352.961)
+    route[#route + 1] = makeWaypoint(-1572.026, 1725.469, 2362.618)
+    route[#route + 1] = makeWaypoint(-1571.286, 1726.000, 2369.232)
+    route[#route + 1] = makeWaypoint(-1571.661, 1729.610, 2372.803)
+    route[#route + 1] = makeWaypoint(-1572.258, 1733.999, 2378.979)
+    route[#route + 1] = makeWaypoint(-1578.498, 1734.158, 2379.317)
+    route[#route + 1] = makeWaypoint(-1584.661, 1741.959, 2379.789)
+    route[#route + 1] = makeWaypoint(-1591.940, 1747.597, 2379.551)
+    route[#route + 1] = makeWaypoint(-1596.680, 1748.998, 2379.816)
+    route[#route + 1] = makeWaypoint(-1597.273, 1754.597, 2374.125)
+    route[#route + 1] = makeWaypoint(-1598.055, 1756.000, 2368.870)
+    route[#route + 1] = makeWaypoint(-1597.695, 1762.565, 2361.750)
+    route[#route + 1] = makeWaypoint(-1598.388, 1763.981, 2356.291)
+    route[#route + 1] = makeWaypoint(-1593.310, 1768.071, 2354.790)
+    route[#route + 1] = makeWaypoint(-1587.669, 1771.997, 2354.265)
+    route[#route + 1] = makeWaypoint(-1587.898, 1776.634, 2358.893)
+    route[#route + 1] = makeWaypoint(-1586.884, 1779.940, 2364.424)
+    route[#route + 1] = makeWaypoint(-1586.116, 1787.205, 2365.385)
+    route[#route + 1] = makeWaypoint(-1586.113, 1795.738, 2365.411)
+    route[#route + 1] = makeWaypoint(-1586.113, 1802.406, 2365.411)
+    route[#route + 1] = makeWaypoint(-1586.113, 1809.121, 2365.411)
+    route[#route + 1] = makeWaypoint(-1585.095, 1811.000, 2366.255)
+    route[#route + 1] = makeWaypoint(-1580.843, 1816.810, 2366.286)
+    route[#route + 1] = makeWaypoint(-1574.128, 1808.713, 2366.087)
+    route[#route + 1] = makeWaypoint(-1574.548, 1809.000, 2354.639)
+    route[#route + 1] = makeWaypoint(-1580.681, 1808.000, 2350.950)
+    route[#route + 1] = makeWaypoint(-1589.740, 1808.000, 2348.690)
+    route[#route + 1] = makeWaypoint(-1597.222, 1808.000, 2346.935)
+    route[#route + 1] = workspace.Towers.ToGF.WinPad
+
+    return route
 end
