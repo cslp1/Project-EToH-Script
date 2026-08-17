@@ -1490,6 +1490,10 @@ startAutoPlay = function()
                         table.insert(resolvedSteps, { type = "jump" })
                         continue
                     end
+                    if type(step) == "table" and step.type == "wait" then
+                        table.insert(resolvedSteps, { type = "wait", seconds = tonumber(step.seconds) or 1 })
+                        continue
+                    end
                     local stepType = "tween"
                     local target
                     if typeof(step) == "Instance" then
@@ -1515,7 +1519,7 @@ startAutoPlay = function()
                 local cumDist = 0
                 for i = #resolvedSteps, 1, -1 do
                     local s = resolvedSteps[i]
-                    if s.type ~= "jump" then cumDist = cumDist + (s.dist or 0) end
+                    if s.type == "tween" then cumDist = cumDist + (s.dist or 0) end
                     remainingDistances[i] = cumDist
                 end
                 for i, step in ipairs(resolvedSteps) do
@@ -1531,6 +1535,14 @@ startAutoPlay = function()
                     if step.type == "jump" then
                         local hum = char:FindFirstChildOfClass("Humanoid")
                         if hum then hum.Jump = true end
+                        continue
+                    end
+                    if step.type == "wait" then
+                        task.wait(step.seconds)
+                        continue
+                    end
+                    if step.type == "teleport" then
+                        hrp.CFrame = CFrame.new(step.destPos) * (hrp.CFrame - hrp.CFrame.Position)
                         continue
                     end
                     local dist       = (step.destPos - hrp.Position).Magnitude
@@ -1748,6 +1760,10 @@ startAutoPlay = function()
                 table.insert(resolvedSteps, { type = "jump" })
                 continue
             end
+            if type(step) == "table" and step.type == "wait" then
+                table.insert(resolvedSteps, { type = "wait", seconds = tonumber(step.seconds) or 1 })
+                continue
+            end
             local stepType = "tween"
             local target
             if typeof(step) == "Instance" then
@@ -1775,7 +1791,7 @@ startAutoPlay = function()
         local cumDist = 0
         for i = #resolvedSteps, 1, -1 do
             local s = resolvedSteps[i]
-            if s.type ~= "jump" then
+            if s.type == "tween" then
                 cumDist = cumDist + (s.dist or 0)
             end
             remainingDistances[i] = cumDist
@@ -1795,6 +1811,14 @@ startAutoPlay = function()
             if step.type == "jump" then
                 local hum = char:FindFirstChildOfClass("Humanoid")
                 if hum then hum.Jump = true end
+                continue
+            end
+            if step.type == "wait" then
+                task.wait(step.seconds)
+                continue
+            end
+            if step.type == "teleport" then
+                hrp.CFrame = CFrame.new(step.destPos) * (hrp.CFrame - hrp.CFrame.Position)
                 continue
             end
             local dist         = (step.destPos - hrp.Position).Magnitude
@@ -2264,6 +2288,102 @@ local function _initTowerPortal()
     -- to autoplay most towers. Note this sorts by POSITION, not by child index --
     -- Obby:GetChildren() order is effectively arbitrary (early children are grouped
     -- section models), which is why an index-ordered version was tried and reverted.
+    -- ─── Shared route export (Route Maker V2 and Automake Route both build their .lua
+    -- output through these): path resolution for unedited, part-backed checkpoints --
+    -- index path from a per-tower Obby, falling back to workspace.Parts for shared-parts
+    -- games -- and the "route[#route + 1] = ..." source writer with the makeWaypoint()
+    -- helper for edited/manually-placed points. ───
+    local function findRouteRoot(part)
+        local node = part
+        while node and node.Parent do
+            if node.Parent == workspace then return node, "workspace." .. node.Name end
+            if node.Name == "Obby" and node.Parent and node.Parent.Parent == workspace:FindFirstChild("Towers") then
+                return node, ("workspace.Towers[%q].Obby"):format(node.Parent.Name)
+            end
+            if node.Parent == workspace:FindFirstChild("Parts") then
+                return node.Parent, "workspace.Parts"
+            end
+            node = node.Parent
+        end
+        return nil, nil
+    end
+
+    local function pathFromRouteRoot(part)
+        local root, rootExpr = findRouteRoot(part)
+        if not root then return nil end
+        local segs, node = {}, part
+        while node and node ~= root do
+            local parent = node.Parent
+            if not parent then return nil end
+            local idx
+            for i, c in ipairs(parent:GetChildren()) do
+                if c == node then idx = i break end
+            end
+            if not idx then return nil end
+            table.insert(segs, 1, (":GetChildren()[%d]"):format(idx))
+            node = parent
+        end
+        if node ~= root then return nil end
+        if node == root and root == part then return rootExpr end
+        return rootExpr .. table.concat(segs)
+    end
+
+    local function buildRouteSource(steps)
+        local function targetExprFor(step)
+            if step.part and not step.edited then
+                local p = pathFromRouteRoot(step.part)
+                if p then return p end
+            end
+            return ("makeWaypoint(%.3f, %.3f, %.3f)"):format(step.pos.X, step.pos.Y, step.pos.Z)
+        end
+
+        local out = {}
+        out[#out + 1] = "return function()"
+        out[#out + 1] = "    local route = {}"
+        out[#out + 1] = "    local function makeWaypoint(x, y, z)"
+        out[#out + 1] = "        local part = Instance.new(\"Part\")"
+        out[#out + 1] = "        part.Anchored, part.CanCollide, part.Transparency = true, false, 1"
+        out[#out + 1] = "        part.Size = Vector3.new(1, 1, 1)"
+        out[#out + 1] = "        part.Position = Vector3.new(x, y, z)"
+        out[#out + 1] = "        part.Parent = workspace"
+        out[#out + 1] = "        return part"
+        out[#out + 1] = "    end"
+        out[#out + 1] = ""
+
+        for _, step in ipairs(steps) do
+            if step.kind == "checkpoint" then
+                local expr = targetExprFor(step)
+                if step.teleport then
+                    out[#out + 1] = ("    route[#route + 1] = { type = \"teleport\", target = %s }"):format(expr)
+                else
+                    out[#out + 1] = "    route[#route + 1] = " .. expr
+                end
+            elseif step.kind == "wait" then
+                out[#out + 1] = ("    route[#route + 1] = { type = \"wait\", seconds = %g }"):format(step.seconds)
+            elseif step.kind == "jump" then
+                out[#out + 1] = "    route[#route + 1] = \"jump\""
+            end
+        end
+
+        out[#out + 1] = ""
+        out[#out + 1] = "    return route"
+        out[#out + 1] = "end"
+        return table.concat(out, "\n")
+    end
+
+    -- Turns Automake's ordered part list (+ optional WinPad) into the same step shape
+    -- Route Maker V2 records, so both tools share one exporter.
+    local function stepsFromAutoRoute(data)
+        local steps = {}
+        for _, part in ipairs(data.parts) do
+            steps[#steps + 1] = { kind = "checkpoint", name = part.Name, part = part, pos = part.Position, edited = false, teleport = false }
+        end
+        if data.winPad then
+            steps[#steps + 1] = { kind = "checkpoint", name = data.winPad.Name, part = data.winPad, pos = data.winPad.Position, edited = false, teleport = false }
+        end
+        return steps
+    end
+
     local function collectAutoRoute(name, descending)
         local folder = towerFolder(name)
         if not folder then return nil, name .. " isn't loaded in workspace.Towers." end
@@ -2421,40 +2541,841 @@ local function _initTowerPortal()
         return { parts = parts, winPad = winPad, obby = obby }
     end
 
-    -- Path to a part written relative to the tower's Obby, by child index at every level.
-    -- Index rather than name because obby parts share names constantly, and this has to
-    -- work for parts nested inside section Models, not just direct children.
-    local function pathFromObby(data, part, name)
-        local segs, node = {}, part
-        while node and node ~= data.obby do
-            local parent = node.Parent
-            if not parent then return nil end
-            local idx
-            for i, c in ipairs(parent:GetChildren()) do
-                if c == node then idx = i break end
-            end
-            if not idx then return nil end
-            table.insert(segs, 1, (":GetChildren()[%d]"):format(idx))
-            node = parent
-        end
-        if node ~= data.obby then return nil end
-        return ("workspace.Towers[%q].Obby%s"):format(name, table.concat(segs))
+    -- ===== Route Maker V2 =====
+    -- Click a part to capture a checkpoint, press ] to add your current position, edit its
+    -- exact X/Y/Z afterwards, insert timed pauses and teleport steps, watch the route drawn
+    -- live in the world as you build it, then copy the finished .lua route to your
+    -- clipboard. Produces the same step shapes Auto Play now understands: a BasePart,
+    -- "jump", { type = "wait", seconds = n }, or { type = "teleport", target = <part> }.
+    local function openRouteMakerV2()
+    local Players           = game:GetService("Players")
+    local UserInputService  = game:GetService("UserInputService")
+
+    local LocalPlayer = Players.LocalPlayer
+    local Mouse       = LocalPlayer:GetMouse()
+
+    -- ─── Colours ────────────────────────────────────────────────
+    local COLOR_BG       = Color3.fromRGB(26, 26, 30)
+    local COLOR_PANEL    = Color3.fromRGB(19, 19, 22)
+    local COLOR_ITEM     = Color3.fromRGB(34, 34, 39)
+    local COLOR_ITEM_ALT = Color3.fromRGB(30, 30, 34)
+    local COLOR_ACCENT   = Color3.fromRGB(90, 130, 230)
+    local COLOR_GOOD     = Color3.fromRGB(70, 170, 110)
+    local COLOR_WARN     = Color3.fromRGB(210, 160, 60)
+    local COLOR_DANGER   = Color3.fromRGB(190, 70, 70)
+    local COLOR_DANGER_LOCKED = Color3.fromRGB(80, 40, 40)
+    local COLOR_TELEPORT = Color3.fromRGB(170, 90, 210)
+    local COLOR_TEXT     = Color3.fromRGB(225, 225, 230)
+    local COLOR_SUBTEXT  = Color3.fromRGB(140, 140, 148)
+
+    -- ─── State ──────────────────────────────────────────────────
+    -- One unified ordered list. A "checkpoint" step has a position; "wait" and
+    -- "jump" don't move you, so the live preview just draws through them.
+    --   { kind = "checkpoint", name=, part=, pos=Vector3, edited=bool, teleport=bool }
+    --   { kind = "wait", seconds=number }
+    --   { kind = "jump" }
+    local steps = {}
+
+    local isRecording = false
+    local clearLocked = true
+    local previewOn    = true
+    local showNumbers  = true
+    local litePreviewOn = true
+    local PREVIEW_RECENT_LIMIT = 200
+    local previewParts = {}   -- beams + markers; appends on new steps, rebuilt when order/positions change
+    local previewEntries = {}
+    local hoverSB
+    local ScreenGui, Main, TitleBar, StatusLabel, ListFrame, ListLayout
+    local RecordBtn, LockBtn, ClearBtn, PreviewToggleBtn, NumberToggleBtn, LitePreviewBtn
+    local CopyBtn, ImportBtn
+
+    -- ─── Small helpers ──────────────────────────────────────────
+    local function round(n) return math.floor(n * 100 + 0.5) / 100 end
+
+    local function setStatus(text)
+        if StatusLabel then StatusLabel.Text = text end
     end
 
-    -- The same route as Lua source, in the exact format the repo's route files use, so it
-    -- can be dropped into Games/EToH/<category>/ as-is.
-    local function autoRouteSource(name, data)
-        local out = { "return function()", "    return {" }
-        for _, part in ipairs(data.parts) do
-            local path = pathFromObby(data, part, name)
-            if path then out[#out + 1] = "        " .. path .. "," end
+    local function stepPos(step)
+        return step.kind == "checkpoint" and step.pos or nil
+    end
+
+    local function looksLikeMarkerPart(part)
+        if not part or not part:IsA("BasePart") then return false end
+        local s = part.Size
+        return part.Name == "Part"
+            and part.Anchored
+            and not part.CanCollide
+            and part.Transparency >= 0.99
+            and math.abs(s.X - 1) < 0.01
+            and math.abs(s.Y - 1) < 0.01
+            and math.abs(s.Z - 1) < 0.01
+    end
+
+    local function clearHoverBox()
+        if hoverSB then hoverSB:Destroy() hoverSB = nil end
+    end
+
+    local function refreshNumberToggleButton()
+        if not NumberToggleBtn then return end
+        NumberToggleBtn.Text = showNumbers and "Nums: On" or "Nums: Off"
+        NumberToggleBtn.BackgroundColor3 = showNumbers and COLOR_ACCENT or COLOR_ITEM_ALT
+    end
+
+    local function refreshLitePreviewButton()
+        if not LitePreviewBtn then return end
+        LitePreviewBtn.Text = litePreviewOn and "Lite: On" or "Lite: Off"
+        LitePreviewBtn.BackgroundColor3 = litePreviewOn and COLOR_ACCENT or COLOR_ITEM_ALT
+    end
+
+    local function setPreviewNumbersVisible(visible)
+        showNumbers = visible
+        for _, inst in ipairs(previewParts) do
+            local bb = inst:FindFirstChild("EToH_RouteMarkerNumber")
+            if bb and bb:IsA("BillboardGui") then
+                bb.Enabled = showNumbers
+            end
         end
-        if data.winPad then
-            out[#out + 1] = "        " .. (data.winPad:GetFullName():gsub("^Workspace%.", "workspace."))  .. ","
+        refreshNumberToggleButton()
+    end
+
+    local function untrackPreviewInst(inst)
+        for i = #previewParts, 1, -1 do
+            if previewParts[i] == inst then
+                table.remove(previewParts, i)
+                return
+            end
         end
-        out[#out + 1] = "    }"
-        out[#out + 1] = "end"
-        return table.concat(out, "\n")
+    end
+
+    local function destroyPreviewInst(inst)
+        untrackPreviewInst(inst)
+        pcall(function() inst:Destroy() end)
+    end
+
+    local function trimPreviewEntries()
+        if not litePreviewOn then return end
+        while #previewEntries > PREVIEW_RECENT_LIMIT do
+            local old = table.remove(previewEntries, 1)
+            for _, inst in ipairs(old) do
+                destroyPreviewInst(inst)
+            end
+        end
+    end
+
+    -- ─── Live preview: a thin beam between consecutive checkpoint positions, plus
+    -- a small numbered marker at each one.
+    local function clearPreview()
+        for _, inst in ipairs(previewParts) do
+            pcall(function() inst:Destroy() end)
+        end
+        previewParts = {}
+        previewEntries = {}
+    end
+
+    local function trackPreviewInst(inst, entry)
+        previewParts[#previewParts + 1] = inst
+        if entry then entry[#entry + 1] = inst end
+    end
+
+    local function makeBeam(a, b, color, entry)
+        local dist = (b - a).Magnitude
+        if dist < 0.01 then return end
+        local part = Instance.new("Part")
+        part.Anchored        = true
+        part.CanCollide       = false
+        part.CanQuery         = false
+        part.Material         = Enum.Material.Neon
+        part.Color             = color
+        part.Size              = Vector3.new(0.15, 0.15, dist)
+        part.CFrame            = CFrame.new(a, b) * CFrame.new(0, 0, -dist / 2)
+        part.Transparency      = 0.15
+        part.Parent            = workspace
+        trackPreviewInst(part, entry)
+    end
+
+    local function makeMarker(pos, index, color, entry)
+        local part = Instance.new("Part")
+        part.Anchored    = true
+        part.CanCollide   = false
+        part.CanQuery     = false
+        part.Shape        = Enum.PartType.Ball
+        part.Material     = Enum.Material.Neon
+        part.Color        = color
+        part.Size         = Vector3.new(1, 1, 1)
+        part.Position     = pos
+        part.Transparency = 0.1
+        part.Parent       = workspace
+        trackPreviewInst(part, entry)
+
+        local bb = Instance.new("BillboardGui")
+        bb.Name            = "EToH_RouteMarkerNumber"
+        bb.Size            = UDim2.fromOffset(40, 20)
+        bb.StudsOffset      = Vector3.new(0, 1.4, 0)
+        bb.AlwaysOnTop      = true
+        bb.Enabled          = showNumbers
+        bb.Parent           = part
+        local lbl = Instance.new("TextLabel")
+        lbl.BackgroundTransparency = 1
+        lbl.Size                   = UDim2.fromScale(1, 1)
+        lbl.Text                   = tostring(index)
+        lbl.TextColor3             = Color3.new(1, 1, 1)
+        lbl.TextStrokeTransparency = 0
+        lbl.Font                   = Enum.Font.GothamBold
+        lbl.TextScaled             = true
+        lbl.Parent                 = bb
+    end
+
+    local function refreshPreview()
+        clearPreview()
+        if not previewOn then return end
+
+        local checkpointCount = 0
+        for _, step in ipairs(steps) do
+            if stepPos(step) then checkpointCount = checkpointCount + 1 end
+        end
+        local firstVisibleCheckpoint = litePreviewOn and math.max(1, checkpointCount - PREVIEW_RECENT_LIMIT + 1) or 1
+
+        local prevPos
+        local seenCheckpoints = 0
+        for i, step in ipairs(steps) do
+            local pos = stepPos(step)
+            if pos then
+                seenCheckpoints = seenCheckpoints + 1
+                if seenCheckpoints >= firstVisibleCheckpoint then
+                    local entry = {}
+                    local color = step.teleport and COLOR_TELEPORT or COLOR_ACCENT
+                    if prevPos then makeBeam(prevPos, pos, color, entry) end
+                    makeMarker(pos, i, color, entry)
+                    previewEntries[#previewEntries + 1] = entry
+                end
+                prevPos = pos
+            end
+        end
+    end
+
+    local function previousCheckpointPos(beforeIndex)
+        for i = beforeIndex - 1, 1, -1 do
+            local pos = stepPos(steps[i])
+            if pos then return pos end
+        end
+        return nil
+    end
+
+    local function appendPreviewForStep(i, step)
+        if not previewOn then return end
+
+        local pos = stepPos(step)
+        if not pos then return end
+
+        local color = step.teleport and COLOR_TELEPORT or COLOR_ACCENT
+        local prevPos = previousCheckpointPos(i)
+        local entry = {}
+        if prevPos then makeBeam(prevPos, pos, color, entry) end
+        makeMarker(pos, i, color, entry)
+        previewEntries[#previewEntries + 1] = entry
+        trimPreviewEntries()
+    end
+
+    -- Path resolution and .lua export are shared with Automake Route -- see
+    -- findRouteRoot / pathFromRouteRoot / buildRouteSource above.
+
+    -- ============================================================
+    -- GUI
+    -- ============================================================
+    pcall(function()
+        local old = LocalPlayer:FindFirstChild("PlayerGui") and LocalPlayer.PlayerGui:FindFirstChild("EToH_RouteMakerV2")
+        if old then old:Destroy() end
+    end)
+
+    ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name           = "EToH_RouteMakerV2"
+    ScreenGui.ResetOnSpawn   = false
+    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    ScreenGui.Parent         = LocalPlayer:WaitForChild("PlayerGui")
+
+    Main = Instance.new("Frame")
+    Main.Size             = UDim2.new(0, 620, 0, 460)
+    Main.Position         = UDim2.new(0.5, -310, 0.5, -230)
+    Main.BackgroundColor3 = COLOR_BG
+    Main.BorderSizePixel  = 0
+    Main.Parent           = ScreenGui
+    Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 8)
+
+    TitleBar = Instance.new("Frame")
+    TitleBar.Size             = UDim2.new(1, 0, 0, 36)
+    TitleBar.BackgroundColor3 = COLOR_PANEL
+    TitleBar.BorderSizePixel  = 0
+    TitleBar.Parent           = Main
+    Instance.new("UICorner", TitleBar).CornerRadius = UDim.new(0, 8)
+    local titleFix = Instance.new("Frame")
+    titleFix.Size = UDim2.new(1, 0, 0, 10); titleFix.Position = UDim2.new(0, 0, 1, -10)
+    titleFix.BackgroundColor3 = COLOR_PANEL; titleFix.BorderSizePixel = 0; titleFix.Parent = TitleBar
+
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Size = UDim2.new(1, -40, 1, 0); TitleLabel.Position = UDim2.new(0, 12, 0, 0)
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Text = "Route Maker V2"
+    TitleLabel.TextColor3 = COLOR_TEXT; TitleLabel.Font = Enum.Font.GothamBold; TitleLabel.TextSize = 14
+    TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    TitleLabel.Parent = TitleBar
+
+    local CloseBtn = Instance.new("TextButton")
+    CloseBtn.Size = UDim2.new(0, 26, 0, 26); CloseBtn.Position = UDim2.new(1, -31, 0, 5)
+    CloseBtn.BackgroundColor3 = COLOR_DANGER; CloseBtn.Text = "x"
+    CloseBtn.TextColor3 = Color3.new(1,1,1); CloseBtn.Font = Enum.Font.GothamBold; CloseBtn.TextSize = 13
+    CloseBtn.BorderSizePixel = 0; CloseBtn.Parent = TitleBar
+    Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(0, 5)
+    CloseBtn.MouseButton1Click:Connect(function()
+        isRecording = false
+        clearHoverBox()
+        clearPreview()
+        ScreenGui:Destroy()
+    end)
+
+    do -- drag
+        local dragging, dragStart, startPos
+        TitleBar.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                dragging, dragStart, startPos = true, input.Position, Main.Position
+            end
+        end)
+        UserInputService.InputChanged:Connect(function(input)
+            if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+                local d = input.Position - dragStart
+                Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + d.X, startPos.Y.Scale, startPos.Y.Offset + d.Y)
+            end
+        end)
+        UserInputService.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                dragging = false
+            end
+        end)
+    end
+
+    -- Status bar
+    local StatusBar = Instance.new("Frame")
+    StatusBar.Size = UDim2.new(1, -20, 0, 26); StatusBar.Position = UDim2.new(0, 10, 0, 42)
+    StatusBar.BackgroundColor3 = COLOR_PANEL; StatusBar.BorderSizePixel = 0; StatusBar.Parent = Main
+    Instance.new("UICorner", StatusBar).CornerRadius = UDim.new(0, 5)
+    StatusLabel = Instance.new("TextLabel")
+    StatusLabel.Size = UDim2.new(1, -14, 1, 0); StatusLabel.Position = UDim2.new(0, 8, 0, 0)
+    StatusLabel.BackgroundTransparency = 1
+    StatusLabel.Text = "Not recording. Press Record to click parts, or press ] to Add Here."
+    StatusLabel.TextColor3 = COLOR_SUBTEXT; StatusLabel.Font = Enum.Font.Gotham; StatusLabel.TextSize = 12
+    StatusLabel.TextXAlignment = Enum.TextXAlignment.Left
+    StatusLabel.TextTruncate = Enum.TextTruncate.AtEnd
+    StatusLabel.Parent = StatusBar
+
+    -- Step list (scrolling)
+    ListFrame = Instance.new("ScrollingFrame")
+    ListFrame.Size = UDim2.new(1, -20, 1, -152); ListFrame.Position = UDim2.new(0, 10, 0, 74)
+    ListFrame.BackgroundColor3 = COLOR_PANEL; ListFrame.BorderSizePixel = 0
+    ListFrame.ScrollBarThickness = 5; ListFrame.ScrollBarImageColor3 = COLOR_ACCENT
+    ListFrame.CanvasSize = UDim2.new(0, 0, 0, 0); ListFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    ListFrame.Parent = Main
+    Instance.new("UICorner", ListFrame).CornerRadius = UDim.new(0, 5)
+    ListLayout = Instance.new("UIListLayout")
+    ListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    ListLayout.Padding = UDim.new(0, 2)
+    ListLayout.Parent = ListFrame
+    local ListPad = Instance.new("UIPadding")
+    ListPad.PaddingLeft = UDim.new(0, 4); ListPad.PaddingRight = UDim.new(0, 4)
+    ListPad.PaddingTop = UDim.new(0, 4); ListPad.PaddingBottom = UDim.new(0, 4)
+    ListPad.Parent = ListFrame
+
+    -- ─── Row builders ───────────────────────────────────────────
+    local function numBox(parent, x, w, text)
+        local b = Instance.new("TextBox")
+        b.Size = UDim2.new(0, w, 1, -6); b.Position = UDim2.new(0, x, 0, 3)
+        b.BackgroundColor3 = COLOR_ITEM_ALT; b.BorderSizePixel = 0
+        b.Text = text; b.TextColor3 = COLOR_TEXT; b.Font = Enum.Font.Code; b.TextSize = 11
+        b.ClearTextOnFocus = false
+        b.Parent = parent
+        Instance.new("UICorner", b).CornerRadius = UDim.new(0, 4)
+        return b
+    end
+
+    local function smallBtn(parent, x, w, text, color)
+        local b = Instance.new("TextButton")
+        b.Size = UDim2.new(0, w, 1, -6); b.Position = UDim2.new(0, x, 0, 3)
+        b.BackgroundColor3 = color; b.Text = text
+        b.TextColor3 = Color3.new(1,1,1); b.Font = Enum.Font.GothamBold; b.TextSize = 10
+        b.BorderSizePixel = 0
+        b.Parent = parent
+        Instance.new("UICorner", b).CornerRadius = UDim.new(0, 4)
+        return b
+    end
+
+    local rebuildList -- forward decl
+
+    local function moveStep(i, delta)
+        local j = i + delta
+        if j < 1 or j > #steps then return end
+        steps[i], steps[j] = steps[j], steps[i]
+        rebuildList()
+    end
+
+    local function deleteStep(i)
+        table.remove(steps, i)
+        rebuildList()
+    end
+
+    local function teleportPlayerTo(pos)
+        local char = LocalPlayer.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
+        hrp.CFrame = CFrame.new(pos + Vector3.new(0, 3, 0)) * (hrp.CFrame - hrp.CFrame.Position)
+    end
+
+    local function buildCheckpointRow(i, step, altColor)
+        local row = Instance.new("Frame")
+        row.Size = UDim2.new(1, 0, 0, 30); row.BackgroundColor3 = altColor and COLOR_ITEM_ALT or COLOR_ITEM
+        row.BorderSizePixel = 0; row.LayoutOrder = i
+        Instance.new("UICorner", row).CornerRadius = UDim.new(0, 4)
+
+        local idx = Instance.new("TextLabel")
+        idx.Size = UDim2.new(0, 20, 1, 0); idx.BackgroundTransparency = 1
+        idx.Text = tostring(i); idx.TextColor3 = step.teleport and COLOR_TELEPORT or COLOR_ACCENT
+        idx.Font = Enum.Font.Code; idx.TextSize = 11; idx.Parent = row
+
+        local nm = Instance.new("TextLabel")
+        nm.Size = UDim2.new(0, 74, 1, 0); nm.Position = UDim2.new(0, 20, 0, 0)
+        nm.BackgroundTransparency = 1; nm.Text = step.name
+        nm.TextColor3 = COLOR_TEXT; nm.Font = Enum.Font.Code; nm.TextSize = 11
+        nm.TextTruncate = Enum.TextTruncate.AtEnd; nm.TextXAlignment = Enum.TextXAlignment.Left
+        nm.Parent = row
+
+        local function commitPos(box, axis)
+            box.FocusLost:Connect(function()
+                local n = tonumber(box.Text)
+                if not n then box.Text = tostring(round(step.pos[axis])) return end
+                local p = step.pos
+                step.pos = Vector3.new(
+                    axis == "X" and n or p.X,
+                    axis == "Y" and n or p.Y,
+                    axis == "Z" and n or p.Z)
+                step.edited = true
+                refreshPreview()
+            end)
+        end
+        local xBox = numBox(row, 96, 48, tostring(round(step.pos.X))); commitPos(xBox, "X")
+        local yBox = numBox(row, 146, 48, tostring(round(step.pos.Y))); commitPos(yBox, "Y")
+        local zBox = numBox(row, 196, 48, tostring(round(step.pos.Z))); commitPos(zBox, "Z")
+
+        local tpBtn = smallBtn(row, 248, 62, step.teleport and "Teleport*" or "Walk", step.teleport and COLOR_TELEPORT or COLOR_ITEM_ALT)
+        tpBtn.MouseButton1Click:Connect(function()
+            step.teleport = not step.teleport
+            rebuildList()
+        end)
+
+        local goBtn = smallBtn(row, 314, 40, "Go", COLOR_GOOD)
+        goBtn.MouseButton1Click:Connect(function() teleportPlayerTo(step.pos) end)
+
+        local upBtn = smallBtn(row, 358, 24, "^", COLOR_ITEM_ALT)
+        upBtn.MouseButton1Click:Connect(function() moveStep(i, -1) end)
+        local downBtn = smallBtn(row, 384, 24, "v", COLOR_ITEM_ALT)
+        downBtn.MouseButton1Click:Connect(function() moveStep(i, 1) end)
+
+        local delBtn = smallBtn(row, 412, 24, "x", COLOR_DANGER)
+        delBtn.MouseButton1Click:Connect(function() deleteStep(i) end)
+
+        return row
+    end
+
+    local function buildWaitRow(i, step, altColor)
+        local row = Instance.new("Frame")
+        row.Size = UDim2.new(1, 0, 0, 30); row.BackgroundColor3 = altColor and COLOR_ITEM_ALT or COLOR_ITEM
+        row.BorderSizePixel = 0; row.LayoutOrder = i
+        Instance.new("UICorner", row).CornerRadius = UDim.new(0, 4)
+
+        local idx = Instance.new("TextLabel")
+        idx.Size = UDim2.new(0, 20, 1, 0); idx.BackgroundTransparency = 1
+        idx.Text = tostring(i); idx.TextColor3 = COLOR_WARN
+        idx.Font = Enum.Font.Code; idx.TextSize = 11; idx.Parent = row
+
+        local nm = Instance.new("TextLabel")
+        nm.Size = UDim2.new(0, 74, 1, 0); nm.Position = UDim2.new(0, 20, 0, 0)
+        nm.BackgroundTransparency = 1; nm.Text = "PAUSE"
+        nm.TextColor3 = COLOR_WARN; nm.Font = Enum.Font.GothamBold; nm.TextSize = 11
+        nm.Parent = row
+
+        local secBox = numBox(row, 96, 48, tostring(step.seconds))
+        secBox.FocusLost:Connect(function()
+            local n = tonumber(secBox.Text)
+            step.seconds = (n and n >= 0) and n or step.seconds
+            secBox.Text = tostring(step.seconds)
+        end)
+        local secLbl = Instance.new("TextLabel")
+        secLbl.Size = UDim2.new(0, 20, 1, 0); secLbl.Position = UDim2.new(0, 146, 0, 0)
+        secLbl.BackgroundTransparency = 1; secLbl.Text = "s"
+        secLbl.TextColor3 = COLOR_SUBTEXT; secLbl.Font = Enum.Font.Code; secLbl.TextSize = 11
+        secLbl.Parent = row
+
+        local upBtn = smallBtn(row, 358, 24, "^", COLOR_ITEM_ALT)
+        upBtn.MouseButton1Click:Connect(function() moveStep(i, -1) end)
+        local downBtn = smallBtn(row, 384, 24, "v", COLOR_ITEM_ALT)
+        downBtn.MouseButton1Click:Connect(function() moveStep(i, 1) end)
+        local delBtn = smallBtn(row, 412, 24, "x", COLOR_DANGER)
+        delBtn.MouseButton1Click:Connect(function() deleteStep(i) end)
+
+        return row
+    end
+
+    local function buildJumpRow(i, step, altColor)
+        local row = Instance.new("Frame")
+        row.Size = UDim2.new(1, 0, 0, 30); row.BackgroundColor3 = altColor and COLOR_ITEM_ALT or COLOR_ITEM
+        row.BorderSizePixel = 0; row.LayoutOrder = i
+        Instance.new("UICorner", row).CornerRadius = UDim.new(0, 4)
+
+        local idx = Instance.new("TextLabel")
+        idx.Size = UDim2.new(0, 20, 1, 0); idx.BackgroundTransparency = 1
+        idx.Text = tostring(i); idx.TextColor3 = COLOR_GOOD
+        idx.Font = Enum.Font.Code; idx.TextSize = 11; idx.Parent = row
+
+        local nm = Instance.new("TextLabel")
+        nm.Size = UDim2.new(0, 74, 1, 0); nm.Position = UDim2.new(0, 20, 0, 0)
+        nm.BackgroundTransparency = 1; nm.Text = "JUMP"
+        nm.TextColor3 = COLOR_GOOD; nm.Font = Enum.Font.GothamBold; nm.TextSize = 11
+        nm.Parent = row
+
+        local upBtn = smallBtn(row, 358, 24, "^", COLOR_ITEM_ALT)
+        upBtn.MouseButton1Click:Connect(function() moveStep(i, -1) end)
+        local downBtn = smallBtn(row, 384, 24, "v", COLOR_ITEM_ALT)
+        downBtn.MouseButton1Click:Connect(function() moveStep(i, 1) end)
+        local delBtn = smallBtn(row, 412, 24, "x", COLOR_DANGER)
+        delBtn.MouseButton1Click:Connect(function() deleteStep(i) end)
+
+        return row
+    end
+
+    local function buildRowForStep(i, step)
+        local alt = (i % 2 == 0)
+        if step.kind == "checkpoint" then return buildCheckpointRow(i, step, alt) end
+        if step.kind == "wait" then return buildWaitRow(i, step, alt) end
+        if step.kind == "jump" then return buildJumpRow(i, step, alt) end
+        return nil
+    end
+
+    local function appendStepToList(i)
+        local row = buildRowForStep(i, steps[i])
+        if row then row.Parent = ListFrame end
+        appendPreviewForStep(i, steps[i])
+    end
+
+    rebuildList = function()
+        for _, c in ipairs(ListFrame:GetChildren()) do
+            if c:IsA("Frame") then c:Destroy() end
+        end
+        for i, step in ipairs(steps) do
+            local row = buildRowForStep(i, step)
+            if row then row.Parent = ListFrame end
+        end
+        refreshPreview()
+    end
+
+    -- ─── Bottom control rows ────────────────────────────────────
+    local btnRow1 = Instance.new("Frame")
+    btnRow1.Size = UDim2.new(1, -20, 0, 34); btnRow1.Position = UDim2.new(0, 10, 1, -108)
+    btnRow1.BackgroundTransparency = 1; btnRow1.Parent = Main
+    local L1 = Instance.new("UIListLayout")
+    L1.FillDirection = Enum.FillDirection.Horizontal; L1.SortOrder = Enum.SortOrder.LayoutOrder
+    L1.Padding = UDim.new(0, 6); L1.Parent = btnRow1
+
+    local function bigBtn(parent, text, color, w)
+        local b = Instance.new("TextButton")
+        b.Size = UDim2.new(0, w, 1, 0); b.BackgroundColor3 = color
+        b.Text = text; b.TextColor3 = Color3.new(1,1,1); b.Font = Enum.Font.Code; b.TextSize = 12
+        b.BorderSizePixel = 0; b.Parent = parent
+        Instance.new("UICorner", b).CornerRadius = UDim.new(0, 5)
+        return b
+    end
+
+    RecordBtn = bigBtn(btnRow1, "Record", COLOR_DANGER, 100)
+    local UndoBtn = bigBtn(btnRow1, "Undo", COLOR_ACCENT, 80)
+    LockBtn = bigBtn(btnRow1, "Locked", COLOR_ITEM_ALT, 80)
+    ClearBtn = bigBtn(btnRow1, "Clear", COLOR_DANGER_LOCKED, 80)
+    PreviewToggleBtn = bigBtn(btnRow1, "Preview: On", COLOR_ACCENT, 130)
+    NumberToggleBtn = bigBtn(btnRow1, "Nums: On", COLOR_ACCENT, 100)
+
+    local btnRow2 = Instance.new("Frame")
+    btnRow2.Size = UDim2.new(1, -20, 0, 34); btnRow2.Position = UDim2.new(0, 10, 1, -70)
+    btnRow2.BackgroundTransparency = 1; btnRow2.Parent = Main
+    local L2 = Instance.new("UIListLayout")
+    L2.FillDirection = Enum.FillDirection.Horizontal; L2.SortOrder = Enum.SortOrder.LayoutOrder
+    L2.Padding = UDim.new(0, 6); L2.Parent = btnRow2
+
+    local AddHereBtn = bigBtn(btnRow2, "Add Here", COLOR_GOOD, 100)
+    local AddPauseBtn = bigBtn(btnRow2, "Add Pause", COLOR_WARN, 100)
+    local AddJumpBtn = bigBtn(btnRow2, "Add Jump", COLOR_GOOD, 100)
+    LitePreviewBtn = bigBtn(btnRow2, "Lite: On", COLOR_ACCENT, 62)
+    ImportBtn = bigBtn(btnRow2, "Import", COLOR_ACCENT, 62)
+    CopyBtn = bigBtn(btnRow2, "Copy .lua", COLOR_ACCENT, 146)
+
+    -- ─── Step creation ──────────────────────────────────────────
+    local function addCheckpointFromPart(part)
+        for _, s in ipairs(steps) do
+            if s.kind == "checkpoint" and s.part == part then
+                setStatus("Already have that part: " .. part.Name)
+                return
+            end
+        end
+        table.insert(steps, {
+            kind = "checkpoint", name = part.Name, part = part,
+            pos = part.Position, edited = false, teleport = false,
+        })
+        appendStepToList(#steps)
+        setStatus(("Added [%d] %s"):format(#steps, part.Name))
+    end
+
+    local function addCheckpointAtPlayer()
+        local char = LocalPlayer.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if not hrp then setStatus("No character.") return end
+        table.insert(steps, {
+            kind = "checkpoint", name = "Point", part = nil,
+            pos = hrp.Position, edited = true, teleport = false,
+        })
+        appendStepToList(#steps)
+        setStatus(("Added [%d] Point at your position"):format(#steps))
+    end
+
+    local function checkpointStepFromTarget(target, teleport)
+        if typeof(target) ~= "Instance" or not target:IsA("BasePart") then return nil end
+
+        local marker = looksLikeMarkerPart(target)
+        local step = {
+            kind = "checkpoint",
+            name = marker and "Point" or target.Name,
+            part = marker and nil or target,
+            pos = target.Position,
+            edited = marker,
+            teleport = teleport == true,
+        }
+        if marker then
+            pcall(function() target:Destroy() end)
+        end
+        return step
+    end
+
+    local function importRouteFromText(source)
+        if type(source) ~= "string" or source:match("^%s*$") then
+            return false, "Clipboard is empty."
+        end
+        if not loadstring then
+            return false, "loadstring is unavailable in this executor."
+        end
+
+        local chunk, compileErr = loadstring(source)
+        if not chunk then
+            return false, "Could not parse route: " .. tostring(compileErr)
+        end
+
+        local ok, result = pcall(chunk)
+        if not ok then
+            return false, "Could not run route import: " .. tostring(result)
+        end
+
+        if type(result) == "function" then
+            ok, result = pcall(result)
+            if not ok then
+                return false, "Could not read route steps: " .. tostring(result)
+            end
+        end
+
+        if type(result) ~= "table" then
+            return false, "Route did not return a step table."
+        end
+
+        local imported, skipped = {}, 0
+        for _, entry in ipairs(result) do
+            if typeof(entry) == "Instance" and entry:IsA("BasePart") then
+                local step = checkpointStepFromTarget(entry, false)
+                if step then
+                    imported[#imported + 1] = step
+                else
+                    skipped = skipped + 1
+                end
+            elseif entry == "jump" then
+                imported[#imported + 1] = { kind = "jump" }
+            elseif type(entry) == "table" and entry.type == "wait" then
+                imported[#imported + 1] = { kind = "wait", seconds = tonumber(entry.seconds) or 1 }
+            elseif type(entry) == "table" and entry.type == "teleport" then
+                local step = checkpointStepFromTarget(entry.target, true)
+                if step then
+                    imported[#imported + 1] = step
+                else
+                    skipped = skipped + 1
+                end
+            else
+                skipped = skipped + 1
+            end
+        end
+
+        if #imported == 0 then
+            return false, "No supported route steps found."
+        end
+
+        steps = imported
+        rebuildList()
+        return true, ("Imported %d steps%s."):format(#steps, skipped > 0 and ("; skipped " .. skipped) or "")
+    end
+
+    local function importRouteFromClipboard()
+        if not getclipboard then
+            setStatus("getclipboard unavailable -- copy route text another way first.")
+            return
+        end
+
+        local ok, text = pcall(getclipboard)
+        if not ok then
+            setStatus("Could not read clipboard.")
+            return
+        end
+
+        local imported, message = importRouteFromText(text)
+        setStatus(message)
+        if imported and ImportBtn then
+            ImportBtn.Text = "Imported"
+            ImportBtn.BackgroundColor3 = COLOR_GOOD
+            task.delay(2, function()
+                if ImportBtn and ImportBtn.Parent then
+                    ImportBtn.Text, ImportBtn.BackgroundColor3 = "Import", COLOR_ACCENT
+                end
+            end)
+        end
+    end
+
+    RecordBtn.MouseButton1Click:Connect(function()
+        isRecording = not isRecording
+        RecordBtn.Text = isRecording and "Stop" or "Record"
+        RecordBtn.BackgroundColor3 = isRecording and COLOR_GOOD or COLOR_DANGER
+        setStatus(isRecording and "Recording: click a part. Press ] to Add Here." or ("Paused. %d steps so far. Press ] to Add Here."):format(#steps))
+    end)
+
+    UndoBtn.MouseButton1Click:Connect(function()
+        if #steps == 0 then return end
+        local removed = table.remove(steps)
+        rebuildList()
+        setStatus("Undid " .. (removed.name or removed.kind))
+    end)
+
+    LockBtn.MouseButton1Click:Connect(function()
+        clearLocked = not clearLocked
+        LockBtn.Text = clearLocked and "Locked" or "Unlocked"
+        LockBtn.BackgroundColor3 = clearLocked and COLOR_ITEM_ALT or COLOR_WARN
+        ClearBtn.BackgroundColor3 = clearLocked and COLOR_DANGER_LOCKED or COLOR_DANGER
+    end)
+
+    ClearBtn.MouseButton1Click:Connect(function()
+        if clearLocked then
+            setStatus("Clear is locked -- press Locked to unlock first.")
+            return
+        end
+        steps = {}
+        rebuildList()
+        clearLocked = true
+        LockBtn.Text, LockBtn.BackgroundColor3 = "Locked", COLOR_ITEM_ALT
+        ClearBtn.BackgroundColor3 = COLOR_DANGER_LOCKED
+        setStatus("Cleared. Locked again.")
+    end)
+
+    PreviewToggleBtn.MouseButton1Click:Connect(function()
+        previewOn = not previewOn
+        PreviewToggleBtn.Text = previewOn and "Preview: On" or "Preview: Off"
+        refreshPreview()
+    end)
+
+    NumberToggleBtn.MouseButton1Click:Connect(function()
+        setPreviewNumbersVisible(not showNumbers)
+        setStatus(showNumbers and "Preview numbers enabled." or "Preview numbers disabled.")
+    end)
+
+    LitePreviewBtn.MouseButton1Click:Connect(function()
+        litePreviewOn = not litePreviewOn
+        refreshLitePreviewButton()
+        refreshPreview()
+        setStatus(litePreviewOn and ("Lite preview enabled: showing latest %d checkpoint visuals."):format(PREVIEW_RECENT_LIMIT) or "Lite preview disabled: showing full route preview.")
+    end)
+
+    ImportBtn.MouseButton1Click:Connect(importRouteFromClipboard)
+
+    AddHereBtn.MouseButton1Click:Connect(addCheckpointAtPlayer)
+
+    AddPauseBtn.MouseButton1Click:Connect(function()
+        table.insert(steps, { kind = "wait", seconds = 1 })
+        appendStepToList(#steps)
+        setStatus(("Added [%d] Pause (1s)"):format(#steps))
+    end)
+
+    AddJumpBtn.MouseButton1Click:Connect(function()
+        table.insert(steps, { kind = "jump" })
+        appendStepToList(#steps)
+        setStatus(("Added [%d] Jump"):format(#steps))
+    end)
+
+    CopyBtn.MouseButton1Click:Connect(function()
+        if #steps == 0 then setStatus("Nothing to copy yet.") return end
+        local output = buildRouteSource(steps)
+        local ok = pcall(setclipboard, output)
+        if ok then
+            CopyBtn.Text = "Copied!"
+            CopyBtn.BackgroundColor3 = COLOR_GOOD
+            task.delay(2, function()
+                if CopyBtn and CopyBtn.Parent then
+                    CopyBtn.Text, CopyBtn.BackgroundColor3 = "Copy .lua", COLOR_ACCENT
+                end
+            end)
+            setStatus(("Copied %d steps."):format(#steps))
+        else
+            setStatus("setclipboard unavailable -- printed to console instead.")
+            print("=== Route Maker V2 Output ===")
+            print(output)
+            print("==============================")
+        end
+    end)
+
+    -- ─── Capture: click while recording; ] adds current position ───
+    local function mouseOverPanel()
+        local m = UserInputService:GetMouseLocation()
+        local p, s = Main.AbsolutePosition, Main.AbsoluteSize
+        return m.X >= p.X and m.X <= p.X + s.X and m.Y >= p.Y and m.Y <= p.Y + s.Y
+    end
+
+    Mouse.Move:Connect(function()
+        if not isRecording or mouseOverPanel() then clearHoverBox() return end
+        local target = Mouse.Target
+        if target and target:IsA("BasePart") and not target:IsDescendantOf(ScreenGui) then
+            if not hoverSB then
+                hoverSB = Instance.new("SelectionBox")
+                hoverSB.Color3 = Color3.new(1, 1, 1)
+                hoverSB.LineThickness = 0.04
+                hoverSB.SurfaceTransparency = 1
+                hoverSB.Parent = workspace.CurrentCamera
+            end
+            hoverSB.Adornee = target
+        else
+            clearHoverBox()
+        end
+    end)
+
+    local function captureFromMouse()
+        if not isRecording or mouseOverPanel() then return end
+        local target = Mouse.Target
+        if target and target:IsA("BasePart") and not target:IsDescendantOf(ScreenGui) then
+            addCheckpointFromPart(target)
+        end
+    end
+
+    Mouse.Button1Down:Connect(captureFromMouse)
+    UserInputService.InputBegan:Connect(function(input, gameProcessed)
+        if gameProcessed then return end
+        if UserInputService:GetFocusedTextBox() then return end
+        if input.KeyCode == Enum.KeyCode.RightBracket then addCheckpointAtPlayer() end
+    end)
+
+    rebuildList()
+    print("[EToH Dev Tools] Route Maker V2 loaded. Record + click to capture parts, ]/Add Here for your position, edit X/Y/Z inline, Add Pause/Jump for the rest.")
     end
 
     PortalBox:AddDropdown("AutoRouteOrder", {
@@ -2522,7 +3443,7 @@ local function _initTowerPortal()
 
             local saved = ""
             if type(writefile) == "function" then
-                local ok = pcall(writefile, name .. ".lua", autoRouteSource(name, data))
+                local ok = pcall(writefile, name .. ".lua", buildRouteSource(stepsFromAutoRoute(data)))
                 saved = ok and (" Saved to " .. name .. ".lua.") or " (couldn't write the file)"
             end
             local dir = descending and "descending" or "ascending"
@@ -2533,6 +3454,14 @@ local function _initTowerPortal()
                 Duration    = 6,
             })
             logAction(("Automade a %d-checkpoint %s route for %s"):format(#data.parts, dir, name))
+        end,
+    })
+
+    PortalBox:AddButton({
+        Text    = "Route Maker V2",
+        Tooltip = "Open the Route Maker V2 tool: click parts (or press ]) to record a route, edit exact positions, insert timed pauses and teleport steps, watch it drawn live, then copy the finished .lua to your clipboard.",
+        Callback = function()
+            openRouteMakerV2()
         end,
     })
 
