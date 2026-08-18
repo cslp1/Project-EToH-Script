@@ -338,7 +338,13 @@ local function resolveTeleportTo(name)
     if not f then return nil end
     local tp    = f:FindFirstChild("Teleporter")
     local exact = tp and tp:FindFirstChild("TeleportTo")
-    return exact or f:FindFirstChild("TeleportTo", true)
+    local found = exact or f:FindFirstChild("TeleportTo", true)
+    if found then return toBasePart(found) end
+    -- Games with a single combined entry part (no separate TPFRAME + TeleportTo stage --
+    -- e.g. TEA's Portal) have nothing named TeleportTo at all. Fall back to the same part
+    -- resolveTPFrame found: the player is already standing on it from the walk-to loop
+    -- above, so the "wait for teleport" touch fires right away.
+    return resolveTPFrame(name)
 end
 
 -- F9 diagnostic: dump a tower folder's children when entry resolution fails, so an
@@ -2384,26 +2390,75 @@ local function _initTowerPortal()
         return steps
     end
 
+    -- Places whose towers DON'T use a per-tower Obby: entering a tower streams its parts
+    -- into one shared top-level workspace.Parts instead (The Eternal Abyss). In these
+    -- places workspace.Parts is the ONLY source -- the tower folder is never consulted --
+    -- and since it holds just the tower you're currently inside, Automake Route has to be
+    -- run from in there. Add TEA's place id(s) here; anywhere not listed keeps using Obby.
+    local SHARED_PARTS_PLACES = {
+        -- The Eternal Abyss (its areas are separate places, same shared-parts layout)
+        131042387601353,
+        15873244701,
+        121814103864070,
+        137721171983074,
+    }
+    local function usesSharedParts()
+        for _, id in ipairs(SHARED_PARTS_PLACES) do
+            if id == currentPlaceId then return true end
+        end
+        return false
+    end
+
+    -- Direct children first: that's the usual layout and it keeps the emitted paths short.
+    -- But some towers group their obby into section Models, so the top level holds no
+    -- BaseParts at all -- fall back to the full descendant list instead of reporting the
+    -- container as empty (which is what "CoIV's Obby has no parts" was).
+    local function gatherParts(container)
+        local direct = {}
+        for _, v in ipairs(container:GetChildren()) do
+            if v:IsA("BasePart") then direct[#direct + 1] = v end
+        end
+        if #direct > 0 then return direct end
+        local all = {}
+        for _, v in ipairs(container:GetDescendants()) do
+            if v:IsA("BasePart") then all[#all + 1] = v end
+        end
+        return all
+    end
+
     local function collectAutoRoute(name, descending)
         local folder = towerFolder(name)
-        if not folder then return nil, name .. " isn't loaded in workspace.Towers." end
-        local obby = folder:FindFirstChild("Obby")
-        if not obby then return nil, name .. " has no Obby folder." end
 
-        -- Direct children first: that's the usual layout and it keeps the emitted paths
-        -- short. But some towers group their obby into section Models, so the top level
-        -- holds no BaseParts at all -- fall back to the full descendant list instead of
-        -- reporting the Obby as empty (which is what "CoIV's Obby has no parts" was).
+        -- Where the obstacle parts live.
+        local root, rootExpr
         local parts = {}
-        for _, v in ipairs(obby:GetChildren()) do
-            if v:IsA("BasePart") then parts[#parts + 1] = v end
-        end
-        if #parts == 0 then
-            for _, v in ipairs(obby:GetDescendants()) do
-                if v:IsA("BasePart") then parts[#parts + 1] = v end
+        local sharedOnly = usesSharedParts()
+
+        -- In a shared-parts place (TEA) the Obby is deliberately never looked at, even if
+        -- the tower folder happens to have one -- workspace.Parts is the live obby there.
+        if not sharedOnly then
+            local obby = folder and folder:FindFirstChild("Obby")
+            if obby then
+                root, rootExpr = obby, ("workspace.Towers[%q].Obby"):format(name)
+                parts = gatherParts(obby)
             end
         end
-        if #parts == 0 then return nil, name .. "'s Obby has no parts." end
+        if #parts == 0 then
+            local shared = workspace:FindFirstChild("Parts")
+            if shared then
+                root, rootExpr = shared, "workspace.Parts"
+                parts = gatherParts(shared)
+            end
+        end
+        if #parts == 0 then
+            if sharedOnly then
+                return nil, "Nothing in workspace.Parts -- this game only exposes a tower's parts while you're inside it, so enter the tower first."
+            end
+            if not folder and not workspace:FindFirstChild("Parts") then
+                return nil, name .. " isn't loaded in workspace.Towers, and there's no workspace.Parts either."
+            end
+            return nil, ("No parts found for %s. Towers that keep their parts in workspace.Parts (e.g. The Eternal Abyss) only expose them while you're inside the tower -- enter it first."):format(name)
+        end
         -- Floor-aware ordering. The kit kicks for doing a tower "out of order", and it
         -- tracks that per FLOOR -- so the route has to finish one floor before touching the
         -- next. Floors are never numbered anywhere, but the Frame is colour-banded per floor
@@ -2537,8 +2592,13 @@ local function _initTowerPortal()
             parts = out
         end
 
-        local winPad = folder:FindFirstChild("WinPad", true) or folder:FindFirstChild("Winpad", true)
-        return { parts = parts, winPad = winPad, obby = obby }
+        -- Prefer the tower folder's own WinPad (TEA keeps one there next to Portal/Frame),
+        -- then look inside the parts source for games that ship it with the obby instead.
+        local winPad = folder and (folder:FindFirstChild("WinPad", true) or folder:FindFirstChild("Winpad", true))
+        if not winPad then
+            winPad = root:FindFirstChild("WinPad", true) or root:FindFirstChild("Winpad", true)
+        end
+        return { parts = parts, winPad = winPad, root = root, rootExpr = rootExpr }
     end
 
     -- ===== Route Maker V2 =====
