@@ -2473,21 +2473,43 @@ local function _initTowerPortal()
             -- a number straight from the tower beats anything inferred -- no colour guessing,
             -- no merging of decoration into spurious floors.
             if frame then
-                local baseOfFloor = {}
-                for _, v in ipairs(frame:GetDescendants()) do
-                    if v:IsA("BasePart") then
-                        local n = tonumber(v.Name:match("^[Ff]loor(%d+)$"))
-                        if n then
-                            local base = v.Position.Y - v.Size.Y / 2
-                            if not baseOfFloor[n] or base < baseOfFloor[n] then
-                                baseOfFloor[n] = base
+                local function scanNamedFloors()
+                    local baseOfFloor = {}
+                    for _, v in ipairs(frame:GetDescendants()) do
+                        if v:IsA("BasePart") then
+                            local n = tonumber(v.Name:match("^[Ff]loor(%d+)$"))
+                            if n then
+                                local base = v.Position.Y - v.Size.Y / 2
+                                if not baseOfFloor[n] or base < baseOfFloor[n] then
+                                    baseOfFloor[n] = base
+                                end
                             end
                         end
                     end
+                    local nums = {}
+                    for n in pairs(baseOfFloor) do nums[#nums + 1] = n end
+                    table.sort(nums)
+                    return baseOfFloor, nums
                 end
-                local nums = {}
-                for n in pairs(baseOfFloor) do nums[#nums + 1] = n end
-                table.sort(nums)
+
+                -- Streaming can still be filling in the Frame right after you enter a tower,
+                -- so a scan taken too early comes back with gaps (ToER dropped Floor1 and
+                -- Floor7 on the first pass). A missing floor number shifts every band after it
+                -- down one slot, silently merging two real floors into a single bucket -- the
+                -- exact kind of collision this ordering exists to prevent. Retry until the
+                -- found numbers are contiguous, or give up after a few tries rather than
+                -- building a route on a half-streamed tower.
+                local baseOfFloor, nums = scanNamedFloors()
+                for _ = 1, 5 do
+                    if #nums == 0 then break end
+                    local contiguous = true
+                    for i = 2, #nums do
+                        if nums[i] ~= nums[i - 1] + 1 then contiguous = false break end
+                    end
+                    if contiguous then break end
+                    task.wait(0.75)
+                    baseOfFloor, nums = scanNamedFloors()
+                end
                 for _, n in ipairs(nums) do bands[#bands + 1] = baseOfFloor[n] end
                 table.sort(bands)   -- the lookup below walks bands in ascending height
             end
