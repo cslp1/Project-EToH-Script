@@ -2306,6 +2306,15 @@ local function _initTowerPortal()
             if node.Name == "Obby" and node.Parent and node.Parent.Parent == workspace:FindFirstChild("Towers") then
                 return node, ("workspace.Towers[%q].Obby"):format(node.Parent.Name)
             end
+            -- A checkpoint that isn't under the tower's Obby (ToER's route uses parts from
+            -- other folders inside the tower) used to walk all the way up to workspace.Towers
+            -- and index down from there -- "workspace.Towers:GetChildren()[7]". That index is
+            -- not stable: towers stream in and out of workspace.Towers, so on a later run
+            -- slot 7 can be a different tower entirely and the route walks into the wrong one.
+            -- Stop at the tower folder and key it by name, exactly like the Obby case above.
+            if node.Parent == workspace:FindFirstChild("Towers") then
+                return node, ("workspace.Towers[%q]"):format(node.Name)
+            end
             if node.Parent == workspace:FindFirstChild("Parts") then
                 return node.Parent, "workspace.Parts"
             end
