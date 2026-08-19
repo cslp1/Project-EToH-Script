@@ -141,8 +141,6 @@ return function()
     route[#route + 1] = workspace.Towers["ToER"]:GetChildren()[2]:GetChildren()[57]
     route[#route + 1] = workspace.Towers["ToER"]:GetChildren()[2]:GetChildren()[87]
     route[#route + 1] = workspace.ClientParts:GetChildren()[12]:GetChildren()[21]
-    route[#route + 1] = workspace.ClientParts:GetChildren()[10]:GetChildren()[4]
-    route[#route + 1] = { type = "wait", seconds = 1 }
     route[#route + 1] = workspace.ClientParts:GetChildren()[10]:GetChildren()[5]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[211]
     route[#route + 1] = workspace.ClientParts:GetChildren()[9]:GetChildren()[3]:GetChildren()[1]
@@ -167,8 +165,6 @@ return function()
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[233]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[236]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[234]
-    route[#route + 1] = workspace.ClientParts:GetChildren()[15]:GetChildren()[4]
-    route[#route + 1] = { type = "wait", seconds = 1 }
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[238]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[1653]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[241]
@@ -222,8 +218,6 @@ return function()
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[280]
     route[#route + 1] = workspace.Towers["ToER"]:GetChildren()[2]:GetChildren()[88]
     route[#route + 1] = workspace.ClientParts:GetChildren()[12]:GetChildren()[26]
-    route[#route + 1] = workspace.ClientParts:GetChildren()[16]:GetChildren()[4]
-    route[#route + 1] = { type = "wait", seconds = 1 }
     route[#route + 1] = workspace.ClientParts:GetChildren()[16]:GetChildren()[5]
     route[#route + 1] = workspace.Towers["ToER"]:GetChildren()[2]:GetChildren()[100]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[292]
@@ -325,8 +319,6 @@ return function()
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[468]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[471]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[472]
-    route[#route + 1] = workspace.ClientParts:GetChildren()[14]:GetChildren()[4]
-    route[#route + 1] = { type = "wait", seconds = 1 }
     route[#route + 1] = workspace.ClientParts:GetChildren()[14]:GetChildren()[5]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[476]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[477]
@@ -356,8 +348,6 @@ return function()
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[1680]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[1683]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[506]
-    route[#route + 1] = workspace.ClientParts:GetChildren()[13]:GetChildren()[4]
-    route[#route + 1] = { type = "wait", seconds = 1 }
     route[#route + 1] = workspace.ClientParts:GetChildren()[13]:GetChildren()[5]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[511]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[513]
@@ -378,8 +368,6 @@ return function()
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[1685]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[531]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[532]
-    route[#route + 1] = workspace.ClientParts:GetChildren()[3]:GetChildren()[4]
-    route[#route + 1] = { type = "wait", seconds = 1 }
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[535]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[536]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[538]
@@ -518,8 +506,6 @@ return function()
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[757]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[754]
     route[#route + 1] = workspace.ClientParts:GetChildren()[12]:GetChildren()[82]
-    route[#route + 1] = workspace.ClientParts:GetChildren()[4]:GetChildren()[4]
-    route[#route + 1] = { type = "wait", seconds = 1 }
     route[#route + 1] = workspace.ClientParts:GetChildren()[11]:GetChildren()[3]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[771]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[773]
@@ -566,8 +552,6 @@ return function()
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[838]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[839]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[840]
-    route[#route + 1] = workspace.ClientParts:GetChildren()[2]:GetChildren()[4]
-    route[#route + 1] = { type = "wait", seconds = 1 }
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[844]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[1816]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[843]
@@ -589,8 +573,6 @@ return function()
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[856]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[863]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[852]
-    route[#route + 1] = workspace.ClientParts:GetChildren()[8]:GetChildren()[4]
-    route[#route + 1] = { type = "wait", seconds = 1 }
     route[#route + 1] = workspace.ClientParts:GetChildren()[8]:GetChildren()[5]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[867]
     route[#route + 1] = workspace.Towers["ToER"].Obby:GetChildren()[868]
