@@ -263,6 +263,15 @@ end
 
 local currentPlaceId = game.PlaceId
 
+-- Auto Play moves by writing HumanoidRootPart.CFrame, not by walking, so nothing about
+-- the motion is physical. Cover a long hop in a short step and the character jumps tens
+-- of studs per frame, passing clean through the kit's per-floor checkpoints without ever
+-- overlapping them; the tower then sees a floor reached whose checkpoint never fired and
+-- kicks for "doing the tower out of order". Cap how fast a step may be covered, letting
+-- the run overrun its configured time rather than move faster than the kit can track.
+-- ToER at its registered 3:05 kicked every attempt; stretched out, it ran clean.
+local MAX_WALK_SPEED = 90   -- studs/second (~1.5 studs per frame at 60fps)
+
 -- True if a tower's folder is actually loaded in workspace.Towers right now. Used so
 -- the dropdown shows the towers physically present in the current place even if the
 -- registry's hardcoded category PlaceId no longer matches (e.g. after a game update),
@@ -1556,6 +1565,7 @@ startAutoPlay = function()
                     local remainDist = remainingDistances[i]
                     local stepTime   = remainDist > 0 and (timeLeft * (dist / remainDist)) or 0.05
                     stepTime         = math.max(stepTime, 0.05)
+                    stepTime         = math.max(stepTime, dist / MAX_WALK_SPEED)
 
                     local startRot   = hrp.CFrame - hrp.CFrame.Position
                     local startTime  = os.clock()
@@ -1832,6 +1842,7 @@ startAutoPlay = function()
             local remainDist   = remainingDistances[i]
             local stepTime     = remainDist > 0 and (timeLeft * (dist / remainDist)) or 0.05
             stepTime           = math.max(stepTime, 0.05)
+            stepTime           = math.max(stepTime, dist / MAX_WALK_SPEED)
 
             local startTime  = os.clock()
             local moveTarget = step.target
