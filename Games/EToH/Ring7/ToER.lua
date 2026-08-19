@@ -803,7 +803,6 @@ return function()
     route[#route + 1] = workspace.ClientParts:GetChildren()[12]:GetChildren()[5]
     route[#route + 1] = workspace.ClientParts:GetChildren()[12]:GetChildren()[6]
     route[#route + 1] = workspace.ClientParts:GetChildren()[12]:GetChildren()[3]
-    route[#route + 1] = workspace.Towers.ToER.WinPad
 
     return route
 end
