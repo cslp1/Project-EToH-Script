@@ -3548,6 +3548,59 @@ local function _initTowerPortal()
         end,
     })
 
+    -- Automake sets config.routeFn, and loadRouteFn() prefers that over fetching the
+    -- published route file -- for the whole session, with no way back short of
+    -- re-injecting. That silently shadows a good published route with an automade one
+    -- (ToER: the automade route only sees the Obby and misses the ClientParts
+    -- checkpoints, so it gets kicked for going out of order while the published file
+    -- plays fine). Clearing routeFn hands the tower back to its route file.
+    PortalBox:AddButton({
+        Text    = "Use Route File",
+        Tooltip = "Discard the route Automake armed for the selected tower and go back to its published route file. Use this if Automake produced a worse route than the file.",
+        Callback = function()
+            local label = Options.PortalMatch and Options.PortalMatch.Value
+            local name  = label and labelToName[label]
+            if not name then
+                Library:Notify({ Title = "Route File", Description = "Pick a tower first.", Duration = 3 })
+                return
+            end
+            local cfgName
+            for n in pairs(TowerConfigs) do
+                if getTpFrameName(n) == name then cfgName = n break end
+            end
+            local config = cfgName and TowerConfigs[cfgName]
+            if not config then
+                Library:Notify({ Title = "Route File", Description = name .. " has no config to reset.", Duration = 4 })
+                return
+            end
+            if not config.routeFn then
+                Library:Notify({
+                    Title       = "Route File",
+                    Description = name .. " is already using its route file -- nothing armed to clear.",
+                    Duration    = 4,
+                })
+                return
+            end
+            -- A tower Automake invented (not in the registry) has no file to fall back to,
+            -- so dropping routeFn would leave it unplayable. Keep it.
+            if not config.routeUrl then
+                Library:Notify({
+                    Title       = "Route File",
+                    Description = name .. " has no published route file -- keeping the automade route.",
+                    Duration    = 5,
+                })
+                return
+            end
+            config.routeFn = nil
+            Library:Notify({
+                Title       = "Route File",
+                Description = name .. " will now load its published route file on the next Auto Play.",
+                Duration    = 5,
+            })
+            logAction("Cleared the automade route for " .. name .. "; back to its route file")
+        end,
+    })
+
     PortalBox:AddButton({
         Text    = "Route Maker V2",
         Tooltip = "Open the Route Maker V2 tool: click parts (or press ]) to record a route, edit exact positions, insert timed pauses and teleport steps, watch it drawn live, then copy the finished .lua to your clipboard.",
