@@ -339,6 +339,7 @@ return {
         { name = "ToWM",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
         { name = "ToBF",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
         { name = "SoCB",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
+        { name = "UT",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
         --Elysian  Fields
         { name = "SoGE",  category = "ElysianFields", suggestedTime = { min = "2", sec = "50" } },
         --The Doghouse
