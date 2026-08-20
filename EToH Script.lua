@@ -247,6 +247,12 @@ local function getTpFrameName(name)
 end
 
 -- Studs from the HumanoidRootPart center to the character's feet.
+-- How far above a checkpoint's top surface the character is placed. 3 puts an R6 root
+-- part at roughly standing height, but the character is CFrame-driven and never settles
+-- onto anything, so it rides that gap for the whole run and may never physically contact
+-- the surfaces it passes over. Towers that validate progress by touch (ToER counts which
+-- FloorN parts you touched, and only checks at the WinPad) will reject a run that
+-- traversed everything without ever registering. Lower it to put the body in contact.
 local PLAYER_FOOT_OFFSET = 3
 -- Returns a position on top of `part`'s surface, raised so the character stands
 -- on top of it instead of clipping into the part. Accounts for the part's size
@@ -3704,6 +3710,18 @@ local function applyCharacterStats(char)
 end
 
 game:GetService("Players").LocalPlayer.CharacterAdded:Connect(applyCharacterStats)
+
+PlayerBox:AddSlider("FootOffset", {
+    Text     = "Auto Play Height",
+    Default  = 3,
+    Min      = 0,
+    Max      = 4,
+    Rounding = 1,
+    Tooltip  = "How far above each checkpoint Auto Play holds you. The default 3 stands you on top of parts without clipping. Lower it if a tower rejects your run for missed checkpoints -- being CFrame-driven, the character never settles onto anything, so at full height it can cross a whole tower without physically touching it.",
+    Callback = function(value)
+        PLAYER_FOOT_OFFSET = value
+    end,
+})
 
 PlayerBox:AddSlider("WalkSpeed", {
     Text     = "Walk Speed",
