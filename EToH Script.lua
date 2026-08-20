@@ -889,6 +889,21 @@ local function returnToLobby()
     task.wait(numOpt("NextTowerDelay", 5))
 end
 
+-- Auto Play normally pins the humanoid in PlatformStand and zeroes its velocity every
+-- frame, so the body cannot fight the tween. The cost is that the character never walks,
+-- never has momentum, and never lands a jump -- it simply appears at each checkpoint. A
+-- kit that checks you genuinely traversed the tower sees none of the physics it expects.
+-- ToER kicks for "doing the tower out of order" at the WinPad even with a route proven to
+-- be in floor order, all checkpoints resolving, and the walk slowed enough to register.
+-- This leaves the humanoid in a normal state so its movement looks physical. Expect more
+-- stutter and the odd snag on geometry; it is only worth enabling on a tower that rejects
+-- the normal mode.
+TowerBox:AddToggle("PhysicalMovement", {
+    Text    = "Physical Movement",
+    Default = false,
+    Tooltip = "Keep the humanoid in a normal state during Auto Play instead of PlatformStand with velocity zeroed. Slower and less stable, but the movement reads as real to towers that check for it.",
+})
+
 TowerBox:AddToggle("AutoReturnToLobby", {
     Text    = "Return to Lobby",
     Default = false,
@@ -1196,7 +1211,12 @@ startAutoPlay = function()
         local runStartTime = nil  -- set after confirmed tower entry
         humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
         if humanoid.Sit then humanoid.Sit = false end
-        humanoid.PlatformStand = true
+        -- With Physical Movement on, leave the humanoid alone so it keeps a normal state
+        -- and real momentum -- see the toggle for why a tower might require that.
+        local physicalMove = Options.PhysicalMovement and Options.PhysicalMovement.Value
+        if not physicalMove then
+            humanoid.PlatformStand = true
+        end
         local RunService = game:GetService("RunService")
         -- Declared before the stabiliser below, which behaves differently once the route
         -- starts (see there).
@@ -1212,6 +1232,25 @@ startAutoPlay = function()
         -- Before the route starts we still walk into the tower under our own power, so
         -- only gravity is cancelled there; zeroing everything would pin us in place.
         local function stabilise()
+            -- Physical Movement: cancel gravity only, so the body keeps its own velocity
+            -- and the humanoid stays in a normal state. The tween still drives position,
+            -- so this is stuttery -- but nothing here erases the physics a tower may be
+            -- watching for.
+            if physicalMove then
+                if hrp and hrp.Parent then
+                    hrp.AssemblyLinearVelocity = Vector3.new(
+                        hrp.AssemblyLinearVelocity.X,
+                        0,
+                        hrp.AssemblyLinearVelocity.Z
+                    )
+                end
+                local h = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+                if h then
+                    if h.Sit then h.Sit = false end
+                    if h.PlatformStand then h.PlatformStand = false end
+                end
+                return
+            end
             if hrp and hrp.Parent then
                 if walking then
                     hrp.AssemblyLinearVelocity  = Vector3.zero
@@ -1675,7 +1714,9 @@ startAutoPlay = function()
             if hum then
                 hum:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
                 if hum.Sit then hum.Sit = false end
-                hum.PlatformStand = true
+                if not (Options.PhysicalMovement and Options.PhysicalMovement.Value) then
+                    hum.PlatformStand = true
+                end
             end
             -- Re-arm death detection on the fresh character; ignore the win/respawn itself.
             died = false
