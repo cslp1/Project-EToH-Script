@@ -964,19 +964,25 @@ do
     -- message a second is plenty for status and stays well inside the rate limit.
     local lastPost = 0
     local COLOURS  = {
-        started = 3447003,     -- blue
-        won     = 3066993,     -- green
-        died    = 15158332,    -- red
-        stopped = 10181046,    -- grey-purple
-        kicked  = 15105570,    -- orange
+        started  = 3447003,     -- blue
+        progress = 2123412,     -- teal
+        won      = 3066993,     -- green
+        died     = 15158332,    -- red
+        stopped  = 10181046,    -- grey-purple
+        kicked   = 15105570,    -- orange
     }
 
-    function sendStatusWebhook(event, title, description)
+    -- `important` skips the rate limit. A rush finishing two short towers inside a second
+    -- would otherwise lose one of them, and a missing step is worse than a slightly
+    -- bunched pair -- the whole point of the progress posts is that they're sequential.
+    function sendStatusWebhook(event, title, description, important)
         if type(request) ~= "function" then return end
         if not (Library.Toggles.StatusWebhook and Library.Toggles.StatusWebhook.Value) then return end
         local url = Options.StatusWebhookURL and Options.StatusWebhookURL.Value
         if not url or not url:match("^https://discord%.com/api/webhooks/") then return end
-        if os.clock() - lastPost < 1 then return end
+        if not important then
+            if os.clock() - lastPost < 1 then return end
+        end
         lastPost = os.clock()
 
         local player = game:GetService("Players").LocalPlayer
@@ -1781,6 +1787,11 @@ startAutoPlay = function()
                     repeat task.wait() until done
                 end
                 Library:Notify({ Title = "Auto Play", Description = towerName .. " complete!", Duration = 3 })
+                -- Per-tower progress through the rush. The rate limit in
+                -- sendStatusWebhook would swallow these if towers finished within a
+                -- second of each other, so this posts through its own path.
+                sendStatusWebhook("progress", ("%s -- %d/%d"):format(selected, towerIndex, #towerList),
+                    ("**%s** complete  (%d of %d)"):format(towerName, towerIndex, #towerList), true)
             end
             if not died then
                 Library:Notify({ Title = "Auto Play", Description = selected .. " Complete!", Duration = 5 })
