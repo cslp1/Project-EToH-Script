@@ -2,8 +2,8 @@ return function()
     return {
         "ToST",
         "ToSSSS",
-        "ToBS",
         "ToFV",
+        "ToBS",
         "ToSTS",
         "ToUE",
         "ToHH",
