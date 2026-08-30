@@ -293,6 +293,7 @@ return {
         { name = "ToBS",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
         { name = "ToFV",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
         { name = "ToSSSS",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToSTS",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
         { name = "ToST",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
         { name = "CoCE",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
         --Zone 6
