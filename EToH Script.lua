@@ -1650,6 +1650,8 @@ startAutoPlay = function()
                     local moveTarget = step.target
                     local done       = false
                     local lastPos    = hrp.Position
+                    local stepStartPos = hrp.Position
+                    local maxStepProgress = 0
                     local moveConn
                     moveConn = RunService.Heartbeat:Connect(function(dt)
                         if died then
@@ -1687,7 +1689,23 @@ startAutoPlay = function()
                         if rawDir.Magnitude < 0.001 then return end
                         local dir = rawDir.Unit
                         if dir ~= dir then return end -- nan check
-                        h.CFrame = CFrame.new(h.Position + dir * moveDist)
+
+                        -- Anti-snap: Roblox/server physics can occasionally correct the HRP
+                        -- backwards while Auto Play is CFrame-walking. Never allow a correction
+                        -- to erase progress already made toward this checkpoint.
+                        local totalVec = currentDest - stepStartPos
+                        local totalLen = totalVec.Magnitude
+                        local nextPos = h.Position + dir * moveDist
+                        if totalLen > 0.001 then
+                            local routeDir = totalVec.Unit
+                            local currentProgress = math.clamp((h.Position - stepStartPos):Dot(routeDir), 0, totalLen)
+                            maxStepProgress = math.max(maxStepProgress, currentProgress)
+                            local proposedProgress = math.clamp((nextPos - stepStartPos):Dot(routeDir), 0, totalLen)
+                            proposedProgress = math.max(proposedProgress, math.min(maxStepProgress + moveDist, totalLen))
+                            nextPos = stepStartPos + routeDir * proposedProgress
+                            maxStepProgress = proposedProgress
+                        end
+                        h.CFrame = CFrame.new(nextPos)
                         lastPos = h.Position
                         if (os.clock() - startTime) >= stepTime then
                             h.CFrame = CFrame.new(currentDest)
@@ -1947,6 +1965,8 @@ startAutoPlay = function()
                         end
                     end)
                 end
+                local stepStartPos = hrp.Position
+                local maxStepProgress = 0
                 local moveConn
                 moveConn = RunService.Heartbeat:Connect(function(dt)
                     if died then done = true moveConn:Disconnect() return end
@@ -1965,7 +1985,21 @@ startAutoPlay = function()
                     if rawDir.Magnitude < 0.001 then return end
                     local dir = rawDir.Unit
                     if dir ~= dir then return end
-                    h.CFrame = CFrame.new(h.Position + dir * moveDist)
+
+                    -- Anti-snap/backtrack for normal Auto Play too.
+                    local totalVec = currentDest - stepStartPos
+                    local totalLen = totalVec.Magnitude
+                    local nextPos = h.Position + dir * moveDist
+                    if totalLen > 0.001 then
+                        local routeDir = totalVec.Unit
+                        local currentProgress = math.clamp((h.Position - stepStartPos):Dot(routeDir), 0, totalLen)
+                        maxStepProgress = math.max(maxStepProgress, currentProgress)
+                        local proposedProgress = math.clamp((nextPos - stepStartPos):Dot(routeDir), 0, totalLen)
+                        proposedProgress = math.max(proposedProgress, math.min(maxStepProgress + moveDist, totalLen))
+                        nextPos = stepStartPos + routeDir * proposedProgress
+                        maxStepProgress = proposedProgress
+                    end
+                    h.CFrame = CFrame.new(nextPos)
                     if (os.clock() - startTime) >= stepTime then
                         h.CFrame = CFrame.new(currentDest)
                         done = true
