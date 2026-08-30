@@ -402,6 +402,7 @@ return {
         { name = "Z1TR", category = "Zone1", suggestedTime = { min = "60", sec = "0" }, isTowerRush = true, },
         { name = "AATR", category = "ArcaneArea", suggestedTime = { min = "60", sec = "0" }, isTowerRush = true, },
         { name = "Z4TR", category = "Zone4", suggestedTime = { min = "60", sec = "0" }, isTowerRush = true, },
+        { name = "Z5TR", category = "Zone5", suggestedTime = { min = "60", sec = "0" }, isTowerRush = true, },
         { name = "Z7TR", category = "Zone7", suggestedTime = { min = "60", sec = "0" }, isTowerRush = true, },
         { name = "Z9TR", category = "Zone9", suggestedTime = { min = "60", sec = "0" }, isTowerRush = true, },
         { name = "LFTR", category = "LegacyFortress", suggestedTime = { min = "60", sec = "0" }, isTowerRush = true, },
