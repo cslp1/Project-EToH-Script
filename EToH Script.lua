@@ -1587,10 +1587,43 @@ startAutoPlay = function()
                     char = player.Character
                     hrp  = char and char:FindFirstChild("HumanoidRootPart")
                     if not hrp then
-                        Library:Notify({ Title = "Auto Play", Description = "Character lost, stopping!", Duration = 3 })
-                        isAutoPlaying = false
-                        stopAutoNoclip()
-                        return
+                        -- Some Tower Rush transitions (notably after ToST in Z5TR) rebuild
+                        -- the Character for a moment. Do not treat that brief gap as a failed
+                        -- run: wait for the replacement character/HRP, restore Auto Play's
+                        -- humanoid state, and re-arm death detection on the new Humanoid.
+                        Library:Notify({ Title = "Auto Play", Description = "Character changed, waiting for respawn...", Duration = 2 })
+                        local respawnDeadline = os.clock() + 15
+                        repeat
+                            task.wait(0.1)
+                            char = player.Character
+                            hrp  = char and char:FindFirstChild("HumanoidRootPart")
+                        until hrp or os.clock() >= respawnDeadline or autoPlayStop
+
+                        if not hrp then
+                            Library:Notify({ Title = "Auto Play", Description = "Character failed to respawn, stopping!", Duration = 3 })
+                            isAutoPlaying = false
+                            stopAutoNoclip()
+                            return
+                        end
+
+                        local newHumanoid = char:FindFirstChildOfClass("Humanoid")
+                        if newHumanoid then
+                            newHumanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
+                            if newHumanoid.Sit then newHumanoid.Sit = false end
+                            if not physicalMove then newHumanoid.PlatformStand = true end
+
+                            -- diedConn belonged to the old character. Reconnect it so a real
+                            -- death after the Tower Rush transition still stops Auto Play.
+                            if diedConn then diedConn:Disconnect() end
+                            died = false
+                            stopReason = "died"
+                            diedConn = newHumanoid.Died:Connect(function()
+                                died = true
+                                stopReason = "died"
+                                if diedConn then diedConn:Disconnect() end
+                            end)
+                        end
+                        task.wait(0.25)
                     end
                     if step.type == "jump" then
                         local hum = char:FindFirstChildOfClass("Humanoid")
