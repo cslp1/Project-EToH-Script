@@ -944,6 +944,60 @@ TowerBox:AddToggle("SendWebhook", {
     Tooltip = "Send a Discord message when a tower is completed via Auto Play.",
 })
 
+-- ===== Status webhook =====
+-- Reports the whole run, not just wins: started, finished, died, stopped, kicked. Posts
+-- to a URL you supply, so it goes to your own Discord rather than a hardcoded one.
+TowerBox:AddToggle("StatusWebhook", {
+    Text    = "Status Webhook",
+    Default = false,
+    Tooltip = "Post Auto Play status to your own Discord webhook -- run started, tower finished, died, stopped, and kicked. Needs the URL below.",
+})
+TowerBox:AddInput("StatusWebhookURL", {
+    Text        = "Status Webhook URL",
+    Default     = "",
+    Placeholder = "https://discord.com/api/webhooks/...",
+    Tooltip     = "Your Discord webhook URL. Anyone with this URL can post to that channel, so treat it like a password.",
+})
+
+do
+    -- Discord rejects a flood, and a stuck run could otherwise post every frame. One
+    -- message a second is plenty for status and stays well inside the rate limit.
+    local lastPost = 0
+    local COLOURS  = {
+        started = 3447003,     -- blue
+        won     = 3066993,     -- green
+        died    = 15158332,    -- red
+        stopped = 10181046,    -- grey-purple
+        kicked  = 15105570,    -- orange
+    }
+
+    function sendStatusWebhook(event, title, description)
+        if type(request) ~= "function" then return end
+        if not (Library.Toggles.StatusWebhook and Library.Toggles.StatusWebhook.Value) then return end
+        local url = Options.StatusWebhookURL and Options.StatusWebhookURL.Value
+        if not url or not url:match("^https://discord%.com/api/webhooks/") then return end
+        if os.clock() - lastPost < 1 then return end
+        lastPost = os.clock()
+
+        local player = game:GetService("Players").LocalPlayer
+        pcall(function()
+            request({
+                Url     = url,
+                Method  = "POST",
+                Headers = { ["Content-Type"] = "application/json" },
+                Body    = game:GetService("HttpService"):JSONEncode({
+                    embeds = { {
+                        title       = title,
+                        description = description,
+                        color       = COLOURS[event] or 5793266,
+                        footer      = { text = player.Name .. " | place " .. tostring(game.PlaceId) },
+                    } },
+                }),
+            })
+        end)
+    end
+end
+
 TowerBox:AddLabel([[<font color="rgb(255, 0, 0)">Disclaimer:</font>]])
 TowerBox:AddLabel([[<font color="rgb(255, 0, 0)">Send Completion Webhook may reveal your Roblox username on Discord. Use this feature at your own risk. We are not responsible for any bans or consequences resulting from its use</font>]], true)
 
@@ -1377,6 +1431,16 @@ startAutoPlay = function()
                 local msg = stopReason == "stopped" and "Stopped!"
                     or (stopReason == "exited" and "Exited, stopping!" or "Character died, stopping!")
                 Library:Notify({ Title = "Auto Play", Description = msg, Duration = 3 })
+                -- Every ending except a win comes through here, so it is the one place a
+                -- status report can't be missed.
+                local elapsed = runStartTime and (os.clock() - runStartTime) or 0
+                sendStatusWebhook(
+                    stopReason == "stopped" and "stopped" or "died",
+                    stopReason == "stopped" and "Run stopped" or "Run ended",
+                    ("**%s** -- %s after `%d:%02d`"):format(
+                        tostring(selected), msg:gsub("[!,].*", ""),
+                        math.floor(elapsed / 60), math.floor(elapsed % 60))
+                )
                 clearRouteHighlights()
                 stopAutoNoclip()
                 isAutoPlaying = false
@@ -1442,6 +1506,7 @@ startAutoPlay = function()
             end
             if checkDied() then return end
             runStartTime = os.clock()  -- tower entry confirmed
+            sendStatusWebhook("started", "Run started", ("Entered **%s**"):format(tostring(selected)))
 
             local totalSuggestedSec = 0
             for _, towerName in ipairs(towerList) do
@@ -1720,7 +1785,11 @@ startAutoPlay = function()
             if not died then
                 Library:Notify({ Title = "Auto Play", Description = selected .. " Complete!", Duration = 5 })
                 if runStartTime then
-                    sendCompletionWebhook(selected, os.clock() - runStartTime)
+                    local el = os.clock() - runStartTime
+                    sendCompletionWebhook(selected, el)
+                    sendStatusWebhook("won", "Tower complete",
+                        ("**%s** finished in `%d:%02d`"):format(
+                            tostring(selected), math.floor(el / 60), math.floor(el % 60)))
                 end
                 clearRouteHighlights()
             end
@@ -1848,6 +1917,7 @@ startAutoPlay = function()
         VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
         if checkDied() then return end
         runStartTime = os.clock()  -- tower entry confirmed
+        sendStatusWebhook("started", "Run started", ("Entered **%s**"):format(tostring(selected)))
         local deadline = os.clock() + perRepeatTime
         local checkpoints
         local lastErr = ""
@@ -2016,7 +2086,11 @@ startAutoPlay = function()
         if not died then
             Library:Notify({ Title = "Auto Play", Description = "Complete!" .. repTag, Duration = 3 })
             if runStartTime then
-                sendCompletionWebhook(selected, os.clock() - runStartTime)
+                local el = os.clock() - runStartTime
+                sendCompletionWebhook(selected, el)
+                sendStatusWebhook("won", "Tower complete",
+                    ("**%s** finished in `%d:%02d`%s"):format(
+                        tostring(selected), math.floor(el / 60), math.floor(el % 60), repTag))
             end
         end
         if died then break end
