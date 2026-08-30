@@ -4438,6 +4438,88 @@ local function setGodmodeKillBricks(state)
     end)
 end
 
+-- Nearby Touch: switch CanTouch off on everything within a radius of the character, so
+-- nothing you brush against can fire at all. Blunter than the kill-brick sweep, which only
+-- disarms parts it can identify -- this catches hazards that are named like scenery.
+--
+-- The catch, and the reason for the exclusion list: a tower scores progress by counting
+-- what you TOUCHED, server-side, and only checks at the end. Disarm everything and you can
+-- climb a whole tower, register nothing, and be kicked at the WinPad for doing it out of
+-- order. So progression parts are left live: the WinPad itself, the FloorN parts the kit
+-- counts, and anything that moves you between towers.
+local godmodeNearbyConn  = nil
+local godmodeNearbyParts = {}
+local NEARBY_RADIUS      = 12
+
+local function isProgressPart(inst)
+    local n = inst.Name:lower()
+    if n:find("winpad") or n:find("^floor%d") or n:find("teleport") or n:find("destination")
+        or n:find("portal") or n:find("towerstart") or n:find("tpframe") or n:find("checkpoint") then
+        return true
+    end
+    -- The FloorN parts live in the tower's Frame folder; treat that whole folder as
+    -- progression rather than relying on names alone.
+    local node = inst.Parent
+    while node and node ~= workspace do
+        if node.Name == "Frame" or node.Name == "Teleporter" then return true end
+        node = node.Parent
+    end
+    return false
+end
+
+local function setGodmodeNearby(state)
+    if godmodeNearbyConn then
+        godmodeNearbyConn:Disconnect()
+        godmodeNearbyConn = nil
+    end
+    if not state then
+        for part in pairs(godmodeNearbyParts) do
+            if part and part.Parent then part.CanTouch = true end
+        end
+        godmodeNearbyParts = {}
+        return
+    end
+    -- Fetched here rather than assumed from an outer scope: neither is a top-level local
+    -- in this file, so referencing them directly would resolve to a nil global.
+    local Players    = game:GetService("Players")
+    local RunService = game:GetService("RunService")
+    local plr        = Players.LocalPlayer
+    godmodeNearbyConn = RunService.Heartbeat:Connect(function()
+        local char = plr.Character
+        local root = char and char:FindFirstChild("HumanoidRootPart")
+        if not root then return end
+        local ok, near = pcall(function()
+            return workspace:GetPartBoundsInRadius(root.Position, NEARBY_RADIUS)
+        end)
+        if not ok or not near then return end
+        for _, part in ipairs(near) do
+            if part.CanTouch and not part:IsDescendantOf(char) and not isProgressPart(part) then
+                part.CanTouch = false
+                godmodeNearbyParts[part] = true
+            end
+        end
+        -- Anything we walked away from goes back to normal, so the world isn't left
+        -- permanently disarmed behind us.
+        for part in pairs(godmodeNearbyParts) do
+            if not part or not part.Parent then
+                godmodeNearbyParts[part] = nil
+            elseif (part.Position - root.Position).Magnitude > NEARBY_RADIUS * 2 then
+                part.CanTouch = true
+                godmodeNearbyParts[part] = nil
+            end
+        end
+    end)
+end
+
+PlayerBox:AddToggle("GodmodeNearby", {
+    Text    = "Godmode: Disable Nearby Touch",
+    Default = false,
+    Tooltip = "Turns off touch detection on everything within 12 studs as you move, so nothing you brush can fire. Catches hazards the Kill Bricks sweep can't identify by name. WinPads, FloorN parts, teleporters and portals stay live, or the tower would count no progress and kick you at the finish.",
+    Callback = function(state)
+        setGodmodeNearby(state)
+    end,
+})
+
 PlayerBox:AddToggle("GodmodeHook", {
     Text    = "Godmode: Hook Damage",
     Default = UNCSupport.Godmode,
