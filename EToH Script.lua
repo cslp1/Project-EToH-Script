@@ -4442,29 +4442,20 @@ end
 -- nothing you brush against can fire at all. Blunter than the kill-brick sweep, which only
 -- disarms parts it can identify -- this catches hazards that are named like scenery.
 --
--- The catch, and the reason for the exclusion list: a tower scores progress by counting
--- what you TOUCHED, server-side, and only checks at the end. Disarm everything and you can
--- climb a whole tower, register nothing, and be kicked at the WinPad for doing it out of
--- order. So progression parts are left live: the WinPad itself, the FloorN parts the kit
--- counts, and anything that moves you between towers.
+-- Only WinPads and portals are left live. Disarming a WinPad locally really does stop you
+-- winning -- the touch is detected client-side, so your own copy of the part has to stay
+-- touchable -- and portals are how you get in and out of a tower.
+--
+-- Everything else is fair game, floor parts included. If a tower ever starts rejecting a
+-- run for going out of order while this is on, widen this function: the kit counts floors
+-- by touch, so disarming them locally is the one thing here that could cost you progress.
 local godmodeNearbyConn  = nil
 local godmodeNearbyParts = {}
 local NEARBY_RADIUS      = 12
 
 local function isProgressPart(inst)
     local n = inst.Name:lower()
-    if n:find("winpad") or n:find("^floor%d") or n:find("teleport") or n:find("destination")
-        or n:find("portal") or n:find("towerstart") or n:find("tpframe") or n:find("checkpoint") then
-        return true
-    end
-    -- The FloorN parts live in the tower's Frame folder; treat that whole folder as
-    -- progression rather than relying on names alone.
-    local node = inst.Parent
-    while node and node ~= workspace do
-        if node.Name == "Frame" or node.Name == "Teleporter" then return true end
-        node = node.Parent
-    end
-    return false
+    return n:find("winpad") ~= nil or n:find("portal") ~= nil
 end
 
 local function setGodmodeNearby(state)
@@ -4514,7 +4505,7 @@ end
 PlayerBox:AddToggle("GodmodeNearby", {
     Text    = "Godmode: Disable Nearby Touch",
     Default = false,
-    Tooltip = "Turns off touch detection on everything within 12 studs as you move, so nothing you brush can fire. Catches hazards the Kill Bricks sweep can't identify by name. WinPads, FloorN parts, teleporters and portals stay live, or the tower would count no progress and kick you at the finish.",
+    Tooltip = "Turns off touch detection on everything within 12 studs as you move, so nothing you brush can fire. Catches hazards the Kill Bricks sweep cannot identify by name. Only WinPads and portals stay live -- everything else, teleporters included, gets disarmed.",
     Callback = function(state)
         setGodmodeNearby(state)
     end,
