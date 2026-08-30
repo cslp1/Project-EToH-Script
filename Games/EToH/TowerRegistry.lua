@@ -283,6 +283,18 @@ return {
         --Zone 5
         { name = "ToPZ",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
         { name = "ToAR",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToZA",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToBaBT",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToAO",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToGT",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToHE",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToHK",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToUE",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToBS",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToFV",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToSSSS",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToST",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
+        { name = "CoCE",  category = "Zone5", suggestedTime = { min = "3", sec = "5" } },
         --Zone 6
         { name = "ToMM",  category = "Zone6", suggestedTime = { min = "3", sec = "5" } },
         --Zone 7
