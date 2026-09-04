@@ -2366,13 +2366,12 @@ local function _initTowerPortal()
     local labelToName = {}   -- display label -> real tower folder name
     local lastLabels  = ""   -- serialised list, so we only push changes to the dropdown
 
-    -- Registry towers valid for this place. Everything physically in workspace.Towers used
-    -- to be listed too, but EToH streams towers in and out as you move, so unregistered
-    -- neighbours kept appearing and vanishing in the dropdown -- and picking one gave a
-    -- tower with no route file and no tuned time, which Auto Play can't actually run.
-    -- The workspace scan is now only a fallback for when the registry yields nothing at
-    -- all (registry failed to load, or the place id changed in an update), so the dropdown
-    -- degrades to "whatever is loaded" instead of going empty.
+    -- Registry towers valid for this place, plus whatever is physically in
+    -- workspace.Towers. Listing only the registry was tried and reverted: whole zones are
+    -- barely catalogued (Zone 2 has three towers in it), so filtering to the registry hid
+    -- most of what you could actually walk up to. Unregistered neighbours appearing and
+    -- vanishing as they stream is the lesser problem -- and Automake Route works on them
+    -- regardless of whether anyone has catalogued them.
     local function candidates()
         local seen, out = {}, {}
         for name in pairs(TowerConfigs) do
@@ -2382,14 +2381,12 @@ local function _initTowerPortal()
                 out[#out + 1] = folderName
             end
         end
-        if #out == 0 then
-            local towersFolder = workspace:FindFirstChild("Towers")
-            if towersFolder then
-                for _, child in ipairs(towersFolder:GetChildren()) do
-                    if not seen[child.Name] then
-                        seen[child.Name] = true
-                        out[#out + 1] = child.Name
-                    end
+        local towersFolder = workspace:FindFirstChild("Towers")
+        if towersFolder then
+            for _, child in ipairs(towersFolder:GetChildren()) do
+                if not seen[child.Name] then
+                    seen[child.Name] = true
+                    out[#out + 1] = child.Name
                 end
             end
         end
