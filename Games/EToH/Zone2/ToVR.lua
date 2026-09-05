@@ -9,7 +9,6 @@ return function()
         return part
     end
 
-    route[#route + 1] = workspace.ClientParts:GetChildren()[40]:GetChildren()[48]:GetChildren()[1]
     route[#route + 1] = workspace.Towers["ToVR"].Obby:GetChildren()[1270]
     route[#route + 1] = workspace.Towers["ToVR"].Obby:GetChildren()[1516]
     route[#route + 1] = workspace.Towers["ToVR"].Obby:GetChildren()[1170]
