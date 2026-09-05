@@ -2635,17 +2635,68 @@ local function _initTowerPortal()
     -- But some towers group their obby into section Models, so the top level holds no
     -- BaseParts at all -- fall back to the full descendant list instead of reporting the
     -- container as empty (which is what "CoIV's Obby has no parts" was).
+    -- Automake takes every BasePart it finds, which on a dense tower means walls, trim,
+    -- kill bricks and decoration all become checkpoints -- ToTA's Obby yields 3115 of
+    -- them, and the resulting "route" is a tour of the geometry rather than a climb.
+    -- Nothing marks a part as walkable, so this rules out what clearly is not.
+    local WALKABLE_MAX_STUD = 220   -- bigger than this is tower structure, not an obstacle
+    local WALKABLE_MIN_AREA = 4     -- smaller top face than this is trim you can't land on
+
+    local function isWalkable(part)
+        -- You cannot stand on something with collision off. This alone removes most
+        -- decoration, and every kill brick the Kill Bricks godmode has disarmed.
+        if not part.CanCollide then return false end
+
+        -- Kill bricks: named, or carrying the kit's `kills` flag. Routing onto one is
+        -- never intended even when godmode makes it survivable.
+        if part.Name == "Kill Brick" then return false end
+        local kills = part:FindFirstChild("kills")
+        if kills and kills:IsA("BoolValue") and kills.Value then return false end
+
+        local size = part.Size
+        -- Walls, floors and the tower shell. A real obstacle is not 200+ studs across.
+        if size.X > WALKABLE_MAX_STUD or size.Z > WALKABLE_MAX_STUD then return false end
+        -- Trim and detail: too small a footprint to be a landing.
+        if (size.X * size.Z) < WALKABLE_MIN_AREA then return false end
+
+        return true
+    end
+
+    -- Falls back to the unfiltered list rather than returning nothing: a tower built
+    -- entirely from parts this rejects would otherwise report "no parts" and be
+    -- unplayable, which is worse than a noisy route.
+    local lastFilteredOut = 0   -- set by gatherParts, read by the Automake notification
+
     local function gatherParts(container)
-        local direct = {}
+        local direct, directAll = {}, {}
         for _, v in ipairs(container:GetChildren()) do
-            if v:IsA("BasePart") then direct[#direct + 1] = v end
+            if v:IsA("BasePart") then
+                directAll[#directAll + 1] = v
+                if isWalkable(v) then direct[#direct + 1] = v end
+            end
         end
-        if #direct > 0 then return direct end
-        local all = {}
+        if #direct > 0 then
+            lastFilteredOut = #directAll - #direct
+            return direct
+        end
+        if #directAll > 0 then
+            lastFilteredOut = 0
+            return directAll
+        end
+
+        local all, allAll = {}, {}
         for _, v in ipairs(container:GetDescendants()) do
-            if v:IsA("BasePart") then all[#all + 1] = v end
+            if v:IsA("BasePart") then
+                allAll[#allAll + 1] = v
+                if isWalkable(v) then all[#all + 1] = v end
+            end
         end
-        return all
+        if #all > 0 then
+            lastFilteredOut = #allAll - #all
+            return all
+        end
+        lastFilteredOut = 0
+        return allAll
     end
 
     local function collectAutoRoute(name, descending)
@@ -2842,7 +2893,8 @@ local function _initTowerPortal()
         if not winPad then
             winPad = root:FindFirstChild("WinPad", true) or root:FindFirstChild("Winpad", true)
         end
-        return { parts = parts, winPad = winPad, root = root, rootExpr = rootExpr }
+        return { parts = parts, winPad = winPad, root = root, rootExpr = rootExpr,
+             filteredOut = lastFilteredOut }
     end
 
     -- ===== Route Maker V2 =====
@@ -3753,8 +3805,10 @@ local function _initTowerPortal()
             local dir = descending and "descending" or "ascending"
             Library:Notify({
                 Title       = "Automake",
-                Description = ("%s: %d checkpoints %s%s, armed for Auto Play.%s"):format(
-                    name, #data.parts, dir, data.winPad and " + WinPad" or " (no WinPad found)", saved),
+                Description = ("%s: %d checkpoints %s%s, armed for Auto Play.%s%s"):format(
+                    name, #data.parts, dir, data.winPad and " + WinPad" or " (no WinPad found)", saved,
+                    (data.filteredOut or 0) > 0
+                        and (" Skipped %d unwalkable parts."):format(data.filteredOut) or ""),
                 Duration    = 6,
             })
             logAction(("Automade a %d-checkpoint %s route for %s"):format(#data.parts, dir, name))
