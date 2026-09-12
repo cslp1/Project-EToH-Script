@@ -190,7 +190,7 @@ return {
         { name = "CoTE",  category = "Ring7", suggestedTime = { min = "15", sec = "30" } },
         { name = "ToEH",  category = "Ring7", suggestedTime = { min = "3", sec = "5" } },
         { name = "ToTB",  category = "Ring7", suggestedTime = { min = "3", sec = "5" } },
-        { name = "ToER",  category = "Ring7", suggestedTime = { min = "1", sec = "45" } },
+        { name = "ToER",  category = "Ring7", suggestedTime = { min = "3", sec = "5" } },
         --Ring 8
         { name = "ToEI",  category = "Ring8", suggestedTime = { min = "3", sec = "5" } },
         { name = "ToNBA",  category = "Ring8", suggestedTime = { min = "3", sec = "5" } },
