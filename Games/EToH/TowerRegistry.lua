@@ -359,12 +359,9 @@ return {
         --Pit of Misery
         { name = "WAT",  category = "Pit-of-Misery", suggestedTime = { min = "0", sec = "5" } },
         { name = "ToVH",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
-        { name = "ToTRP",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
-        { name = "ToEV",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
-        { name = "ToWM",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
-        { name = "ToBF",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
-        { name = "SoCB",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
-        { name = "UT",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToCP",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToMDC",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToPI",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
         --Elysian  Fields
         { name = "SoGE",  category = "ElysianFields", suggestedTime = { min = "2", sec = "50" } },
         --The Doghouse
