@@ -357,11 +357,14 @@ return {
         { name = "ToBP",  category = "Zone10", suggestedTime = { min = "3", sec = "5" } },
         { name = "ToRT",  category = "Zone10", suggestedTime = { min = "3", sec = "5" } },
         --Pit of Misery
+        { name = "ToMDC",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToCP",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToPI",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
+        { name = "CoVD",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
+        { name = "ToSUT",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
         { name = "WAT",  category = "Pit-of-Misery", suggestedTime = { min = "0", sec = "5" } },
         { name = "ToVH",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
-        { name = "ToCP",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
-        { name = "ToMDC",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
-        { name = "ToPI",  category = "Pit-of-Misery", suggestedTime = { min = "3", sec = "5" } },
+      
         --Elysian  Fields
         { name = "SoGE",  category = "ElysianFields", suggestedTime = { min = "2", sec = "50" } },
         --The Doghouse
