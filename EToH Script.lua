@@ -4009,12 +4009,18 @@ local function applyJumpPower(hum, value)
     pcall(function() hum.UseJumpPower = true end)
     if hum.UseJumpPower then
         hum.JumpPower = value
-    else
-        -- Peak of a launch at `value` studs/s: h = v^2 / 2g.
-        local gravity = workspace.Gravity
-        if gravity <= 0 then gravity = 196.2 end
-        hum.JumpHeight = (value * value) / (2 * gravity)
+        return
     end
+
+    -- Height fallback, anchored so that 50 is a stock jump. The physics conversion
+    -- (h = v^2 / 2g) is NOT the right one here: it turns 50 into 6.37 studs, while a
+    -- default character jumps 7.2 -- so the slider sitting on its own default would leave
+    -- you jumping visibly lower than everyone else. Roblox simply ships 50 and 7.2 as the
+    -- paired defaults, so scale against that pair instead, and against gravity so low- and
+    -- high-gravity places still behave like a fixed launch speed.
+    local gravity = workspace.Gravity
+    if gravity <= 0 then gravity = 196.2 end
+    hum.JumpHeight = value * (7.2 / 50) * (196.2 / gravity)
 end
 
 local function applyCharacterStats(char)
@@ -4023,10 +4029,25 @@ local function applyCharacterStats(char)
         char:WaitForChild("Humanoid", 5)
         hum = char:FindFirstChildOfClass("Humanoid")
     end
-    if hum then
+    if not hum then return end
+
+    local function apply()
         hum.WalkSpeed = Library.Options.WalkSpeed.Value
         applyJumpPower(hum, Library.Options.JumpPower.Value)
     end
+    apply()
+
+    -- CharacterAdded fires before the game's own spawn scripts have finished with the
+    -- humanoid, so a single write here gets overwritten a moment later and the slider ends
+    -- up lying about your actual jump. Keep re-applying over the first second to land last.
+    -- Re-reads the sliders each pass, so moving one mid-spawn isn't fought.
+    task.spawn(function()
+        for _ = 1, 10 do
+            task.wait(0.1)
+            if Library.Unloaded or hum.Parent == nil then return end
+            apply()
+        end
+    end)
 end
 
 game:GetService("Players").LocalPlayer.CharacterAdded:Connect(applyCharacterStats)
