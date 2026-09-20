@@ -2466,49 +2466,36 @@ local function _initTowerPortal()
 
     -- ===== Auto-pick =====
     -- The list above already auto-detects whatever is in workspace.Towers; this picks one
-    -- of them for you instead of making you scroll. "Nearest" is measured to the tower's
-    -- entry portal (TPFRAME) where one resolves, and to the tower folder itself where it
-    -- doesn't -- so it lands on the tower you're standing at, or the one you're inside.
-    local function towerAnchor(name)
-        local part = resolveTPFrame(name)
-        if part then return part.Position end
+    -- of them for you instead of making you scroll. Any tower currently in workspace is a
+    -- candidate -- towers with no resolvable entry portal included, since Automake Route
+    -- works on them regardless and they're still somewhere you can walk to.
+    local function loadedTowers()
+        local towersFolder = workspace:FindFirstChild("Towers")
+        if not towersFolder then return nil, "No workspace.Towers in this place." end
 
-        -- No portal (kit variants, or a tower still half-streamed). Any part of it is a
-        -- good enough anchor: towers are far enough apart that metres inside one don't
-        -- change which one is closest.
-        local folder = towerFolder(name)
-        if not folder then return nil end
-        if folder:IsA("Model") then
-            local ok, cf = pcall(function() return folder:GetPivot() end)
-            if ok and cf then return cf.Position end
+        local out = {}
+        for _, child in ipairs(towersFolder:GetChildren()) do
+            if towerFolder(child.Name) then out[#out + 1] = child.Name end
         end
-        for _, d in ipairs(folder:GetDescendants()) do
-            if d:IsA("BasePart") then return d.Position end
-        end
-        return nil
+        if #out == 0 then return nil, "No loaded tower to pick -- walk closer to one." end
+        return out
     end
 
-    -- Returns name, distance -- or nil, nil, reason.
-    local function nearestTower()
-        local char = game:GetService("Players").LocalPlayer.Character
-        local hrp  = char and char:FindFirstChild("HumanoidRootPart")
-        if not hrp then return nil, nil, "No character." end
+    -- Returns name, count -- or nil, nil, reason. `avoid` is skipped when there's anything
+    -- else to pick, so re-rolling never hands you back the tower you already had.
+    local rng = Random.new()
+    local function randomTower(avoid)
+        local names, why = loadedTowers()
+        if not names then return nil, nil, why end
 
-        local towersFolder = workspace:FindFirstChild("Towers")
-        if not towersFolder then return nil, nil, "No workspace.Towers in this place." end
-
-        local best, bestDist
-        for _, child in ipairs(towersFolder:GetChildren()) do
-            local pos = towerAnchor(child.Name)
-            if pos then
-                local dist = (pos - hrp.Position).Magnitude
-                if not bestDist or dist < bestDist then
-                    best, bestDist = child.Name, dist
-                end
+        local pool = names
+        if avoid and #names > 1 then
+            pool = {}
+            for _, name in ipairs(names) do
+                if name ~= avoid then pool[#pool + 1] = name end
             end
         end
-        if not best then return nil, nil, "No loaded tower to pick -- walk closer to one." end
-        return best, bestDist
+        return pool[rng:NextInteger(1, #pool)], #names
     end
 
     -- Select a tower by its real folder name. The dropdown is search-filtered and capped
@@ -2528,43 +2515,46 @@ local function _initTowerPortal()
         return false
     end
 
+    -- The real folder name behind whatever is selected right now, or nil.
+    local function selectedTower()
+        local label = Options.PortalMatch and Options.PortalMatch.Value
+        return label and labelToName[label] or nil
+    end
+
     PortalBox:AddButton({
-        Text    = "Pick Nearest Tower",
-        Tooltip = "Select the loaded tower closest to you, without typing anything.",
+        Text    = "Pick Random Tower",
+        Tooltip = "Select a random loaded tower. Click again to re-roll -- it won't hand you the same one back.",
         Callback = function()
-            local name, dist, why = nearestTower()
-            if not name or not dist then
+            local name, count, why = randomTower(selectedTower())
+            if not name then
                 Library:Notify({ Title = "Tower Portal", Description = tostring(why), Duration = 4 })
                 return
             end
             selectTower(name)
             Library:Notify({
                 Title       = "Tower Portal",
-                Description = ("Picked %s (%d studs away)."):format(name, math.floor(dist)),
+                Description = ("Picked %s (1 of %d loaded)."):format(name, count),
                 Duration    = 3,
             })
         end,
     })
 
-    -- Re-picked on the same 1s scan that refreshes the list, so walking from one tower to
-    -- the next keeps the selection pointed at whatever you're standing in front of. It
-    -- drives the search box while it's on, so leave it off if you want to type.
-    local lastAutoPick = nil
+    -- Runs on the same 1s scan that refreshes the list. It only rolls when nothing valid
+    -- is selected -- on first tick, or after the selected tower streams out as you move --
+    -- so it isn't reshuffling the dropdown out from under you every second. Hit the button
+    -- when you want a fresh one.
     local function autoPickTick()
-        if not (Library.Toggles.AutoPickTower and Library.Toggles.AutoPickTower.Value) then
-            lastAutoPick = nil
-            return
-        end
-        local name = nearestTower()
-        if not name or name == lastAutoPick then return end
-        lastAutoPick = name
-        selectTower(name)
+        if not (Library.Toggles.AutoPickTower and Library.Toggles.AutoPickTower.Value) then return end
+        if selectedTower() then return end
+
+        local name = randomTower()
+        if name then selectTower(name) end
     end
 
     PortalBox:AddToggle("AutoPickTower", {
-        Text    = "Auto-Pick Nearest",
+        Text    = "Auto-Pick Random",
         Default = false,
-        Tooltip = "Keep the selection on the nearest loaded tower as you move. Overrides the search box while on.",
+        Tooltip = "Keep a random loaded tower selected -- re-rolls whenever the current pick streams out.",
     })
 
     PortalBox:AddButton({
