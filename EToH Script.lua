@@ -3991,8 +3991,31 @@ local PlayerBox = Tabs.Main:AddRightGroupbox("Player")
 
 local wsConn = nil
 local wsCAConn = nil
-local jpConn = nil
+local jpConns = {}
 local jpCAConn = nil
+
+local function clearJPConns()
+    for _, conn in ipairs(jpConns) do conn:Disconnect() end
+    table.clear(jpConns)
+end
+
+-- Humanoid.JumpPower only does anything while UseJumpPower is true. Roblox's newer
+-- default is false, where JumpHeight drives the jump and writes to JumpPower are silently
+-- inert -- the slider moves and nothing happens, which is what "jump power is broken"
+-- looks like. Turn the flag on first; if the game won't let us, convert the value to the
+-- equivalent height instead so the slider still means something.
+local function applyJumpPower(hum, value)
+    if not hum then return end
+    pcall(function() hum.UseJumpPower = true end)
+    if hum.UseJumpPower then
+        hum.JumpPower = value
+    else
+        -- Peak of a launch at `value` studs/s: h = v^2 / 2g.
+        local gravity = workspace.Gravity
+        if gravity <= 0 then gravity = 196.2 end
+        hum.JumpHeight = (value * value) / (2 * gravity)
+    end
+end
 
 local function applyCharacterStats(char)
     local hum = char and char:FindFirstChildOfClass("Humanoid")
@@ -4002,7 +4025,7 @@ local function applyCharacterStats(char)
     end
     if hum then
         hum.WalkSpeed = Library.Options.WalkSpeed.Value
-        hum.JumpPower = Library.Options.JumpPower.Value
+        applyJumpPower(hum, Library.Options.JumpPower.Value)
     end
 end
 
@@ -4069,10 +4092,10 @@ PlayerBox:AddSlider("JumpPower", {
     Min      = 0,
     Max      = 200,
     Rounding = 0,
+    Tooltip  = "Studs per second of upward launch. On humanoids that use JumpHeight instead, this is converted to the matching height.",
     Callback = function(value)
         local char = game:GetService("Players").LocalPlayer.Character
-        local hum  = char and char:FindFirstChildOfClass("Humanoid")
-        if hum then hum.JumpPower = value end
+        applyJumpPower(char and char:FindFirstChildOfClass("Humanoid"), value)
     end,
 })
 
@@ -4081,7 +4104,7 @@ PlayerBox:AddToggle("LockJumpPower", {
     Default = false,
     Callback = function(state)
         local player = game:GetService("Players").LocalPlayer
-        if jpConn then jpConn:Disconnect() jpConn = nil end
+        clearJPConns()
         if jpCAConn then jpCAConn:Disconnect() jpCAConn = nil end
         if not state then return end
         local function applyJP(char)
@@ -4091,16 +4114,22 @@ PlayerBox:AddToggle("LockJumpPower", {
                 hum = char:FindFirstChildOfClass("Humanoid")
             end
             if not hum then return end
-            hum.JumpPower = Library.Options.JumpPower.Value
-            jpConn = hum:GetPropertyChangedSignal("JumpPower"):Connect(function()
+            applyJumpPower(hum, Library.Options.JumpPower.Value)
+
+            local function reapply()
                 if Library.Toggles.LockJumpPower.Value then
-                    hum.JumpPower = Library.Options.JumpPower.Value
+                    applyJumpPower(hum, Library.Options.JumpPower.Value)
                 end
-            end)
+            end
+            -- Watch all three: a game that resets your jump can write JumpHeight, or flip
+            -- UseJumpPower off, not just overwrite JumpPower.
+            for _, prop in ipairs({ "JumpPower", "JumpHeight", "UseJumpPower" }) do
+                jpConns[#jpConns + 1] = hum:GetPropertyChangedSignal(prop):Connect(reapply)
+            end
         end
         applyJP(player.Character)
         jpCAConn = player.CharacterAdded:Connect(function(char)
-            if jpConn then jpConn:Disconnect() jpConn = nil end
+            clearJPConns()
             applyJP(char)
         end)
     end,
