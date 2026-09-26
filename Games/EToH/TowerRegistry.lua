@@ -28,6 +28,7 @@ local Categories = {
     Zone9 = 9071004505,
     Zone10 = 9071004898,
     ["Pit-of-Misery"] = 121814103864070,
+    TheEternalAbyss = 15873244701,
     ElysianFields = 95241871632790,
     TheDoghouse = 16976865869,
     LegacyFortress = 116826560849733,
@@ -378,6 +379,10 @@ return {
         { name = "ToVM",  category = "Pit-of-Misery", suggestedTime = { min = "30", sec = "28" } },
         { name = "WAT",  category = "Pit-of-Misery", suggestedTime = { min = "1", sec = "52" } },
         { name = "ToVH",  category = "Pit-of-Misery", suggestedTime = { min = "7", sec = "5" } },
+        --The Eternal Abyss
+        { name = "ToTTP",  category = "TheEternalAbyss", suggestedTime = { min = "6", sec = "5" } },
+        { name = "TTTT",  category = "TheEternalAbyss", suggestedTime = { min = "36", sec = "5" } },
+        { name = "ToDN",  category = "TheEternalAbyss", suggestedTime = { min = "19", sec = "5" } },
         --Elysian  Fields
         { name = "SoGE",  category = "ElysianFields", suggestedTime = { min = "2", sec = "50" } },
         --The Doghouse
