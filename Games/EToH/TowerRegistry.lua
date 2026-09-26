@@ -387,7 +387,7 @@ return {
         --Timeless Manor
         { name = "ToDC",  category = "TimelessManor", suggestedTime = { min = "6", sec = "5" } },
         { name = "ToSW",  category = "TimelessManor", suggestedTime = { min = "36", sec = "5" } },
-        { name = "THN",  category = "TimelessManor", suggestedTime = { min = "19", sec = "5" } },
+        { name = "ToHN",  category = "TimelessManor", suggestedTime = { min = "19", sec = "5" } },
         --Elysian  Fields
         { name = "SoGE",  category = "ElysianFields", suggestedTime = { min = "2", sec = "50" } },
         --The Doghouse
