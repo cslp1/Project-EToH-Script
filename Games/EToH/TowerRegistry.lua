@@ -384,6 +384,8 @@ return {
         { name = "ToTTP",  category = "TheEternalAbyss", suggestedTime = { min = "6", sec = "5" } },
         { name = "TTTT",  category = "TheEternalAbyss", suggestedTime = { min = "36", sec = "5" } },
         { name = "ToDN",  category = "TheEternalAbyss", suggestedTime = { min = "19", sec = "5" } },
+        { name = "ToEtA",  category = "TheEternalAbyss", suggestedTime = { min = "36", sec = "5" } },
+        { name = "SoPC",  category = "TheEternalAbyss", suggestedTime = { min = "19", sec = "5" } },
         --Timeless Manor
         { name = "ToDC",  category = "TimelessManor", suggestedTime = { min = "6", sec = "5" } },
         { name = "ToSW",  category = "TimelessManor", suggestedTime = { min = "36", sec = "5" } },
