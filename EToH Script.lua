@@ -2792,7 +2792,13 @@ local function _initTowerPortal()
         return allAll
     end
 
-    local function collectAutoRoute(name, descending)
+    -- `order` is the Route Order dropdown's value. Ascending/Descending order along Y --
+    -- a climb, or a tower you go down. The Straight modes order along X instead, for
+    -- sections that run horizontally, where sorting on height puts a flat corridor's parts
+    -- in essentially random order.
+    local function collectAutoRoute(name, order)
+        local axis      = (order == "Straight +X" or order == "Straight -X") and "X" or "Y"
+        local descending = order == "Descending" or order == "Straight -X"
         local folder = towerFolder(name)
 
         -- Where the obstacle parts live.
@@ -2833,7 +2839,10 @@ local function _initTowerPortal()
         -- boundaries, which is precisely what puts the route out of order.
         local bands = {}
         do
-            local frame = folder and folder:FindFirstChild("Frame")
+            -- Floors are a vertical idea, so the Straight modes don't band at all: the Frame
+            -- is left unresolved, both scans below are gated on it, and every part lands on
+            -- a single floor. Ordering along X through one flat section is the whole point.
+            local frame = axis == "Y" and folder and folder:FindFirstChild("Frame") or nil
 
             -- Best case: the tower NAMES its floors. ToGF's Frame holds Floor1..Floor10, and
             -- a number straight from the tower beats anything inferred -- no colour guessing,
@@ -2932,15 +2941,19 @@ local function _initTowerPortal()
         end
 
         -- Ascending = climb (lowest floor first). Descending = a tower you go DOWN, so the
-        -- highest floor is the start and the order flips.
+        -- highest floor is the start and the order flips. Straight +X / -X read the X
+        -- coordinate in place of height and, having no bands, sort one flat run end to end.
+        local function along(p)
+            return axis == "X" and p.Position.X or p.Position.Y
+        end
         table.sort(parts, function(a, b)
             local fa, fb = floorOf[a], floorOf[b]
             if fa ~= fb then
                 if descending then return fa > fb end
                 return fa < fb
             end
-            if descending then return a.Position.Y > b.Position.Y end
-            return a.Position.Y < b.Position.Y
+            if descending then return along(a) > along(b) end
+            return along(a) < along(b)
         end)
 
         -- Within a floor, height still isn't a path: parts at the same height sit on
@@ -3866,9 +3879,9 @@ local function _initTowerPortal()
 
     PortalBox:AddDropdown("AutoRouteOrder", {
         Text    = "Route Order",
-        Values  = { "Ascending", "Descending" },
+        Values  = { "Ascending", "Descending", "Straight +X", "Straight -X" },
         Default = "Ascending",
-        Tooltip = "Ascending: a normal climb, lowest part first. Descending: a tower you go DOWN, highest part first.",
+        Tooltip = "Ascending/Descending order by height: a normal climb, or a tower you go DOWN. Straight +X / -X order by X instead, for a section that runs flat -- sorting a corridor by height puts it in near-random order. Pick the sign that matches the way you're heading.",
     })
 
     PortalBox:AddSlider("AutoStraighten", {
@@ -3894,9 +3907,9 @@ local function _initTowerPortal()
 
             -- Read the order once, here, and keep it: the armed route must stay in the
             -- order it was made in even if the dropdown is changed afterwards.
-            local descending = (Options.AutoRouteOrder and Options.AutoRouteOrder.Value) == "Descending"
+            local order = (Options.AutoRouteOrder and Options.AutoRouteOrder.Value) or "Ascending"
 
-            local data, err = collectAutoRoute(name, descending)
+            local data, err = collectAutoRoute(name, order)
             if not data then
                 Library:Notify({ Title = "Automake", Description = err, Duration = 5 })
                 return
@@ -3905,7 +3918,7 @@ local function _initTowerPortal()
             -- Resolve live each call so parts that streamed in since still count, and so a
             -- re-entry after a death doesn't walk stale instances.
             local function routeFn()
-                local fresh = collectAutoRoute(name, descending)
+                local fresh = collectAutoRoute(name, order)
                 local steps = {}
                 if fresh then
                     for _, p in ipairs(fresh.parts) do steps[#steps + 1] = p end
@@ -3942,7 +3955,7 @@ local function _initTowerPortal()
                 local ok = pcall(writefile, name .. ".lua", buildRouteSource(stepsFromAutoRoute(data)))
                 saved = ok and (" Saved to " .. name .. ".lua.") or " (couldn't write the file)"
             end
-            local dir = descending and "descending" or "ascending"
+            local dir = order:lower()
             Library:Notify({
                 Title       = "Automake",
                 Description = ("%s: %d checkpoints %s%s, armed for Auto Play.%s%s"):format(
