@@ -278,15 +278,6 @@ local currentPlaceId = game.PlaceId
 -- ToER at its registered 3:05 kicked every attempt; stretched out, it ran clean.
 local MAX_WALK_SPEED = 90   -- studs/second (~1.5 studs per frame at 60fps)
 
--- True if a tower's folder is actually loaded in workspace.Towers right now. Used so
--- the dropdown shows the towers physically present in the current place even if the
--- registry's hardcoded category PlaceId no longer matches (e.g. after a game update),
--- instead of silently filtering everything out and leaving a blank tower list.
-local function towerFolderPresent(name)
-    local towersFolder = workspace:FindFirstChild("Towers")
-    return towersFolder ~= nil and towersFolder:FindFirstChild(name) ~= nil
-end
-
 local function towerFolder(name)
     local towersFolder = workspace:FindFirstChild("Towers")
     return towersFolder and towersFolder:FindFirstChild(name)
@@ -402,23 +393,18 @@ local function entryMatchesPlace(entry)
     return placeMatches(Registry.Categories[entry.category])
 end
 
--- Is the current place one the registry recognizes (its id appears in some category)?
-local placeIsKnown = false
-for _, ids in pairs(Registry.Categories or {}) do
-    if placeMatches(ids) then
-        placeIsKnown = true
-        break
-    end
-end
 
--- Whether to list an entry here. In a KNOWN place we trust the registry's place mapping
--- exactly. The folder-name fallback (show anything whose folder happens to be loaded) is
--- only for UNKNOWN places -- e.g. EToH after a place-id update -- otherwise a different
--- game that reuses EToH acronyms (The Eternal Abyss: ToSD/ToTF/ToER/...) would surface
--- every colliding tower even though those aren't the real EToH towers.
-local function shouldShow(entry, folderName)
-    if entryMatchesPlace(entry) then return true end
-    return (not placeIsKnown) and towerFolderPresent(folderName)
+-- Whether to list an entry here: the registry's place mapping, and nothing else.
+-- There is deliberately no "show whatever folder happens to be loaded" fallback. Tower
+-- acronyms collide across games (The Eternal Abyss reuses ToSD/ToTF/ToER/...), so a
+-- presence check surfaces towers that aren't the ones the registry means, pointing the
+-- route URLs at the wrong game's files.
+-- Consequence: in a place the registry does not map, the tower list is EMPTY rather than
+-- approximate -- e.g. EToH after a place-id update. The fix is to update the PlaceId in
+-- Games/EToH/TowerRegistry.lua; the "No towers found" notification below reports the id
+-- to add.
+local function shouldShow(entry, _folderName)
+    return entryMatchesPlace(entry)
 end
 
 for _, tower in ipairs(Registry.Towers or {}) do
