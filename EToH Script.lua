@@ -2980,6 +2980,43 @@ local function _initTowerPortal()
             parts = out
         end
 
+        -- Straighten: drop checkpoints that already sit on the straight line between their
+        -- neighbours. Ordering by proximity above stops the route lurching across the tower,
+        -- but a dense floor still leaves you stepping onto every slab of one long platform,
+        -- and those micro-hops make the walk stagger. If a part is within `tol` studs of the
+        -- line from the last kept checkpoint to the next one, walking straight past it gets
+        -- you there anyway, so it isn't worth a stop.
+        --
+        -- Off by default, and it should stay off on anything that validates every platform:
+        -- fewer checkpoints means fewer parts actually touched, which is how you get kicked
+        -- for skipping. Turn it up on towers that only check floors.
+        local straightenTol = (Options.AutoStraighten and Options.AutoStraighten.Value) or 0
+        local straightenedOut = 0
+        if straightenTol > 0 and #parts > 2 then
+            local function distToSegment(p, a, b)
+                local ab   = b - a
+                local len2 = ab:Dot(ab)
+                if len2 < 1e-6 then return (p - a).Magnitude end
+                local t = math.clamp((p - a):Dot(ab) / len2, 0, 1)
+                return (p - (a + ab * t)).Magnitude
+            end
+
+            local out = { parts[1] }
+            for i = 2, #parts - 1 do
+                local prev, cur, nxt = out[#out], parts[i], parts[i + 1]
+                -- Never straighten across a floor boundary: the first and last checkpoint of
+                -- each floor are what the kit's per-floor progress check reads.
+                local sameFloor = floorOf[cur] == floorOf[prev] and floorOf[cur] == floorOf[nxt]
+                if sameFloor and distToSegment(cur.Position, prev.Position, nxt.Position) <= straightenTol then
+                    straightenedOut += 1
+                else
+                    out[#out + 1] = cur
+                end
+            end
+            out[#out + 1] = parts[#parts]
+            parts = out
+        end
+
         -- Prefer the tower folder's own WinPad (TEA keeps one there next to Portal/Frame),
         -- then look inside the parts source for games that ship it with the obby instead.
         local winPad = folder and (folder:FindFirstChild("WinPad", true) or folder:FindFirstChild("Winpad", true))
@@ -2987,7 +3024,7 @@ local function _initTowerPortal()
             winPad = root:FindFirstChild("WinPad", true) or root:FindFirstChild("Winpad", true)
         end
         return { parts = parts, winPad = winPad, root = root, rootExpr = rootExpr,
-             filteredOut = lastFilteredOut }
+             filteredOut = lastFilteredOut, straightenedOut = straightenedOut }
     end
 
     -- ===== Route Maker V2 =====
@@ -3834,6 +3871,16 @@ local function _initTowerPortal()
         Tooltip = "Ascending: a normal climb, lowest part first. Descending: a tower you go DOWN, highest part first.",
     })
 
+    PortalBox:AddSlider("AutoStraighten", {
+        Text     = "Straighten",
+        Default  = 0,
+        Min      = 0,
+        Max      = 20,
+        Rounding = 0,
+        Suffix   = " studs",
+        Tooltip  = "Drop checkpoints already on the straight line between their neighbours, within this many studs. Smooths out the stagger across long platforms. 0 is off -- raise it only on towers that don't check every platform, since skipping parts is what gets you kicked.",
+    })
+
     PortalBox:AddButton({
         Text    = "Automake Route",
         Tooltip = "Build a route for the selected tower from its own parts in the chosen order, arm it for Auto Play, and save it to a file.",
@@ -3900,8 +3947,10 @@ local function _initTowerPortal()
                 Title       = "Automake",
                 Description = ("%s: %d checkpoints %s%s, armed for Auto Play.%s%s"):format(
                     name, #data.parts, dir, data.winPad and " + WinPad" or " (no WinPad found)", saved,
-                    (data.filteredOut or 0) > 0
-                        and (" Skipped %d unwalkable parts."):format(data.filteredOut) or ""),
+                    ((data.filteredOut or 0) > 0
+                        and (" Skipped %d unwalkable parts."):format(data.filteredOut) or "")
+                    .. ((data.straightenedOut or 0) > 0
+                        and (" Straightened out %d."):format(data.straightenedOut) or "")),
                 Duration    = 6,
             })
             logAction(("Automade a %d-checkpoint %s route for %s"):format(#data.parts, dir, name))
