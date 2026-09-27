@@ -378,7 +378,9 @@ return {
         { name = "ToATC",  category = "Pit-of-Misery", suggestedTime = { min = "12", sec = "5" } },
         { name = "STONE_V",  category = "Pit-of-Misery", suggestedTime = { min = "30", sec = "28" } },
         { name = "ToVM",  category = "Pit-of-Misery", suggestedTime = { min = "30", sec = "28" } },
+        { name = "ToOLC",  category = "Pit-of-Misery", suggestedTime = { min = "30", sec = "28" } },
         { name = "WAT",  category = "Pit-of-Misery", suggestedTime = { min = "1", sec = "52" } },
+        { name = "ToPC",  category = "Pit-of-Misery", suggestedTime = { min = "15", sec = "28" } },
         { name = "ToVH",  category = "Pit-of-Misery", suggestedTime = { min = "7", sec = "5" } },
         --The Eternal Abyss
         { name = "ToNF",  category = "TheEternalAbyss", suggestedTime = { min = "6", sec = "5" } },
