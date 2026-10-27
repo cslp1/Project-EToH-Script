@@ -1260,6 +1260,32 @@ startAutoPlay = function()
             end)
         end
 
+        -- Stop at the fifth route part before the first WinPad. Jump/wait steps
+        -- do not count as parts. Unknown or too-short routes never start moving.
+        local function limitBeforeWinPad(steps)
+            local partIndices = {}
+            local stopIndex
+            for i, step in ipairs(steps) do
+                local target = step.target
+                if target and target:IsA("BasePart") then
+                    if target.Name:lower():find("winpad", 1, true) then
+                        stopIndex = partIndices[#partIndices - 4]
+                        break
+                    end
+                    partIndices[#partIndices + 1] = i
+                end
+            end
+            stopIndex = stopIndex or 0
+            for i = #steps, stopIndex + 1, -1 do
+                steps[i] = nil
+            end
+            local distance = 0
+            for _, step in ipairs(steps) do
+                distance = distance + (step.dist or 0)
+            end
+            return distance
+        end
+
         local runStartTime = nil  -- set after confirmed tower entry
         humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
         if humanoid.Sit then humanoid.Sit = false end
@@ -1627,6 +1653,7 @@ startAutoPlay = function()
                         prevPos = destPos
                     end
                 end
+                totalDistance = limitBeforeWinPad(resolvedSteps)
                 currentResolvedSteps = resolvedSteps
                 if Library.Toggles.ShowRoute.Value then
                     showRoute(resolvedSteps)
@@ -1772,26 +1799,15 @@ startAutoPlay = function()
                     end)
                     repeat task.wait() until done
                 end
-                Library:Notify({ Title = "Auto Play", Description = towerName .. " complete!", Duration = 3 })
-                -- Per-tower progress through the rush. The rate limit in
-                -- sendStatusWebhook would swallow these if towers finished within a
-                -- second of each other, so this posts through its own path.
-                sendStatusWebhook("progress", ("%s -- %d/%d"):format(selected, towerIndex, #towerList),
-                    ("**%s** complete  (%d of %d)"):format(towerName, towerIndex, #towerList), true)
-            end
-            if not died then
-                Library:Notify({ Title = "Auto Play", Description = selected .. " Complete!", Duration = 5 })
-                if runStartTime then
-                    local el = os.clock() - runStartTime
-                    sendCompletionWebhook(selected, el)
-                    sendStatusWebhook("won", "Tower complete",
-                        ("**%s** finished in `%d:%02d`"):format(
-                            tostring(selected), math.floor(el / 60), math.floor(el % 60)))
-                end
+                if checkDied() then return end
+                walking = false
                 clearRouteHighlights()
+                stopAutoNoclip()
+                isAutoPlaying = false
+                currentResolvedSteps = nil
+                Library:Notify({ Title = "Auto Play", Description = "Stopped 5 parts before WinPad (or route has no safe stopping point).", Duration = 5 })
+                return
             end
-            stopAutoNoclip()
-            isAutoPlaying = false
             return
         end
 
@@ -1961,6 +1977,7 @@ startAutoPlay = function()
                 prevPos = destPos
             end
         end
+        totalDistance = limitBeforeWinPad(resolvedSteps)
         currentResolvedSteps = resolvedSteps
         if Library.Toggles.ShowRoute.Value then
             showRoute(resolvedSteps)
@@ -2078,28 +2095,16 @@ startAutoPlay = function()
                 if touchConn then touchConn:Disconnect() end
             end
         end
+        if checkDied() then return end
         walking = false
-        warn(("[ProjectEToH] run %d/%d finished (died=%s)"):format(rep, repeatCount, tostring(died)))
-        if not died then
-            Library:Notify({ Title = "Auto Play", Description = "Complete!" .. repTag, Duration = 3 })
-            if runStartTime then
-                local el = os.clock() - runStartTime
-                sendCompletionWebhook(selected, el)
-                sendStatusWebhook("won", "Tower complete",
-                    ("**%s** finished in `%d:%02d`%s"):format(
-                        tostring(selected), math.floor(el / 60), math.floor(el % 60), repTag))
-            end
-        end
-        if died then break end
+        clearRouteHighlights()
+        stopAutoNoclip()
+        isAutoPlaying = false
+        currentResolvedSteps = nil
+        Library:Notify({ Title = "Auto Play", Description = "Stopped 5 parts before WinPad (or route has no safe stopping point).", Duration = 5 })
+        break -- Never complete or repeat a run that intentionally stopped short.
         end -- repeat loop
 
-        if not died then
-            Library:Notify({
-                Title       = "Auto Play",
-                Description  = repeatCount > 1 and ("All " .. repeatCount .. " repeats complete!") or "Complete!",
-                Duration    = 5,
-            })
-        end
         clearRouteHighlights()
         stopAutoNoclip()
         isAutoPlaying = false
