@@ -30,6 +30,7 @@ local Categories = {
     ["Pit-of-Misery"] = 121814103864070,
     TheEternalAbyss = 15873244701,
     TimelessManor = 131042387601353,
+    StarryNight = 137721171983074,
     ElysianFields = 95241871632790,
     TheDoghouse = 16976865869,
     LegacyFortress = 116826560849733,
@@ -400,6 +401,8 @@ return {
         { name = "ToDC",  category = "TimelessManor", suggestedTime = { min = "6", sec = "5" } },
         { name = "ToSW",  category = "TimelessManor", suggestedTime = { min = "36", sec = "5" } },
         { name = "ToHN",  category = "TimelessManor", suggestedTime = { min = "19", sec = "5" } },
+        --Timeless Manor
+        { name = "ToNE",  category = "StarryNight", suggestedTime = { min = "16", sec = "5" } },
         --Elysian  Fields
         { name = "SoGE",  category = "ElysianFields", suggestedTime = { min = "2", sec = "50" } },
         --The Doghouse
