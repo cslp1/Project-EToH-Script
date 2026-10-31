@@ -403,6 +403,7 @@ return {
         { name = "ToHN",  category = "TimelessManor", suggestedTime = { min = "19", sec = "5" } },
         --Timeless Manor
         { name = "ToNE",  category = "StarryNight", suggestedTime = { min = "16", sec = "5" } },
+        { name = "SoEA",  category = "StarryNight", suggestedTime = { min = "5", sec = "5" } },
         --Elysian  Fields
         { name = "SoGE",  category = "ElysianFields", suggestedTime = { min = "2", sec = "50" } },
         --The Doghouse
